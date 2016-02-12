@@ -14,6 +14,7 @@ static direction_t direction[MAZE_COLS][MAZE_ROWS];
 
 /* initialise to a known value*/
 static location_t goal = {7, 8};
+static location_t home = {0, 0};
 
 //=======================================
 // LOCATION
@@ -28,6 +29,12 @@ location_t MazeGetGoal (void)
 {
   return goal;
 };
+
+location_t MazeGetHome (void)
+{
+  return home;
+};
+
 
 /*
  * No attempt is made to deal with boundary overflows. THis is by design.
