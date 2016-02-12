@@ -75,30 +75,39 @@ bool LocationIsInHome (location_t location)
 //=======================================
 // DIRECTION
 //=======================================
+void MazeClearDirectionData (void)
+{
+  location_t loc;
+  for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
+    for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
+      MazeSetDirection (loc, NORTH);
+    }
+  }
+}
 
 void MazeSetDirection (location_t location, direction_t direction)
 {
-
+  _direction[location.row][location.col] = direction;
 };
 
 direction_t MazeGetDirection (location_t location)
 {
-  return INVALID;
+  return _direction[location.row][location.col];
 };
 
 /* handy utilities for directions */
 direction_t DirectionGetLeftFrom (direction_t direction)
 {
-  return INVALID;
+  return (direction + DIRECTION_COUNT - 1) % DIRECTION_COUNT;
 };
 
 direction_t DirectionGetRightFrom (direction_t direction)
 {
-  return INVALID;
+  return (direction + 1) % DIRECTION_COUNT;
 };
 
 direction_t DirectionGetBehindFrom (direction_t direction)
 {
-  return INVALID;
+  return (direction + 2) % DIRECTION_COUNT;
 };
 

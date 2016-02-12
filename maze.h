@@ -114,6 +114,7 @@ void WallSet (walls_t * walls, direction_t direction);
 void WallClear (walls_t * walls, direction_t direction);
 
 /* ========== manipulating the directions ==============*/
+void MazeClearDirectionData (void);
 void MazeSetDirection (location_t location, direction_t direction);
 direction_t MazeGetDirection (location_t location);
 /* handy utilities for directions */
