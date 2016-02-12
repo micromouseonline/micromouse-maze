@@ -32,7 +32,8 @@ extern "C" {
    * this is a maximum for data allocation
    * the working size of the maze could be up to this value 
    */
-#define MAZE_WIDTH 16
+#define MAZE_WIDTH  16
+#define MAZE_HEIGHT 16
 
   /* used for directions and wall identification */
 #define NORTH 0
@@ -64,56 +65,56 @@ extern "C" {
 
   /* ========== manipulating the maze ==============*/
 
-  void maze_set_width(uint8_t width);
-  uint8_t maze_width(void);
+  void MazeSetWidth(uint8_t width);
+  uint8_t MazeWidth(void);
 
   /* 
    * clear the costs and directions
    * set the walls to the outside and start cell walls only
    */
-  void maze_reset_data(void);
+  void MazeResetData(void);
 
   /* set a single wall - looks after neighbours - set seen*/
-  void maze_set_wall(location_t location, direction_t direction);
+  void MazeSetWall(location_t location, direction_t direction);
 
   /* set all four walls for a location - updates neighbours - set seen*/
-  void maze_set_all_walls(location_t location, walls_t walls);
+  void MazeSetAllWalls(location_t location, walls_t walls);
 
   /* clear a single wall - looks after neighbours - set seen*/
-  void maze_clear_wall(location_t location, direction_t direction);
+  void MazeClearWall(location_t location, direction_t direction);
 
   /* set all four walls for a location  - updates neighbours - set seen*/
-  void maze_clear_all_walls(location_t location, walls_t walls);
+  void MazeClearAllWalls(location_t location, walls_t walls);
 
   /* return all the walls for a given location */
-  walls_t maze_get_walls(location_t location);
+  walls_t MazeGetWalls(location_t location);
 
   /* ========== manipulating the locations ==============*/
-  void maze_set_goal(location_t location);
-  location_t maze_get_goal(void);
-  location_t location_get_neighbour(location_t location, direction_t direction);
-  bool location_is_in_goal(location_t location);
-  bool location_is_in_home(location_t location);
+  void MazeSetGoal(location_t location);
+  location_t MazeGetGoal(void);
+  location_t LocationGetNeighbour(location_t location, direction_t direction);
+  bool LocationIsInGoal(location_t location);
+  bool LocationIsInHome(location_t location);
   
   /* ========== manipulating the cost ==============*/
-  cost_t maze_get_cost(location_t location);
-  void maze_set_cost(location_t location, cost_t cost);
+  cost_t MazeGetCost(location_t location);
+  void MazeSetCost(location_t location, cost_t cost);
   
   /* ========== manipulating the walls ==============*/
-  bool wall_is_seen(walls_t walls, direction_t direction);
-  bool wall_is_set(walls_t walls, direction_t direction);
+  bool WallIsSeen(walls_t walls, direction_t direction);
+  bool WallIsSet(walls_t walls, direction_t direction);
   
   /* setting and clearing always sets the seen bits */
-  void wall_set(walls_t * walls, direction_t direction);
-  void wall_clear(walls_t * walls, direction_t direction);
+  void WallSet(walls_t * walls, direction_t direction);
+  void WallClear(walls_t * walls, direction_t direction);
   
   /* ========== manipulating the directions ==============*/
-  void maze_set_direction(location_t location, direction_t direction);
-  direction_t maze_get_direction(location_t location);
+  void MazeSetDirection(location_t location, direction_t direction);
+  direction_t MazeGetDirection(location_t location);
   /* handy utilities for directions */
-  direction_t direction_get_left_from(direction_t direction);
-  direction_t direction_get_right_from(direction_t direction);
-  direction_t direction_get_behind_from(direction_t direction);
+  direction_t DirectionGetLeftFrom(direction_t direction);
+  direction_t DirectionGetRightFrom(direction_t direction);
+  direction_t DirectionGetBehindFrom(direction_t direction);
 
 #ifdef __cplusplus
 }
