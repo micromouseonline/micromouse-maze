@@ -27,6 +27,7 @@
                      projectFiles="true"
                      kind="TEST">
         <itemPath>gtest/src/gtest-all.cc</itemPath>
+        <itemPath>tests/testLocation.cpp</itemPath>
         <itemPath>tests/testRunner.cpp</itemPath>
       </logicalFolder>
     </logicalFolder>
@@ -74,6 +75,8 @@
       <item path="maze.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="maze.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/testLocation.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testRunner.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -124,6 +127,8 @@
       <item path="maze.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="maze.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/testLocation.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testRunner.cpp" ex="false" tool="1" flavor2="0">
       </item>
