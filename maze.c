@@ -10,7 +10,7 @@
 
 static walls_t walls[MAZE_COLS][MAZE_ROWS];
 static cost_t cost[MAZE_COLS][MAZE_ROWS];
-static direction_t direction[MAZE_COLS][MAZE_ROWS];
+static direction_t _direction[MAZE_COLS][MAZE_ROWS];
 
 /* initialise to a known value*/
 static location_t goal = {7, 8};

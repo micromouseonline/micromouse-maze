@@ -96,6 +96,7 @@ walls_t MazeGetWalls (location_t location);
 /* ========== manipulating the locations ==============*/
 void MazeSetGoal (location_t location);
 location_t MazeGetGoal (void);
+location_t MazeGetHome (void);
 location_t LocationGetNeighbour (location_t location, direction_t direction);
 bool LocationIsInGoal (location_t location);
 bool LocationIsInHome (location_t location);
