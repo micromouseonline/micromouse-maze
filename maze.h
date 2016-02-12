@@ -32,8 +32,8 @@ extern "C" {
    * this is a maximum for data allocation
    * the working size of the maze could be up to this value 
    */
-#define MAZE_WIDTH  16
-#define MAZE_HEIGHT 16
+#define MAZE_ROWS  16
+#define MAZE_COLS 16
 
   /* used for directions and wall identification */
 #define NORTH 0
@@ -61,7 +61,10 @@ extern "C" {
   typedef uint8_t walls_t;
   typedef uint8_t direction_t;
   typedef uint16_t cost_t;
-  typedef uint16_t location_t;
+  typedef struct {
+    uint8_t row;
+    uint8_t col;
+  }location_t;
 
   /* ========== manipulating the maze ==============*/
 
