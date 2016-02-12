@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-/*
+/* 
  * File:   main.c
  * Author: peterharrison
  *
@@ -17,11 +17,10 @@
 #include "maze.h"
 
 /*
- *
+ * 
  */
-int main (int argc, char** argv)
-{
-  printf ("micromouse maze\n");
+int main(int argc, char** argv) {
+  printf("micromouse maze\n");
   return (EXIT_SUCCESS);
 }
 

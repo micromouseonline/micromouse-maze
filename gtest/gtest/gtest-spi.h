@@ -37,8 +37,7 @@
 
 #include "gtest/gtest.h"
 
-namespace testing
-{
+namespace testing {
 
 // This helper class can be used to mock out Google Test failure reporting
 // so that we can test Google Test or code that builds on Google Test.
@@ -50,9 +49,8 @@ namespace testing
 // all generated failures. The scope of this mock object can be controlled with
 // the second argument to the two arguments constructor.
 class GTEST_API_ ScopedFakeTestPartResultReporter
-  : public TestPartResultReporterInterface
-{
-public:
+    : public TestPartResultReporterInterface {
+ public:
   // The two possible mocking modes of this object.
   enum InterceptMode {
     INTERCEPT_ONLY_CURRENT_THREAD,  // Intercepts only thread local failures.
@@ -63,11 +61,11 @@ public:
   // by Google Test.  The 'result' parameter specifies where to report the
   // results. This reporter will only catch failures generated in the current
   // thread. DEPRECATED
-  explicit ScopedFakeTestPartResultReporter (TestPartResultArray* result);
+  explicit ScopedFakeTestPartResultReporter(TestPartResultArray* result);
 
   // Same as above, but you can choose the interception scope of this object.
-  ScopedFakeTestPartResultReporter (InterceptMode intercept_mode,
-                                    TestPartResultArray* result);
+  ScopedFakeTestPartResultReporter(InterceptMode intercept_mode,
+                                   TestPartResultArray* result);
 
   // The d'tor restores the previous test part result reporter.
   virtual ~ScopedFakeTestPartResultReporter();
@@ -77,39 +75,37 @@ public:
   //
   // This method is from the TestPartResultReporterInterface
   // interface.
-  virtual void ReportTestPartResult (const TestPartResult& result);
-private:
+  virtual void ReportTestPartResult(const TestPartResult& result);
+ private:
   void Init();
 
   const InterceptMode intercept_mode_;
   TestPartResultReporterInterface* old_reporter_;
   TestPartResultArray* const result_;
 
-  GTEST_DISALLOW_COPY_AND_ASSIGN_ (ScopedFakeTestPartResultReporter);
+  GTEST_DISALLOW_COPY_AND_ASSIGN_(ScopedFakeTestPartResultReporter);
 };
 
-namespace internal
-{
+namespace internal {
 
 // A helper class for implementing EXPECT_FATAL_FAILURE() and
 // EXPECT_NONFATAL_FAILURE().  Its destructor verifies that the given
 // TestPartResultArray contains exactly one failure that has the given
 // type and contains the given substring.  If that's not the case, a
 // non-fatal failure will be generated.
-class GTEST_API_ SingleFailureChecker
-{
-public:
+class GTEST_API_ SingleFailureChecker {
+ public:
   // The constructor remembers the arguments.
-  SingleFailureChecker (const TestPartResultArray* results,
-                        TestPartResult::Type type,
-                        const string& substr);
+  SingleFailureChecker(const TestPartResultArray* results,
+                       TestPartResult::Type type,
+                       const string& substr);
   ~SingleFailureChecker();
-private:
+ private:
   const TestPartResultArray* const results_;
   const TestPartResult::Type type_;
   const string substr_;
 
-  GTEST_DISALLOW_COPY_AND_ASSIGN_ (SingleFailureChecker);
+  GTEST_DISALLOW_COPY_AND_ASSIGN_(SingleFailureChecker);
 };
 
 }  // namespace internal

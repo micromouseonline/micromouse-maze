@@ -77,13 +77,9 @@
 #define GTEST_CONCAT_TOKEN_IMPL_(foo, bar) foo ## bar
 
 class ProtocolMessage;
-namespace proto2
-{
-class Message;
-}
+namespace proto2 { class Message; }
 
-namespace testing
-{
+namespace testing {
 
 // Forward declarations.
 
@@ -95,10 +91,9 @@ class TestPartResult;                  // Result of a test part.
 class UnitTest;                        // A collection of test cases.
 
 template <typename T>
-::std::string PrintToString (const T& value);
+::std::string PrintToString(const T& value);
 
-namespace internal
-{
+namespace internal {
 
 struct TraceInfo;                      // Information about a trace point.
 class ScopedTrace;                     // Implements scoped trace.
@@ -123,8 +118,8 @@ GTEST_API_ extern const char kStackTraceMarker[];
 // a null pointer literal.  Therefore, we know that x is a null
 // pointer literal if and only if the first version is picked by the
 // compiler.
-char IsNullLiteralHelper (Secret* p);
-char (&IsNullLiteralHelper (...)) [2]; // NOLINT
+char IsNullLiteralHelper(Secret* p);
+char (&IsNullLiteralHelper(...))[2];  // NOLINT
 
 // A compile-time bool constant that is true if and only if x is a
 // null pointer literal (i.e. NULL or any 0-valued compile-time
@@ -139,8 +134,8 @@ char (&IsNullLiteralHelper (...)) [2]; // NOLINT
 #endif  // GTEST_ELLIPSIS_NEEDS_POD_
 
 // Appends the user-supplied message to the Google-Test-generated message.
-GTEST_API_ std::string AppendUserMessage (
-  const std::string& gtest_msg, const Message& user_msg);
+GTEST_API_ std::string AppendUserMessage(
+    const std::string& gtest_msg, const Message& user_msg);
 
 #if GTEST_HAS_EXCEPTIONS
 
@@ -150,21 +145,19 @@ GTEST_API_ std::string AppendUserMessage (
 // errors presumably detectable only at run time.  Since
 // std::runtime_error inherits from std::exception, many testing
 // frameworks know how to extract and print the message inside it.
-class GTEST_API_ GoogleTestFailureException : public ::std::runtime_error
-{
-public:
-  explicit GoogleTestFailureException (const TestPartResult& failure);
+class GTEST_API_ GoogleTestFailureException : public ::std::runtime_error {
+ public:
+  explicit GoogleTestFailureException(const TestPartResult& failure);
 };
 
 #endif  // GTEST_HAS_EXCEPTIONS
 
 // A helper class for creating scoped traces in user programs.
-class GTEST_API_ ScopedTrace
-{
-public:
+class GTEST_API_ ScopedTrace {
+ public:
   // The c'tor pushes the given source file location and message onto
   // a trace stack maintained by Google Test.
-  ScopedTrace (const char* file, int line, const Message& message);
+  ScopedTrace(const char* file, int line, const Message& message);
 
   // The d'tor pops the info pushed by the c'tor.
   //
@@ -172,32 +165,31 @@ public:
   // Don't inherit from ScopedTrace!
   ~ScopedTrace();
 
-private:
-  GTEST_DISALLOW_COPY_AND_ASSIGN_ (ScopedTrace);
+ private:
+  GTEST_DISALLOW_COPY_AND_ASSIGN_(ScopedTrace);
 } GTEST_ATTRIBUTE_UNUSED_;  // A ScopedTrace object does its job in its
-// c'tor and d'tor.  Therefore it doesn't
-// need to be used otherwise.
+                            // c'tor and d'tor.  Therefore it doesn't
+                            // need to be used otherwise.
 
-namespace edit_distance
-{
+namespace edit_distance {
 // Returns the optimal edits to go from 'left' to 'right'.
 // All edits cost the same, with replace having lower priority than
 // add/remove.
 // Simple implementation of the Wagner–Fischer algorithm.
 // See http://en.wikipedia.org/wiki/Wagner-Fischer_algorithm
 enum EditType { kMatch, kAdd, kRemove, kReplace };
-GTEST_API_ std::vector<EditType> CalculateOptimalEdits (
-  const std::vector<size_t>& left, const std::vector<size_t>& right);
+GTEST_API_ std::vector<EditType> CalculateOptimalEdits(
+    const std::vector<size_t>& left, const std::vector<size_t>& right);
 
 // Same as above, but the input is represented as strings.
-GTEST_API_ std::vector<EditType> CalculateOptimalEdits (
-  const std::vector<std::string>& left,
-  const std::vector<std::string>& right);
+GTEST_API_ std::vector<EditType> CalculateOptimalEdits(
+    const std::vector<std::string>& left,
+    const std::vector<std::string>& right);
 
 // Create a diff of the input strings in Unified diff format.
-GTEST_API_ std::string CreateUnifiedDiff (const std::vector<std::string>& left,
-    const std::vector<std::string>& right,
-    size_t context = 2);
+GTEST_API_ std::string CreateUnifiedDiff(const std::vector<std::string>& left,
+                                         const std::vector<std::string>& right,
+                                         size_t context = 2);
 
 }  // namespace edit_distance
 
@@ -205,9 +197,9 @@ GTEST_API_ std::string CreateUnifiedDiff (const std::vector<std::string>& left,
 // format.
 // If not null, stores in 'total_line_count' the total number of lines found
 // in left + right.
-GTEST_API_ std::string DiffStrings (const std::string& left,
-                                    const std::string& right,
-                                    size_t* total_line_count);
+GTEST_API_ std::string DiffStrings(const std::string& left,
+                                   const std::string& right,
+                                   size_t* total_line_count);
 
 // Constructs and returns the message for an equality assertion
 // (e.g. ASSERT_EQ, EXPECT_STREQ, etc) failure.
@@ -224,18 +216,18 @@ GTEST_API_ std::string DiffStrings (const std::string& left,
 // The ignoring_case parameter is true iff the assertion is a
 // *_STRCASEEQ*.  When it's true, the string " (ignoring case)" will
 // be inserted into the message.
-GTEST_API_ AssertionResult EqFailure (const char* expected_expression,
-                                      const char* actual_expression,
-                                      const std::string& expected_value,
-                                      const std::string& actual_value,
-                                      bool ignoring_case);
+GTEST_API_ AssertionResult EqFailure(const char* expected_expression,
+                                     const char* actual_expression,
+                                     const std::string& expected_value,
+                                     const std::string& actual_value,
+                                     bool ignoring_case);
 
 // Constructs a failure message for Boolean assertions such as EXPECT_TRUE.
-GTEST_API_ std::string GetBoolAssertionFailureMessage (
-  const AssertionResult& assertion_result,
-  const char* expression_text,
-  const char* actual_predicate_value,
-  const char* expected_predicate_value);
+GTEST_API_ std::string GetBoolAssertionFailureMessage(
+    const AssertionResult& assertion_result,
+    const char* expression_text,
+    const char* actual_predicate_value,
+    const char* expected_predicate_value);
 
 // This template class represents an IEEE floating-point number
 // (either single-precision or double-precision, depending on the
@@ -267,17 +259,16 @@ GTEST_API_ std::string GetBoolAssertionFailureMessage (
 //
 //   RawType: the raw floating-point type (either float or double)
 template <typename RawType>
-class FloatingPoint
-{
-public:
+class FloatingPoint {
+ public:
   // Defines the unsigned integer type that has the same size as the
   // floating point number.
-  typedef typename TypeWithSize<sizeof (RawType) >::UInt Bits;
+  typedef typename TypeWithSize<sizeof(RawType)>::UInt Bits;
 
   // Constants.
 
   // # of bits in a number.
-  static const size_t kBitCount = 8 * sizeof (RawType);
+  static const size_t kBitCount = 8*sizeof(RawType);
 
   // # of fraction bits in a number.
   static const size_t kFractionBitCount =
@@ -287,14 +278,14 @@ public:
   static const size_t kExponentBitCount = kBitCount - 1 - kFractionBitCount;
 
   // The mask for the sign bit.
-  static const Bits kSignBitMask = static_cast<Bits> (1) << (kBitCount - 1);
+  static const Bits kSignBitMask = static_cast<Bits>(1) << (kBitCount - 1);
 
   // The mask for the fraction bits.
   static const Bits kFractionBitMask =
-    ~static_cast<Bits> (0) >> (kExponentBitCount + 1);
+    ~static_cast<Bits>(0) >> (kExponentBitCount + 1);
 
   // The mask for the exponent bits.
-  static const Bits kExponentBitMask = ~ (kSignBitMask | kFractionBitMask);
+  static const Bits kExponentBitMask = ~(kSignBitMask | kFractionBitMask);
 
   // How many ULP's (Units in the Last Place) we want to tolerate when
   // comparing two numbers.  The larger the value, the more error we
@@ -316,27 +307,22 @@ public:
   // around may change its bits, although the new value is guaranteed
   // to be also a NAN.  Therefore, don't expect this constructor to
   // preserve the bits in x when x is a NAN.
-  explicit FloatingPoint (const RawType& x)
-  {
-    u_.value_ = x;
-  }
+  explicit FloatingPoint(const RawType& x) { u_.value_ = x; }
 
   // Static methods
 
   // Reinterprets a bit pattern as a floating-point number.
   //
   // This function is needed to test the AlmostEquals() method.
-  static RawType ReinterpretBits (const Bits bits)
-  {
-    FloatingPoint fp (0);
+  static RawType ReinterpretBits(const Bits bits) {
+    FloatingPoint fp(0);
     fp.u_.bits_ = bits;
     return fp.u_.value_;
   }
 
   // Returns the floating-point number that represent positive infinity.
-  static RawType Infinity()
-  {
-    return ReinterpretBits (kExponentBitMask);
+  static RawType Infinity() {
+    return ReinterpretBits(kExponentBitMask);
   }
 
   // Returns the maximum representable finite floating-point number.
@@ -345,32 +331,19 @@ public:
   // Non-static methods
 
   // Returns the bits that represents this number.
-  const Bits &bits() const
-  {
-    return u_.bits_;
-  }
+  const Bits &bits() const { return u_.bits_; }
 
   // Returns the exponent bits of this number.
-  Bits exponent_bits() const
-  {
-    return kExponentBitMask & u_.bits_;
-  }
+  Bits exponent_bits() const { return kExponentBitMask & u_.bits_; }
 
   // Returns the fraction bits of this number.
-  Bits fraction_bits() const
-  {
-    return kFractionBitMask & u_.bits_;
-  }
+  Bits fraction_bits() const { return kFractionBitMask & u_.bits_; }
 
   // Returns the sign bit of this number.
-  Bits sign_bit() const
-  {
-    return kSignBitMask & u_.bits_;
-  }
+  Bits sign_bit() const { return kSignBitMask & u_.bits_; }
 
   // Returns true iff this is NAN (not a number).
-  bool is_nan() const
-  {
+  bool is_nan() const {
     // It's a NAN if the exponent bits are all ones and the fraction
     // bits are not entirely zeros.
     return (exponent_bits() == kExponentBitMask) && (fraction_bits() != 0);
@@ -382,19 +355,16 @@ public:
   //   - returns false if either number is (or both are) NAN.
   //   - treats really large numbers as almost equal to infinity.
   //   - thinks +0.0 and -0.0 are 0 DLP's apart.
-  bool AlmostEquals (const FloatingPoint& rhs) const
-  {
+  bool AlmostEquals(const FloatingPoint& rhs) const {
     // The IEEE standard says that any comparison operation involving
     // a NAN must return false.
-    if (is_nan() || rhs.is_nan()) {
-      return false;
-    }
+    if (is_nan() || rhs.is_nan()) return false;
 
-    return DistanceBetweenSignAndMagnitudeNumbers (u_.bits_, rhs.u_.bits_)
-           <= kMaxUlps;
+    return DistanceBetweenSignAndMagnitudeNumbers(u_.bits_, rhs.u_.bits_)
+        <= kMaxUlps;
   }
 
-private:
+ private:
   // The data type used to store the actual floating-point number.
   union FloatingPointUnion {
     RawType value_;  // The raw floating-point number.
@@ -416,8 +386,7 @@ private:
   //
   // Read http://en.wikipedia.org/wiki/Signed_number_representations
   // for more details on signed number representations.
-  static Bits SignAndMagnitudeToBiased (const Bits &sam)
-  {
+  static Bits SignAndMagnitudeToBiased(const Bits &sam) {
     if (kSignBitMask & sam) {
       // sam represents a negative number.
       return ~sam + 1;
@@ -429,11 +398,10 @@ private:
 
   // Given two numbers in the sign-and-magnitude representation,
   // returns the distance between them as an unsigned number.
-  static Bits DistanceBetweenSignAndMagnitudeNumbers (const Bits &sam1,
-      const Bits &sam2)
-  {
-    const Bits biased1 = SignAndMagnitudeToBiased (sam1);
-    const Bits biased2 = SignAndMagnitudeToBiased (sam2);
+  static Bits DistanceBetweenSignAndMagnitudeNumbers(const Bits &sam1,
+                                                     const Bits &sam2) {
+    const Bits biased1 = SignAndMagnitudeToBiased(sam1);
+    const Bits biased2 = SignAndMagnitudeToBiased(sam2);
     return (biased1 >= biased2) ? (biased1 - biased2) : (biased2 - biased1);
   }
 
@@ -443,15 +411,9 @@ private:
 // We cannot use std::numeric_limits<T>::max() as it clashes with the max()
 // macro defined by <windows.h>.
 template <>
-inline float FloatingPoint<float>::Max()
-{
-  return FLT_MAX;
-}
+inline float FloatingPoint<float>::Max() { return FLT_MAX; }
 template <>
-inline double FloatingPoint<double>::Max()
-{
-  return DBL_MAX;
-}
+inline double FloatingPoint<double>::Max() { return DBL_MAX; }
 
 // Typedefs the instances of the FloatingPoint template class that we
 // care to use.
@@ -467,9 +429,8 @@ typedef FloatingPoint<double> Double;
 typedef const void* TypeId;
 
 template <typename T>
-class TypeIdHelper
-{
-public:
+class TypeIdHelper {
+ public:
   // dummy_ must not have a const type.  Otherwise an overly eager
   // compiler (e.g. MSVC 7.1 & 8.0) may try to merge
   // TypeIdHelper<T>::dummy_ for different Ts as an "optimization".
@@ -483,13 +444,12 @@ bool TypeIdHelper<T>::dummy_ = false;
 // returned for different types.  Calling the function twice with the
 // same type argument is guaranteed to return the same ID.
 template <typename T>
-TypeId GetTypeId()
-{
+TypeId GetTypeId() {
   // The compiler is required to allocate a different
   // TypeIdHelper<T>::dummy_ variable for each T used to instantiate
   // the template.  Therefore, the address of dummy_ is guaranteed to
   // be unique.
-  return & (TypeIdHelper<T>::dummy_);
+  return &(TypeIdHelper<T>::dummy_);
 }
 
 // Returns the type ID of ::testing::Test.  Always call this instead
@@ -501,32 +461,27 @@ GTEST_API_ TypeId GetTestTypeId();
 
 // Defines the abstract factory interface that creates instances
 // of a Test object.
-class TestFactoryBase
-{
-public:
+class TestFactoryBase {
+ public:
   virtual ~TestFactoryBase() {}
 
   // Creates a test instance to run. The instance is both created and destroyed
   // within TestInfoImpl::Run()
   virtual Test* CreateTest() = 0;
 
-protected:
+ protected:
   TestFactoryBase() {}
 
-private:
-  GTEST_DISALLOW_COPY_AND_ASSIGN_ (TestFactoryBase);
+ private:
+  GTEST_DISALLOW_COPY_AND_ASSIGN_(TestFactoryBase);
 };
 
 // This class provides implementation of TeastFactoryBase interface.
 // It is used in TEST and TEST_F macros.
 template <class TestClass>
-class TestFactoryImpl : public TestFactoryBase
-{
-public:
-  virtual Test* CreateTest()
-  {
-    return new TestClass;
-  }
+class TestFactoryImpl : public TestFactoryBase {
+ public:
+  virtual Test* CreateTest() { return new TestClass; }
 };
 
 #if GTEST_OS_WINDOWS
@@ -535,19 +490,19 @@ public:
 // {ASSERT|EXPECT}_HRESULT_{SUCCEEDED|FAILED}
 // We pass a long instead of HRESULT to avoid causing an
 // include dependency for the HRESULT type.
-GTEST_API_ AssertionResult IsHRESULTSuccess (const char* expr,
-    long hr);  // NOLINT
-GTEST_API_ AssertionResult IsHRESULTFailure (const char* expr,
-    long hr);  // NOLINT
+GTEST_API_ AssertionResult IsHRESULTSuccess(const char* expr,
+                                            long hr);  // NOLINT
+GTEST_API_ AssertionResult IsHRESULTFailure(const char* expr,
+                                            long hr);  // NOLINT
 
 #endif  // GTEST_OS_WINDOWS
 
 // Types of SetUpTestCase() and TearDownTestCase() functions.
-typedef void (*SetUpTestCaseFunc) ();
-typedef void (*TearDownTestCaseFunc) ();
+typedef void (*SetUpTestCaseFunc)();
+typedef void (*TearDownTestCaseFunc)();
 
 struct CodeLocation {
-  CodeLocation (const string& a_file, int a_line) : file (a_file), line (a_line) {}
+  CodeLocation(const string& a_file, int a_line) : file(a_file), line(a_line) {}
 
   string file;
   int line;
@@ -571,67 +526,63 @@ struct CodeLocation {
 //   factory:          pointer to the factory that creates a test object.
 //                     The newly created TestInfo instance will assume
 //                     ownership of the factory object.
-GTEST_API_ TestInfo* MakeAndRegisterTestInfo (
-  const char* test_case_name,
-  const char* name,
-  const char* type_param,
-  const char* value_param,
-  CodeLocation code_location,
-  TypeId fixture_class_id,
-  SetUpTestCaseFunc set_up_tc,
-  TearDownTestCaseFunc tear_down_tc,
-  TestFactoryBase* factory);
+GTEST_API_ TestInfo* MakeAndRegisterTestInfo(
+    const char* test_case_name,
+    const char* name,
+    const char* type_param,
+    const char* value_param,
+    CodeLocation code_location,
+    TypeId fixture_class_id,
+    SetUpTestCaseFunc set_up_tc,
+    TearDownTestCaseFunc tear_down_tc,
+    TestFactoryBase* factory);
 
 // If *pstr starts with the given prefix, modifies *pstr to be right
 // past the prefix and returns true; otherwise leaves *pstr unchanged
 // and returns false.  None of pstr, *pstr, and prefix can be NULL.
-GTEST_API_ bool SkipPrefix (const char* prefix, const char** pstr);
+GTEST_API_ bool SkipPrefix(const char* prefix, const char** pstr);
 
 #if GTEST_HAS_TYPED_TEST || GTEST_HAS_TYPED_TEST_P
 
 // State of the definition of a type-parameterized test case.
-class GTEST_API_ TypedTestCasePState
-{
-public:
-  TypedTestCasePState() : registered_ (false) {}
+class GTEST_API_ TypedTestCasePState {
+ public:
+  TypedTestCasePState() : registered_(false) {}
 
   // Adds the given test name to defined_test_names_ and return true
   // if the test case hasn't been registered; otherwise aborts the
   // program.
-  bool AddTestName (const char* file, int line, const char* case_name,
-                    const char* test_name)
-  {
+  bool AddTestName(const char* file, int line, const char* case_name,
+                   const char* test_name) {
     if (registered_) {
-      fprintf (stderr, "%s Test %s must be defined before "
-               "REGISTER_TYPED_TEST_CASE_P(%s, ...).\n",
-               FormatFileLocation (file, line).c_str(), test_name, case_name);
-      fflush (stderr);
+      fprintf(stderr, "%s Test %s must be defined before "
+              "REGISTER_TYPED_TEST_CASE_P(%s, ...).\n",
+              FormatFileLocation(file, line).c_str(), test_name, case_name);
+      fflush(stderr);
       posix::Abort();
     }
-    registered_tests_.insert (
-      ::std::make_pair (test_name, CodeLocation (file, line)));
+    registered_tests_.insert(
+        ::std::make_pair(test_name, CodeLocation(file, line)));
     return true;
   }
 
-  bool TestExists (const std::string& test_name) const
-  {
-    return registered_tests_.count (test_name) > 0;
+  bool TestExists(const std::string& test_name) const {
+    return registered_tests_.count(test_name) > 0;
   }
 
-  const CodeLocation& GetCodeLocation (const std::string& test_name) const
-  {
-    RegisteredTestsMap::const_iterator it = registered_tests_.find (test_name);
-    GTEST_CHECK_ (it != registered_tests_.end());
+  const CodeLocation& GetCodeLocation(const std::string& test_name) const {
+    RegisteredTestsMap::const_iterator it = registered_tests_.find(test_name);
+    GTEST_CHECK_(it != registered_tests_.end());
     return it->second;
   }
 
   // Verifies that registered_tests match the test names in
   // defined_test_names_; returns registered_tests if successful, or
   // aborts the program otherwise.
-  const char* VerifyRegisteredTestNames (
-    const char* file, int line, const char* registered_tests);
+  const char* VerifyRegisteredTestNames(
+      const char* file, int line, const char* registered_tests);
 
-private:
+ private:
   typedef ::std::map<std::string, CodeLocation> RegisteredTestsMap;
 
   bool registered_;
@@ -640,28 +591,26 @@ private:
 
 // Skips to the first non-space char after the first comma in 'str';
 // returns NULL if no comma is found in 'str'.
-inline const char* SkipComma (const char* str)
-{
-  const char* comma = strchr (str, ',');
+inline const char* SkipComma(const char* str) {
+  const char* comma = strchr(str, ',');
   if (comma == NULL) {
     return NULL;
   }
-  while (IsSpace (* (++comma))) {}
+  while (IsSpace(*(++comma))) {}
   return comma;
 }
 
 // Returns the prefix of 'str' before the first comma in it; returns
 // the entire string if it contains no comma.
-inline std::string GetPrefixUntilComma (const char* str)
-{
-  const char* comma = strchr (str, ',');
-  return comma == NULL ? str : std::string (str, comma);
+inline std::string GetPrefixUntilComma(const char* str) {
+  const char* comma = strchr(str, ',');
+  return comma == NULL ? str : std::string(str, comma);
 }
 
 // Splits a given string on a given delimiter, populating a given
 // vector with the fields.
-void SplitString (const ::std::string& str, char delimiter,
-                  ::std::vector< ::std::string>* dest);
+void SplitString(const ::std::string& str, char delimiter,
+                 ::std::vector< ::std::string>* dest);
 
 // TypeParameterizedTest<Fixture, TestSel, Types>::Register()
 // registers a list of type-parameterized tests with Google Test.  The
@@ -671,51 +620,47 @@ void SplitString (const ::std::string& str, char delimiter,
 // Implementation note: The GTEST_TEMPLATE_ macro declares a template
 // template parameter.  It's defined in gtest-type-util.h.
 template <GTEST_TEMPLATE_ Fixture, class TestSel, typename Types>
-class TypeParameterizedTest
-{
-public:
+class TypeParameterizedTest {
+ public:
   // 'index' is the index of the test in the type list 'Types'
   // specified in INSTANTIATE_TYPED_TEST_CASE_P(Prefix, TestCase,
   // Types).  Valid values for 'index' are [0, N - 1] where N is the
   // length of Types.
-  static bool Register (const char* prefix,
-                        CodeLocation code_location,
-                        const char* case_name, const char* test_names,
-                        int index)
-  {
+  static bool Register(const char* prefix,
+                       CodeLocation code_location,
+                       const char* case_name, const char* test_names,
+                       int index) {
     typedef typename Types::Head Type;
     typedef Fixture<Type> FixtureClass;
-    typedef typename GTEST_BIND_ (TestSel, Type) TestClass;
+    typedef typename GTEST_BIND_(TestSel, Type) TestClass;
 
     // First, registers the first type-parameterized test in the type
     // list.
-    MakeAndRegisterTestInfo (
-      (std::string (prefix) + (prefix[0] == '\0' ? "" : "/") + case_name + "/"
-       + StreamableToString (index)).c_str(),
-      StripTrailingSpaces (GetPrefixUntilComma (test_names)).c_str(),
-      GetTypeName<Type>().c_str(),
-      NULL,  // No value parameter.
-      code_location,
-      GetTypeId<FixtureClass>(),
-      TestClass::SetUpTestCase,
-      TestClass::TearDownTestCase,
-      new TestFactoryImpl<TestClass>);
+    MakeAndRegisterTestInfo(
+        (std::string(prefix) + (prefix[0] == '\0' ? "" : "/") + case_name + "/"
+         + StreamableToString(index)).c_str(),
+        StripTrailingSpaces(GetPrefixUntilComma(test_names)).c_str(),
+        GetTypeName<Type>().c_str(),
+        NULL,  // No value parameter.
+        code_location,
+        GetTypeId<FixtureClass>(),
+        TestClass::SetUpTestCase,
+        TestClass::TearDownTestCase,
+        new TestFactoryImpl<TestClass>);
 
     // Next, recurses (at compile time) with the tail of the type list.
     return TypeParameterizedTest<Fixture, TestSel, typename Types::Tail>
-           ::Register (prefix, code_location, case_name, test_names, index + 1);
+        ::Register(prefix, code_location, case_name, test_names, index + 1);
   }
 };
 
 // The base case for the compile time recursion.
 template <GTEST_TEMPLATE_ Fixture, class TestSel>
-class TypeParameterizedTest<Fixture, TestSel, Types0>
-{
-public:
-  static bool Register (const char* /*prefix*/, CodeLocation,
-                        const char* /*case_name*/, const char* /*test_names*/,
-                        int /*index*/)
-  {
+class TypeParameterizedTest<Fixture, TestSel, Types0> {
+ public:
+  static bool Register(const char* /*prefix*/, CodeLocation,
+                       const char* /*case_name*/, const char* /*test_names*/,
+                       int /*index*/) {
     return true;
   }
 };
@@ -725,47 +670,43 @@ public:
 // Test.  The return value is insignificant - we just need to return
 // something such that we can call this function in a namespace scope.
 template <GTEST_TEMPLATE_ Fixture, typename Tests, typename Types>
-class TypeParameterizedTestCase
-{
-public:
-  static bool Register (const char* prefix, CodeLocation code_location,
-                        const TypedTestCasePState* state,
-                        const char* case_name, const char* test_names)
-  {
-    std::string test_name = StripTrailingSpaces (
-                              GetPrefixUntilComma (test_names));
-    if (!state->TestExists (test_name)) {
-      fprintf (stderr, "Failed to get code location for test %s.%s at %s.",
-               case_name, test_name.c_str(),
-               FormatFileLocation (code_location.file.c_str(),
-                                   code_location.line).c_str());
-      fflush (stderr);
+class TypeParameterizedTestCase {
+ public:
+  static bool Register(const char* prefix, CodeLocation code_location,
+                       const TypedTestCasePState* state,
+                       const char* case_name, const char* test_names) {
+    std::string test_name = StripTrailingSpaces(
+        GetPrefixUntilComma(test_names));
+    if (!state->TestExists(test_name)) {
+      fprintf(stderr, "Failed to get code location for test %s.%s at %s.",
+              case_name, test_name.c_str(),
+              FormatFileLocation(code_location.file.c_str(),
+                                 code_location.line).c_str());
+      fflush(stderr);
       posix::Abort();
     }
-    const CodeLocation& test_location = state->GetCodeLocation (test_name);
+    const CodeLocation& test_location = state->GetCodeLocation(test_name);
 
     typedef typename Tests::Head Head;
 
     // First, register the first test in 'Test' for each type in 'Types'.
-    TypeParameterizedTest<Fixture, Head, Types>::Register (
-      prefix, test_location, case_name, test_names, 0);
+    TypeParameterizedTest<Fixture, Head, Types>::Register(
+        prefix, test_location, case_name, test_names, 0);
 
     // Next, recurses (at compile time) with the tail of the test list.
     return TypeParameterizedTestCase<Fixture, typename Tests::Tail, Types>
-           ::Register (prefix, code_location, state,
-                       case_name, SkipComma (test_names));
+        ::Register(prefix, code_location, state,
+                   case_name, SkipComma(test_names));
   }
 };
 
 // The base case for the compile time recursion.
 template <GTEST_TEMPLATE_ Fixture, typename Types>
-class TypeParameterizedTestCase<Fixture, Templates0, Types>
-{
-public:
-  static bool Register (const char* /*prefix*/, CodeLocation,
-                        const TypedTestCasePState* /*state*/,
-                        const char* /*case_name*/, const char* /*test_names*/)
-  {
+class TypeParameterizedTestCase<Fixture, Templates0, Types> {
+ public:
+  static bool Register(const char* /*prefix*/, CodeLocation,
+                       const TypedTestCasePState* /*state*/,
+                       const char* /*case_name*/, const char* /*test_names*/) {
     return true;
   }
 };
@@ -782,8 +723,8 @@ public:
 // For example, if Foo() calls Bar(), which in turn calls
 // GetCurrentOsStackTraceExceptTop(..., 1), Foo() will be included in
 // the trace but Bar() and GetCurrentOsStackTraceExceptTop() won't.
-GTEST_API_ std::string GetCurrentOsStackTraceExceptTop (
-  UnitTest* unit_test, int skip_count);
+GTEST_API_ std::string GetCurrentOsStackTraceExceptTop(
+    UnitTest* unit_test, int skip_count);
 
 // Helpers for suppressing warnings on unreachable code or constant
 // condition.
@@ -792,20 +733,14 @@ GTEST_API_ std::string GetCurrentOsStackTraceExceptTop (
 GTEST_API_ bool AlwaysTrue();
 
 // Always returns false.
-inline bool AlwaysFalse()
-{
-  return !AlwaysTrue();
-}
+inline bool AlwaysFalse() { return !AlwaysTrue(); }
 
 // Helper for suppressing false warning from Clang on a const char*
 // variable declared in a conditional expression always being NULL in
 // the else branch.
 struct GTEST_API_ ConstCharPtr {
-  ConstCharPtr (const char* str) : value (str) {}
-  operator bool() const
-  {
-    return true;
-  }
+  ConstCharPtr(const char* str) : value(str) {}
+  operator bool() const { return true; }
   const char* value;
 };
 
@@ -814,25 +749,21 @@ struct GTEST_API_ ConstCharPtr {
 // doesn't use global state (and therefore can't interfere with user
 // code).  Unlike rand_r(), it's portable.  An LCG isn't very random,
 // but it's good enough for our purposes.
-class GTEST_API_ Random
-{
-public:
+class GTEST_API_ Random {
+ public:
   static const UInt32 kMaxRange = 1u << 31;
 
-  explicit Random (UInt32 seed) : state_ (seed) {}
+  explicit Random(UInt32 seed) : state_(seed) {}
 
-  void Reseed (UInt32 seed)
-  {
-    state_ = seed;
-  }
+  void Reseed(UInt32 seed) { state_ = seed; }
 
   // Generates a random number from [0, range).  Crashes if 'range' is
   // 0 or greater than kMaxRange.
-  UInt32 Generate (UInt32 range);
+  UInt32 Generate(UInt32 range);
 
-private:
+ private:
   UInt32 state_;
-  GTEST_DISALLOW_COPY_AND_ASSIGN_ (Random);
+  GTEST_DISALLOW_COPY_AND_ASSIGN_(Random);
 };
 
 // Defining a variable of type CompileAssertTypesEqual<T1, T2> will cause a
@@ -848,13 +779,9 @@ struct CompileAssertTypesEqual<T, T> {
 // otherwise leaves it unchanged.  This is the same as
 // tr1::remove_reference, which is not widely available yet.
 template <typename T>
-struct RemoveReference {
-  typedef T type;
-};  // NOLINT
+struct RemoveReference { typedef T type; };  // NOLINT
 template <typename T>
-struct RemoveReference<T&> {
-  typedef T type;
-};  // NOLINT
+struct RemoveReference<T&> { typedef T type; };  // NOLINT
 
 // A handy wrapper around RemoveReference that works when the argument
 // T depends on template parameters.
@@ -865,13 +792,9 @@ struct RemoveReference<T&> {
 // it unchanged.  This is the same as tr1::remove_const, which is not
 // widely available yet.
 template <typename T>
-struct RemoveConst {
-  typedef T type;
-};  // NOLINT
+struct RemoveConst { typedef T type; };  // NOLINT
 template <typename T>
-struct RemoveConst<const T> {
-  typedef T type;
-};  // NOLINT
+struct RemoveConst<const T> { typedef T type; };  // NOLINT
 
 // MSVC 8.0, Sun C++, and IBM XL C++ have a bug which causes the above
 // definition to fail to remove the const in 'const int[3]' and 'const
@@ -904,13 +827,9 @@ struct RemoveConst<T[N]> {
 // otherwise leaves it unchanged.  This is the same as
 // tr1::add_reference, which is not widely available yet.
 template <typename T>
-struct AddReference {
-  typedef T& type;
-};  // NOLINT
+struct AddReference { typedef T& type; };  // NOLINT
 template <typename T>
-struct AddReference<T&> {
-  typedef T& type;
-};  // NOLINT
+struct AddReference<T&> { typedef T& type; };  // NOLINT
 
 // A handy wrapper around AddReference that works when the argument T
 // depends on template parameters.
@@ -933,9 +852,8 @@ struct AddReference<T&> {
 // constant that's true iff type From can be implicitly converted to
 // type To.
 template <typename From, typename To>
-class ImplicitlyConvertible
-{
-private:
+class ImplicitlyConvertible {
+ private:
   // We need the following helper functions only for their types.
   // They have no implementations.
 
@@ -954,24 +872,24 @@ private:
   // size of Helper(x), which can be done at compile time, we can tell
   // which version of Helper() is used, and hence whether x can be
   // implicitly converted to type To.
-  static char Helper (To);
-  static char (&Helper (...)) [2]; // NOLINT
+  static char Helper(To);
+  static char (&Helper(...))[2];  // NOLINT
 
   // We have to put the 'public' section after the 'private' section,
   // or MSVC refuses to compile the code.
-public:
+ public:
 #if defined(__BORLANDC__)
   // C++Builder cannot use member overload resolution during template
   // instantiation.  The simplest workaround is to use its C++0x type traits
   // functions (C++Builder 2009 and above only).
-  static const bool value = __is_convertible (From, To);
+  static const bool value = __is_convertible(From, To);
 #else
   // MSVC warns about implicitly converting from double to int for
   // possible loss of data, so we need to temporarily disable the
   // warning.
-  GTEST_DISABLE_MSC_WARNINGS_PUSH_ (4244)
+  GTEST_DISABLE_MSC_WARNINGS_PUSH_(4244)
   static const bool value =
-    sizeof (Helper (ImplicitlyConvertible::MakeFrom())) == 1;
+      sizeof(Helper(ImplicitlyConvertible::MakeFrom())) == 1;
   GTEST_DISABLE_MSC_WARNINGS_POP_()
 #endif  // __BORLANDC__
 };
@@ -983,9 +901,9 @@ const bool ImplicitlyConvertible<From, To>::value;
 // of those.
 template <typename T>
 struct IsAProtocolMessage
-  : public bool_constant <
-    ImplicitlyConvertible<const T*, const ::ProtocolMessage*>::value ||
-    ImplicitlyConvertible<const T*, const ::proto2::Message*>::value > {
+    : public bool_constant<
+  ImplicitlyConvertible<const T*, const ::ProtocolMessage*>::value ||
+  ImplicitlyConvertible<const T*, const ::proto2::Message*>::value> {
 };
 
 // When the compiler sees expression IsContainerTest<C>(0), if C is an
@@ -1011,28 +929,22 @@ struct IsAProtocolMessage
 // IsContainerTest(...) doesn't work with Visual Age C++ and Sun C++.
 typedef int IsContainer;
 template <class C>
-IsContainer IsContainerTest (int /* dummy */,
-                             typename C::iterator* /* it */ = NULL,
-                             typename C::const_iterator* /* const_it */ = NULL)
-{
+IsContainer IsContainerTest(int /* dummy */,
+                            typename C::iterator* /* it */ = NULL,
+                            typename C::const_iterator* /* const_it */ = NULL) {
   return 0;
 }
 
 typedef char IsNotContainer;
 template <class C>
-IsNotContainer IsContainerTest (long /* dummy */)
-{
-  return '\0';
-}
+IsNotContainer IsContainerTest(long /* dummy */) { return '\0'; }
 
 // EnableIf<condition>::type is void when 'Cond' is true, and
 // undefined when 'Cond' is false.  To use SFINAE to make a function
 // overload only apply when a particular expression is true, add
 // "typename EnableIf<expression>::type* = 0" as the last parameter.
 template<bool> struct EnableIf;
-template<> struct EnableIf<true> {
-  typedef void type;
-};  // NOLINT
+template<> struct EnableIf<true> { typedef void type; };  // NOLINT
 
 // Utilities for native arrays.
 
@@ -1041,32 +953,26 @@ template<> struct EnableIf<true> {
 // 0, ArrayEq() degenerates into comparing a single pair of values.
 
 template <typename T, typename U>
-bool ArrayEq (const T* lhs, size_t size, const U* rhs);
+bool ArrayEq(const T* lhs, size_t size, const U* rhs);
 
 // This generic version is used when k is 0.
 template <typename T, typename U>
-inline bool ArrayEq (const T& lhs, const U& rhs)
-{
-  return lhs == rhs;
-}
+inline bool ArrayEq(const T& lhs, const U& rhs) { return lhs == rhs; }
 
 // This overload is used when k >= 1.
 template <typename T, typename U, size_t N>
-inline bool ArrayEq (const T (&lhs) [N], const U (&rhs) [N])
-{
-  return internal::ArrayEq (lhs, N, rhs);
+inline bool ArrayEq(const T(&lhs)[N], const U(&rhs)[N]) {
+  return internal::ArrayEq(lhs, N, rhs);
 }
 
 // This helper reduces code bloat.  If we instead put its logic inside
 // the previous ArrayEq() function, arrays with different sizes would
 // lead to different copies of the template code.
 template <typename T, typename U>
-bool ArrayEq (const T* lhs, size_t size, const U* rhs)
-{
+bool ArrayEq(const T* lhs, size_t size, const U* rhs) {
   for (size_t i = 0; i != size; i++) {
-    if (!internal::ArrayEq (lhs[i], rhs[i])) {
+    if (!internal::ArrayEq(lhs[i], rhs[i]))
       return false;
-    }
   }
   return true;
 }
@@ -1074,12 +980,10 @@ bool ArrayEq (const T* lhs, size_t size, const U* rhs)
 // Finds the first element in the iterator range [begin, end) that
 // equals elem.  Element may be a native array type itself.
 template <typename Iter, typename Element>
-Iter ArrayAwareFind (Iter begin, Iter end, const Element& elem)
-{
+Iter ArrayAwareFind(Iter begin, Iter end, const Element& elem) {
   for (Iter it = begin; it != end; ++it) {
-    if (internal::ArrayEq (*it, elem)) {
+    if (internal::ArrayEq(*it, elem))
       return it;
-    }
   }
   return end;
 }
@@ -1089,30 +993,25 @@ Iter ArrayAwareFind (Iter begin, Iter end, const Element& elem)
 // CopyArray() degenerates into copying a single value.
 
 template <typename T, typename U>
-void CopyArray (const T* from, size_t size, U* to);
+void CopyArray(const T* from, size_t size, U* to);
 
 // This generic version is used when k is 0.
 template <typename T, typename U>
-inline void CopyArray (const T& from, U* to)
-{
-  *to = from;
-}
+inline void CopyArray(const T& from, U* to) { *to = from; }
 
 // This overload is used when k >= 1.
 template <typename T, typename U, size_t N>
-inline void CopyArray (const T (&from) [N], U (*to) [N])
-{
-  internal::CopyArray (from, N, *to);
+inline void CopyArray(const T(&from)[N], U(*to)[N]) {
+  internal::CopyArray(from, N, *to);
 }
 
 // This helper reduces code bloat.  If we instead put its logic inside
 // the previous CopyArray() function, arrays with different sizes
 // would lead to different copies of the template code.
 template <typename T, typename U>
-void CopyArray (const T* from, size_t size, U* to)
-{
+void CopyArray(const T* from, size_t size, U* to) {
   for (size_t i = 0; i != size; i++) {
-    internal::CopyArray (from[i], to + i);
+    internal::CopyArray(from[i], to + i);
   }
 }
 
@@ -1132,77 +1031,59 @@ struct RelationToSourceCopy {};
 // this requirement.  Element can be an array type itself (hence
 // multi-dimensional arrays are supported).
 template <typename Element>
-class NativeArray
-{
-public:
+class NativeArray {
+ public:
   // STL-style container typedefs.
   typedef Element value_type;
   typedef Element* iterator;
   typedef const Element* const_iterator;
 
   // Constructs from a native array. References the source.
-  NativeArray (const Element* array, size_t count, RelationToSourceReference)
-  {
-    InitRef (array, count);
+  NativeArray(const Element* array, size_t count, RelationToSourceReference) {
+    InitRef(array, count);
   }
 
   // Constructs from a native array. Copies the source.
-  NativeArray (const Element* array, size_t count, RelationToSourceCopy)
-  {
-    InitCopy (array, count);
+  NativeArray(const Element* array, size_t count, RelationToSourceCopy) {
+    InitCopy(array, count);
   }
 
   // Copy constructor.
-  NativeArray (const NativeArray& rhs)
-  {
-    (this->*rhs.clone_) (rhs.array_, rhs.size_);
+  NativeArray(const NativeArray& rhs) {
+    (this->*rhs.clone_)(rhs.array_, rhs.size_);
   }
 
-  ~NativeArray()
-  {
-    if (clone_ != &NativeArray::InitRef) {
+  ~NativeArray() {
+    if (clone_ != &NativeArray::InitRef)
       delete[] array_;
-    }
   }
 
   // STL-style container methods.
-  size_t size() const
-  {
-    return size_;
-  }
-  const_iterator begin() const
-  {
-    return array_;
-  }
-  const_iterator end() const
-  {
-    return array_ + size_;
-  }
-  bool operator== (const NativeArray& rhs) const
-  {
+  size_t size() const { return size_; }
+  const_iterator begin() const { return array_; }
+  const_iterator end() const { return array_ + size_; }
+  bool operator==(const NativeArray& rhs) const {
     return size() == rhs.size() &&
-           ArrayEq (begin(), size(), rhs.begin());
+        ArrayEq(begin(), size(), rhs.begin());
   }
 
-private:
+ private:
   enum {
-    kCheckTypeIsNotConstOrAReference = StaticAssertTypeEqHelper <
-                                       Element, GTEST_REMOVE_REFERENCE_AND_CONST_ (Element) >::value,
+    kCheckTypeIsNotConstOrAReference = StaticAssertTypeEqHelper<
+        Element, GTEST_REMOVE_REFERENCE_AND_CONST_(Element)>::value,
   };
 
   // Initializes this object with a copy of the input.
-  void InitCopy (const Element* array, size_t a_size)
-  {
+  void InitCopy(const Element* array, size_t a_size) {
     Element* const copy = new Element[a_size];
-    CopyArray (array, a_size, copy);
+    CopyArray(array, a_size, copy);
     array_ = copy;
     size_ = a_size;
     clone_ = &NativeArray::InitCopy;
   }
 
   // Initializes this object with a reference of the input.
-  void InitRef (const Element* array, size_t a_size)
-  {
+  void InitRef(const Element* array, size_t a_size) {
     array_ = array;
     size_ = a_size;
     clone_ = &NativeArray::InitRef;
@@ -1210,9 +1091,9 @@ private:
 
   const Element* array_;
   size_t size_;
-  void (NativeArray::*clone_) (const Element*, size_t);
+  void (NativeArray::*clone_)(const Element*, size_t);
 
-  GTEST_DISALLOW_ASSIGN_ (NativeArray);
+  GTEST_DISALLOW_ASSIGN_(NativeArray);
 };
 
 }  // namespace internal
