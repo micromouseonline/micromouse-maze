@@ -37,7 +37,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/list.o \
 	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/maze.o
+	${OBJECTDIR}/maze.o \
+	${OBJECTDIR}/mazeprinter.o
 
 # Test Directory
 TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
@@ -95,6 +96,11 @@ ${OBJECTDIR}/maze.o: maze.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/maze.o maze.c
+
+${OBJECTDIR}/mazeprinter.o: mazeprinter.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/mazeprinter.o mazeprinter.c
 
 # Subprojects
 .build-subprojects:
@@ -193,6 +199,19 @@ ${OBJECTDIR}/maze_nomain.o: ${OBJECTDIR}/maze.o maze.c
 	    $(COMPILE.c) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/maze_nomain.o maze.c;\
 	else  \
 	    ${CP} ${OBJECTDIR}/maze.o ${OBJECTDIR}/maze_nomain.o;\
+	fi
+
+${OBJECTDIR}/mazeprinter_nomain.o: ${OBJECTDIR}/mazeprinter.o mazeprinter.c 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/mazeprinter.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.c) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/mazeprinter_nomain.o mazeprinter.c;\
+	else  \
+	    ${CP} ${OBJECTDIR}/mazeprinter.o ${OBJECTDIR}/mazeprinter_nomain.o;\
 	fi
 
 # Run Test Targets
