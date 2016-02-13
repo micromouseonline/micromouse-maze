@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/list.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/maze.o
 
@@ -50,6 +51,7 @@ TESTOBJECTFILES= \
 	${TESTDIR}/gtest/src/gtest-all.o \
 	${TESTDIR}/tests/testCosts.o \
 	${TESTDIR}/tests/testDirection.o \
+	${TESTDIR}/tests/testList.o \
 	${TESTDIR}/tests/testLocation.o \
 	${TESTDIR}/tests/testMaze.o \
 	${TESTDIR}/tests/testRunner.o \
@@ -79,6 +81,11 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/micromouse-maze: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/micromouse-maze ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/list.o: list.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/list.o list.c
+
 ${OBJECTDIR}/main.o: main.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -96,7 +103,7 @@ ${OBJECTDIR}/maze.o: maze.c
 .build-tests-conf: .build-tests-subprojects .build-conf ${TESTFILES}
 .build-tests-subprojects:
 
-${TESTDIR}/TestFiles/f1: ${TESTDIR}/gtest/src/gtest-all.o ${TESTDIR}/tests/testCosts.o ${TESTDIR}/tests/testDirection.o ${TESTDIR}/tests/testLocation.o ${TESTDIR}/tests/testMaze.o ${TESTDIR}/tests/testRunner.o ${TESTDIR}/tests/testWalls.o ${OBJECTFILES:%.o=%_nomain.o}
+${TESTDIR}/TestFiles/f1: ${TESTDIR}/gtest/src/gtest-all.o ${TESTDIR}/tests/testCosts.o ${TESTDIR}/tests/testDirection.o ${TESTDIR}/tests/testList.o ${TESTDIR}/tests/testLocation.o ${TESTDIR}/tests/testMaze.o ${TESTDIR}/tests/testRunner.o ${TESTDIR}/tests/testWalls.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc}   -o ${TESTDIR}/TestFiles/f1 $^ ${LDLIBSOPTIONS} 
 
@@ -117,6 +124,12 @@ ${TESTDIR}/tests/testDirection.o: tests/testDirection.cpp
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I. -I../../micromouse/micromouse-maze/gtest -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testDirection.o tests/testDirection.cpp
+
+
+${TESTDIR}/tests/testList.o: tests/testList.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I. -I../../micromouse/micromouse-maze/gtest -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testList.o tests/testList.cpp
 
 
 ${TESTDIR}/tests/testLocation.o: tests/testLocation.cpp 
@@ -142,6 +155,19 @@ ${TESTDIR}/tests/testWalls.o: tests/testWalls.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I. -I../../micromouse/micromouse-maze/gtest -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testWalls.o tests/testWalls.cpp
 
+
+${OBJECTDIR}/list_nomain.o: ${OBJECTDIR}/list.o list.c 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/list.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.c) -g -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/list_nomain.o list.c;\
+	else  \
+	    ${CP} ${OBJECTDIR}/list.o ${OBJECTDIR}/list_nomain.o;\
+	fi
 
 ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.c 
 	${MKDIR} -p ${OBJECTDIR}

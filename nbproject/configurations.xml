@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>list.h</itemPath>
       <itemPath>maze.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -15,6 +16,7 @@
                    projectFiles="true">
       <itemPath>LICENSE</itemPath>
       <itemPath>README.md</itemPath>
+      <itemPath>list.c</itemPath>
       <itemPath>main.c</itemPath>
       <itemPath>maze.c</itemPath>
     </logicalFolder>
@@ -29,6 +31,7 @@
         <itemPath>gtest/src/gtest-all.cc</itemPath>
         <itemPath>tests/testCosts.cpp</itemPath>
         <itemPath>tests/testDirection.cpp</itemPath>
+        <itemPath>tests/testList.cpp</itemPath>
         <itemPath>tests/testLocation.cpp</itemPath>
         <itemPath>tests/testMaze.cpp</itemPath>
         <itemPath>tests/testRunner.cpp</itemPath>
@@ -74,6 +77,10 @@
       </folder>
       <item path="gtest/src/gtest-all.cc" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="list.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="list.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="maze.c" ex="false" tool="0" flavor2="0">
@@ -83,6 +90,8 @@
       <item path="tests/testCosts.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testDirection.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testList.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testLocation.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -134,6 +143,10 @@
       </folder>
       <item path="gtest/src/gtest-all.cc" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="list.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="list.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="maze.c" ex="false" tool="0" flavor2="0">
@@ -143,6 +156,8 @@
       <item path="tests/testCosts.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testDirection.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testList.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testLocation.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -189,6 +204,10 @@
       </folder>
       <item path="gtest/src/gtest-all.cc" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="list.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="list.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="maze.c" ex="false" tool="0" flavor2="0">
@@ -198,6 +217,8 @@
       <item path="tests/testCosts.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testDirection.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testList.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testLocation.cpp" ex="false" tool="1" flavor2="0">
       </item>
