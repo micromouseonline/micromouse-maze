@@ -130,3 +130,8 @@ direction_t DirectionGetBehindFrom (direction_t direction)
   return (direction + 2) % DIRECTION_COUNT;
 };
 
+walls_t WallsGetBlank(void){
+  //return an initialised wall structure
+  return ~ALL_WALLS & ~ALL_SEEN;
+}
+

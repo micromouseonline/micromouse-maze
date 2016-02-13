@@ -95,8 +95,12 @@ bool WallIsSeen (walls_t walls, direction_t direction);
 bool WallIsSet (walls_t walls, direction_t direction);
 
 /* setting and clearing always sets the seen bits */
+/* clear all the walls and the seen bits */
+walls_t WallsGetBlank(void);
 void WallSet (walls_t * walls, direction_t direction);
 void WallClear (walls_t * walls, direction_t direction);
+
+
 
 /* ========== manipulating the directions ==============*/
 void MazeClearDirectionData (void);
