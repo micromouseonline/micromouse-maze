@@ -67,13 +67,11 @@ void MazeResetData (void);
 void MazeSetWall (location_t location, direction_t direction);
 
 /* set all four walls for a location - updates neighbours - set seen*/
-void MazeSetAllWalls (location_t location, walls_t walls);
+void MazeUpdateFromWallData (location_t location, walls_t walls);
 
 /* clear a single wall - looks after neighbours - set seen*/
 void MazeClearWall (location_t location, direction_t direction);
 
-/* set all four walls for a location  - updates neighbours - set seen*/
-void MazeClearAllWalls (location_t location, walls_t walls);
 
 /* return all the walls for a given location */
 walls_t MazeGetWalls (location_t location);
@@ -97,11 +95,11 @@ bool IsHome (location_t location);
 
 /* ========== manipulating the walls ==============*/
 bool WallIsSeen (walls_t walls, direction_t direction);
-bool WallIsSet (walls_t walls, direction_t direction);
+bool HasWall (walls_t walls, direction_t direction);
 
 /* setting and clearing always sets the seen bits */
 /* clear all the walls and the seen bits */
-walls_t WallsGetBlank(void);
+walls_t WallsNone (void);
 void WallSet (walls_t * walls, direction_t direction);
 void WallClear (walls_t * walls, direction_t direction);
 

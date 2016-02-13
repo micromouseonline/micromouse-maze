@@ -148,7 +148,7 @@ bool WallIsSeen (walls_t walls, direction_t direction)
   return ( (walls & (WALL_SEEN << direction)) != 0);;
 };
 
-bool WallIsSet (walls_t walls, direction_t direction)
+bool HasWall (walls_t walls, direction_t direction)
 {
   return ( (walls & (WALL << direction)) != 0);
 };
@@ -166,7 +166,8 @@ void WallClear (walls_t * walls, direction_t direction)
   *walls |= (WALL_SEEN << direction);
 };
 
-walls_t WallsGetBlank(void){
+walls_t WallsNone (void)
+{
   //return an initialised wall structure
   walls_t walls;
   walls &= ~ALL_WALLS;
