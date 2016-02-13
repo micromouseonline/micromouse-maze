@@ -32,7 +32,7 @@ static cost_t _cost[MAZE_COLS][MAZE_ROWS];
 static direction_t _direction[MAZE_COLS][MAZE_ROWS];
 
 /* initialise to a known value*/
-static location_t _goal = {7, 8};
+static location_t _goal = {7, 7};
 static location_t _home = {0, 0};
 
 //=======================================
@@ -222,6 +222,21 @@ void MazeResetData (void)
       _cost[loc.row][loc.col] = 0;
     }
   }
+  for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++){
+    loc.col = 0;
+    MazeSetWall(loc,WEST);
+    loc.col = MAZE_COLS-1;
+    MazeSetWall(loc,EAST);
+  }
+  for (loc.col = 0; loc.col < MAZE_COLS; loc.col++){
+    loc.row = 0;
+    MazeSetWall(loc,SOUTH);
+    loc.row = MAZE_ROWS-1;
+    MazeSetWall(loc,NORTH);
+  }
+  loc.row = 0;
+  loc.col = 0;
+  MazeSetWall(loc,EAST);
 }
 
 
