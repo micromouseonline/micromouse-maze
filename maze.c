@@ -27,8 +27,9 @@
 #define VISITED ALL_SEEN
 
 
-static walls_t walls[MAZE_COLS][MAZE_ROWS];
-static cost_t cost[MAZE_COLS][MAZE_ROWS];
+static walls_t actualWalls[MAZE_COLS][MAZE_ROWS];
+static walls_t mappedWalls[MAZE_COLS][MAZE_ROWS];
+static cost_t _cost[MAZE_COLS][MAZE_ROWS];
 static direction_t _direction[MAZE_COLS][MAZE_ROWS];
 
 /* initialise to a known value*/
