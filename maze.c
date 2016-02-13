@@ -28,7 +28,7 @@
 
 
 static walls_t walls[MAZE_COLS][MAZE_ROWS];
-static cost_t cost[MAZE_COLS][MAZE_ROWS];
+static cost_t _cost[MAZE_COLS][MAZE_ROWS];
 static direction_t _direction[MAZE_COLS][MAZE_ROWS];
 
 /* initialise to a known value*/
@@ -93,6 +93,7 @@ bool LocationIsInHome (location_t location)
 
 //=======================================
 // DIRECTION
+
 //=======================================
 void MazeClearDirectionData (void)
 {
@@ -130,7 +131,10 @@ direction_t DirectionGetBehindFrom (direction_t direction)
   return (direction + 2) % DIRECTION_COUNT;
 };
 
-/* ========== manipulating the walls ==============*/
+
+//=======================================
+// WALLS
+//=======================================
 bool WallIsSeen (walls_t walls, direction_t direction)
 {
   return ( (walls & (WALL_SEEN << direction)) != 0);;
@@ -154,8 +158,25 @@ void WallClear (walls_t * walls, direction_t direction)
   *walls |= (WALL_SEEN << direction);
 };
 
-walls_t WallsGetBlank(void){
+walls_t WallsGetBlank (void)
+{
   //return an initialised wall structure
   return ~ALL_WALLS & ~ALL_SEEN;
 }
+
+
+
+
+//=======================================
+// COSTS
+//=======================================
+cost_t MazeGetCost (location_t location)
+{
+  return _cost[location.row][location.col];
+};
+
+void MazeSetCost (location_t location, cost_t cost)
+{
+  _cost[location.row][location.col] = cost;
+};
 

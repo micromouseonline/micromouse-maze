@@ -3,8 +3,9 @@
 
 
 
-TEST(Walls,WallsGetBlank_Gets_No_Walls_No_Visibility){
-    walls_t wallData = WallsGetBlank();
+TEST (Walls, WallsGetBlank_Gets_No_Walls_No_Visibility)
+{
+  walls_t wallData = WallsGetBlank();
   EXPECT_FALSE (WallIsSet (wallData, NORTH));
   EXPECT_FALSE (WallIsSet (wallData, EAST));
   EXPECT_FALSE (WallIsSet (wallData, SOUTH));

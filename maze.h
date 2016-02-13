@@ -81,6 +81,11 @@ void MazeClearAllWalls (location_t location, walls_t walls);
 /* return all the walls for a given location */
 walls_t MazeGetWalls (location_t location);
 
+
+
+// everything below here has tests
+
+
 /* ========== manipulating the locations ==============*/
 void MazeSetGoal (location_t location);
 location_t MazeGetGoal (void);
@@ -99,7 +104,7 @@ bool WallIsSet (walls_t walls, direction_t direction);
 
 /* setting and clearing always sets the seen bits */
 /* clear all the walls and the seen bits */
-walls_t WallsGetBlank(void);
+walls_t WallsGetBlank (void);
 void WallSet (walls_t * walls, direction_t direction);
 void WallClear (walls_t * walls, direction_t direction);
 
