@@ -163,3 +163,17 @@ walls_t WallsGetBlank(void){
   return walls;
 }
 
+
+
+
+//=======================================
+// COSTS
+//=======================================
+cost_t MazeGetCost (location_t location){
+  return _cost[location.row][location.col];
+};
+
+void MazeSetCost (location_t location, cost_t cost){
+  _cost[location.row][location.col] = cost;
+};
+
