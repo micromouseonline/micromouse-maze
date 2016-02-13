@@ -48,14 +48,11 @@ typedef uint8_t walls_t;
 typedef uint8_t direction_t;
 typedef uint16_t cost_t;
 typedef struct {
-  uint8_t row;
-  uint8_t col;
+  int8_t row;
+  int8_t col;
 } location_t;
 
 /* ========== manipulating the maze ==============*/
-
-void MazeSetWidth (uint8_t width);
-void MazeSetHeight (uint8_t height);
 
 uint8_t MazeWidth (void);
 uint8_t MazeHeight (void);
@@ -70,13 +67,11 @@ void MazeResetData (void);
 void MazeSetWall (location_t location, direction_t direction);
 
 /* set all four walls for a location - updates neighbours - set seen*/
-void MazeSetAllWalls (location_t location, walls_t walls);
+void MazeUpdateFromWallData (location_t location, walls_t walls);
 
 /* clear a single wall - looks after neighbours - set seen*/
 void MazeClearWall (location_t location, direction_t direction);
 
-/* set all four walls for a location  - updates neighbours - set seen*/
-void MazeClearAllWalls (location_t location, walls_t walls);
 
 /* return all the walls for a given location */
 walls_t MazeGetWalls (location_t location);
@@ -100,11 +95,11 @@ bool IsHome (location_t location);
 
 /* ========== manipulating the walls ==============*/
 bool WallIsSeen (walls_t walls, direction_t direction);
-bool WallIsSet (walls_t walls, direction_t direction);
+bool HasWall (walls_t walls, direction_t direction);
 
 /* setting and clearing always sets the seen bits */
 /* clear all the walls and the seen bits */
-walls_t WallsGetBlank(void);
+walls_t WallsNone (void);
 void WallSet (walls_t * walls, direction_t direction);
 void WallClear (walls_t * walls, direction_t direction);
 
@@ -115,9 +110,9 @@ void MazeClearDirectionData (void);
 void MazeSetDirection (location_t location, direction_t direction);
 direction_t MazeGetDirection (location_t location);
 /* handy utilities for directions */
-direction_t DirectionGetLeftFrom (direction_t direction);
-direction_t DirectionGetRightFrom (direction_t direction);
-direction_t DirectionGetBehindFrom (direction_t direction);
+direction_t LeftFrom (direction_t direction);
+direction_t RightFrom (direction_t direction);
+direction_t Behind (direction_t direction);
 
 #ifdef __cplusplus
 }

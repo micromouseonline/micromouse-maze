@@ -22,6 +22,14 @@ CND_ARTIFACT_PATH_Release=dist/Release/GNU-MacOSX/micromouse-maze
 CND_PACKAGE_DIR_Release=dist/Release/GNU-MacOSX/package
 CND_PACKAGE_NAME_Release=micromouse-maze.tar
 CND_PACKAGE_PATH_Release=dist/Release/GNU-MacOSX/package/micromouse-maze.tar
+# Coverage configuration
+CND_PLATFORM_Coverage=GNU-MacOSX
+CND_ARTIFACT_DIR_Coverage=dist/Coverage/GNU-MacOSX
+CND_ARTIFACT_NAME_Coverage=micromouse-maze
+CND_ARTIFACT_PATH_Coverage=dist/Coverage/GNU-MacOSX/micromouse-maze
+CND_PACKAGE_DIR_Coverage=dist/Coverage/GNU-MacOSX/package
+CND_PACKAGE_NAME_Coverage=micromouse-maze.tar
+CND_PACKAGE_PATH_Coverage=dist/Coverage/GNU-MacOSX/package/micromouse-maze.tar
 #
 # include compiler specific variables
 #

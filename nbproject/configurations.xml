@@ -30,6 +30,7 @@
         <itemPath>tests/testCosts.cpp</itemPath>
         <itemPath>tests/testDirection.cpp</itemPath>
         <itemPath>tests/testLocation.cpp</itemPath>
+        <itemPath>tests/testMaze.cpp</itemPath>
         <itemPath>tests/testRunner.cpp</itemPath>
         <itemPath>tests/testWalls.cpp</itemPath>
       </logicalFolder>
@@ -84,6 +85,8 @@
       <item path="tests/testDirection.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testLocation.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testMaze.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testRunner.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -142,6 +145,63 @@
       <item path="tests/testDirection.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testLocation.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testMaze.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testRunner.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testWalls.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Coverage" type="1">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <commandLine>-fprofile-arcs -ftest-coverage</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>-fprofile-arcs -ftest-coverage</commandLine>
+        </ccTool>
+      </compileType>
+      <item path="LICENSE" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="README.md" ex="false" tool="3" flavor2="0">
+      </item>
+      <folder path="TestFiles/f1">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>../../micromouse/micromouse-maze/gtest</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f1</output>
+        </linkerTool>
+      </folder>
+      <item path="gtest/src/gtest-all.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="main.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="maze.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="maze.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/testCosts.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testDirection.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testLocation.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testMaze.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testRunner.cpp" ex="false" tool="1" flavor2="0">
       </item>

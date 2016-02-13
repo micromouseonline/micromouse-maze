@@ -23,7 +23,7 @@ AS=as
 # Macros
 CND_PLATFORM=GNU-MacOSX
 CND_DLIB_EXT=dylib
-CND_CONF=Debug
+CND_CONF=Coverage
 CND_DISTDIR=dist
 CND_BUILDDIR=build
 
@@ -56,11 +56,11 @@ TESTOBJECTFILES= \
 	${TESTDIR}/tests/testWalls.o
 
 # C Compiler Flags
-CFLAGS=
+CFLAGS=-fprofile-arcs -ftest-coverage
 
 # CC Compiler Flags
-CCFLAGS=
-CXXFLAGS=
+CCFLAGS=-fprofile-arcs -ftest-coverage
+CXXFLAGS=-fprofile-arcs -ftest-coverage
 
 # Fortran Compiler Flags
 FFLAGS=

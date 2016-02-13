@@ -27,14 +27,13 @@
 #define VISITED ALL_SEEN
 
 
-static walls_t actualWalls[MAZE_COLS][MAZE_ROWS];
-static walls_t mappedWalls[MAZE_COLS][MAZE_ROWS];
+static walls_t _walls[MAZE_COLS][MAZE_ROWS];
 static cost_t _cost[MAZE_COLS][MAZE_ROWS];
 static direction_t _direction[MAZE_COLS][MAZE_ROWS];
 
 /* initialise to a known value*/
-static location_t goal = {7, 8};
-static location_t home = {0, 0};
+static location_t _goal = {7, 8};
+static location_t _home = {0, 0};
 
 //=======================================
 // LOCATION
@@ -42,37 +41,49 @@ static location_t home = {0, 0};
 
 void SetGoal (location_t location)
 {
-  goal = location;
+  _goal = location;
 };
 
 location_t Goal (void)
 {
-  return goal;
+  return _goal;
 };
 
 location_t Home (void)
 {
-  return home;
+  return _home;
 };
 
 
 /*
- * No attempt is made to deal with boundary overflows. THis is by design.
+ * Boundaries wrap around in a cylindrical fashion
  */
 location_t Neighbour (location_t location, direction_t direction)
 {
   switch (direction) {
     case NORTH:
       location.row = location.row + 1;
+      if (location.row >= MazeHeight()) {
+        location.row = 0;
+      }
       break;
     case EAST:
       location.col = location.col + 1;
+      if (location.col >= MazeWidth()) {
+        location.col = 0;
+      }
       break;
     case SOUTH:
       location.row = location.row - 1;
+      if (location.row <= 0) {
+        location.row = MazeHeight() - 1;
+      }
       break;
     case WEST:
       location.col = location.col - 1;
+      if (location.col <= 0) {
+        location.col = MazeWidth() - 1;
+      }
       break;
     default:
       // do nothing
@@ -83,12 +94,12 @@ location_t Neighbour (location_t location, direction_t direction)
 
 bool IsGoal (location_t location)
 {
-  return (location.row == goal.row && location.col == goal.col);
+  return (location.row == _goal.row && location.col == _goal.col);
 };
 
 bool IsHome (location_t location)
 {
-  return (location.row == 0 && location.col == 0);
+  return (location.row == _home.row && location.col == _home.col);
 };
 
 
@@ -116,17 +127,17 @@ direction_t MazeGetDirection (location_t location)
 };
 
 /* handy utilities for directions */
-direction_t DirectionGetLeftFrom (direction_t direction)
+direction_t LeftFrom (direction_t direction)
 {
   return (direction + DIRECTION_COUNT - 1) % DIRECTION_COUNT;
 };
 
-direction_t DirectionGetRightFrom (direction_t direction)
+direction_t RightFrom (direction_t direction)
 {
   return (direction + 1) % DIRECTION_COUNT;
 };
 
-direction_t DirectionGetBehindFrom (direction_t direction)
+direction_t Behind (direction_t direction)
 {
   return (direction + 2) % DIRECTION_COUNT;
 };
@@ -137,7 +148,7 @@ bool WallIsSeen (walls_t walls, direction_t direction)
   return ( (walls & (WALL_SEEN << direction)) != 0);;
 };
 
-bool WallIsSet (walls_t walls, direction_t direction)
+bool HasWall (walls_t walls, direction_t direction)
 {
   return ( (walls & (WALL << direction)) != 0);
 };
@@ -155,7 +166,8 @@ void WallClear (walls_t * walls, direction_t direction)
   *walls |= (WALL_SEEN << direction);
 };
 
-walls_t WallsGetBlank(void){
+walls_t WallsNone (void)
+{
   //return an initialised wall structure
   walls_t walls;
   walls &= ~ALL_WALLS;
@@ -169,11 +181,97 @@ walls_t WallsGetBlank(void){
 //=======================================
 // COSTS
 //=======================================
-cost_t MazeGetCost (location_t location){
+cost_t MazeGetCost (location_t location)
+{
   return _cost[location.row][location.col];
 };
 
-void MazeSetCost (location_t location, cost_t cost){
+void MazeSetCost (location_t location, cost_t cost)
+{
   _cost[location.row][location.col] = cost;
 };
+
+
+//=======================================
+// MAZE
+//=======================================
+
+
+
+uint8_t MazeWidth (void)
+{
+  return MAZE_COLS;
+}
+
+uint8_t MazeHeight (void)
+{
+  return MAZE_ROWS;
+}
+
+
+/*
+ * clear the costs and directions
+ * set the walls to the outside and start cell walls only
+ */
+void MazeResetData (void)
+{
+  location_t loc;
+  for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
+    for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
+      _walls[loc.row][loc.col] = 0;
+      _cost[loc.row][loc.col] = 0;
+    }
+  }
+}
+
+
+/* set a single wall - looks after neighbours - set seen*/
+void MazeSetWall (location_t location, direction_t direction)
+{
+  WallSet (&_walls[location.row][location.col], direction);
+  location = Neighbour (location, direction);
+  WallSet (&_walls[location.row][location.col], Behind (direction));
+}
+
+
+/* set all four walls for a location - updates neighbours - set seen*/
+void MazeUpdateFromWallData (location_t location, walls_t wallData)
+{
+  if (wallData & NORTH_WALL) {
+    MazeSetWall (location, NORTH);
+  } else {
+    MazeClearWall (location, NORTH);
+  }
+  if (wallData & EAST_WALL) {
+    MazeSetWall (location, EAST);
+  } else {
+    MazeClearWall (location, EAST);
+  }
+  if (wallData & SOUTH_WALL) {
+    MazeSetWall (location, SOUTH);
+  } else {
+    MazeClearWall (location, SOUTH);
+  }
+  if (wallData & WEST_WALL) {
+    MazeSetWall (location, WEST);
+  } else {
+    MazeClearWall (location, WEST);
+  }
+}
+
+/* clear a single wall - looks after neighbours - set seen*/
+void MazeClearWall (location_t location, direction_t direction)
+{
+  WallClear (&_walls[location.row][location.col], direction);
+  location = Neighbour (location, direction);
+  WallClear (&_walls[location.row][location.col], Behind (direction));
+}
+
+/* return all the walls for a given location */
+walls_t MazeGetWalls (location_t location)
+{
+  return _walls[location.row][location.col];
+}
+
+
 
