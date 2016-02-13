@@ -8,6 +8,21 @@
 #include <stdint.h>
 #include "maze.h"
 
+
+
+/* bit masks for the wall data */
+#define WALL       (0x01)
+#define NORTH_WALL (WALL << NORTH)
+#define EAST_WALL  (WALL << EAST)
+#define SOUTH_WALL (WALL << SOUTH)
+#define WEST_WALL  (WALL << WEST)
+#define ALL_WALLS (NORTH_WALL + EAST_WALL + SOUTH_WALL + WEST_WALL)
+#define WALL_SEEN 0x10
+
+#define ALL_WALLS_SEEN (ALL_WALLS << WALL_SEEN)
+#define VISITED ALL_WALLS_SEEN
+
+
 static walls_t walls[MAZE_COLS][MAZE_ROWS];
 static cost_t cost[MAZE_COLS][MAZE_ROWS];
 static direction_t _direction[MAZE_COLS][MAZE_ROWS];

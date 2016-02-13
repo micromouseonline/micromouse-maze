@@ -44,21 +44,6 @@ extern "C" {
 /* one day diagonals may make this 8 */
 #define DIRECTION_COUNT 4
 
-/* bit masks for the wall data */
-#define NORTH_WALL (1 << NORTH)
-#define EAST_WALL  (1 << EAST)
-#define SOUTH_WALL (1 << SOUTH)
-#define WEST_WALL  (1 << WEST)
-#define ALL_WALLS (NORTH_WALL + EAST_WALL + SOUTH_WALL + WEST_WALL)
-#define WALL_SEEN 4
-#define NORTH_WALL_SEEN (1 << (NORTH + WALL_SEEN))
-#define EAST_WALL_SEEN  (1 << (EAST  + WALL_SEEN))
-#define SOUTH_WALL_SEEN (1 << (SOUTH + WALL_SEEN)
-#define WEST_WALL_SEEN  (1 << (WEST  + WALL_SEEN))
-
-#define ALL_WALLS_SEEN (ALL_WALLS << WALL_SEEN)
-#define VISITED ALL_WALLS_SEEN
-
 typedef uint8_t walls_t;
 typedef uint8_t direction_t;
 typedef uint16_t cost_t;
