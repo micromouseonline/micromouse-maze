@@ -16,6 +16,7 @@
 #include <stdint.h>
 #include "maze.h"
 #include "mazeprinter.h"
+#include "mazereader.h"
 /*
  *
  */
@@ -23,7 +24,8 @@ int main (int argc, char** argv)
 {
   printf ("micromouse maze\n");
   MazeResetData();
-  PrintMaze(WALLS+DIRS);
+  ReadMAZFile("mazefiles/minos04f.maz");
+  PrintMaze(WALLS);
   return (EXIT_SUCCESS);
 }
 
