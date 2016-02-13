@@ -55,7 +55,10 @@ typedef struct {
 /* ========== manipulating the maze ==============*/
 
 void MazeSetWidth (uint8_t width);
+void MazeSetHeight (uint8_t height);
+
 uint8_t MazeWidth (void);
+uint8_t MazeHeight (void);
 
 /*
  * clear the costs and directions
