@@ -127,3 +127,18 @@ TEST (Maze, MazeUpdateFromWallData_SomeWalls)
   EXPECT_FALSE (HasWall (walls, WEST));
   //no need to check neighbours - that is tested elsewhere
 }
+
+TEST (Maze, MazeUpdateFromWallData_NoWalls)
+{
+  location_t loc = {2, 4};
+  walls_t wallData = 0x00;  // North and East Only
+  MazeResetData();
+  MazeUpdateFromWallData (loc, wallData);
+  walls_t walls;
+  walls = MazeGetWalls (loc);
+  EXPECT_FALSE (HasWall (walls, NORTH));
+  EXPECT_FALSE (HasWall (walls, EAST));
+  EXPECT_FALSE (HasWall (walls, SOUTH));
+  EXPECT_FALSE (HasWall (walls, WEST));
+  //no need to check neighbours - that is tested elsewhere
+}

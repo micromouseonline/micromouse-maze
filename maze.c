@@ -181,11 +181,97 @@ walls_t WallsNone (void)
 //=======================================
 // COSTS
 //=======================================
-cost_t MazeGetCost (location_t location){
+cost_t MazeGetCost (location_t location)
+{
   return _cost[location.row][location.col];
 };
 
-void MazeSetCost (location_t location, cost_t cost){
+void MazeSetCost (location_t location, cost_t cost)
+{
   _cost[location.row][location.col] = cost;
 };
+
+
+//=======================================
+// MAZE
+//=======================================
+
+
+
+uint8_t MazeWidth (void)
+{
+  return MAZE_COLS;
+}
+
+uint8_t MazeHeight (void)
+{
+  return MAZE_ROWS;
+}
+
+
+/*
+ * clear the costs and directions
+ * set the walls to the outside and start cell walls only
+ */
+void MazeResetData (void)
+{
+  location_t loc;
+  for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
+    for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
+      _walls[loc.row][loc.col] = 0;
+      _cost[loc.row][loc.col] = 0;
+    }
+  }
+}
+
+
+/* set a single wall - looks after neighbours - set seen*/
+void MazeSetWall (location_t location, direction_t direction)
+{
+  WallSet (&_walls[location.row][location.col], direction);
+  location = Neighbour (location, direction);
+  WallSet (&_walls[location.row][location.col], Behind (direction));
+}
+
+
+/* set all four walls for a location - updates neighbours - set seen*/
+void MazeUpdateFromWallData (location_t location, walls_t wallData)
+{
+  if (wallData & NORTH_WALL) {
+    MazeSetWall (location, NORTH);
+  } else {
+    MazeClearWall (location, NORTH);
+  }
+  if (wallData & EAST_WALL) {
+    MazeSetWall (location, EAST);
+  } else {
+    MazeClearWall (location, EAST);
+  }
+  if (wallData & SOUTH_WALL) {
+    MazeSetWall (location, SOUTH);
+  } else {
+    MazeClearWall (location, SOUTH);
+  }
+  if (wallData & WEST_WALL) {
+    MazeSetWall (location, WEST);
+  } else {
+    MazeClearWall (location, WEST);
+  }
+}
+
+/* clear a single wall - looks after neighbours - set seen*/
+void MazeClearWall (location_t location, direction_t direction)
+{
+  WallClear (&_walls[location.row][location.col], direction);
+  location = Neighbour (location, direction);
+  WallClear (&_walls[location.row][location.col], Behind (direction));
+}
+
+/* return all the walls for a given location */
+walls_t MazeGetWalls (location_t location)
+{
+  return _walls[location.row][location.col];
+}
+
+
 
