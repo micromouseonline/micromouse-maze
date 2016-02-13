@@ -39,17 +39,17 @@ static location_t home = {0, 0};
 // LOCATION
 //=======================================
 
-void MazeSetGoal (location_t location)
+void SetGoal (location_t location)
 {
   goal = location;
 };
 
-location_t MazeGetGoal (void)
+location_t Goal (void)
 {
   return goal;
 };
 
-location_t MazeGetHome (void)
+location_t Home (void)
 {
   return home;
 };
@@ -58,7 +58,7 @@ location_t MazeGetHome (void)
 /*
  * No attempt is made to deal with boundary overflows. THis is by design.
  */
-location_t LocationGetNeighbour (location_t location, direction_t direction)
+location_t Neighbour (location_t location, direction_t direction)
 {
   switch (direction) {
     case NORTH:
@@ -80,12 +80,12 @@ location_t LocationGetNeighbour (location_t location, direction_t direction)
   return location;
 };
 
-bool LocationIsInGoal (location_t location)
+bool IsGoal (location_t location)
 {
   return (location.row == goal.row && location.col == goal.col);
 };
 
-bool LocationIsInHome (location_t location)
+bool IsHome (location_t location)
 {
   return (location.row == 0 && location.col == 0);
 };
