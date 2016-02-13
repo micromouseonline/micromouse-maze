@@ -15,7 +15,7 @@ TEST (Direction, ClearDirectionData_AllNorth)
 
 TEST (Direction, MazeGetDirection_defaultValue_getNORTH)
 {
-  location_t loc = MazeGetHome();
+  location_t loc = Home();
   EXPECT_EQ (NORTH, MazeGetDirection (loc));
 }
 

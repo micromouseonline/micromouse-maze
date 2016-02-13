@@ -4,7 +4,7 @@
 
 TEST (Location, DefaultValueOfHome)
 {
-  location_t loc = MazeGetHome();
+  location_t loc = Home();
   EXPECT_EQ (0, loc.row);
   EXPECT_EQ (0, loc.col);
 }
@@ -12,7 +12,7 @@ TEST (Location, DefaultValueOfHome)
 
 TEST (Location, InitialisingGoal_SetToRow7Col8)
 {
-  location_t loc = MazeGetGoal();
+  location_t loc = Goal();
   EXPECT_EQ (7, loc.row);
   EXPECT_EQ (8, loc.col);
 }
@@ -23,8 +23,8 @@ TEST (Location, SetAndFetchFGoal_SetGoal_ReturnGoal)
   newGoal.row = 3;
   newGoal.col = 4;
   location_t goal;
-  MazeSetGoal (newGoal);
-  goal = MazeGetGoal();
+  SetGoal (newGoal);
+  goal = Goal();
   EXPECT_EQ (newGoal.row, goal.row);
   EXPECT_EQ (newGoal.col, goal.col);
 }
@@ -35,7 +35,7 @@ TEST (Location, FindNeighbour_SeekNORTHNeighbour_GetRowPlus1)
   loc.row = 5;
   loc.col = 8;
   location_t neighbour;
-  neighbour = LocationGetNeighbour (loc, NORTH);
+  neighbour = Neighbour (loc, NORTH);
   EXPECT_EQ (loc.row + 1, neighbour.row);
   EXPECT_EQ (loc.col, neighbour.col);
 }
@@ -46,7 +46,7 @@ TEST (Location, FindNeighbour_SeekEASTNeighbour_GetColPlus1)
   loc.row = 5;
   loc.col = 8;
   location_t neighbour;
-  neighbour = LocationGetNeighbour (loc, EAST);
+  neighbour = Neighbour (loc, EAST);
   EXPECT_EQ (loc.row, neighbour.row);
   EXPECT_EQ (loc.col + 1, neighbour.col);
 }
@@ -57,7 +57,7 @@ TEST (Location, FindNeighbour_SeekSOUTHNeighbour_GetRowMinus1)
   loc.row = 5;
   loc.col = 8;
   location_t neighbour;
-  neighbour = LocationGetNeighbour (loc, SOUTH);
+  neighbour = Neighbour (loc, SOUTH);
   EXPECT_EQ (loc.row - 1, neighbour.row);
   EXPECT_EQ (loc.col, neighbour.col);
 }
@@ -68,7 +68,7 @@ TEST (Location, FindNeighbour_SeekWESTNeighbour_GetColMinus1)
   loc.row = 5;
   loc.col = 8;
   location_t neighbour;
-  neighbour = LocationGetNeighbour (loc, WEST);
+  neighbour = Neighbour (loc, WEST);
   EXPECT_EQ (loc.row, neighbour.row);
   EXPECT_EQ (loc.col - 1, neighbour.col);
 }
@@ -77,18 +77,18 @@ TEST (Location, FindNeighbour_SeekWESTNeighbour_GetColMinus1)
 TEST (Location, LocationInGoal)
 {
   location_t goal = {12, 13};
-  MazeSetGoal (goal);
+  SetGoal (goal);
   location_t inGoal = goal;
   location_t notInGoal = {0, 0};
-  EXPECT_TRUE (LocationIsInGoal (inGoal));
-  EXPECT_FALSE (LocationIsInGoal (notInGoal));
+  EXPECT_TRUE (IsGoal (inGoal));
+  EXPECT_FALSE (IsGoal (notInGoal));
 }
 
 TEST (Location, LocationInHome)
 {
   location_t inHome = {0, 0};
   location_t notInHome = {0, 1};
-  EXPECT_TRUE (LocationIsInHome (inHome));
-  EXPECT_FALSE (LocationIsInHome (notInHome));
+  EXPECT_TRUE (IsHome (inHome));
+  EXPECT_FALSE (IsHome (notInHome));
 }
 
