@@ -30,6 +30,7 @@
         <itemPath>tests/testCosts.cpp</itemPath>
         <itemPath>tests/testDirection.cpp</itemPath>
         <itemPath>tests/testLocation.cpp</itemPath>
+        <itemPath>tests/testMaze.cpp</itemPath>
         <itemPath>tests/testRunner.cpp</itemPath>
         <itemPath>tests/testWalls.cpp</itemPath>
       </logicalFolder>
@@ -84,6 +85,8 @@
       <item path="tests/testDirection.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testLocation.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testMaze.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testRunner.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -142,6 +145,8 @@
       <item path="tests/testDirection.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testLocation.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testMaze.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testRunner.cpp" ex="false" tool="1" flavor2="0">
       </item>
