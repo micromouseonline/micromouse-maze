@@ -50,7 +50,8 @@ TESTOBJECTFILES= \
 	${TESTDIR}/gtest/src/gtest-all.o \
 	${TESTDIR}/tests/testDirection.o \
 	${TESTDIR}/tests/testLocation.o \
-	${TESTDIR}/tests/testRunner.o
+	${TESTDIR}/tests/testRunner.o \
+	${TESTDIR}/tests/testWalls.o
 
 # C Compiler Flags
 CFLAGS=
@@ -93,7 +94,7 @@ ${OBJECTDIR}/maze.o: maze.c
 .build-tests-conf: .build-tests-subprojects .build-conf ${TESTFILES}
 .build-tests-subprojects:
 
-${TESTDIR}/TestFiles/f1: ${TESTDIR}/gtest/src/gtest-all.o ${TESTDIR}/tests/testDirection.o ${TESTDIR}/tests/testLocation.o ${TESTDIR}/tests/testRunner.o ${OBJECTFILES:%.o=%_nomain.o}
+${TESTDIR}/TestFiles/f1: ${TESTDIR}/gtest/src/gtest-all.o ${TESTDIR}/tests/testDirection.o ${TESTDIR}/tests/testLocation.o ${TESTDIR}/tests/testRunner.o ${TESTDIR}/tests/testWalls.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc}   -o ${TESTDIR}/TestFiles/f1 $^ ${LDLIBSOPTIONS} 
 
@@ -120,6 +121,12 @@ ${TESTDIR}/tests/testRunner.o: tests/testRunner.cpp
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I. -I../../micromouse/micromouse-maze/gtest -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testRunner.o tests/testRunner.cpp
+
+
+${TESTDIR}/tests/testWalls.o: tests/testWalls.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I. -I../../micromouse/micromouse-maze/gtest -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testWalls.o tests/testWalls.cpp
 
 
 ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.c 

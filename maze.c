@@ -8,6 +8,25 @@
 #include <stdint.h>
 #include "maze.h"
 
+
+
+/* bit masks for the wall data */
+#define WALL       (0x01)
+#define NORTH_WALL (WALL << NORTH)
+#define EAST_WALL  (WALL << EAST)
+#define SOUTH_WALL (WALL << SOUTH)
+#define WEST_WALL  (WALL << WEST)
+#define ALL_WALLS (NORTH_WALL + EAST_WALL + SOUTH_WALL + WEST_WALL)
+#define WALL_SEEN 0x10
+#define NORTH_SEEN (WALL_SEEN << NORTH)
+#define EAST_SEEN  (WALL_SEEN << EAST)
+#define SOUTH_SEEN (WALL_SEEN << SOUTH)
+#define WEST_SEEN  (WALL_SEEN << WEST)
+
+#define ALL_SEEN (NORTH_SEEN + EAST_SEEN + SOUTH_SEEN + WEST_SEEN)
+#define VISITED ALL_SEEN
+
+
 static walls_t walls[MAZE_COLS][MAZE_ROWS];
 static cost_t cost[MAZE_COLS][MAZE_ROWS];
 static direction_t _direction[MAZE_COLS][MAZE_ROWS];
@@ -110,4 +129,33 @@ direction_t DirectionGetBehindFrom (direction_t direction)
 {
   return (direction + 2) % DIRECTION_COUNT;
 };
+
+/* ========== manipulating the walls ==============*/
+bool WallIsSeen (walls_t walls, direction_t direction)
+{
+  return ( (walls & (WALL_SEEN << direction)) != 0);;
+};
+
+bool WallIsSet (walls_t walls, direction_t direction)
+{
+  return ( (walls & (WALL << direction)) != 0);
+};
+
+/* setting and clearing always sets the seen bits */
+void WallSet (walls_t * walls, direction_t direction)
+{
+  *walls |= (WALL << direction);
+  *walls |= (WALL_SEEN << direction);
+};
+
+void WallClear (walls_t * walls, direction_t direction)
+{
+  *walls &= ~ (WALL << direction);
+  *walls |= (WALL_SEEN << direction);
+};
+
+walls_t WallsGetBlank(void){
+  //return an initialised wall structure
+  return ~ALL_WALLS & ~ALL_SEEN;
+}
 
