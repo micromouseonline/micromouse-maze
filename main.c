@@ -15,13 +15,15 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include "maze.h"
-
+#include "mazeprinter.h"
 /*
  *
  */
 int main (int argc, char** argv)
 {
   printf ("micromouse maze\n");
+  MazeResetData();
+  PrintMaze(WALLS+DIRS);
   return (EXIT_SUCCESS);
 }
 
