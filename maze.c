@@ -27,14 +27,13 @@
 #define VISITED ALL_SEEN
 
 
-static walls_t actualWalls[MAZE_COLS][MAZE_ROWS];
-static walls_t mappedWalls[MAZE_COLS][MAZE_ROWS];
+static walls_t _walls[MAZE_COLS][MAZE_ROWS];
 static cost_t _cost[MAZE_COLS][MAZE_ROWS];
 static direction_t _direction[MAZE_COLS][MAZE_ROWS];
 
 /* initialise to a known value*/
-static location_t goal = {7, 8};
-static location_t home = {0, 0};
+static location_t _goal = {7, 8};
+static location_t _home = {0, 0};
 
 //=======================================
 // LOCATION
@@ -42,37 +41,49 @@ static location_t home = {0, 0};
 
 void SetGoal (location_t location)
 {
-  goal = location;
+  _goal = location;
 };
 
 location_t Goal (void)
 {
-  return goal;
+  return _goal;
 };
 
 location_t Home (void)
 {
-  return home;
+  return _home;
 };
 
 
 /*
- * No attempt is made to deal with boundary overflows. THis is by design.
+ * Boundaries wrap around in a cylindrical fashion
  */
 location_t Neighbour (location_t location, direction_t direction)
 {
   switch (direction) {
     case NORTH:
       location.row = location.row + 1;
+      if (location.row >= MazeHeight()) {
+        location.row = 0;
+      }
       break;
     case EAST:
       location.col = location.col + 1;
+      if (location.col >= MazeWidth()) {
+        location.col = 0;
+      }
       break;
     case SOUTH:
       location.row = location.row - 1;
+      if (location.row <= 0) {
+        location.row = MazeHeight() - 1;
+      }
       break;
     case WEST:
       location.col = location.col - 1;
+      if (location.col <= 0) {
+        location.col = MazeWidth() - 1;
+      }
       break;
     default:
       // do nothing
@@ -83,12 +94,12 @@ location_t Neighbour (location_t location, direction_t direction)
 
 bool IsGoal (location_t location)
 {
-  return (location.row == goal.row && location.col == goal.col);
+  return (location.row == _goal.row && location.col == _goal.col);
 };
 
 bool IsHome (location_t location)
 {
-  return (location.row == 0 && location.col == 0);
+  return (location.row == _home.row && location.col == _home.col);
 };
 
 
