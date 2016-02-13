@@ -112,9 +112,9 @@ void MazeClearDirectionData (void);
 void MazeSetDirection (location_t location, direction_t direction);
 direction_t MazeGetDirection (location_t location);
 /* handy utilities for directions */
-direction_t DirectionGetLeftFrom (direction_t direction);
-direction_t DirectionGetRightFrom (direction_t direction);
-direction_t DirectionGetBehindFrom (direction_t direction);
+direction_t LeftFrom (direction_t direction);
+direction_t RightFrom (direction_t direction);
+direction_t Behind (direction_t direction);
 
 #ifdef __cplusplus
 }

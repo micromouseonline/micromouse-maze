@@ -116,17 +116,17 @@ direction_t MazeGetDirection (location_t location)
 };
 
 /* handy utilities for directions */
-direction_t DirectionGetLeftFrom (direction_t direction)
+direction_t LeftFrom (direction_t direction)
 {
   return (direction + DIRECTION_COUNT - 1) % DIRECTION_COUNT;
 };
 
-direction_t DirectionGetRightFrom (direction_t direction)
+direction_t RightFrom (direction_t direction)
 {
   return (direction + 1) % DIRECTION_COUNT;
 };
 
-direction_t DirectionGetBehindFrom (direction_t direction)
+direction_t Behind (direction_t direction)
 {
   return (direction + 2) % DIRECTION_COUNT;
 };
