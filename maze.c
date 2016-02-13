@@ -11,13 +11,13 @@
 
 
 /* bit masks for the wall data */
-#define WALL       (0x01)
+#define WALL       ((walls_t)0x01)
 #define NORTH_WALL (WALL << NORTH)
 #define EAST_WALL  (WALL << EAST)
 #define SOUTH_WALL (WALL << SOUTH)
 #define WEST_WALL  (WALL << WEST)
 #define ALL_WALLS (NORTH_WALL + EAST_WALL + SOUTH_WALL + WEST_WALL)
-#define WALL_SEEN 0x10
+#define WALL_SEEN  ((walls_t)0x10)
 #define NORTH_SEEN (WALL_SEEN << NORTH)
 #define EAST_SEEN  (WALL_SEEN << EAST)
 #define SOUTH_SEEN (WALL_SEEN << SOUTH)
@@ -27,7 +27,8 @@
 #define VISITED ALL_SEEN
 
 
-static walls_t walls[MAZE_COLS][MAZE_ROWS];
+static walls_t actualWalls[MAZE_COLS][MAZE_ROWS];
+static walls_t mappedWalls[MAZE_COLS][MAZE_ROWS];
 static cost_t _cost[MAZE_COLS][MAZE_ROWS];
 static direction_t _direction[MAZE_COLS][MAZE_ROWS];
 
@@ -39,17 +40,17 @@ static location_t home = {0, 0};
 // LOCATION
 //=======================================
 
-void MazeSetGoal (location_t location)
+void SetGoal (location_t location)
 {
   goal = location;
 };
 
-location_t MazeGetGoal (void)
+location_t Goal (void)
 {
   return goal;
 };
 
-location_t MazeGetHome (void)
+location_t Home (void)
 {
   return home;
 };
@@ -58,7 +59,7 @@ location_t MazeGetHome (void)
 /*
  * No attempt is made to deal with boundary overflows. THis is by design.
  */
-location_t LocationGetNeighbour (location_t location, direction_t direction)
+location_t Neighbour (location_t location, direction_t direction)
 {
   switch (direction) {
     case NORTH:
@@ -80,12 +81,12 @@ location_t LocationGetNeighbour (location_t location, direction_t direction)
   return location;
 };
 
-bool LocationIsInGoal (location_t location)
+bool IsGoal (location_t location)
 {
   return (location.row == goal.row && location.col == goal.col);
 };
 
-bool LocationIsInHome (location_t location)
+bool IsHome (location_t location)
 {
   return (location.row == 0 && location.col == 0);
 };
@@ -93,7 +94,6 @@ bool LocationIsInHome (location_t location)
 
 //=======================================
 // DIRECTION
-
 //=======================================
 void MazeClearDirectionData (void)
 {
@@ -131,10 +131,7 @@ direction_t DirectionGetBehindFrom (direction_t direction)
   return (direction + 2) % DIRECTION_COUNT;
 };
 
-
-//=======================================
-// WALLS
-//=======================================
+/* ========== manipulating the walls ==============*/
 bool WallIsSeen (walls_t walls, direction_t direction)
 {
   return ( (walls & (WALL_SEEN << direction)) != 0);;
@@ -158,25 +155,11 @@ void WallClear (walls_t * walls, direction_t direction)
   *walls |= (WALL_SEEN << direction);
 };
 
-walls_t WallsGetBlank (void)
-{
+walls_t WallsGetBlank(void){
   //return an initialised wall structure
-  return ~ALL_WALLS & ~ALL_SEEN;
+  walls_t walls;
+  walls &= ~ALL_WALLS;
+  walls &= ~ALL_SEEN;
+  return walls;
 }
-
-
-
-
-//=======================================
-// COSTS
-//=======================================
-cost_t MazeGetCost (location_t location)
-{
-  return _cost[location.row][location.col];
-};
-
-void MazeSetCost (location_t location, cost_t cost)
-{
-  _cost[location.row][location.col] = cost;
-};
 

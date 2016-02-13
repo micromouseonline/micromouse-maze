@@ -82,21 +82,21 @@ void MazeClearAllWalls (location_t location, walls_t walls);
 walls_t MazeGetWalls (location_t location);
 
 
-
-// everything below here has tests
-
-
-/* ========== manipulating the locations ==============*/
-void MazeSetGoal (location_t location);
-location_t MazeGetGoal (void);
-location_t MazeGetHome (void);
-location_t LocationGetNeighbour (location_t location, direction_t direction);
-bool LocationIsInGoal (location_t location);
-bool LocationIsInHome (location_t location);
-
 /* ========== manipulating the cost ==============*/
 cost_t MazeGetCost (location_t location);
 void MazeSetCost (location_t location, cost_t cost);
+
+
+////////////////////////////////////////////////////////////////////////
+// everything below here has tests
+
+/* ========== manipulating the locations ==============*/
+void SetGoal (location_t location);
+location_t Goal (void);
+location_t Home (void);
+location_t Neighbour (location_t location, direction_t direction);
+bool IsGoal (location_t location);
+bool IsHome (location_t location);
 
 /* ========== manipulating the walls ==============*/
 bool WallIsSeen (walls_t walls, direction_t direction);
@@ -104,7 +104,7 @@ bool WallIsSet (walls_t walls, direction_t direction);
 
 /* setting and clearing always sets the seen bits */
 /* clear all the walls and the seen bits */
-walls_t WallsGetBlank (void);
+walls_t WallsGetBlank(void);
 void WallSet (walls_t * walls, direction_t direction);
 void WallClear (walls_t * walls, direction_t direction);
 
