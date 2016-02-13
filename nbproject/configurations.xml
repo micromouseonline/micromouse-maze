@@ -6,6 +6,8 @@
                    projectFiles="true">
       <itemPath>list.h</itemPath>
       <itemPath>maze.h</itemPath>
+      <itemPath>mazeprinter.h</itemPath>
+      <itemPath>mazereader.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -19,6 +21,8 @@
       <itemPath>list.c</itemPath>
       <itemPath>main.c</itemPath>
       <itemPath>maze.c</itemPath>
+      <itemPath>mazeprinter.c</itemPath>
+      <itemPath>mazereader.c</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"

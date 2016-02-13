@@ -24,7 +24,7 @@ int main (int argc, char** argv)
 {
   printf ("micromouse maze\n");
   MazeResetData();
-  ReadMAZFile("mazefiles/minos04f.maz");
+  ReadMAZFile("mazefiles/minos03f.maz");
   PrintMaze(WALLS);
   return (EXIT_SUCCESS);
 }
