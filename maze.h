@@ -48,14 +48,11 @@ typedef uint8_t walls_t;
 typedef uint8_t direction_t;
 typedef uint16_t cost_t;
 typedef struct {
-  uint8_t row;
-  uint8_t col;
+  int8_t row;
+  int8_t col;
 } location_t;
 
 /* ========== manipulating the maze ==============*/
-
-void MazeSetWidth (uint8_t width);
-void MazeSetHeight (uint8_t height);
 
 uint8_t MazeWidth (void);
 uint8_t MazeHeight (void);

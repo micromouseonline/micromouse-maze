@@ -17,6 +17,16 @@ TEST (Location, InitialisingGoal_SetToRow7Col8)
   EXPECT_EQ (8, loc.col);
 }
 
+TEST (Location, Width_DefaultReturnsMAZE_COLS)
+{
+  EXPECT_EQ (MAZE_COLS, MazeWidth());
+}
+
+TEST (Location, Height_DefaultReturnsMAZE_ROWS)
+{
+  EXPECT_EQ (MAZE_ROWS, MazeHeight());
+}
+
 TEST (Location, SetAndFetchFGoal_SetGoal_ReturnGoal)
 {
   location_t newGoal;
@@ -90,5 +100,19 @@ TEST (Location, LocationInHome)
   location_t notInHome = {0, 1};
   EXPECT_TRUE (IsHome (inHome));
   EXPECT_FALSE (IsHome (notInHome));
+}
+
+TEST (Location, Neighbour_WrapAroundEdges)
+{
+  location_t loc;
+  location_t neighbour;
+  loc.col = MazeWidth() - 1;
+  loc.row = MazeHeight() - 1;
+  EXPECT_EQ (0, Neighbour (loc, NORTH).row);
+  EXPECT_EQ (0, Neighbour (loc, EAST).col);
+  loc.col = 0;
+  loc.row = 0;
+  EXPECT_EQ (MazeHeight() - 1, Neighbour (loc, SOUTH).row);
+  EXPECT_EQ (MazeWidth() - 1, Neighbour (loc, WEST).col);
 }
 
