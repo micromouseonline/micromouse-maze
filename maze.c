@@ -11,13 +11,13 @@
 
 
 /* bit masks for the wall data */
-#define WALL       (0x01)
+#define WALL       ((walls_t)0x01)
 #define NORTH_WALL (WALL << NORTH)
 #define EAST_WALL  (WALL << EAST)
 #define SOUTH_WALL (WALL << SOUTH)
 #define WEST_WALL  (WALL << WEST)
 #define ALL_WALLS (NORTH_WALL + EAST_WALL + SOUTH_WALL + WEST_WALL)
-#define WALL_SEEN 0x10
+#define WALL_SEEN  ((walls_t)0x10)
 #define NORTH_SEEN (WALL_SEEN << NORTH)
 #define EAST_SEEN  (WALL_SEEN << EAST)
 #define SOUTH_SEEN (WALL_SEEN << SOUTH)
@@ -156,6 +156,9 @@ void WallClear (walls_t * walls, direction_t direction)
 
 walls_t WallsGetBlank(void){
   //return an initialised wall structure
-  return ~ALL_WALLS & ~ALL_SEEN;
+  walls_t walls;
+  walls &= ~ALL_WALLS;
+  walls &= ~ALL_SEEN;
+  return walls;
 }
 
