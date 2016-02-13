@@ -130,6 +130,30 @@ direction_t DirectionGetBehindFrom (direction_t direction)
   return (direction + 2) % DIRECTION_COUNT;
 };
 
+/* ========== manipulating the walls ==============*/
+bool WallIsSeen (walls_t walls, direction_t direction)
+{
+  return ( (walls & (WALL_SEEN << direction)) != 0);;
+};
+
+bool WallIsSet (walls_t walls, direction_t direction)
+{
+  return ( (walls & (WALL << direction)) != 0);
+};
+
+/* setting and clearing always sets the seen bits */
+void WallSet (walls_t * walls, direction_t direction)
+{
+  *walls |= (WALL << direction);
+  *walls |= (WALL_SEEN << direction);
+};
+
+void WallClear (walls_t * walls, direction_t direction)
+{
+  *walls &= ~ (WALL << direction);
+  *walls |= (WALL_SEEN << direction);
+};
+
 walls_t WallsGetBlank(void){
   //return an initialised wall structure
   return ~ALL_WALLS & ~ALL_SEEN;
