@@ -120,8 +120,8 @@ TEST (Location, Neighbour_BoundaryCases)
 {
   location_t loc;
   location_t neighbour;
-  int lastColumn = MazeWidth() -1;
-  int lastRow = MazeWidth() -1;
+  int lastColumn = MazeWidth() - 1;
+  int lastRow = MazeWidth() - 1;
   loc.col = lastColumn - 1;
   loc.row = lastRow - 1;
   EXPECT_EQ (lastRow, Neighbour (loc, NORTH).row);

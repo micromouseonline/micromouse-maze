@@ -142,6 +142,13 @@ direction_t Behind (direction_t direction)
   return (direction + 2) % DIRECTION_COUNT;
 };
 
+
+bool HasExit (location_t location, direction_t direction)
+{
+  walls_t walls = MazeGetWalls (location);
+  return !HaveWall (walls, direction);
+}
+
 /* ========== manipulating the walls ==============*/
 bool WallIsSeen (walls_t walls, direction_t direction)
 {
