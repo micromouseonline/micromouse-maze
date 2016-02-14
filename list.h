@@ -19,6 +19,9 @@ extern "C" {
 /* Set the list size to zero, initialise Size and MaxSize to zero*/
 void ListClear (void);
 
+/* return the number of items added to the list since last clear*/
+int ListAdditions (void);
+
 /* return true if list has no items in it */
 bool ListEmpty (void);
 

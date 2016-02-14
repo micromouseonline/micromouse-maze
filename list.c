@@ -15,6 +15,7 @@ static int head;
 static int tail;
 static int size;
 static int maxSize;
+static int additions;
 
 void ListClear (void)
 {
@@ -22,11 +23,17 @@ void ListClear (void)
   tail = 0;
   size = 0;
   maxSize = 0;
+  additions = 0;
 }
 
 bool ListEmpty (void)
 {
   return head == tail;
+}
+
+int ListAdditions (void)
+{
+  return additions;
 }
 
 void ListAdd (location_t loc)
@@ -39,6 +46,7 @@ void ListAdd (location_t loc)
   if (size > maxSize) {
     maxSize = size;
   }
+  additions++;
   items[tail] = loc;
 }
 

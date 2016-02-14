@@ -24,6 +24,20 @@ TEST (List, ListClear_ListEmpty)
   EXPECT_TRUE (ListEmpty());
 }
 
+TEST (List, Additions_addItems_getCorrectCount)
+{
+  location_t loc = {8, 9};
+  ListClear();
+  ListAdd (loc);
+  ListAdd (loc);
+  ListAdd (loc);
+  ListAdd (loc);
+  ListStackPop();
+  ListStackPop();
+  ListStackPop();
+  EXPECT_EQ (4, ListAdditions());
+}
+
 TEST (List, AddToTail_RemoveFromTail_ListEmpty_ReturnSameValue)
 {
   location_t locA = {8, 9};
