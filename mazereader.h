@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   mazereader.h
  * Author: peterharrison
  *
@@ -12,7 +12,8 @@
 extern "C" {
 #endif
 
-void ReadMAZFile(char * filename) ;
+void ReadMAZFile (char * filename) ;
+void ReadEmptyMaze (void);
 
 
 #ifdef __cplusplus
