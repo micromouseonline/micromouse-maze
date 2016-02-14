@@ -15,6 +15,8 @@ extern "C" {
 
 void FloodMazeClassic (location_t target);
 
+direction_t SmallestNeighbourDirection (location_t loc);
+
 #ifdef __cplusplus
 }
 #endif
