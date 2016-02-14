@@ -43,10 +43,10 @@ extern "C" {
 #define INVALID -1
 /* one day diagonals may make this 8 */
 #define DIRECTION_COUNT 4
-
 typedef uint8_t walls_t;
 typedef uint8_t direction_t;
 typedef uint16_t cost_t;
+#define MAX_COST UINT16_MAX
 typedef struct {
   int8_t row;
   int8_t col;
@@ -78,8 +78,8 @@ walls_t MazeGetWalls (location_t location);
 
 
 /* ========== manipulating the cost ==============*/
-cost_t MazeGetCost (location_t location);
-void MazeSetCost (location_t location, cost_t cost);
+cost_t Cost (location_t location);
+void SetCost (location_t location, cost_t cost);
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -95,7 +95,7 @@ bool IsHome (location_t location);
 
 /* ========== manipulating the walls ==============*/
 bool WallIsSeen (walls_t walls, direction_t direction);
-bool HasWall (walls_t walls, direction_t direction);
+bool HaveWall (walls_t walls, direction_t direction);
 
 /* setting and clearing always sets the seen bits */
 /* clear all the walls and the seen bits */
@@ -107,7 +107,7 @@ void WallClear (walls_t * walls, direction_t direction);
 
 /* ========== manipulating the directions ==============*/
 void MazeClearDirectionData (void);
-void MazeSetDirection (location_t location, direction_t direction);
+void SetDirection (location_t location, direction_t direction);
 direction_t MazeGetDirection (location_t location);
 /* handy utilities for directions */
 direction_t LeftFrom (direction_t direction);

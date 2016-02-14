@@ -111,12 +111,12 @@ void MazeClearDirectionData (void)
   location_t loc;
   for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
     for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
-      MazeSetDirection (loc, NORTH);
+      SetDirection (loc, NORTH);
     }
   }
 }
 
-void MazeSetDirection (location_t location, direction_t direction)
+void SetDirection (location_t location, direction_t direction)
 {
   _direction[location.row][location.col] = direction;
 };
@@ -148,7 +148,7 @@ bool WallIsSeen (walls_t walls, direction_t direction)
   return ( (walls & (WALL_SEEN << direction)) != 0);;
 };
 
-bool HasWall (walls_t walls, direction_t direction)
+bool HaveWall (walls_t walls, direction_t direction)
 {
   return ( (walls & (WALL << direction)) != 0);
 };
@@ -181,12 +181,12 @@ walls_t WallsNone (void)
 //=======================================
 // COSTS
 //=======================================
-cost_t MazeGetCost (location_t location)
+cost_t Cost (location_t location)
 {
   return _cost[location.row][location.col];
 };
 
-void MazeSetCost (location_t location, cost_t cost)
+void SetCost (location_t location, cost_t cost)
 {
   _cost[location.row][location.col] = cost;
 };
@@ -222,21 +222,6 @@ void MazeResetData (void)
       _cost[loc.row][loc.col] = 0;
     }
   }
-  for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++){
-    loc.col = 0;
-    MazeSetWall(loc,WEST);
-    loc.col = MAZE_COLS-1;
-    MazeSetWall(loc,EAST);
-  }
-  for (loc.col = 0; loc.col < MAZE_COLS; loc.col++){
-    loc.row = 0;
-    MazeSetWall(loc,SOUTH);
-    loc.row = MAZE_ROWS-1;
-    MazeSetWall(loc,NORTH);
-  }
-  loc.row = 0;
-  loc.col = 0;
-  MazeSetWall(loc,EAST);
 }
 
 
