@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   list.h
  * Author: peterharrison
  *
@@ -15,28 +15,28 @@ extern "C" {
 #include "stdint.h"
 #include "stdbool.h"
 #include "maze.h"
-  
-  /* Set the list size to zero, initialise Size and MaxSize to zero*/
-  void ListClear(void);
-  
-  /* return true if list has no items in it */
-  bool ListEmpty(void);
-  
-  /* Add an item to the tail of the list */
-  void ListAdd(location_t loc);
-  
-  /* retrieve an item from the tail - list acts as a stack */
-  location_t ListTail(void);
-  
-  /* retrieve an item from the head - list acts as a queue */
-  location_t ListHead(void);
-  
-  /* current number of items in the list */
-  int ListSize(void);
-  
-  /* the maximum number of items in the list since it was last cleared */
-  int ListMaxSize(void);
-  
+
+/* Set the list size to zero, initialise Size and MaxSize to zero*/
+void ListClear (void);
+
+/* return true if list has no items in it */
+bool ListEmpty (void);
+
+/* Add an item to the tail of the list */
+void ListAdd (location_t loc);
+
+/* retrieve an item from the tail - list acts as a stack */
+location_t ListStackPop (void);
+
+/* retrieve an item from the head - list acts as a queue */
+location_t ListQueueHead (void);
+
+/* current number of items in the list */
+int ListSize (void);
+
+/* the maximum number of items in the list since it was last cleared */
+int ListMaxSize (void);
+
 
 
 #ifdef __cplusplus
