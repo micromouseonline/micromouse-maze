@@ -75,13 +75,13 @@ location_t Neighbour (location_t location, direction_t direction)
       break;
     case SOUTH:
       location.row = location.row - 1;
-      if (location.row <= 0) {
+      if (location.row < 0) {
         location.row = MazeHeight() - 1;
       }
       break;
     case WEST:
       location.col = location.col - 1;
-      if (location.col <= 0) {
+      if (location.col < 0) {
         location.col = MazeWidth() - 1;
       }
       break;
