@@ -17,15 +17,29 @@
 #include "maze.h"
 #include "mazeprinter.h"
 #include "mazereader.h"
+#include "mazeflooder.h"
+
 /*
  *
  */
-int main (int argc, char** argv)
-{
-  printf ("micromouse maze\n");
+int main(int argc, char** argv) {
+  printf("micromouse maze\n");
   MazeResetData();
+
   ReadMAZFile("mazefiles/minos03f.maz");
-  PrintMaze(WALLS);
+  ReadMAZFile("mazefiles/taiwan-2014-final.maz");
+  ReadMAZFile("mazefiles/minos04f.maz");
+  int i = 1;
+  while (i < argc) {
+    location_t target = {7, 7};
+    ReadMAZFile(argv[i]);
+    FloodMazeClassic(target);
+    printf(" : %s\n", argv[i]);
+    //ReadMAZFile ("mazefiles/empty.maz");
+    //ReadEmptyMaze();
+    i++;
+  }
+  //PrintMaze (WALLS + DIRS);
   return (EXIT_SUCCESS);
 }
 

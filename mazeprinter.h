@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   mazeprinter.h
  * Author: peterharrison
  *
@@ -12,14 +12,14 @@
 extern "C" {
 #endif
 
-  typedef enum {
-    WALLS = 1,
-    COSTS = 2,
-            DIRS = 4
+typedef enum {
+  WALLS = 1,
+  COSTS = 2,
+  DIRS = 4
 
-  } print_options_t;
-  
-  void PrintMaze(print_options_t option);
+} print_options_t;
+
+void PrintMaze (print_options_t option);
 
 
 #ifdef __cplusplus

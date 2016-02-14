@@ -14,7 +14,7 @@ TEST (Location, InitialisingGoal_SetToRow7Col8)
 {
   location_t loc = Goal();
   EXPECT_EQ (7, loc.row);
-  EXPECT_EQ (8, loc.col);
+  EXPECT_EQ (7, loc.col);
 }
 
 TEST (Location, Width_DefaultReturnsMAZE_COLS)

@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/list.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/maze.o \
+	${OBJECTDIR}/mazeflooder.o \
 	${OBJECTDIR}/mazeprinter.o \
 	${OBJECTDIR}/mazereader.o
 
@@ -53,6 +54,7 @@ TESTOBJECTFILES= \
 	${TESTDIR}/gtest/src/gtest-all.o \
 	${TESTDIR}/tests/testCosts.o \
 	${TESTDIR}/tests/testDirection.o \
+	${TESTDIR}/tests/testFlood.o \
 	${TESTDIR}/tests/testList.o \
 	${TESTDIR}/tests/testLocation.o \
 	${TESTDIR}/tests/testMaze.o \
@@ -98,6 +100,11 @@ ${OBJECTDIR}/maze.o: maze.c
 	${RM} "$@.d"
 	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/maze.o maze.c
 
+${OBJECTDIR}/mazeflooder.o: mazeflooder.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/mazeflooder.o mazeflooder.c
+
 ${OBJECTDIR}/mazeprinter.o: mazeprinter.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -115,7 +122,7 @@ ${OBJECTDIR}/mazereader.o: mazereader.c
 .build-tests-conf: .build-tests-subprojects .build-conf ${TESTFILES}
 .build-tests-subprojects:
 
-${TESTDIR}/TestFiles/f1: ${TESTDIR}/gtest/src/gtest-all.o ${TESTDIR}/tests/testCosts.o ${TESTDIR}/tests/testDirection.o ${TESTDIR}/tests/testList.o ${TESTDIR}/tests/testLocation.o ${TESTDIR}/tests/testMaze.o ${TESTDIR}/tests/testRunner.o ${TESTDIR}/tests/testWalls.o ${OBJECTFILES:%.o=%_nomain.o}
+${TESTDIR}/TestFiles/f1: ${TESTDIR}/gtest/src/gtest-all.o ${TESTDIR}/tests/testCosts.o ${TESTDIR}/tests/testDirection.o ${TESTDIR}/tests/testFlood.o ${TESTDIR}/tests/testList.o ${TESTDIR}/tests/testLocation.o ${TESTDIR}/tests/testMaze.o ${TESTDIR}/tests/testRunner.o ${TESTDIR}/tests/testWalls.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc}   -o ${TESTDIR}/TestFiles/f1 $^ ${LDLIBSOPTIONS} 
 
@@ -136,6 +143,12 @@ ${TESTDIR}/tests/testDirection.o: tests/testDirection.cpp
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I. -I../../micromouse/micromouse-maze/gtest -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testDirection.o tests/testDirection.cpp
+
+
+${TESTDIR}/tests/testFlood.o: tests/testFlood.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I. -I../../micromouse/micromouse-maze/gtest -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testFlood.o tests/testFlood.cpp
 
 
 ${TESTDIR}/tests/testList.o: tests/testList.cpp 
@@ -205,6 +218,19 @@ ${OBJECTDIR}/maze_nomain.o: ${OBJECTDIR}/maze.o maze.c
 	    $(COMPILE.c) -g -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/maze_nomain.o maze.c;\
 	else  \
 	    ${CP} ${OBJECTDIR}/maze.o ${OBJECTDIR}/maze_nomain.o;\
+	fi
+
+${OBJECTDIR}/mazeflooder_nomain.o: ${OBJECTDIR}/mazeflooder.o mazeflooder.c 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/mazeflooder.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.c) -g -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/mazeflooder_nomain.o mazeflooder.c;\
+	else  \
+	    ${CP} ${OBJECTDIR}/mazeflooder.o ${OBJECTDIR}/mazeflooder_nomain.o;\
 	fi
 
 ${OBJECTDIR}/mazeprinter_nomain.o: ${OBJECTDIR}/mazeprinter.o mazeprinter.c 

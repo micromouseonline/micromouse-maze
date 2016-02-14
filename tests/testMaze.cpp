@@ -1,22 +1,15 @@
 #include "gtest/gtest.h"
 #include "maze.h"
 
-TEST (Maze, GetWalls_InitialisationValues_AllZero)
-{
-  location_t loc = {0, 0};
-  walls_t walls = MazeGetWalls (loc);
-  EXPECT_EQ (0, walls);
-}
 
 TEST (Maze, MazeResetData_blankWallsAndCosts)
 {
   MazeResetData();
   location_t loc;
-  int sum = 0;
   for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
     for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
       EXPECT_EQ (WallsNone(), MazeGetWalls (loc));
-      EXPECT_EQ (0, MazeGetCost (loc));
+      EXPECT_EQ (0, Cost (loc));
     }
   }
 }
@@ -26,10 +19,10 @@ void testSetWall (location_t loc, direction_t dir)
   MazeResetData();
   MazeSetWall (loc, dir);
   walls_t walls = MazeGetWalls (loc);
-  EXPECT_TRUE (HasWall (walls, dir));
-  EXPECT_FALSE (HasWall (walls, LeftFrom (dir)));
-  EXPECT_FALSE (HasWall (walls, RightFrom (dir)));
-  EXPECT_FALSE (HasWall (walls, Behind (dir)));
+  EXPECT_TRUE (HaveWall (walls, dir));
+  EXPECT_FALSE (HaveWall (walls, LeftFrom (dir)));
+  EXPECT_FALSE (HaveWall (walls, RightFrom (dir)));
+  EXPECT_FALSE (HaveWall (walls, Behind (dir)));
 
   EXPECT_TRUE (WallIsSeen (walls, dir));
   EXPECT_FALSE (WallIsSeen (walls, LeftFrom (dir)));
@@ -38,10 +31,10 @@ void testSetWall (location_t loc, direction_t dir)
   loc = Neighbour (loc, dir);
   dir = Behind (dir);
   walls = MazeGetWalls (loc);
-  EXPECT_TRUE (HasWall (walls, dir));
-  EXPECT_FALSE (HasWall (walls, LeftFrom (dir)));
-  EXPECT_FALSE (HasWall (walls, RightFrom (dir)));
-  EXPECT_FALSE (HasWall (walls, Behind (dir)));
+  EXPECT_TRUE (HaveWall (walls, dir));
+  EXPECT_FALSE (HaveWall (walls, LeftFrom (dir)));
+  EXPECT_FALSE (HaveWall (walls, RightFrom (dir)));
+  EXPECT_FALSE (HaveWall (walls, Behind (dir)));
   EXPECT_TRUE (WallIsSeen (walls, dir));
   EXPECT_FALSE (WallIsSeen (walls, LeftFrom (dir)));
   EXPECT_FALSE (WallIsSeen (walls, RightFrom (dir)));
@@ -57,12 +50,12 @@ void testClearWall (location_t loc, direction_t dir)
   MazeSetWall (loc, WEST);
   MazeClearWall (loc, dir);
   walls_t walls = MazeGetWalls (loc);
-  EXPECT_FALSE (HasWall (walls, dir));
+  EXPECT_FALSE (HaveWall (walls, dir));
   EXPECT_TRUE (WallIsSeen (walls, dir));
   loc = Neighbour (loc, dir);
   dir = Behind (dir);
   walls = MazeGetWalls (loc);
-  EXPECT_FALSE (HasWall (walls, dir));
+  EXPECT_FALSE (HaveWall (walls, dir));
   EXPECT_TRUE (WallIsSeen (walls, dir));
 }
 
@@ -106,10 +99,10 @@ TEST (Maze, MazeUpdateFromWallData_AllWalls)
   MazeUpdateFromWallData (loc, wallData);
   walls_t walls;
   walls = MazeGetWalls (loc);
-  EXPECT_TRUE (HasWall (walls, NORTH));
-  EXPECT_TRUE (HasWall (walls, EAST));
-  EXPECT_TRUE (HasWall (walls, SOUTH));
-  EXPECT_TRUE (HasWall (walls, WEST));
+  EXPECT_TRUE (HaveWall (walls, NORTH));
+  EXPECT_TRUE (HaveWall (walls, EAST));
+  EXPECT_TRUE (HaveWall (walls, SOUTH));
+  EXPECT_TRUE (HaveWall (walls, WEST));
   //no need to check neighbours - that is tested elsewhere
 }
 
@@ -121,10 +114,10 @@ TEST (Maze, MazeUpdateFromWallData_SomeWalls)
   MazeUpdateFromWallData (loc, wallData);
   walls_t walls;
   walls = MazeGetWalls (loc);
-  EXPECT_TRUE (HasWall (walls, NORTH));
-  EXPECT_TRUE (HasWall (walls, EAST));
-  EXPECT_FALSE (HasWall (walls, SOUTH));
-  EXPECT_FALSE (HasWall (walls, WEST));
+  EXPECT_TRUE (HaveWall (walls, NORTH));
+  EXPECT_TRUE (HaveWall (walls, EAST));
+  EXPECT_FALSE (HaveWall (walls, SOUTH));
+  EXPECT_FALSE (HaveWall (walls, WEST));
   //no need to check neighbours - that is tested elsewhere
 }
 
@@ -136,9 +129,9 @@ TEST (Maze, MazeUpdateFromWallData_NoWalls)
   MazeUpdateFromWallData (loc, wallData);
   walls_t walls;
   walls = MazeGetWalls (loc);
-  EXPECT_FALSE (HasWall (walls, NORTH));
-  EXPECT_FALSE (HasWall (walls, EAST));
-  EXPECT_FALSE (HasWall (walls, SOUTH));
-  EXPECT_FALSE (HasWall (walls, WEST));
+  EXPECT_FALSE (HaveWall (walls, NORTH));
+  EXPECT_FALSE (HaveWall (walls, EAST));
+  EXPECT_FALSE (HaveWall (walls, SOUTH));
+  EXPECT_FALSE (HaveWall (walls, WEST));
   //no need to check neighbours - that is tested elsewhere
 }
