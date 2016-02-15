@@ -99,7 +99,7 @@ void FloodMazeClassic (location_t target)
     //here = ListStackPop();
     costNext = Cost (here) + 1;
     walls = MazeGetWalls (here);
-    if (!HaveWall (walls, NORTH)) {
+    if (HasExit(here, NORTH)) {
       nextLoc = Neighbour (here, NORTH);
       if (Cost (nextLoc)  > costNext) {
         SetDirection (nextLoc, SOUTH);
@@ -108,7 +108,7 @@ void FloodMazeClassic (location_t target)
       }
     }
 
-    if (!HaveWall (walls, EAST)) {
+    if (HasExit(here,EAST)) {
       nextLoc = Neighbour (here, EAST);
       if (Cost (nextLoc)  > costNext) {
         SetDirection (nextLoc, WEST);
@@ -117,7 +117,7 @@ void FloodMazeClassic (location_t target)
       }
     }
 
-    if (!HaveWall (walls, SOUTH)) {
+    if (HasExit(here, SOUTH)) {
       nextLoc = Neighbour (here, SOUTH);
       if (Cost (nextLoc)  > costNext) {
         SetDirection (nextLoc, NORTH);
@@ -126,7 +126,7 @@ void FloodMazeClassic (location_t target)
       }
     }
 
-    if (!HaveWall (walls, WEST)) {
+    if (HasExit(here, WEST)) {
       nextLoc = Neighbour (here, WEST);
       if (Cost (nextLoc)  > costNext) {
         SetDirection (nextLoc, EAST);
