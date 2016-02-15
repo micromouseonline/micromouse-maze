@@ -14,7 +14,7 @@ TEST (Location, InitialisingGoal_SetToRow7Col8)
 {
   location_t loc = Goal();
   EXPECT_EQ (7, loc.row);
-  EXPECT_EQ (8, loc.col);
+  EXPECT_EQ (7, loc.col);
 }
 
 TEST (Location, Width_DefaultReturnsMAZE_COLS)
@@ -114,5 +114,21 @@ TEST (Location, Neighbour_WrapAroundEdges)
   loc.row = 0;
   EXPECT_EQ (MazeHeight() - 1, Neighbour (loc, SOUTH).row);
   EXPECT_EQ (MazeWidth() - 1, Neighbour (loc, WEST).col);
+}
+
+TEST (Location, Neighbour_BoundaryCases)
+{
+  location_t loc;
+  location_t neighbour;
+  int lastColumn = MazeWidth() - 1;
+  int lastRow = MazeWidth() - 1;
+  loc.col = lastColumn - 1;
+  loc.row = lastRow - 1;
+  EXPECT_EQ (lastRow, Neighbour (loc, NORTH).row);
+  EXPECT_EQ (lastColumn, Neighbour (loc, EAST).col);
+  loc.col = 1;
+  loc.row = 1;
+  EXPECT_EQ (0, Neighbour (loc, SOUTH).row);
+  EXPECT_EQ (0, Neighbour (loc, WEST).col);
 }
 

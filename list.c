@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   list.c
  * Author: peterharrison
  *
@@ -15,29 +15,43 @@ static int head;
 static int tail;
 static int size;
 static int maxSize;
+static int additions;
 
-void ListClear(void){
+void ListClear (void)
+{
   head = 0;
   tail = 0;
   size = 0;
-  maxSize=0;
+  maxSize = 0;
+  additions = 0;
 }
 
-bool ListEmpty(void){
+bool ListEmpty (void)
+{
   return head == tail;
 }
 
-void ListAdd(location_t loc){
+int ListAdditions (void)
+{
+  return additions;
+}
+
+void ListAdd (location_t loc)
+{
   tail++;
-  if (tail >= LIST_SIZE){
+  if (tail >= LIST_SIZE) {
     tail -= LIST_SIZE;
   }
   size++;
-  if (size > maxSize) maxSize = size;
+  if (size > maxSize) {
+    maxSize = size;
+  }
+  additions++;
   items[tail] = loc;
 }
 
-location_t ListTail(void){
+location_t ListStackPop (void)
+{
   location_t result;
   result = items[tail];
   tail--;
@@ -45,10 +59,11 @@ location_t ListTail(void){
   return result;
 }
 
-location_t ListHead(void){
+location_t ListQueueHead (void)
+{
   location_t result;
   head++;
-  if (head >= LIST_SIZE){
+  if (head >= LIST_SIZE) {
     head -= LIST_SIZE;
   }
   size--;
@@ -56,11 +71,13 @@ location_t ListHead(void){
   return result;
 }
 
-int ListSize(void){
+int ListSize (void)
+{
   return size;
 }
 
-int ListMaxSize(void){
+int ListMaxSize (void)
+{
   return maxSize;
 }
 

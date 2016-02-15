@@ -1,5 +1,5 @@
 
-/* 
+/*
  * File:   mazeprinter.c
  * Author: peterharrison
  *
@@ -10,44 +10,50 @@
 #include "mazeprinter.h"
 
 
-static char dirChars[] = "^>V<?";
+static char dirChars[] = "^>v<?";
 
-void PrintMaze(print_options_t option){
+void PrintMaze (print_options_t option)
+{
   location_t loc;
   walls_t walls;
-  for (loc.row = MazeHeight()-1; loc.row >= 0 ; loc.row--){
-    for(loc.col = 0; loc.col < MazeWidth(); loc.col++){
-      walls = MazeGetWalls(loc);
+  for (loc.row = MazeHeight() - 1; loc.row >= 0; loc.row--) {
+    for (loc.col = 0; loc.col < MazeWidth(); loc.col++) {
+      walls = MazeGetWalls (loc);
       //Do the north walls
-      printf("o");
-      if (HasWall(walls,NORTH)){
-        printf("---");
+      printf ("o");
+      if (HaveWall (walls, NORTH)) {
+        printf ("---");
       } else {
-        printf("   ");
+        printf ("   ");
       }
     }
-    printf("o\n");
-    for(loc.col = 0; loc.col < MazeWidth(); loc.col++){
-      walls = MazeGetWalls(loc);
+    printf ("o\n");
+    for (loc.col = 0; loc.col < MazeWidth(); loc.col++) {
+      walls = MazeGetWalls (loc);
       //Do the west walls
-      if (HasWall(walls,WEST)){
-        printf("|");
+      if (HaveWall (walls, WEST)) {
+        printf ("|");
       } else {
-        printf(" ");
+        printf (" ");
       }
-      if (option & COSTS){
-        printf("%3d",MazeGetCost(loc));
-      } else  if (option & DIRS) {
-        printf(" %c ",dirChars[MazeGetDirection(loc)]);
+      if (option & COSTS) {
+        cost_t cost = Cost (loc);
+        if (cost == MAX_COST) {
+          printf (" x ");
+        } else {
+          printf ("%3d", Cost (loc));
+        }
+      } else if (option & DIRS) {
+        printf (" %c ", dirChars[MazeGetDirection (loc)]);
       } else {
-        printf("   ");
+        printf ("   ");
       }
     }
-    printf("|\n");
+    printf ("|\n");
   }
-    for(loc.col = 0; loc.col < MazeWidth(); loc.col++){
-      //Do the last row of walls on the south edge
-      printf("o---");
-    }
-    printf("o\n");
+  for (loc.col = 0; loc.col < MazeWidth(); loc.col++) {
+    //Do the last row of walls on the south edge
+    printf ("o---");
+  }
+  printf ("o\n");
 }

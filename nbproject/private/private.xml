@@ -7,12 +7,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/peterharrison/Dropbox/micromouse/micromouse-maze/mazeprinter.h</file>
+            <file>file:/Users/peterharrison/Dropbox/micromouse/micromouse-maze/list.c</file>
+            <file>file:/Users/peterharrison/Dropbox/micromouse/micromouse-maze/tests/testList.cpp</file>
+            <file>file:/Users/peterharrison/Dropbox/micromouse/micromouse-maze/tests/testFlood.cpp</file>
             <file>file:/Users/peterharrison/Dropbox/micromouse/micromouse-maze/maze.c</file>
-            <file>file:/Users/peterharrison/Dropbox/micromouse/micromouse-maze/tests/testDirection.cpp</file>
+            <file>file:/Users/peterharrison/Dropbox/micromouse/micromouse-maze/mazeflooder.h</file>
+            <file>file:/Users/peterharrison/Dropbox/micromouse/micromouse-maze/tests/testMaze.cpp</file>
+            <file>file:/Users/peterharrison/Dropbox/micromouse/micromouse-maze/mazeflooder.c</file>
             <file>file:/Users/peterharrison/Dropbox/micromouse/micromouse-maze/maze.h</file>
-            <file>file:/Users/peterharrison/Dropbox/micromouse/micromouse-maze/main.c</file>
-            <file>file:/Users/peterharrison/Dropbox/micromouse/micromouse-maze/tests/testLocation.cpp</file>
             <file>file:/Users/peterharrison/Dropbox/micromouse/micromouse-maze/mazeprinter.c</file>
         </group>
     </open-files>

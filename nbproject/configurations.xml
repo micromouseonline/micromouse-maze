@@ -6,6 +6,7 @@
                    projectFiles="true">
       <itemPath>list.h</itemPath>
       <itemPath>maze.h</itemPath>
+      <itemPath>mazeflooder.h</itemPath>
       <itemPath>mazeprinter.h</itemPath>
       <itemPath>mazereader.h</itemPath>
     </logicalFolder>
@@ -21,6 +22,7 @@
       <itemPath>list.c</itemPath>
       <itemPath>main.c</itemPath>
       <itemPath>maze.c</itemPath>
+      <itemPath>mazeflooder.c</itemPath>
       <itemPath>mazeprinter.c</itemPath>
       <itemPath>mazereader.c</itemPath>
     </logicalFolder>
@@ -35,6 +37,7 @@
         <itemPath>gtest/src/gtest-all.cc</itemPath>
         <itemPath>tests/testCosts.cpp</itemPath>
         <itemPath>tests/testDirection.cpp</itemPath>
+        <itemPath>tests/testFlood.cpp</itemPath>
         <itemPath>tests/testList.cpp</itemPath>
         <itemPath>tests/testLocation.cpp</itemPath>
         <itemPath>tests/testMaze.cpp</itemPath>
@@ -91,6 +94,10 @@
       </item>
       <item path="maze.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="mazeflooder.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="mazeflooder.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="mazeprinter.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="mazeprinter.h" ex="false" tool="3" flavor2="0">
@@ -102,6 +109,8 @@
       <item path="tests/testCosts.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testDirection.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testFlood.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testList.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -165,6 +174,10 @@
       </item>
       <item path="maze.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="mazeflooder.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="mazeflooder.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="mazeprinter.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="mazeprinter.h" ex="false" tool="3" flavor2="0">
@@ -176,6 +189,8 @@
       <item path="tests/testCosts.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testDirection.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testFlood.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testList.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -234,6 +249,10 @@
       </item>
       <item path="maze.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="mazeflooder.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="mazeflooder.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="mazeprinter.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="mazeprinter.h" ex="false" tool="3" flavor2="0">
@@ -245,6 +264,8 @@
       <item path="tests/testCosts.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testDirection.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testFlood.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testList.cpp" ex="false" tool="1" flavor2="0">
       </item>
