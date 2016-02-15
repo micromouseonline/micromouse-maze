@@ -81,7 +81,6 @@ void FloodMazeClassic (location_t target)
   location_t nextLoc;
   cost_t costHere;
   cost_t costNext;
-  walls_t walls;
   for (here.row = 0; here.row < MAZE_ROWS; here.row++) {
     for (here.col = 0; here.col < MAZE_COLS; here.col++) {
       SetCost (here, MAX_COST);
@@ -98,7 +97,6 @@ void FloodMazeClassic (location_t target)
     here = ListQueueHead();
     //here = ListStackPop();
     costNext = Cost (here) + 1;
-    walls = MazeGetWalls (here);
     if (HasExit(here, NORTH)) {
       nextLoc = Neighbour (here, NORTH);
       if (Cost (nextLoc)  > costNext) {
