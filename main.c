@@ -19,6 +19,7 @@
 #include "mazeprinter.h"
 #include "mazereader.h"
 #include "mazeflooder.h"
+#include "mazepathfinder.h"
 
 /*
  *
@@ -28,7 +29,7 @@ int main (int argc, char** argv)
   char mazename[64];
   printf ("micromouse maze\n");
   MazeResetData();
-  location_t target = {7, 7};
+  location_t target = DefaultGoal();
 
   if (argc > 1) {
     for (int i = 1; i < argc; i++) {
@@ -36,17 +37,16 @@ int main (int argc, char** argv)
       printf ("\n===============================================\n");
       FloodMazeClassic (target);
       printf (" : %s\n", argv[i]);
+      IsolatePath(Home(),target);
       PrintMaze (DIRS);
       PrintMaze (COSTS);
     }
   } else {
-    strncpy (mazename, "mazefiles/taiwan-2014-final.maz", 64);
-    ReadMAZFile (mazename);
-    //ReadMAZFile("mazefiles/minos04f.maz");
-    //ReadMAZFile("mazefiles/minos03f.maz");
+    ReadMAZFile("mazefiles/minos03f.maz");
     printf ("\n===============================================\n");
     FloodMazeClassic (target);
     printf (" : %s\n", mazename);
+    IsolatePath(Home(),target);
     PrintMaze (DIRS);
     PrintMaze (COSTS);
 
