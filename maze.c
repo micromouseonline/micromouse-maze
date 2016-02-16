@@ -39,6 +39,11 @@ static location_t _home = {0, 0};
 // LOCATION
 //=======================================
 
+location_t DefaultGoal(void){
+  location_t goal = {7,7};
+  return goal;
+}
+
 void SetGoal (location_t location)
 {
   _goal = location;
