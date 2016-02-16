@@ -18,7 +18,6 @@ void binary (uint8_t i)
     } else {
       printf ("0");
     }
-
     n >>= 1;
   }
 }
@@ -84,6 +83,7 @@ void FloodMazeClassic (location_t target)
   for (here.row = 0; here.row < MAZE_ROWS; here.row++) {
     for (here.col = 0; here.col < MAZE_COLS; here.col++) {
       SetCost (here, MAX_COST);
+      SetDirection(here,INVALID);
     }
   }
   SetCost (target, 0);

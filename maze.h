@@ -40,7 +40,7 @@ extern "C" {
 #define EAST  1
 #define SOUTH 2
 #define WEST  3
-#define INVALID -1
+#define INVALID 4
 /* one day diagonals may make this 8 */
 #define DIRECTION_COUNT 4
 typedef uint8_t walls_t;

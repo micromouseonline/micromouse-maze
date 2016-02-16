@@ -10,7 +10,7 @@
 #include "mazeprinter.h"
 
 
-static char dirChars[] = "^>v<?";
+static char dirChars[] = "^>v< ";
 
 void PrintMaze (print_options_t option)
 {
