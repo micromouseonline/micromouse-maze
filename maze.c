@@ -39,6 +39,11 @@ static location_t _home = {0, 0};
 // LOCATION
 //=======================================
 
+location_t DefaultGoal(void){
+  location_t goal = {7,7};
+  return goal;
+}
+
 void SetGoal (location_t location)
 {
   _goal = location;
@@ -111,7 +116,7 @@ void MazeClearDirectionData (void)
   location_t loc;
   for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
     for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
-      SetDirection (loc, NORTH);
+      SetDirection (loc, INVALID);
     }
   }
 }

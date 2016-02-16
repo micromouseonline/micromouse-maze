@@ -10,6 +10,12 @@ TEST (Location, DefaultValueOfHome)
 }
 
 
+TEST(Location,DefaultGoal_77){
+  location_t loc = DefaultGoal();
+  EXPECT_EQ(7,loc.row);
+  EXPECT_EQ(7,loc.col);
+}
+
 TEST (Location, InitialisingGoal_SetToRow7Col8)
 {
   location_t loc = Goal();
