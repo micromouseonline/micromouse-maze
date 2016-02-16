@@ -12,11 +12,11 @@
 extern "C" {
 #endif
 
+#include <stdio.h>
+  
 typedef enum {
-  WALLS = 1,
-  COSTS = 2,
-  DIRS = 4
-
+  COSTS = 1,
+  DIRS = 2
 } print_options_t;
 
 void PrintMaze (print_options_t option);

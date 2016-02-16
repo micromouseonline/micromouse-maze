@@ -36,8 +36,8 @@ int main (int argc, char** argv)
       printf ("\n===============================================\n");
       FloodMazeClassic (target);
       printf (" : %s\n", argv[i]);
-      PrintMaze (WALLS + DIRS);
-      PrintMaze (WALLS + COSTS);
+      PrintMaze (DIRS);
+      PrintMaze (COSTS);
     }
   } else {
     strncpy (mazename, "mazefiles/taiwan-2014-final.maz", 64);
@@ -47,8 +47,8 @@ int main (int argc, char** argv)
     printf ("\n===============================================\n");
     FloodMazeClassic (target);
     printf (" : %s\n", mazename);
-    PrintMaze (WALLS + DIRS);
-    PrintMaze (WALLS + COSTS);
+    PrintMaze (DIRS);
+    PrintMaze (COSTS);
 
   }
   return (EXIT_SUCCESS);
