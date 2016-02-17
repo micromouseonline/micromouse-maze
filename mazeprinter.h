@@ -13,7 +13,7 @@ extern "C" {
 #endif
 
 #include <stdio.h>
-  
+
 typedef enum {
   COSTS = 1,
   DIRS = 2

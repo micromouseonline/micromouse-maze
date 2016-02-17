@@ -91,8 +91,8 @@ void MazeResetCosts (void);
 
 /* ========== manipulating the locations ==============*/
 void SetGoal (location_t location);
-location_t Location(uint8_t row, uint8_t col);
-location_t DefaultGoal(void);
+location_t Location (uint8_t row, uint8_t col);
+location_t DefaultGoal (void);
 location_t Goal (void);
 location_t Home (void);
 location_t Neighbour (location_t location, direction_t direction);

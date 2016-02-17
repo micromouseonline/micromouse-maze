@@ -39,7 +39,8 @@ static location_t _home = {0, 0};
 // LOCATION
 //=======================================
 
-location_t Location(uint8_t row, uint8_t col){
+location_t Location (uint8_t row, uint8_t col)
+{
   location_t result;
   result.row = row;
   result.col = col;
@@ -47,8 +48,9 @@ location_t Location(uint8_t row, uint8_t col){
 }
 
 
-location_t DefaultGoal(void){
-  location_t goal = {7,7};
+location_t DefaultGoal (void)
+{
+  location_t goal = {7, 7};
   return goal;
 }
 
