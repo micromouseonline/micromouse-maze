@@ -1,6 +1,11 @@
 #include "gtest/gtest.h"
 #include "maze.h"
 
+TEST(Location, Location_constructor){
+  location_t loc = Location(9,10);
+  EXPECT_EQ(9,loc.row);
+  EXPECT_EQ(10,loc.col);
+}
 
 TEST (Location, DefaultValueOfHome)
 {
@@ -110,7 +115,7 @@ TEST (Location, LocationInHome)
 
 TEST (Location, Neighbour_WrapAroundEdges)
 {
-  location_t loc;
+  location_t loc = Location(MazeWidth()-1,MazeHeight()-1);
   location_t neighbour;
   loc.col = MazeWidth() - 1;
   loc.row = MazeHeight() - 1;

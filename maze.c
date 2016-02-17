@@ -39,6 +39,14 @@ static location_t _home = {0, 0};
 // LOCATION
 //=======================================
 
+location_t Location(uint8_t row, uint8_t col){
+  location_t result;
+  result.row = row;
+  result.col = col;
+  return result;
+}
+
+
 location_t DefaultGoal(void){
   location_t goal = {7,7};
   return goal;
@@ -234,6 +242,8 @@ void MazeResetWalls (void)
     }
   }
 }
+
+
 /*
  * clear the costs and directions
  * set the walls to the outside and start cell walls only
