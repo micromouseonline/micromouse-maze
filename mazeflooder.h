@@ -14,6 +14,7 @@ extern "C" {
 
 
 void FloodMazeClassic (location_t target);
+void ModifiedFlood (location_t here);
 
 direction_t SmallestNeighbourDirection (location_t loc);
 

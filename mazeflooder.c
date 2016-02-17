@@ -22,7 +22,6 @@ void binary (uint8_t i)
   }
 }
 
-
 /*
  * return the direction to neighbour with the smallest cost
  * There will always be one unless the cell has all walls.
@@ -30,7 +29,7 @@ void binary (uint8_t i)
  * Only accessible neighbours are tested
  */
 
-direction_t  SmallestNeighbourDirection (location_t loc)
+direction_t SmallestNeighbourDirection (location_t loc)
 {
   direction_t result = NORTH;
   location_t neighbour;
@@ -73,7 +72,6 @@ direction_t  SmallestNeighbourDirection (location_t loc)
   return result;
 }
 
-
 void FloodMazeClassic (location_t target)
 {
   location_t here;
@@ -83,7 +81,7 @@ void FloodMazeClassic (location_t target)
   for (here.row = 0; here.row < MAZE_ROWS; here.row++) {
     for (here.col = 0; here.col < MAZE_COLS; here.col++) {
       SetCost (here, MAX_COST);
-      SetDirection(here,INVALID);
+      SetDirection (here, INVALID);
     }
   }
   SetCost (target, 0);
@@ -97,36 +95,36 @@ void FloodMazeClassic (location_t target)
     here = ListQueueHead();
     //here = ListStackPop();
     costNext = Cost (here) + 1;
-    if (HasExit(here, NORTH)) {
+    if (HasExit (here, NORTH)) {
       nextLoc = Neighbour (here, NORTH);
-      if (Cost (nextLoc)  > costNext) {
+      if (Cost (nextLoc) > costNext) {
         SetDirection (nextLoc, SOUTH);
         SetCost (nextLoc, costNext);
         ListAdd (nextLoc);
       }
     }
 
-    if (HasExit(here,EAST)) {
+    if (HasExit (here, EAST)) {
       nextLoc = Neighbour (here, EAST);
-      if (Cost (nextLoc)  > costNext) {
+      if (Cost (nextLoc) > costNext) {
         SetDirection (nextLoc, WEST);
         SetCost (nextLoc, costNext);
         ListAdd (nextLoc);
       }
     }
 
-    if (HasExit(here, SOUTH)) {
+    if (HasExit (here, SOUTH)) {
       nextLoc = Neighbour (here, SOUTH);
-      if (Cost (nextLoc)  > costNext) {
+      if (Cost (nextLoc) > costNext) {
         SetDirection (nextLoc, NORTH);
         SetCost (nextLoc, costNext);
         ListAdd (nextLoc);
       }
     }
 
-    if (HasExit(here, WEST)) {
+    if (HasExit (here, WEST)) {
       nextLoc = Neighbour (here, WEST);
-      if (Cost (nextLoc)  > costNext) {
+      if (Cost (nextLoc) > costNext) {
         SetDirection (nextLoc, EAST);
         SetCost (nextLoc, costNext);
         ListAdd (nextLoc);
@@ -136,3 +134,42 @@ void FloodMazeClassic (location_t target)
   }
   printf ("Max List Length = %d List additions = %d path cost = %d\n", ListMaxSize(), ListAdditions(), Cost (Home()));
 }
+
+void AddOpenNeighboursToList (location_t here)
+{
+  if (HasExit (here, NORTH)) {
+    ListAdd (Neighbour (here, NORTH));
+  }
+  if (HasExit (here, EAST)) {
+    ListAdd (Neighbour (here, EAST));
+  }
+  if (HasExit (here, SOUTH)) {
+    ListAdd (Neighbour (here, SOUTH));
+  }
+  if (HasExit (here, WEST)) {
+    ListAdd (Neighbour (here, WEST));
+  }
+}
+
+void ModifiedFlood (location_t here)
+{
+  direction_t direction;
+  cost_t smallestCost;
+  ListClear();
+  ListAdd (here);
+  while (!ListEmpty()) {
+    here = ListStackPop();
+    if (Cost (here) == 0) {
+      continue;
+    }
+    direction = SmallestNeighbourDirection (here);
+    smallestCost = Cost (Neighbour (here, direction));
+    SetDirection (here, direction);
+    if (Cost (here) != smallestCost + 1) {
+      SetCost (here, smallestCost + 1);
+      AddOpenNeighboursToList (here);
+    }
+  }
+}
+
+
