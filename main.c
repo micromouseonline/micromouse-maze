@@ -28,7 +28,7 @@ int main (int argc, char** argv)
 {
   char mazename[64];
   printf ("micromouse maze\n");
-  MazeResetData();
+  MazeResetWalls();
   location_t target = DefaultGoal();
 
   if (argc > 1) {
@@ -37,16 +37,16 @@ int main (int argc, char** argv)
       printf ("\n===============================================\n");
       FloodMazeClassic (target);
       printf (" : %s\n", argv[i]);
-      IsolatePath(Home(),target);
+      IsolatePath (Home(), target);
       PrintMaze (DIRS);
       PrintMaze (COSTS);
     }
   } else {
-    ReadMAZFile("mazefiles/minos03f.maz");
+    ReadMAZFile ("mazefiles/minos03f.maz");
     printf ("\n===============================================\n");
     FloodMazeClassic (target);
     printf (" : %s\n", mazename);
-    IsolatePath(Home(),target);
+    IsolatePath (Home(), target);
     PrintMaze (DIRS);
     PrintMaze (COSTS);
 

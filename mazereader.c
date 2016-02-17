@@ -20,7 +20,7 @@ void ReadMAZFile (char * filename)
   if ( (fp = fopen (filename, "rb")) == NULL) {
     assert (fp);
   }
-  MazeResetData();
+  MazeResetWalls();
   for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
     for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
       wallData[loc.row][loc.col] = fgetc (fp);
@@ -33,7 +33,7 @@ void ReadMAZFile (char * filename)
 
 void ReadEmptyMaze (void)
 {
-  MazeResetData();
+  MazeResetWalls();
   location_t loc;
   for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
     loc.col = 0;

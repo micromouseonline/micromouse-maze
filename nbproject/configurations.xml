@@ -43,6 +43,7 @@
         <itemPath>tests/testList.cpp</itemPath>
         <itemPath>tests/testLocation.cpp</itemPath>
         <itemPath>tests/testMaze.cpp</itemPath>
+        <itemPath>tests/testModifiedFlood.cpp</itemPath>
         <itemPath>tests/testPathfinder.cpp</itemPath>
         <itemPath>tests/testRunner.cpp</itemPath>
         <itemPath>tests/testWalls.cpp</itemPath>
@@ -124,6 +125,8 @@
       <item path="tests/testLocation.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testMaze.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testModifiedFlood.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testPathfinder.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -211,6 +214,8 @@
       </item>
       <item path="tests/testMaze.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="tests/testModifiedFlood.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="tests/testPathfinder.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testRunner.cpp" ex="false" tool="1" flavor2="0">
@@ -291,6 +296,8 @@
       <item path="tests/testLocation.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testMaze.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testModifiedFlood.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testPathfinder.cpp" ex="false" tool="1" flavor2="0">
       </item>

@@ -2,13 +2,23 @@
 #include "maze.h"
 
 
-TEST (Maze, MazeResetData_blankWallsAndCosts)
+TEST (Maze, MazeResetWalls_blankWalls)
 {
-  MazeResetData();
+  MazeResetWalls();
   location_t loc;
   for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
     for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
       EXPECT_EQ (WallsNone(), MazeGetWalls (loc));
+    }
+  }
+}
+
+TEST (Maze, MazeResetCosts_ZeroCosts)
+{
+  MazeResetCosts();
+  location_t loc;
+  for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
+    for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
       EXPECT_EQ (0, Cost (loc));
     }
   }
@@ -16,7 +26,7 @@ TEST (Maze, MazeResetData_blankWallsAndCosts)
 
 void testSetWall (location_t loc, direction_t dir)
 {
-  MazeResetData();
+  MazeResetWalls();
   MazeSetWall (loc, dir);
   walls_t walls = MazeGetWalls (loc);
   EXPECT_TRUE (HaveWall (walls, dir));
@@ -43,7 +53,7 @@ void testSetWall (location_t loc, direction_t dir)
 
 void testClearWall (location_t loc, direction_t dir)
 {
-  MazeResetData();
+  MazeResetWalls();
   MazeSetWall (loc, NORTH);
   MazeSetWall (loc, EAST);
   MazeSetWall (loc, SOUTH);
@@ -95,7 +105,7 @@ TEST (Maze, MazeUpdateFromWallData_AllWalls)
 {
   location_t loc = {2, 4};
   walls_t wallData = 0x0f;  // all walls
-  MazeResetData();
+  MazeResetWalls();
   MazeUpdateFromWallData (loc, wallData);
   walls_t walls;
   walls = MazeGetWalls (loc);
@@ -110,7 +120,7 @@ TEST (Maze, MazeUpdateFromWallData_SomeWalls)
 {
   location_t loc = {2, 4};
   walls_t wallData = 0x03;  // North and East Only
-  MazeResetData();
+  MazeResetWalls();
   MazeUpdateFromWallData (loc, wallData);
   walls_t walls;
   walls = MazeGetWalls (loc);
@@ -125,7 +135,7 @@ TEST (Maze, MazeUpdateFromWallData_NoWalls)
 {
   location_t loc = {2, 4};
   walls_t wallData = 0x00;  // No walls
-  MazeResetData();
+  MazeResetWalls();
   MazeUpdateFromWallData (loc, wallData);
   walls_t walls;
   walls = MazeGetWalls (loc);
@@ -139,7 +149,7 @@ TEST (Maze, MazeUpdateFromWallData_NoWalls)
 TEST (Maze, Has_Exit_AllWalls)
 {
   location_t loc = {2, 4};
-  MazeResetData();
+  MazeResetWalls();
   EXPECT_TRUE (HasExit (loc, NORTH));
   EXPECT_TRUE (HasExit (loc, EAST));
   EXPECT_TRUE (HasExit (loc, SOUTH));

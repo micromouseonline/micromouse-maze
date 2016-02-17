@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   mazepathfinder.h
  * Author: peterharrison
  *
@@ -12,15 +12,15 @@
 extern "C" {
 #endif
 
-  /*
-   * clear all the direction arrows except those along the least-cost path 
-   * from start to target.
-   * Expects a flooded maze.
-   * Returns without any action if the start cost is MAX_COST, indicating 
-   * there is no route to the goal
-   * An unflooded maze will have undefined results - the function may not return.
-   */
-int IsolatePath(location_t start,location_t target);
+/*
+ * clear all the direction arrows except those along the least-cost path
+ * from start to target.
+ * Expects a flooded maze.
+ * Returns without any action if the start cost is MAX_COST, indicating
+ * there is no route to the goal
+ * An unflooded maze will have undefined results - the function may not return.
+ */
+int IsolatePath (location_t start, location_t target);
 
 
 #ifdef __cplusplus

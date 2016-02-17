@@ -61,7 +61,7 @@ uint8_t MazeHeight (void);
  * clear the costs and directions
  * set the walls to the outside and start cell walls only
  */
-void MazeResetData (void);
+void MazeResetWalls (void);
 
 /* set a single wall - looks after neighbours - set seen*/
 void MazeSetWall (location_t location, direction_t direction);
@@ -83,6 +83,7 @@ bool HasExit (location_t location, direction_t direction);
 /* ========== manipulating the cost ==============*/
 cost_t Cost (location_t location);
 void SetCost (location_t location, cost_t cost);
+void MazeResetCosts (void);
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -90,7 +91,8 @@ void SetCost (location_t location, cost_t cost);
 
 /* ========== manipulating the locations ==============*/
 void SetGoal (location_t location);
-location_t DefaultGoal(void);
+location_t Location (uint8_t row, uint8_t col);
+location_t DefaultGoal (void);
 location_t Goal (void);
 location_t Home (void);
 location_t Neighbour (location_t location, direction_t direction);

@@ -39,8 +39,18 @@ static location_t _home = {0, 0};
 // LOCATION
 //=======================================
 
-location_t DefaultGoal(void){
-  location_t goal = {7,7};
+location_t Location (uint8_t row, uint8_t col)
+{
+  location_t result;
+  result.row = row;
+  result.col = col;
+  return result;
+}
+
+
+location_t DefaultGoal (void)
+{
+  location_t goal = {7, 7};
   return goal;
 }
 
@@ -225,12 +235,26 @@ uint8_t MazeHeight (void)
  * clear the costs and directions
  * set the walls to the outside and start cell walls only
  */
-void MazeResetData (void)
+void MazeResetWalls (void)
 {
   location_t loc;
   for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
     for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
       _walls[loc.row][loc.col] = 0;
+    }
+  }
+}
+
+
+/*
+ * clear the costs and directions
+ * set the walls to the outside and start cell walls only
+ */
+void MazeResetCosts (void)
+{
+  location_t loc;
+  for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
+    for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
       _cost[loc.row][loc.col] = 0;
     }
   }
