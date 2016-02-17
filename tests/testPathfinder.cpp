@@ -6,7 +6,7 @@
 #include "mazeprinter.h"
 
 TEST(PathFinder,test){
-    MazeResetData();
+    MazeResetWalls();
     ReadMAZFile("mazefiles/empty.maz");
     FloodMazeClassic(DefaultGoal());
     ASSERT_EQ(0xFE,MazeGetWalls(Home()));

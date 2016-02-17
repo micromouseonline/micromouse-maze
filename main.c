@@ -28,7 +28,7 @@ int main (int argc, char** argv)
 {
   char mazename[64];
   printf ("micromouse maze\n");
-  MazeResetData();
+  MazeResetWalls();
   location_t target = DefaultGoal();
 
   if (argc > 1) {
