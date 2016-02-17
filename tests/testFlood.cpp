@@ -17,10 +17,10 @@ TEST (Flood, FloodMazeClassic_BlockedMaze_HomeCostMax)
   location_t target = {7, 7};
   MazeResetWalls();
   ReadEmptyMaze();
-  MazeSetWall (target, NORTH);
-  MazeSetWall (target, EAST);
-  MazeSetWall (target, SOUTH);
-  MazeSetWall (target, WEST);
+  MazeAddWall (target, NORTH);
+  MazeAddWall (target, EAST);
+  MazeAddWall (target, SOUTH);
+  MazeAddWall (target, WEST);
   FloodMazeClassic (target);
   EXPECT_EQ (MAX_COST, Cost (Home()));
 }
@@ -61,8 +61,8 @@ TEST (Flood, SmallestNeighbour_SetCostsWithWalls_GetCorrectNeighbour)
   MazeResetWalls();
   ReadEmptyMaze();
   SetCost (target, 99);
-  MazeSetWall (target, EAST);
-  MazeSetWall (target, SOUTH);
+  MazeAddWall (target, EAST);
+  MazeAddWall (target, SOUTH);
   SetCost (Neighbour (target, NORTH), 22);
   SetCost (Neighbour (target, EAST), 1);
   SetCost (Neighbour (target, SOUTH), 2);

@@ -17,7 +17,7 @@ static int size;
 static int maxSize;
 static int additions;
 
-void ListClear (void)
+void ListReset (void)
 {
   head = 0;
   tail = 0;
@@ -26,7 +26,7 @@ void ListClear (void)
   additions = 0;
 }
 
-bool ListEmpty (void)
+bool ListIsEmpty (void)
 {
   return head == tail;
 }

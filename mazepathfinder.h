@@ -20,6 +20,8 @@ extern "C" {
  * there is no route to the goal
  * An unflooded maze will have undefined results - the function may not return.
  */
+
+/* TODO: make this follow a path until there is no smaller neighbour */
 int IsolatePath (location_t start, location_t target);
 
 

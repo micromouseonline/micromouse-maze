@@ -17,13 +17,13 @@ extern "C" {
 #include "maze.h"
 
 /* Set the list size to zero, initialise Size and MaxSize to zero*/
-void ListClear (void);
+void ListReset (void);
 
 /* return the number of items added to the list since last clear*/
 int ListAdditions (void);
 
 /* return true if list has no items in it */
-bool ListEmpty (void);
+bool ListIsEmpty (void);
 
 /* Add an item to the tail of the list */
 void ListAdd (location_t loc);

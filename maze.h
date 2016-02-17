@@ -64,17 +64,17 @@ uint8_t MazeHeight (void);
 void MazeResetWalls (void);
 
 /* set a single wall - looks after neighbours - set seen*/
-void MazeSetWall (location_t location, direction_t direction);
+void MazeAddWall (location_t location, direction_t direction);
 
 /* set all four walls for a location - updates neighbours - set seen*/
 void MazeUpdateFromWallData (location_t location, walls_t walls);
 
 /* clear a single wall - looks after neighbours - set seen*/
-void MazeClearWall (location_t location, direction_t direction);
+void MazeRemoveWall (location_t location, direction_t direction);
 
 
 /* return all the walls for a given location */
-walls_t MazeGetWalls (location_t location);
+walls_t Walls (location_t location);
 
 /* return true if there is no wall in the given direction */
 bool HasExit (location_t location, direction_t direction);
@@ -101,7 +101,7 @@ bool IsHome (location_t location);
 
 /* ========== manipulating the walls ==============*/
 bool WallIsSeen (walls_t walls, direction_t direction);
-bool HaveWall (walls_t walls, direction_t direction);
+bool WallExists (walls_t walls, direction_t direction);
 
 /* setting and clearing always sets the seen bits */
 /* clear all the walls and the seen bits */
@@ -112,13 +112,15 @@ void WallClear (walls_t * walls, direction_t direction);
 
 
 /* ========== manipulating the directions ==============*/
-void MazeClearDirectionData (void);
+void MazeResetDirections (void);
 void SetDirection (location_t location, direction_t direction);
-direction_t MazeGetDirection (location_t location);
+direction_t Direction (location_t location);
 /* handy utilities for directions */
 direction_t LeftFrom (direction_t direction);
 direction_t RightFrom (direction_t direction);
 direction_t Behind (direction_t direction);
+
+direction_t SmallestNeighbourDirection (location_t loc);
 
 #ifdef __cplusplus
 }

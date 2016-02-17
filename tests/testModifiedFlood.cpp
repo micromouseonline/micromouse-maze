@@ -15,10 +15,10 @@ class ModifiedFloodTest : public ::testing::Test
     FloodMazeClassic (DefaultGoal());
     ReadMAZFile ("mazefiles/minos03f.maz");
     FloodMazeClassic (DefaultGoal());
-    MazeClearWall (Location (2, 0), NORTH);
+    MazeRemoveWall (Location (2, 0), NORTH);
     EXPECT_EQ (0, Cost (DefaultGoal()));
     EXPECT_EQ (46, Cost (Home()));
-    EXPECT_EQ (EAST, MazeGetDirection (Location (2, 0)));
+    EXPECT_EQ (EAST, Direction (Location (2, 0)));
   }
 
   virtual void TearDown() { }
@@ -30,7 +30,7 @@ TEST_F (ModifiedFloodTest, SetupTest)
   PrintMaze (DIRS);
   PrintMaze (COSTS);
   ModifiedFlood (Location (2, 0));
-  EXPECT_EQ (NORTH, MazeGetDirection (Location (2, 0)));
+  EXPECT_EQ (NORTH, Direction (Location (2, 0)));
   EXPECT_EQ (0, Cost (DefaultGoal()));
   EXPECT_EQ (40, Cost (Home()));
   PrintMaze (DIRS);

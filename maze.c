@@ -121,7 +121,7 @@ bool IsHome (location_t location)
 //=======================================
 // DIRECTION
 //=======================================
-void MazeClearDirectionData (void)
+void MazeResetDirections (void)
 {
   location_t loc;
   for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
@@ -136,7 +136,7 @@ void SetDirection (location_t location, direction_t direction)
   _direction[location.row][location.col] = direction;
 };
 
-direction_t MazeGetDirection (location_t location)
+direction_t Direction (location_t location)
 {
   return _direction[location.row][location.col];
 };
@@ -158,10 +158,62 @@ direction_t Behind (direction_t direction)
 };
 
 
+
+/*
+ * return the direction to neighbour with the smallest cost
+ * There will always be one unless the cell has all walls.
+ * That should not happen in normal maze and so no special care is taken
+ * Only accessible neighbours are tested
+ */
+
+direction_t SmallestNeighbourDirection (location_t loc)
+{
+  direction_t result = NORTH;
+  location_t neighbour;
+  cost_t smallestCost;
+  cost_t cost;
+
+  smallestCost = MAX_COST;
+  if (HasExit (loc, NORTH)) {
+    neighbour = Neighbour (loc, NORTH);
+    cost = Cost (neighbour);
+    if (cost < smallestCost) {
+      smallestCost = cost;
+      result = NORTH;
+    }
+  }
+  if (HasExit (loc, EAST)) {
+    neighbour = Neighbour (loc, EAST);
+    cost = Cost (neighbour);
+    if (cost < smallestCost) {
+      smallestCost = cost;
+      result = EAST;
+    }
+  }
+  if (HasExit (loc, SOUTH)) {
+    neighbour = Neighbour (loc, SOUTH);
+    cost = Cost (neighbour);
+    if (cost < smallestCost) {
+      smallestCost = cost;
+      result = SOUTH;
+    }
+  }
+  if (HasExit (loc, WEST)) {
+    neighbour = Neighbour (loc, WEST);
+    cost = Cost (neighbour);
+    if (cost < smallestCost) {
+      smallestCost = cost;
+      result = WEST;
+    }
+  }
+  return result;
+}
+
+
 bool HasExit (location_t location, direction_t direction)
 {
-  walls_t walls = MazeGetWalls (location);
-  return !HaveWall (walls, direction);
+  walls_t walls = Walls (location);
+  return !WallExists (walls, direction);
 }
 
 /* ========== manipulating the walls ==============*/
@@ -170,7 +222,7 @@ bool WallIsSeen (walls_t walls, direction_t direction)
   return ( (walls & (WALL_SEEN << direction)) != 0);;
 };
 
-bool HaveWall (walls_t walls, direction_t direction)
+bool WallExists (walls_t walls, direction_t direction)
 {
   return ( (walls & (WALL << direction)) != 0);
 };
@@ -262,7 +314,7 @@ void MazeResetCosts (void)
 
 
 /* set a single wall - looks after neighbours - set seen*/
-void MazeSetWall (location_t location, direction_t direction)
+void MazeAddWall (location_t location, direction_t direction)
 {
   WallSet (&_walls[location.row][location.col], direction);
   location = Neighbour (location, direction);
@@ -274,29 +326,29 @@ void MazeSetWall (location_t location, direction_t direction)
 void MazeUpdateFromWallData (location_t location, walls_t wallData)
 {
   if (wallData & NORTH_WALL) {
-    MazeSetWall (location, NORTH);
+    MazeAddWall (location, NORTH);
   } else {
-    MazeClearWall (location, NORTH);
+    MazeRemoveWall (location, NORTH);
   }
   if (wallData & EAST_WALL) {
-    MazeSetWall (location, EAST);
+    MazeAddWall (location, EAST);
   } else {
-    MazeClearWall (location, EAST);
+    MazeRemoveWall (location, EAST);
   }
   if (wallData & SOUTH_WALL) {
-    MazeSetWall (location, SOUTH);
+    MazeAddWall (location, SOUTH);
   } else {
-    MazeClearWall (location, SOUTH);
+    MazeRemoveWall (location, SOUTH);
   }
   if (wallData & WEST_WALL) {
-    MazeSetWall (location, WEST);
+    MazeAddWall (location, WEST);
   } else {
-    MazeClearWall (location, WEST);
+    MazeRemoveWall (location, WEST);
   }
 }
 
 /* clear a single wall - looks after neighbours - set seen*/
-void MazeClearWall (location_t location, direction_t direction)
+void MazeRemoveWall (location_t location, direction_t direction)
 {
   WallClear (&_walls[location.row][location.col], direction);
   location = Neighbour (location, direction);
@@ -304,7 +356,7 @@ void MazeClearWall (location_t location, direction_t direction)
 }
 
 /* return all the walls for a given location */
-walls_t MazeGetWalls (location_t location)
+walls_t Walls (location_t location)
 {
   return _walls[location.row][location.col];
 }

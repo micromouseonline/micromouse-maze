@@ -28,7 +28,7 @@ int IsolatePath (location_t start, location_t target)
   if (Cost (here) == MAX_COST) {
     return -1;  // this is an error condition. Not well handled.
   }
-  MazeClearDirectionData();
+  MazeResetDirections();
   while (! (here.row == target.row && here.col == target.col)) {
     direction = SmallestNeighbourDirection (here);
     SetDirection (here, direction);

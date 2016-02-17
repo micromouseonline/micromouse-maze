@@ -22,56 +22,6 @@ void binary (uint8_t i)
   }
 }
 
-/*
- * return the direction to neighbour with the smallest cost
- * There will always be one unless the cell has all walls.
- * That should not happen in normal maze and so no special care is taken
- * Only accessible neighbours are tested
- */
-
-direction_t SmallestNeighbourDirection (location_t loc)
-{
-  direction_t result = NORTH;
-  location_t neighbour;
-  cost_t smallestCost;
-  cost_t cost;
-
-  smallestCost = MAX_COST;
-  if (HasExit (loc, NORTH)) {
-    neighbour = Neighbour (loc, NORTH);
-    cost = Cost (neighbour);
-    if (cost < smallestCost) {
-      smallestCost = cost;
-      result = NORTH;
-    }
-  }
-  if (HasExit (loc, EAST)) {
-    neighbour = Neighbour (loc, EAST);
-    cost = Cost (neighbour);
-    if (cost < smallestCost) {
-      smallestCost = cost;
-      result = EAST;
-    }
-  }
-  if (HasExit (loc, SOUTH)) {
-    neighbour = Neighbour (loc, SOUTH);
-    cost = Cost (neighbour);
-    if (cost < smallestCost) {
-      smallestCost = cost;
-      result = SOUTH;
-    }
-  }
-  if (HasExit (loc, WEST)) {
-    neighbour = Neighbour (loc, WEST);
-    cost = Cost (neighbour);
-    if (cost < smallestCost) {
-      smallestCost = cost;
-      result = WEST;
-    }
-  }
-  return result;
-}
-
 void FloodMazeClassic (location_t target)
 {
   location_t here;
@@ -85,9 +35,9 @@ void FloodMazeClassic (location_t target)
     }
   }
   SetCost (target, 0);
-  ListClear();
+  ListReset();
   ListAdd (target);
-  while (!ListEmpty()) {
+  while (!ListIsEmpty()) {
     /*
      * TODO: show costs and directions for all combinations
      * of testing against MAX_COST vs smaller than and stack vs queue
@@ -155,9 +105,9 @@ void ModifiedFlood (location_t here)
 {
   direction_t direction;
   cost_t smallestCost;
-  ListClear();
+  ListReset();
   ListAdd (here);
-  while (!ListEmpty()) {
+  while (!ListIsEmpty()) {
     here = ListStackPop();
     if (Cost (here) == 0) {
       continue;

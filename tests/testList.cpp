@@ -4,7 +4,7 @@
 
 TEST (List, Initialisation_listIsEmpty)
 {
-  EXPECT_TRUE (ListEmpty());
+  EXPECT_TRUE (ListIsEmpty());
 }
 
 
@@ -12,7 +12,7 @@ TEST (List, AddToTail_ListNotEmpty)
 {
   location_t loc = {8, 9};
   ListAdd (loc);
-  EXPECT_FALSE (ListEmpty());
+  EXPECT_FALSE (ListIsEmpty());
 }
 
 TEST (List, ListClear_ListEmpty)
@@ -20,14 +20,14 @@ TEST (List, ListClear_ListEmpty)
   location_t loc = {8, 9};
   ListAdd (loc);
   ListAdd (loc);
-  ListClear();
-  EXPECT_TRUE (ListEmpty());
+  ListReset();
+  EXPECT_TRUE (ListIsEmpty());
 }
 
 TEST (List, Additions_addItems_getCorrectCount)
 {
   location_t loc = {8, 9};
-  ListClear();
+  ListReset();
   ListAdd (loc);
   ListAdd (loc);
   ListAdd (loc);
@@ -42,10 +42,10 @@ TEST (List, AddToTail_RemoveFromTail_ListEmpty_ReturnSameValue)
 {
   location_t locA = {8, 9};
   location_t locB = {0, 0};
-  ListClear();
+  ListReset();
   ListAdd (locA);
   locB = ListStackPop();
-  EXPECT_TRUE (ListEmpty());
+  EXPECT_TRUE (ListIsEmpty());
   EXPECT_EQ (locA.row, locB.row);
   EXPECT_EQ (locA.col, locB.col);
 }
@@ -55,10 +55,10 @@ TEST (List, AddToTail_RemoveFromHead_ListEmpty_ReturnSameValue)
 {
   location_t locA = {8, 9};
   location_t locB = {0, 0};
-  ListClear();
+  ListReset();
   ListAdd (locA);
   locB = ListQueueHead();
-  EXPECT_TRUE (ListEmpty());
+  EXPECT_TRUE (ListIsEmpty());
   EXPECT_EQ (locA.row, locB.row);
   EXPECT_EQ (locA.col, locB.col);
 }
@@ -67,7 +67,7 @@ TEST (List, AddToTail_RemoveFromHead_ListEmpty_ReturnSameValue)
 TEST (List, ListSize_ListMaxSize_AddItems_GetCount)
 {
   location_t locA = {0, 0};
-  ListClear();
+  ListReset();
   EXPECT_EQ (0, ListSize());
   EXPECT_EQ (0, ListMaxSize());
   for (int i = 0; i < 10; i++) {
@@ -82,7 +82,7 @@ TEST (List, ListSize_ListMaxSize_AddItems_GetCount)
 TEST (List, AddItem_WrapsAroundArray_SizeCorrect)
 {
   location_t loc;
-  ListClear();
+  ListReset();
   for (int i = 0; i < 200; i++) {
     ListAdd (loc);
   }
@@ -112,7 +112,7 @@ TEST (List, ListHead_AddItems_GetFirstAdded)
   location_t locB = {6, 2};
   location_t locC = {7, 3};
   location_t locD = {8, 4};
-  ListClear();
+  ListReset();
   ListAdd (locA);
   ListAdd (locB);
   ListAdd (locC);
@@ -128,7 +128,7 @@ TEST (List, ListTail_AddItems_GetLastAdded)
   location_t locB = {6, 2};
   location_t locC = {7, 3};
   location_t locD = {8, 4};
-  ListClear();
+  ListReset();
   ListAdd (locA);
   ListAdd (locB);
   ListAdd (locC);
