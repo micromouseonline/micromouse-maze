@@ -46,6 +46,7 @@
         <itemPath>tests/testModifiedFlood.cpp</itemPath>
         <itemPath>tests/testPathfinder.cpp</itemPath>
         <itemPath>tests/testRunner.cpp</itemPath>
+        <itemPath>tests/testSearcher.cpp</itemPath>
         <itemPath>tests/testWalls.cpp</itemPath>
       </logicalFolder>
     </logicalFolder>
@@ -131,6 +132,8 @@
       <item path="tests/testPathfinder.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testRunner.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testSearcher.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testWalls.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -220,6 +223,8 @@
       </item>
       <item path="tests/testRunner.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="tests/testSearcher.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="tests/testWalls.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
@@ -302,6 +307,8 @@
       <item path="tests/testPathfinder.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testRunner.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testSearcher.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testWalls.cpp" ex="false" tool="1" flavor2="0">
       </item>

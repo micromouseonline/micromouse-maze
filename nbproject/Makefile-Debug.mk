@@ -62,6 +62,7 @@ TESTOBJECTFILES= \
 	${TESTDIR}/tests/testModifiedFlood.o \
 	${TESTDIR}/tests/testPathfinder.o \
 	${TESTDIR}/tests/testRunner.o \
+	${TESTDIR}/tests/testSearcher.o \
 	${TESTDIR}/tests/testWalls.o
 
 # C Compiler Flags
@@ -130,7 +131,7 @@ ${OBJECTDIR}/mazereader.o: mazereader.c
 .build-tests-conf: .build-tests-subprojects .build-conf ${TESTFILES}
 .build-tests-subprojects:
 
-${TESTDIR}/TestFiles/f1: ${TESTDIR}/gtest/src/gtest-all.o ${TESTDIR}/tests/testCosts.o ${TESTDIR}/tests/testDirection.o ${TESTDIR}/tests/testFlood.o ${TESTDIR}/tests/testList.o ${TESTDIR}/tests/testLocation.o ${TESTDIR}/tests/testMaze.o ${TESTDIR}/tests/testModifiedFlood.o ${TESTDIR}/tests/testPathfinder.o ${TESTDIR}/tests/testRunner.o ${TESTDIR}/tests/testWalls.o ${OBJECTFILES:%.o=%_nomain.o}
+${TESTDIR}/TestFiles/f1: ${TESTDIR}/gtest/src/gtest-all.o ${TESTDIR}/tests/testCosts.o ${TESTDIR}/tests/testDirection.o ${TESTDIR}/tests/testFlood.o ${TESTDIR}/tests/testList.o ${TESTDIR}/tests/testLocation.o ${TESTDIR}/tests/testMaze.o ${TESTDIR}/tests/testModifiedFlood.o ${TESTDIR}/tests/testPathfinder.o ${TESTDIR}/tests/testRunner.o ${TESTDIR}/tests/testSearcher.o ${TESTDIR}/tests/testWalls.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc}   -o ${TESTDIR}/TestFiles/f1 $^ ${LDLIBSOPTIONS} 
 
@@ -193,6 +194,12 @@ ${TESTDIR}/tests/testRunner.o: tests/testRunner.cpp
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I. -I../../micromouse/micromouse-maze/gtest -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testRunner.o tests/testRunner.cpp
+
+
+${TESTDIR}/tests/testSearcher.o: tests/testSearcher.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I. -I../../micromouse/micromouse-maze/gtest -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testSearcher.o tests/testSearcher.cpp
 
 
 ${TESTDIR}/tests/testWalls.o: tests/testWalls.cpp 
