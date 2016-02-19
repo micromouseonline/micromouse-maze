@@ -41,7 +41,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/mazeflooder.o \
 	${OBJECTDIR}/mazepathfinder.o \
 	${OBJECTDIR}/mazeprinter.o \
-	${OBJECTDIR}/mazereader.o
+	${OBJECTDIR}/mazereader.o \
+	${OBJECTDIR}/mazesearcher.o
 
 # Test Directory
 TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
@@ -123,6 +124,11 @@ ${OBJECTDIR}/mazereader.o: mazereader.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/mazereader.o mazereader.c
+
+${OBJECTDIR}/mazesearcher.o: mazesearcher.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/mazesearcher.o mazesearcher.c
 
 # Subprojects
 .build-subprojects:
@@ -297,6 +303,19 @@ ${OBJECTDIR}/mazereader_nomain.o: ${OBJECTDIR}/mazereader.o mazereader.c
 	    $(COMPILE.c) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/mazereader_nomain.o mazereader.c;\
 	else  \
 	    ${CP} ${OBJECTDIR}/mazereader.o ${OBJECTDIR}/mazereader_nomain.o;\
+	fi
+
+${OBJECTDIR}/mazesearcher_nomain.o: ${OBJECTDIR}/mazesearcher.o mazesearcher.c 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/mazesearcher.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.c) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/mazesearcher_nomain.o mazesearcher.c;\
+	else  \
+	    ${CP} ${OBJECTDIR}/mazesearcher.o ${OBJECTDIR}/mazesearcher_nomain.o;\
 	fi
 
 # Run Test Targets

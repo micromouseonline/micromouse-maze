@@ -10,6 +10,7 @@
       <itemPath>mazepathfinder.h</itemPath>
       <itemPath>mazeprinter.h</itemPath>
       <itemPath>mazereader.h</itemPath>
+      <itemPath>mazesearcher.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -27,6 +28,7 @@
       <itemPath>mazepathfinder.c</itemPath>
       <itemPath>mazeprinter.c</itemPath>
       <itemPath>mazereader.c</itemPath>
+      <itemPath>mazesearcher.c</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -55,6 +57,7 @@
                    projectFiles="false"
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
+      <itemPath>coverage.txt</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
@@ -114,6 +117,10 @@
       <item path="mazereader.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="mazereader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="mazesearcher.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="mazesearcher.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="tests/testCosts.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -205,6 +212,10 @@
       </item>
       <item path="mazereader.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="mazesearcher.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="mazesearcher.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="tests/testCosts.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testDirection.cpp" ex="false" tool="1" flavor2="0">
@@ -289,6 +300,10 @@
       <item path="mazereader.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="mazereader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="mazesearcher.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="mazesearcher.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="tests/testCosts.cpp" ex="false" tool="1" flavor2="0">
       </item>
