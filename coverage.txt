@@ -1,0 +1,197 @@
+Function 'ListReset'
+Lines executed:100.00% of 6
+
+Function 'ListIsEmpty'
+Lines executed:100.00% of 1
+
+Function 'ListAdditions'
+Lines executed:100.00% of 1
+
+Function 'ListAdd'
+Lines executed:100.00% of 11
+
+Function 'ListStackPop'
+Lines executed:100.00% of 4
+
+Function 'ListQueueHead'
+Lines executed:100.00% of 7
+
+Function 'ListSize'
+Lines executed:100.00% of 1
+
+Function 'ListMaxSize'
+Lines executed:100.00% of 1
+
+File 'list.c'
+Lines executed:100.00% of 32
+list.c:creating 'list.c.gcov'
+
+Function 'main'
+Lines executed:0.00% of 24
+
+File 'main.c'
+Lines executed:0.00% of 24
+main.c:creating 'main.c.gcov'
+
+Function 'Location'
+Lines executed:100.00% of 3
+
+Function 'DefaultGoal'
+Lines executed:100.00% of 2
+
+Function 'SetGoal'
+Lines executed:100.00% of 2
+
+Function 'Goal'
+Lines executed:100.00% of 1
+
+Function 'Home'
+Lines executed:100.00% of 1
+
+Function 'Neighbour'
+Lines executed:95.65% of 23
+
+Function 'IsGoal'
+Lines executed:100.00% of 1
+
+Function 'IsHome'
+Lines executed:100.00% of 1
+
+Function 'MazeResetDirections'
+Lines executed:100.00% of 6
+
+Function 'SetDirection'
+Lines executed:100.00% of 2
+
+Function 'Direction'
+Lines executed:100.00% of 1
+
+Function 'LeftFrom'
+Lines executed:100.00% of 1
+
+Function 'RightFrom'
+Lines executed:100.00% of 1
+
+Function 'Behind'
+Lines executed:100.00% of 1
+
+Function 'SmallestNeighbourDirection'
+Lines executed:100.00% of 35
+
+Function 'HasExit'
+Lines executed:100.00% of 2
+
+Function 'WallIsSeen'
+Lines executed:100.00% of 1
+
+Function 'WallExists'
+Lines executed:100.00% of 1
+
+Function 'WallSet'
+Lines executed:100.00% of 3
+
+Function 'WallClear'
+Lines executed:100.00% of 3
+
+Function 'WallsNone'
+Lines executed:100.00% of 3
+
+Function 'Cost'
+Lines executed:100.00% of 1
+
+Function 'SetCost'
+Lines executed:100.00% of 2
+
+Function 'MazeWidth'
+Lines executed:100.00% of 1
+
+Function 'MazeHeight'
+Lines executed:100.00% of 1
+
+Function 'MazeResetWalls'
+Lines executed:100.00% of 6
+
+Function 'MazeResetCosts'
+Lines executed:100.00% of 6
+
+Function 'MazeAddWall'
+Lines executed:100.00% of 4
+
+Function 'MazeUpdateFromWallData'
+Lines executed:100.00% of 17
+
+Function 'MazeRemoveWall'
+Lines executed:100.00% of 4
+
+Function 'Walls'
+Lines executed:100.00% of 1
+
+File 'maze.c'
+Lines executed:99.27% of 137
+maze.c:creating 'maze.c.gcov'
+
+Function 'FloodMazeClassic'
+Lines executed:100.00% of 46
+
+Function 'AddOpenNeighboursToList'
+Lines executed:100.00% of 13
+
+Function 'ModifiedFlood'
+Lines executed:92.86% of 14
+
+File 'mazeflooder.c'
+Lines executed:98.63% of 73
+mazeflooder.c:creating 'mazeflooder.c.gcov'
+
+Function 'IsolatePath'
+Lines executed:0.00% of 13
+
+File 'mazepathfinder.c'
+Lines executed:0.00% of 13
+mazepathfinder.c:creating 'mazepathfinder.c.gcov'
+
+Function 'PrintMaze'
+Lines executed:97.22% of 36
+
+File 'mazeprinter.c'
+Lines executed:97.22% of 36
+mazeprinter.c:creating 'mazeprinter.c.gcov'
+
+Function 'ReadMazFileData'
+Lines executed:80.00% of 10
+
+Function 'LoadMAZFile'
+Lines executed:100.00% of 8
+
+Function 'LoadEmptyMaze'
+Lines executed:100.00% of 17
+
+File 'mazereader.c'
+Lines executed:94.29% of 35
+mazereader.c:creating 'mazereader.c.gcov'
+
+Function 'MouseInit'
+Lines executed:100.00% of 3
+
+Function 'MousePosition'
+Lines executed:100.00% of 1
+
+Function 'MouseHeading'
+Lines executed:100.00% of 1
+
+Function 'MouseSetPosition'
+Lines executed:100.00% of 6
+
+Function 'MouseSetHeading'
+Lines executed:100.00% of 2
+
+Function 'MouseMove'
+Lines executed:100.00% of 2
+
+Function 'MouseRunTo'
+Lines executed:86.96% of 23
+
+File 'mazesearcher.c'
+Lines executed:92.11% of 38
+mazesearcher.c:creating 'mazesearcher.c.gcov'
+

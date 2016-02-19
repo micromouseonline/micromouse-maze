@@ -58,6 +58,8 @@ build: .build-post
 
 .build-post: .build-impl
 # Add your post 'build' code here...
+	@echo post build tidy up
+	if [ -a /usr/local/bin/astyle ]; then /usr/local/bin/astyle -r "*.c" "*.h" "*.cpp" > /dev/null; fi; 
 
 
 # clean
@@ -105,9 +107,10 @@ test: .test-post
 
 .test-pre: build-tests
 # Add your pre 'test' code here...
-
+	@find ./build/Coverage/GNU-MacOSX/ -iname "*.gcda" -delete
 .test-post: .test-impl
 # Add your post 'test' code here...
+	@gcov *.c -o=./build/Coverage/GNU-MacOSX/  -c -f > ./coverage.txt
 
 
 # help
