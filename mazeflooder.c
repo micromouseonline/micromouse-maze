@@ -9,18 +9,6 @@
 #include "list.h"
 #include "mazeflooder.h"
 
-void binary (uint8_t i)
-{
-  uint8_t n = 128;
-  while (n) {
-    if (n & i) {
-      printf ("1");
-    } else {
-      printf ("0");
-    }
-    n >>= 1;
-  }
-}
 
 void FloodMazeClassic (location_t target)
 {
