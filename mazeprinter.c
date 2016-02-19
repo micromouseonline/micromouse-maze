@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include "maze.h"
 #include "mazeprinter.h"
-//#include "mazesearcher.h"
+#include "mazesearcher.h"
 
 
 static char dirChars[] = "^>v< ";
