@@ -13,7 +13,7 @@ class ModifiedFloodTest : public ::testing::Test
   {
     MazeResetWalls();
     FloodMazeClassic (DefaultGoal());
-    ReadMAZFile ("mazefiles/minos03f.maz");
+    LoadMAZFile ("mazefiles/minos03f.maz");
     FloodMazeClassic (DefaultGoal());
     MazeRemoveWall (Location (2, 0), NORTH);
     EXPECT_EQ (0, Cost (DefaultGoal()));

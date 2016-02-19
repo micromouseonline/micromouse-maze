@@ -8,7 +8,7 @@
 TEST (PathFinder, test)
 {
   MazeResetWalls();
-  ReadMAZFile ("mazefiles/empty.maz");
+  LoadMAZFile ("mazefiles/empty.maz");
   FloodMazeClassic (DefaultGoal());
   ASSERT_EQ (0xFE, Walls (Home()));
 //    int pathLength = IsolatePath(Home(),Goal());
