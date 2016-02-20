@@ -12,12 +12,24 @@
 
 static uint8_t wallData[MAZE_ROWS][MAZE_COLS];
 
+void ClearWallData (void)
+{
+  location_t loc;
+  for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
+    for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
+      wallData[loc.row][loc.col] = 0;
+    }
+  }
+}
+
 void ReadMazFileData (char * filename)
 {
   FILE *fp;
   location_t loc;
+  MazeResetWalls();
+  ClearWallData();
   if ( (fp = fopen (filename, "rb")) == NULL) {
-    assert (fp);
+    return;
   }
   for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
     for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
@@ -31,7 +43,6 @@ void LoadMAZFile (char * filename)
 {
   location_t loc;
   ReadMazFileData (filename);
-  MazeResetWalls();
   for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
     for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
       MazeUpdateFromWallData (loc, wallData[loc.row][loc.col]);
