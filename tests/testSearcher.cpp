@@ -12,10 +12,11 @@ class SearcherTest : public ::testing::Test
   /* This gets run before each test */
   virtual void SetUp()
   {
+    char testMazeName[] = "mazefiles/minos03f.maz";
     MazeResetWalls();
     SetGoal (DefaultGoal());
     FloodMazeClassic (DefaultGoal());
-    LoadMAZFile ("mazefiles/minos03f.maz");
+    LoadMAZFile (testMazeName);
     FloodMazeClassic (DefaultGoal());
     MazeRemoveWall (Location (2, 0), NORTH);
     EXPECT_EQ (0, Cost (DefaultGoal()));

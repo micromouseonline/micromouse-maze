@@ -44,7 +44,8 @@ int main (int argc, char** argv)
       PrintMaze (COSTS);
     }
   } else {
-    LoadMAZFile ("mazefiles/minos03f.maz");
+    char fileName[] = "mazefiles/minos03f.maz" ;
+    LoadMAZFile (fileName);
     printf ("\n===============================================\n");
     FloodMazeClassic (target);
     printf (" : %s\n", mazename);
