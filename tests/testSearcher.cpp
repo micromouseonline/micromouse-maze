@@ -88,3 +88,29 @@ TEST_F (SearcherTest, MouseRunTo_StartToGoal_MouseAtGoal)
   EXPECT_TRUE (Goal().col == MousePosition().col) << "{" << MousePosition().row << ", " << MousePosition().col << "}";
 }
 
+/*
+ * Tests mouse getting lost in a cell with invalid direction
+ */
+TEST_F (SearcherTest, MouseRunTo_StartToGoal_LostAt10)
+{
+  MouseInit();
+  SetGoal (DefaultGoal());
+  SetDirection (Location (1, 0), INVALID);
+  MouseRunTo (Goal());
+  EXPECT_TRUE (1 == MousePosition().row) ;
+  EXPECT_TRUE (0 == MousePosition().col) ;
+}
+
+/*
+ * Tests mouse getting lost when direction array corrupt
+ */
+TEST_F (SearcherTest, MouseRunTo_StartToGoal_LostWithNoDirection)
+{
+  MouseInit();
+  SetGoal (DefaultGoal());
+  SetDirection (Location (1, 0), -1);
+  MouseRunTo (Goal());
+  EXPECT_TRUE (1 == MousePosition().row) ;
+  EXPECT_TRUE (0 == MousePosition().col) ;
+}
+

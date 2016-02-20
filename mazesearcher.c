@@ -60,31 +60,14 @@ void MouseMove (void)
 void MouseRunTo (location_t target)
 {
   int step = 0;
-  printf ("Run from {%d, %d} to {%d, %d}\n", MousePosition().row, MousePosition().col, target.row, target.col);
   while (! (MousePosition().row == target.row && MousePosition().col == target.col)) {
     direction_t direction = Direction (MousePosition());
+    if (direction == INVALID) {
+      break;
+    }
     MouseSetHeading (direction);
     MouseMove();
     step ++;
-    printf ("%3d: ", step);
-    switch (direction) {
-      case NORTH:
-        printf ("North to ");
-        break;
-      case EAST:
-        printf ("East to ");
-        break;
-      case SOUTH:
-        printf ("South to ");
-        break;
-      case WEST:
-        printf ("West to ");
-        break;
-      default:
-        printf ("Lost at ");
-        break;
-    }
-    printf ("{%d, %d}\n", MousePosition().row, MousePosition().col);
     if (step > 256) {
       break;
     }
