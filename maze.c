@@ -61,36 +61,38 @@ location_t Home (void)
  */
 location_t Neighbour (location_t location, direction_t direction)
 {
+  location_t result;
+  result = location;
   switch (direction) {
     case NORTH:
-      location.row = location.row + 1;
-      if (location.row >= MazeHeight()) {
-        location.row = 0;
+      result.row = location.row + 1;
+      if (result.row >= MazeHeight()) {
+        result.row = 0;
       }
       break;
     case EAST:
-      location.col = location.col + 1;
-      if (location.col >= MazeWidth()) {
-        location.col = 0;
+      result.col = location.col + 1;
+      if (result.col >= MazeWidth()) {
+        result.col = 0;
       }
       break;
     case SOUTH:
-      location.row = location.row - 1;
-      if (location.row < 0) {
-        location.row = MazeHeight() - 1;
+      result.row = location.row - 1;
+      if (result.row < 0) {
+        result.row = MazeHeight() - 1;
       }
       break;
     case WEST:
-      location.col = location.col - 1;
-      if (location.col < 0) {
-        location.col = MazeWidth() - 1;
+      result.col = location.col - 1;
+      if (result.col < 0) {
+        result.col = MazeWidth() - 1;
       }
       break;
     default:
       // do nothing
       break;
   }
-  return location;
+  return result;
 };
 
 bool IsGoal (location_t location)
@@ -278,7 +280,7 @@ void MazeResetWalls (void)
   location_t loc;
   for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
     for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
-      _walls[loc.row][loc.col] = 0;
+      _walls[loc.row][loc.col] = EMPTY;
     }
   }
 }
