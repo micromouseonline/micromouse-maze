@@ -60,6 +60,8 @@ TESTOBJECTFILES= \
 	${TESTDIR}/tests/testList.o \
 	${TESTDIR}/tests/testLocation.o \
 	${TESTDIR}/tests/testMaze.o \
+	${TESTDIR}/tests/testMazePrinter.o \
+	${TESTDIR}/tests/testMazeReader.o \
 	${TESTDIR}/tests/testModifiedFlood.o \
 	${TESTDIR}/tests/testPathfinder.o \
 	${TESTDIR}/tests/testRunner.o \
@@ -137,7 +139,7 @@ ${OBJECTDIR}/mazesearcher.o: mazesearcher.c
 .build-tests-conf: .build-tests-subprojects .build-conf ${TESTFILES}
 .build-tests-subprojects:
 
-${TESTDIR}/TestFiles/f1: ${TESTDIR}/gtest/src/gtest-all.o ${TESTDIR}/tests/testCosts.o ${TESTDIR}/tests/testDirection.o ${TESTDIR}/tests/testFlood.o ${TESTDIR}/tests/testList.o ${TESTDIR}/tests/testLocation.o ${TESTDIR}/tests/testMaze.o ${TESTDIR}/tests/testModifiedFlood.o ${TESTDIR}/tests/testPathfinder.o ${TESTDIR}/tests/testRunner.o ${TESTDIR}/tests/testSearcher.o ${TESTDIR}/tests/testWalls.o ${OBJECTFILES:%.o=%_nomain.o}
+${TESTDIR}/TestFiles/f1: ${TESTDIR}/gtest/src/gtest-all.o ${TESTDIR}/tests/testCosts.o ${TESTDIR}/tests/testDirection.o ${TESTDIR}/tests/testFlood.o ${TESTDIR}/tests/testList.o ${TESTDIR}/tests/testLocation.o ${TESTDIR}/tests/testMaze.o ${TESTDIR}/tests/testMazePrinter.o ${TESTDIR}/tests/testMazeReader.o ${TESTDIR}/tests/testModifiedFlood.o ${TESTDIR}/tests/testPathfinder.o ${TESTDIR}/tests/testRunner.o ${TESTDIR}/tests/testSearcher.o ${TESTDIR}/tests/testWalls.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc}   -o ${TESTDIR}/TestFiles/f1 $^ ${LDLIBSOPTIONS} 
 
@@ -182,6 +184,18 @@ ${TESTDIR}/tests/testMaze.o: tests/testMaze.cpp
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I. -I../../micromouse/micromouse-maze/gtest -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testMaze.o tests/testMaze.cpp
+
+
+${TESTDIR}/tests/testMazePrinter.o: tests/testMazePrinter.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I. -I../../micromouse/micromouse-maze/gtest -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testMazePrinter.o tests/testMazePrinter.cpp
+
+
+${TESTDIR}/tests/testMazeReader.o: tests/testMazeReader.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I. -I../../micromouse/micromouse-maze/gtest -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testMazeReader.o tests/testMazeReader.cpp
 
 
 ${TESTDIR}/tests/testModifiedFlood.o: tests/testModifiedFlood.cpp 
