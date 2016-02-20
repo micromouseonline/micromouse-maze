@@ -15,7 +15,6 @@ TEST (Location, DefaultValueOfHome)
   EXPECT_EQ (0, loc.col);
 }
 
-
 TEST (Location, DefaultGoal_77)
 {
   location_t loc = DefaultGoal();
@@ -52,6 +51,17 @@ TEST (Location, SetAndFetchFGoal_SetGoal_ReturnGoal)
   EXPECT_EQ (newGoal.col, goal.col);
 }
 
+TEST (Location, FindNeighbour_GiveInvalidDirection_GetSameLocationBack)
+{
+  location_t loc;
+  loc.row = 11;
+  loc.col = 12;
+  location_t neighbour;
+  neighbour = Neighbour (loc, INVALID);
+  EXPECT_EQ (11, neighbour.row);
+  EXPECT_EQ (12, neighbour.col);
+
+}
 TEST (Location, FindNeighbour_SeekNORTHNeighbour_GetRowPlus1)
 {
   location_t loc;
