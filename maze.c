@@ -373,4 +373,7 @@ walls_t Walls (location_t location)
 }
 
 
-
+bool Visited (location_t location)
+{
+  return (Walls (location) & VISITED) == VISITED;
+}

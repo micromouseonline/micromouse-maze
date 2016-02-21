@@ -105,6 +105,8 @@ void MazeRemoveWall (location_t location, direction_t direction);
 /* return all the walls for a given location */
 walls_t Walls (location_t location);
 
+bool Visited (location_t location);
+
 /* return true if there is no wall in the given direction */
 bool HasExit (location_t location, direction_t direction);
 
