@@ -16,3 +16,4 @@ TEST (MazePrinter, DummyPrintingForCoverageTests)
   PrintMaze (COSTS);
   PrintMaze (DIRS);
 }
+
