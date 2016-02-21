@@ -120,7 +120,7 @@ TEST_F (SearcherTest, MouseRunTo_StartToGoal_LostWithNoDirection)
 /*
  * Tests mouse search using full flood
  */
-TEST_F (SearcherTest, MouseSearchTo_StartToGoal_Success)
+TEST_F (SearcherTest, MouseSearchTo_FullFlood_StartToGoal_Success)
 {
   char fileName[] = "mazefiles/minos03f.maz";
   int stepsTaken = 0;
@@ -134,6 +134,66 @@ TEST_F (SearcherTest, MouseSearchTo_StartToGoal_Success)
   EXPECT_TRUE (DefaultGoal().row == MousePosition().row) ;
   EXPECT_TRUE (DefaultGoal().col == MousePosition().col) ;
 }
+
+
+/*
+ * Tests mouse search using Modified flood
+ */
+TEST_F (SearcherTest, MouseSearchTo_ModifiedFlood_StartToGoal_Success)
+{
+  char fileName[] = "mazefiles/minos03f.maz";
+  int stepsTaken = 0;
+  ReadRealWallsFromFile (fileName);
+  MazeInit();
+  FloodMazeClassic (DefaultGoal());	/* seed the costs and directions */
+  MouseInit();
+  SetGoal (DefaultGoal());
+  stepsTaken = MouseSearchToModifiedFlood (DefaultGoal());
+  EXPECT_GT (500, stepsTaken);
+  EXPECT_TRUE (DefaultGoal().row == MousePosition().row) ;
+  EXPECT_TRUE (DefaultGoal().col == MousePosition().col) ;
+}
+
+/*
+ * Tests mouse search using Modified flood with no route
+ * The test maze has only two open cells at the start
+ */
+TEST_F (SearcherTest, MouseSearchTo_ModifiedFlood_StartToGoal_NORoute)
+{
+  char fileName[] = "mazefiles/map-y7.maz";
+  int stepsTaken = 0;
+  ReadRealWallsFromFile (fileName);
+  MazeInit();
+  FloodMazeClassic (DefaultGoal());	/* seed the costs and directions */
+  MouseInit();
+  SetGoal (DefaultGoal());
+  stepsTaken = MouseSearchToModifiedFlood (DefaultGoal());
+  EXPECT_LT (500, stepsTaken);
+  EXPECT_EQ (1, MousePosition().row) ;
+  EXPECT_EQ (0, MousePosition().col) ;
+}
+
+/*
+ * Tests mouse search using Modified flood with no route
+ * The test maze has only two open cells at the start
+ */
+TEST_F (SearcherTest, MouseSearchTo_FullFlood_StartToGoal_NORoute)
+{
+  char fileName[] = "mazefiles/map-y7.maz";
+  int stepsTaken = 0;
+  ReadRealWallsFromFile (fileName);
+  MazeInit();
+  FloodMazeClassic (DefaultGoal());	/* seed the costs and directions */
+  MouseInit();
+  SetGoal (DefaultGoal());
+  stepsTaken = MouseSearchToFullFlood (DefaultGoal());
+  EXPECT_EQ (1, stepsTaken);
+  EXPECT_EQ (1, MousePosition().row) ;
+  EXPECT_EQ (0, MousePosition().col) ;
+}
+
+
+
 
 
 

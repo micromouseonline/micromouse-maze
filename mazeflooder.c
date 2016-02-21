@@ -70,7 +70,7 @@ void FloodMazeClassic (location_t target)
     }
 
   }
-  printf ("Max List Length = %d List additions = %d path cost = %d\n", ListMaxSize(), ListAdditions(), Cost (Home()));
+  //printf ("Max List Length = %d List additions = %d path cost = %d\n", ListMaxSize(), ListAdditions(), Cost (Home()));
 }
 
 void AddOpenNeighboursToList (location_t here)

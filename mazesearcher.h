@@ -42,7 +42,6 @@ enum {
 
 
 void MouseInit (void);
-
 location_t MousePosition (void);
 direction_t MouseHeading (void);
 void MouseSetPosition (location_t location);
