@@ -104,6 +104,7 @@ int MouseSearchToModifiedFlood (location_t target)
 {
 
   int steps = 0;
+  FloodMazeClassic (target);	/* seed the costs before using modified flood */
   while (! (MousePosition().row == target.row && MousePosition().col == target.col)) {
     walls_t actualWalls = ReadWallSensors (MousePosition());
     UpdateCellFromWallData (MousePosition(), actualWalls);
