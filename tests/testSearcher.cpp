@@ -115,3 +115,25 @@ TEST_F (SearcherTest, MouseRunTo_StartToGoal_LostWithNoDirection)
   EXPECT_TRUE (0 == MousePosition().col) ;
 }
 
+
+
+/*
+ * Tests mouse search using full flood
+ */
+TEST_F (SearcherTest, MouseSearchTo_StartToGoal_Success)
+{
+  char fileName[] = "mazefiles/minos03f.maz";
+  int stepsTaken = 0;
+  ReadRealWallsFromFile (fileName);
+  MazeInit();
+  FloodMazeClassic (DefaultGoal());	/* seed the costs and directions */
+  MouseInit();
+  SetGoal (DefaultGoal());
+  stepsTaken = MouseSearchToFullFlood (DefaultGoal());
+  EXPECT_GT (500, stepsTaken);
+  EXPECT_TRUE (DefaultGoal().row == MousePosition().row) ;
+  EXPECT_TRUE (DefaultGoal().col == MousePosition().col) ;
+}
+
+
+

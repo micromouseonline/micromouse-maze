@@ -49,7 +49,8 @@ void MouseSetPosition (location_t location);
 void MouseSetHeading (direction_t direction);
 void MouseMove (void);
 void MouseRunTo (location_t target);
-void MouseSearchTo (location_t target);
+int MouseSearchToFullFlood (location_t target);
+int MouseSearchToModifiedFlood (location_t target);
 
 
 

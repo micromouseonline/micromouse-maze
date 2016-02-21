@@ -7,6 +7,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include "maze.h"
+#include "mazereader.h"
 #include "mazeflooder.h"
 #include "mazeprinter.h"
 #include "mazesearcher.h"
@@ -72,5 +73,55 @@ void MouseRunTo (location_t target)
       break;
     }
   }
+}
+
+/*
+ * Perform a search from the mouse current location to the target location
+ * uses a full flood after each step
+ * Returns the number of steps needed to get to the target
+ */
+int MouseSearchToFullFlood (location_t target)
+{
+
+  int steps = 0;
+  while (! (MousePosition().row == target.row && MousePosition().col == target.col)) {
+    walls_t actualWalls = ReadWallSensors (MousePosition());
+    UpdateCellFromWallData (MousePosition(), actualWalls);
+    FloodMazeClassic (target);
+    //ModifiedFlood(MousePosition());
+    direction_t direction = Direction (MousePosition());
+    if (direction == INVALID) {
+      break;
+    }
+    MouseSetHeading (direction);
+    MouseMove();
+    steps++;
+    if (steps > 500) {
+      break;
+    }
+  }
+  return steps;
+}
+int MouseSearchToModifiedFlood (location_t target)
+{
+
+  int steps = 0;
+  while (! (MousePosition().row == target.row && MousePosition().col == target.col)) {
+    walls_t actualWalls = ReadWallSensors (MousePosition());
+    UpdateCellFromWallData (MousePosition(), actualWalls);
+    //FloodMazeClassic (target);
+    ModifiedFlood (MousePosition());
+    direction_t direction = Direction (MousePosition());
+    if (direction == INVALID) {
+      break;
+    }
+    MouseSetHeading (direction);
+    MouseMove();
+    steps++;
+    if (steps > 500) {
+      break;
+    }
+  }
+  return steps;
 }
 
