@@ -17,7 +17,8 @@ class PathFinder : public ::testing::Test
     MazeResetWalls();
     MazeResetCosts();
     MazeResetDirections();
-    LoadMAZFile (testMazeName);
+    ReadRealWallsFromFile (testMazeName);
+    UpdateEntireMazeFromRealWalls ();
     SetGoal (DefaultGoal());
     FloodMazeClassic (DefaultGoal());
   }

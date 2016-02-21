@@ -13,7 +13,8 @@ class ModifiedFloodTest : public ::testing::Test
   {
     char mazeFileName[] = "mazefiles/minos03f.maz";
     MazeResetWalls();
-    LoadMAZFile (mazeFileName);
+    ReadRealWallsFromFile (mazeFileName);
+    UpdateEntireMazeFromRealWalls ();
     FloodMazeClassic (DefaultGoal());
     MazeRemoveWall (Location (2, 0), NORTH);
     EXPECT_EQ (0, Cost (DefaultGoal()));

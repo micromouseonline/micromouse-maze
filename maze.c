@@ -334,7 +334,7 @@ void MazeAddWall (location_t location, direction_t direction)
 
 
 /* set all four walls for a location - updates neighbours - set seen*/
-void MazeUpdateFromWallData (location_t location, walls_t wallData)
+void UpdateCellFromWallData (location_t location, walls_t wallData)
 {
   if (wallData & NORTH_WALL) {
     MazeAddWall (location, NORTH);

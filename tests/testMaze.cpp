@@ -107,7 +107,7 @@ TEST (Maze, MazeUpdateFromWallData_AllWalls)
   location_t loc = {2, 4};
   walls_t wallData = 0x0f;  // all walls
   MazeResetWalls();
-  MazeUpdateFromWallData (loc, wallData);
+  UpdateCellFromWallData (loc, wallData);
   walls_t walls;
   walls = Walls (loc);
   EXPECT_TRUE (WallExists (walls, NORTH));
@@ -122,7 +122,7 @@ TEST (Maze, MazeUpdateFromWallData_SomeWalls)
   location_t loc = {2, 4};
   walls_t wallData = 0x03;  // North and East Only
   MazeResetWalls();
-  MazeUpdateFromWallData (loc, wallData);
+  UpdateCellFromWallData (loc, wallData);
   walls_t walls;
   walls = Walls (loc);
   EXPECT_TRUE (WallExists (walls, NORTH));
@@ -137,7 +137,7 @@ TEST (Maze, MazeUpdateFromWallData_NoWalls)
   location_t loc = {2, 4};
   walls_t wallData = 0x00;  // No walls
   MazeResetWalls();
-  MazeUpdateFromWallData (loc, wallData);
+  UpdateCellFromWallData (loc, wallData);
   walls_t walls;
   walls = Walls (loc);
   EXPECT_FALSE (WallExists (walls, NORTH));

@@ -35,7 +35,8 @@ int main (int argc, char** argv)
 
   if (argc > 1) {
     for (int i = 1; i < argc; i++) {
-      LoadMAZFile (argv[i]);
+      ReadRealWallsFromFile (argv[i]);
+      UpdateMazeFromRealWalls ();
       printf ("\n===============================================\n");
       FloodMazeClassic (target);
       printf (" : %s\n", argv[i]);
@@ -45,7 +46,8 @@ int main (int argc, char** argv)
     }
   } else {
     char fileName[] = "mazefiles/minos03f.maz" ;
-    LoadMAZFile (fileName);
+    ReadRealWallsFromFile (fileName);
+    UpdateEntireMazeFromRealWalls ();
     printf ("\n===============================================\n");
     FloodMazeClassic (target);
     printf (" : %s\n", mazename);

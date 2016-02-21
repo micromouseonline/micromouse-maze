@@ -16,7 +16,8 @@ class SearcherTest : public ::testing::Test
     MazeResetWalls();
     SetGoal (DefaultGoal());
     FloodMazeClassic (DefaultGoal());
-    LoadMAZFile (testMazeName);
+    ReadRealWallsFromFile (testMazeName);
+    UpdateEntireMazeFromRealWalls ();
     FloodMazeClassic (DefaultGoal());
     MazeRemoveWall (Location (2, 0), NORTH);
     EXPECT_EQ (0, Cost (DefaultGoal()));

@@ -10,7 +10,8 @@ TEST (MazePrinter, DummyPrintingForCoverageTests)
 {
   char mazeFileName[] = "mazefiles/minos03f.maz";
   MazeResetWalls();
-  LoadMAZFile (mazeFileName);
+  ReadRealWallsFromFile (mazeFileName);
+  UpdateEntireMazeFromRealWalls ();
   FloodMazeClassic (DefaultGoal());
   PrintMaze (WALLS);
   PrintMaze (COSTS);

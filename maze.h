@@ -96,7 +96,7 @@ void MazeResetWalls (void);
 void MazeAddWall (location_t location, direction_t direction);
 
 /* set all four walls for a location - updates neighbours - set seen*/
-void MazeUpdateFromWallData (location_t location, walls_t walls);
+void UpdateCellFromWallData (location_t location, walls_t walls);
 
 /* clear a single wall - looks after neighbours - set seen*/
 void MazeRemoveWall (location_t location, direction_t direction);
