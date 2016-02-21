@@ -31,12 +31,7 @@ walls_t GetSingleCellWallData (location_t loc);
  */
 void LoadMAZFile (char * filename) ;
 
-/*
- * Set up the working maze with wall information for a classic 16x16 empty
- * maze. That is, walls around the outsides and to the East of the home
- * cell
- */
-void LoadEmptyMaze (void);
+
 
 
 #ifdef __cplusplus

@@ -271,6 +271,29 @@ uint8_t MazeHeight (void)
 }
 
 
+void MazeInit (void)
+{
+  MazeResetWalls();
+  MazeResetCosts();
+  MazeResetDirections();
+  location_t loc;
+  for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
+    loc.col = 0;
+    MazeAddWall (loc, WEST);
+    loc.col = MAZE_COLS - 1;
+    MazeAddWall (loc, EAST);
+  }
+  for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
+    loc.row = 0;
+    MazeAddWall (loc, SOUTH);
+    loc.row = MAZE_ROWS - 1;
+    MazeAddWall (loc, NORTH);
+  }
+  loc.row = 0;
+  loc.col = 0;
+  MazeAddWall (loc, EAST);
+}
+
 /*
  * clear the costs and directions
  * set the walls to the outside and start cell walls only

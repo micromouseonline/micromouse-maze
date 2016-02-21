@@ -80,6 +80,13 @@ uint8_t MazeWidth (void);
 uint8_t MazeHeight (void);
 
 /*
+ * Set up the working maze with wall information for a classic 16x16 empty
+ * maze. That is, walls around the outsides and to the East of the home
+ * cell
+ */
+void MazeInit (void);
+
+/*
  * clear the costs and directions
  * set the walls to the outside and start cell walls only
  */

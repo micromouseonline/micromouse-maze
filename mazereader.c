@@ -50,24 +50,5 @@ void LoadMAZFile (char * filename)
   }
 }
 
-
-void LoadEmptyMaze (void)
 {
-  MazeResetWalls();
-  location_t loc;
-  for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
-    loc.col = 0;
-    MazeAddWall (loc, WEST);
-    loc.col = MAZE_COLS - 1;
-    MazeAddWall (loc, EAST);
-  }
-  for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
-    loc.row = 0;
-    MazeAddWall (loc, SOUTH);
-    loc.row = MAZE_ROWS - 1;
-    MazeAddWall (loc, NORTH);
-  }
-  loc.row = 0;
-  loc.col = 0;
-  MazeAddWall (loc, EAST);
 }
