@@ -20,6 +20,7 @@
 #include "mazereader.h"
 #include "mazeflooder.h"
 #include "mazepathfinder.h"
+#include "mazesearcher.h"
 
 /*
  *
@@ -27,29 +28,31 @@
 int main (int argc, char** argv)
 {
   char mazename[64];
-  printf ("micromouse maze\n");
   MazeResetWalls();
+  MouseInit();
   location_t target = DefaultGoal();
 
   if (argc > 1) {
     for (int i = 1; i < argc; i++) {
-      ReadMAZFile (argv[i]);
-      printf ("\n===============================================\n");
-      FloodMazeClassic (target);
-      printf (" : %s\n", argv[i]);
-      IsolatePath (Home(), target);
-      PrintMaze (DIRS);
-      PrintMaze (COSTS);
+      ReadRealWallsFromFile (argv[i]);
+      MouseInit();
+      MazeInit();
+      int steps =  MouseSearchToFullFlood (target);
+      MouseInit();
+      MazeInit();
+      int stepsMod =  MouseSearchToModifiedFlood (target);
+      printf ("%4d : %3d %c %3d steps for %s\n", steps - stepsMod, steps, (steps > stepsMod) ? '>' : '<', stepsMod,  argv[i]);
     }
   } else {
-    ReadMAZFile ("mazefiles/minos03f.maz");
-    printf ("\n===============================================\n");
-    FloodMazeClassic (target);
+    char fileName[] = "mazefiles/minos03f.maz" ;
+    ReadRealWallsFromFile (fileName);
+    MouseInit();
+    MazeInit();
     printf (" : %s\n", mazename);
-    IsolatePath (Home(), target);
+    int steps =  MouseSearchToFullFlood (target);
     PrintMaze (DIRS);
     PrintMaze (COSTS);
-
+    printf ("searched in %d steps\n", steps);
   }
   return (EXIT_SUCCESS);
 }

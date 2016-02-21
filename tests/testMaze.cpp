@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "maze.h"
+#include "mazeprinter.h"
 
 
 TEST (Maze, MazeResetWalls_blankWalls)
@@ -106,7 +107,7 @@ TEST (Maze, MazeUpdateFromWallData_AllWalls)
   location_t loc = {2, 4};
   walls_t wallData = 0x0f;  // all walls
   MazeResetWalls();
-  MazeUpdateFromWallData (loc, wallData);
+  UpdateCellFromWallData (loc, wallData);
   walls_t walls;
   walls = Walls (loc);
   EXPECT_TRUE (WallExists (walls, NORTH));
@@ -121,7 +122,7 @@ TEST (Maze, MazeUpdateFromWallData_SomeWalls)
   location_t loc = {2, 4};
   walls_t wallData = 0x03;  // North and East Only
   MazeResetWalls();
-  MazeUpdateFromWallData (loc, wallData);
+  UpdateCellFromWallData (loc, wallData);
   walls_t walls;
   walls = Walls (loc);
   EXPECT_TRUE (WallExists (walls, NORTH));
@@ -136,7 +137,7 @@ TEST (Maze, MazeUpdateFromWallData_NoWalls)
   location_t loc = {2, 4};
   walls_t wallData = 0x00;  // No walls
   MazeResetWalls();
-  MazeUpdateFromWallData (loc, wallData);
+  UpdateCellFromWallData (loc, wallData);
   walls_t walls;
   walls = Walls (loc);
   EXPECT_FALSE (WallExists (walls, NORTH));
@@ -163,3 +164,26 @@ TEST (Maze, Has_Exit_AllWalls)
   EXPECT_FALSE (HasExit (loc, SOUTH));
   EXPECT_FALSE (HasExit (loc, WEST));
 }
+
+
+TEST (Maze, MazeInit)
+{
+  MazeInit();
+  EXPECT_TRUE (HasExit (Location (0, 0), NORTH));
+  EXPECT_FALSE (HasExit (Location (0, 0), EAST));
+  EXPECT_FALSE (HasExit (Location (0, 0), SOUTH));
+  EXPECT_FALSE (HasExit (Location (0, 0), WEST));
+  EXPECT_EQ (0, Cost (Location (0, 0)));
+  EXPECT_EQ (INVALID, Direction (Location (0, 0)));
+  PrintMaze (DIRS);
+  PrintMaze (COSTS);
+}
+
+TEST (Maze, Visited)
+{
+  MazeInit();
+  EXPECT_FALSE (Visited (Location (0, 0)));
+  MazeAddWall (Location (0, 0), NORTH);
+  EXPECT_TRUE (Visited (Location (0, 0)));
+}
+

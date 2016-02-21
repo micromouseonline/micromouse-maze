@@ -1,4 +1,4 @@
-/build/
-/dist/
 *.gcov
-/nbproject/private/
+build
+nbproject/private
+dist

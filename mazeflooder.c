@@ -9,18 +9,6 @@
 #include "list.h"
 #include "mazeflooder.h"
 
-void binary (uint8_t i)
-{
-  uint8_t n = 128;
-  while (n) {
-    if (n & i) {
-      printf ("1");
-    } else {
-      printf ("0");
-    }
-    n >>= 1;
-  }
-}
 
 void FloodMazeClassic (location_t target)
 {
@@ -82,7 +70,7 @@ void FloodMazeClassic (location_t target)
     }
 
   }
-  printf ("Max List Length = %d List additions = %d path cost = %d\n", ListMaxSize(), ListAdditions(), Cost (Home()));
+  //printf ("Max List Length = %d List additions = %d path cost = %d\n", ListMaxSize(), ListAdditions(), Cost (Home()));
 }
 
 void AddOpenNeighboursToList (location_t here)

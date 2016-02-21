@@ -10,21 +10,7 @@
 
 
 
-/* bit masks for the wall data */
-#define WALL       ((walls_t)0x01)
-#define NORTH_WALL (WALL << NORTH)
-#define EAST_WALL  (WALL << EAST)
-#define SOUTH_WALL (WALL << SOUTH)
-#define WEST_WALL  (WALL << WEST)
-#define ALL_WALLS (NORTH_WALL + EAST_WALL + SOUTH_WALL + WEST_WALL)
-#define WALL_SEEN  ((walls_t)0x10)
-#define NORTH_SEEN (WALL_SEEN << NORTH)
-#define EAST_SEEN  (WALL_SEEN << EAST)
-#define SOUTH_SEEN (WALL_SEEN << SOUTH)
-#define WEST_SEEN  (WALL_SEEN << WEST)
 
-#define ALL_SEEN (NORTH_SEEN + EAST_SEEN + SOUTH_SEEN + WEST_SEEN)
-#define VISITED ALL_SEEN
 
 
 static walls_t _walls[MAZE_COLS][MAZE_ROWS];
@@ -75,36 +61,38 @@ location_t Home (void)
  */
 location_t Neighbour (location_t location, direction_t direction)
 {
+  location_t result;
+  result = location;
   switch (direction) {
     case NORTH:
-      location.row = location.row + 1;
-      if (location.row >= MazeHeight()) {
-        location.row = 0;
+      result.row = location.row + 1;
+      if (result.row >= MazeHeight()) {
+        result.row = 0;
       }
       break;
     case EAST:
-      location.col = location.col + 1;
-      if (location.col >= MazeWidth()) {
-        location.col = 0;
+      result.col = location.col + 1;
+      if (result.col >= MazeWidth()) {
+        result.col = 0;
       }
       break;
     case SOUTH:
-      location.row = location.row - 1;
-      if (location.row < 0) {
-        location.row = MazeHeight() - 1;
+      result.row = location.row - 1;
+      if (result.row < 0) {
+        result.row = MazeHeight() - 1;
       }
       break;
     case WEST:
-      location.col = location.col - 1;
-      if (location.col < 0) {
-        location.col = MazeWidth() - 1;
+      result.col = location.col - 1;
+      if (result.col < 0) {
+        result.col = MazeWidth() - 1;
       }
       break;
     default:
       // do nothing
       break;
   }
-  return location;
+  return result;
 };
 
 bool IsGoal (location_t location)
@@ -283,6 +271,29 @@ uint8_t MazeHeight (void)
 }
 
 
+void MazeInit (void)
+{
+  MazeResetWalls();
+  MazeResetCosts();
+  MazeResetDirections();
+  location_t loc;
+  for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
+    loc.col = 0;
+    MazeAddWall (loc, WEST);
+    loc.col = MAZE_COLS - 1;
+    MazeAddWall (loc, EAST);
+  }
+  for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
+    loc.row = 0;
+    MazeAddWall (loc, SOUTH);
+    loc.row = MAZE_ROWS - 1;
+    MazeAddWall (loc, NORTH);
+  }
+  loc.row = 0;
+  loc.col = 0;
+  MazeAddWall (loc, EAST);
+}
+
 /*
  * clear the costs and directions
  * set the walls to the outside and start cell walls only
@@ -292,7 +303,7 @@ void MazeResetWalls (void)
   location_t loc;
   for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
     for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
-      _walls[loc.row][loc.col] = 0;
+      _walls[loc.row][loc.col] = EMPTY;
     }
   }
 }
@@ -323,7 +334,7 @@ void MazeAddWall (location_t location, direction_t direction)
 
 
 /* set all four walls for a location - updates neighbours - set seen*/
-void MazeUpdateFromWallData (location_t location, walls_t wallData)
+void UpdateCellFromWallData (location_t location, walls_t wallData)
 {
   if (wallData & NORTH_WALL) {
     MazeAddWall (location, NORTH);
@@ -362,4 +373,7 @@ walls_t Walls (location_t location)
 }
 
 
-
+bool Visited (location_t location)
+{
+  return (Walls (location) & VISITED) == VISITED;
+}

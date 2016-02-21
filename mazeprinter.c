@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include "maze.h"
 #include "mazeprinter.h"
+#include "mazesearcher.h"
 
 
 static char dirChars[] = "^>v< ";
@@ -28,6 +29,7 @@ void PrintMaze (print_options_t option)
       }
     }
     printf ("o\n");
+    /* TODO:  this is all rather messy */
     for (loc.col = 0; loc.col < MazeWidth(); loc.col++) {
       walls = Walls (loc);
       //Do the west walls
@@ -36,7 +38,9 @@ void PrintMaze (print_options_t option)
       } else {
         printf (" ");
       }
-      if (option & COSTS) {
+      if (MousePosition().row == loc.row && MousePosition().col == loc.col) {
+        printf ("[M]");
+      } else if (option & COSTS) {
         cost_t cost = Cost (loc);
         if (cost == MAX_COST) {
           printf (" x ");
@@ -52,7 +56,7 @@ void PrintMaze (print_options_t option)
     printf ("|\n");
   }
   for (loc.col = 0; loc.col < MazeWidth(); loc.col++) {
-    //Do the last row of walls on the south edge
+    /* Do the last row of walls on the south edge. They must all be there */
     printf ("o---");
   }
   printf ("o\n");

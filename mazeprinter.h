@@ -12,9 +12,9 @@
 extern "C" {
 #endif
 
-#include <stdio.h>
 
 typedef enum {
+  WALLS = 0,
   COSTS = 1,
   DIRS = 2
 } print_options_t;

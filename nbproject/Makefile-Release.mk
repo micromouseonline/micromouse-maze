@@ -41,7 +41,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/mazeflooder.o \
 	${OBJECTDIR}/mazepathfinder.o \
 	${OBJECTDIR}/mazeprinter.o \
-	${OBJECTDIR}/mazereader.o
+	${OBJECTDIR}/mazereader.o \
+	${OBJECTDIR}/mazesearcher.o
 
 # Test Directory
 TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
@@ -59,9 +60,12 @@ TESTOBJECTFILES= \
 	${TESTDIR}/tests/testList.o \
 	${TESTDIR}/tests/testLocation.o \
 	${TESTDIR}/tests/testMaze.o \
+	${TESTDIR}/tests/testMazePrinter.o \
+	${TESTDIR}/tests/testMazeReader.o \
 	${TESTDIR}/tests/testModifiedFlood.o \
 	${TESTDIR}/tests/testPathfinder.o \
 	${TESTDIR}/tests/testRunner.o \
+	${TESTDIR}/tests/testSearcher.o \
 	${TESTDIR}/tests/testWalls.o
 
 # C Compiler Flags
@@ -123,6 +127,11 @@ ${OBJECTDIR}/mazereader.o: mazereader.c
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/mazereader.o mazereader.c
 
+${OBJECTDIR}/mazesearcher.o: mazesearcher.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/mazesearcher.o mazesearcher.c
+
 # Subprojects
 .build-subprojects:
 
@@ -130,7 +139,7 @@ ${OBJECTDIR}/mazereader.o: mazereader.c
 .build-tests-conf: .build-tests-subprojects .build-conf ${TESTFILES}
 .build-tests-subprojects:
 
-${TESTDIR}/TestFiles/f1: ${TESTDIR}/gtest/src/gtest-all.o ${TESTDIR}/tests/testCosts.o ${TESTDIR}/tests/testDirection.o ${TESTDIR}/tests/testFlood.o ${TESTDIR}/tests/testList.o ${TESTDIR}/tests/testLocation.o ${TESTDIR}/tests/testMaze.o ${TESTDIR}/tests/testModifiedFlood.o ${TESTDIR}/tests/testPathfinder.o ${TESTDIR}/tests/testRunner.o ${TESTDIR}/tests/testWalls.o ${OBJECTFILES:%.o=%_nomain.o}
+${TESTDIR}/TestFiles/f1: ${TESTDIR}/gtest/src/gtest-all.o ${TESTDIR}/tests/testCosts.o ${TESTDIR}/tests/testDirection.o ${TESTDIR}/tests/testFlood.o ${TESTDIR}/tests/testList.o ${TESTDIR}/tests/testLocation.o ${TESTDIR}/tests/testMaze.o ${TESTDIR}/tests/testMazePrinter.o ${TESTDIR}/tests/testMazeReader.o ${TESTDIR}/tests/testModifiedFlood.o ${TESTDIR}/tests/testPathfinder.o ${TESTDIR}/tests/testRunner.o ${TESTDIR}/tests/testSearcher.o ${TESTDIR}/tests/testWalls.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc}   -o ${TESTDIR}/TestFiles/f1 $^ ${LDLIBSOPTIONS} 
 
@@ -177,6 +186,18 @@ ${TESTDIR}/tests/testMaze.o: tests/testMaze.cpp
 	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testMaze.o tests/testMaze.cpp
 
 
+${TESTDIR}/tests/testMazePrinter.o: tests/testMazePrinter.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testMazePrinter.o tests/testMazePrinter.cpp
+
+
+${TESTDIR}/tests/testMazeReader.o: tests/testMazeReader.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testMazeReader.o tests/testMazeReader.cpp
+
+
 ${TESTDIR}/tests/testModifiedFlood.o: tests/testModifiedFlood.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
@@ -193,6 +214,12 @@ ${TESTDIR}/tests/testRunner.o: tests/testRunner.cpp
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testRunner.o tests/testRunner.cpp
+
+
+${TESTDIR}/tests/testSearcher.o: tests/testSearcher.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testSearcher.o tests/testSearcher.cpp
 
 
 ${TESTDIR}/tests/testWalls.o: tests/testWalls.cpp 
@@ -290,6 +317,19 @@ ${OBJECTDIR}/mazereader_nomain.o: ${OBJECTDIR}/mazereader.o mazereader.c
 	    $(COMPILE.c) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/mazereader_nomain.o mazereader.c;\
 	else  \
 	    ${CP} ${OBJECTDIR}/mazereader.o ${OBJECTDIR}/mazereader_nomain.o;\
+	fi
+
+${OBJECTDIR}/mazesearcher_nomain.o: ${OBJECTDIR}/mazesearcher.o mazesearcher.c 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/mazesearcher.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.c) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/mazesearcher_nomain.o mazesearcher.c;\
+	else  \
+	    ${CP} ${OBJECTDIR}/mazesearcher.o ${OBJECTDIR}/mazesearcher_nomain.o;\
 	fi
 
 # Run Test Targets

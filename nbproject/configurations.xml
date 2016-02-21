@@ -10,6 +10,7 @@
       <itemPath>mazepathfinder.h</itemPath>
       <itemPath>mazeprinter.h</itemPath>
       <itemPath>mazereader.h</itemPath>
+      <itemPath>mazesearcher.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -27,6 +28,7 @@
       <itemPath>mazepathfinder.c</itemPath>
       <itemPath>mazeprinter.c</itemPath>
       <itemPath>mazereader.c</itemPath>
+      <itemPath>mazesearcher.c</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -43,9 +45,12 @@
         <itemPath>tests/testList.cpp</itemPath>
         <itemPath>tests/testLocation.cpp</itemPath>
         <itemPath>tests/testMaze.cpp</itemPath>
+        <itemPath>tests/testMazePrinter.cpp</itemPath>
+        <itemPath>tests/testMazeReader.cpp</itemPath>
         <itemPath>tests/testModifiedFlood.cpp</itemPath>
         <itemPath>tests/testPathfinder.cpp</itemPath>
         <itemPath>tests/testRunner.cpp</itemPath>
+        <itemPath>tests/testSearcher.cpp</itemPath>
         <itemPath>tests/testWalls.cpp</itemPath>
       </logicalFolder>
     </logicalFolder>
@@ -54,6 +59,7 @@
                    projectFiles="false"
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
+      <itemPath>coverage.txt</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
@@ -114,6 +120,10 @@
       </item>
       <item path="mazereader.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="mazesearcher.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="mazesearcher.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="tests/testCosts.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testDirection.cpp" ex="false" tool="1" flavor2="0">
@@ -126,11 +136,17 @@
       </item>
       <item path="tests/testMaze.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="tests/testMazePrinter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testMazeReader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="tests/testModifiedFlood.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testPathfinder.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testRunner.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testSearcher.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testWalls.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -202,6 +218,10 @@
       </item>
       <item path="mazereader.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="mazesearcher.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="mazesearcher.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="tests/testCosts.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testDirection.cpp" ex="false" tool="1" flavor2="0">
@@ -214,11 +234,17 @@
       </item>
       <item path="tests/testMaze.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="tests/testMazePrinter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testMazeReader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="tests/testModifiedFlood.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testPathfinder.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testRunner.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testSearcher.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testWalls.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -285,6 +311,10 @@
       </item>
       <item path="mazereader.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="mazesearcher.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="mazesearcher.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="tests/testCosts.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testDirection.cpp" ex="false" tool="1" flavor2="0">
@@ -297,11 +327,17 @@
       </item>
       <item path="tests/testMaze.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="tests/testMazePrinter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testMazeReader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="tests/testModifiedFlood.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testPathfinder.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testRunner.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testSearcher.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testWalls.cpp" ex="false" tool="1" flavor2="0">
       </item>
