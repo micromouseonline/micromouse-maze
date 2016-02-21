@@ -23,7 +23,7 @@ void ReadMazFileData (char * filename);
  * Return wall data for a single cell without updating the working maze.
  * Use this when searching to simulate grabbing wall sensor data.
  */
-walls_t GetSingleCellWallData (location_t loc);
+walls_t ReadWallSensors (location_t loc);
 
 /*
  * Calls ReadMazFileData to read a MAZ file and then loads the wall data into

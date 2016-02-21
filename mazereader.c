@@ -50,5 +50,8 @@ void LoadMAZFile (char * filename)
   }
 }
 
+walls_t ReadWallSensors (location_t loc)
 {
+  return wallData[loc.row][loc.col];
 }
+

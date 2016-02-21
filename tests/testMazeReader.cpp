@@ -17,3 +17,16 @@ TEST (MazeReader, LoadMazeFromInvalidFile)
   LoadMAZFile (fileName);
   EXPECT_EQ (ALL_SEEN + NO_WALLS, Walls (Home()));
 }
+
+
+TEST (MazeReader, ReadWallSensors)
+{
+  walls_t wallData;
+  char fileName[] = "mazefiles/minos03f.maz";
+  ReadMazFileData (fileName);
+  wallData = ReadWallSensors (Location (0, 0));
+  EXPECT_EQ (WEST_WALL + SOUTH_WALL + EAST_WALL, wallData);
+  wallData = ReadWallSensors (Location (0, 1));
+  EXPECT_EQ (WEST_WALL + SOUTH_WALL, wallData);
+}
+
