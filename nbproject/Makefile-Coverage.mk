@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/BasicMaze.o \
 	${OBJECTDIR}/list.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/maze.o \
@@ -91,6 +92,11 @@ LDLIBSOPTIONS=
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/micromouse-maze: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/micromouse-maze ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/BasicMaze.o: BasicMaze.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/BasicMaze.o BasicMaze.cpp
 
 ${OBJECTDIR}/list.o: list.c 
 	${MKDIR} -p ${OBJECTDIR}
@@ -227,6 +233,19 @@ ${TESTDIR}/tests/testWalls.o: tests/testWalls.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I. -I../../micromouse/micromouse-maze/gtest -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testWalls.o tests/testWalls.cpp
 
+
+${OBJECTDIR}/BasicMaze_nomain.o: ${OBJECTDIR}/BasicMaze.o BasicMaze.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/BasicMaze.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/BasicMaze_nomain.o BasicMaze.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/BasicMaze.o ${OBJECTDIR}/BasicMaze_nomain.o;\
+	fi
 
 ${OBJECTDIR}/list_nomain.o: ${OBJECTDIR}/list.o list.c 
 	${MKDIR} -p ${OBJECTDIR}

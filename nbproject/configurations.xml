@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>BasicMaze.h</itemPath>
       <itemPath>list.h</itemPath>
       <itemPath>maze.h</itemPath>
       <itemPath>mazeflooder.h</itemPath>
@@ -19,6 +20,7 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>BasicMaze.cpp</itemPath>
       <itemPath>LICENSE</itemPath>
       <itemPath>README.md</itemPath>
       <itemPath>list.c</itemPath>
@@ -60,6 +62,7 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
       <itemPath>coverage.txt</itemPath>
+      <itemPath>cppcheck-errors.txt</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
@@ -71,7 +74,17 @@
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
+        <cTool>
+          <standard>10</standard>
+        </cTool>
+        <ccTool>
+          <standard>8</standard>
+        </ccTool>
       </compileType>
+      <item path="BasicMaze.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BasicMaze.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="LICENSE" ex="false" tool="3" flavor2="0">
       </item>
       <item path="README.md" ex="false" tool="3" flavor2="0">
@@ -87,6 +100,7 @@
             <pElem>.</pElem>
             <pElem>../../micromouse/micromouse-maze/gtest</pElem>
           </incDir>
+          <commandLine>-std=gnu++0x</commandLine>
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f1</output>
@@ -171,6 +185,10 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="BasicMaze.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BasicMaze.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="LICENSE" ex="false" tool="3" flavor2="0">
       </item>
       <item path="README.md" ex="false" tool="3" flavor2="0">
@@ -263,6 +281,10 @@
           <commandLine>-fprofile-arcs -ftest-coverage</commandLine>
         </ccTool>
       </compileType>
+      <item path="BasicMaze.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BasicMaze.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="LICENSE" ex="false" tool="3" flavor2="0">
       </item>
       <item path="README.md" ex="false" tool="3" flavor2="0">
