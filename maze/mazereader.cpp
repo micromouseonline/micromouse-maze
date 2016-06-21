@@ -22,20 +22,26 @@ void ClearWallData (void)
   }
 }
 
-void ReadRealWallsFromFile (char * filename)
-{
+void ReadRealWallsFromFile(char *filename) {
   FILE *fp;
   location_t loc;
   ClearWallData(); /* in case we do not find a file */
-  if ( (fp = fopen (filename, "rb")) == NULL) {
+  if ((fp = fopen(filename, "rb")) == NULL) {
     return;
   }
-  for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
-    for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
-      wallData[loc.row][loc.col] = fgetc (fp);// & ~VISITED;
+  fseek(fp, 0L, SEEK_END);
+  long size = ftell(fp);
+  // a standard maze uses 256 bytes
+  // assume the first 256 bytes are the wall data
+  if (size >= 256) {
+    rewind(fp);
+    for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
+      for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
+        wallData[loc.row][loc.col] = fgetc(fp);// & ~VISITED;
+      }
     }
   }
-  fclose (fp);
+  fclose(fp);
 }
 
 /*
