@@ -6,7 +6,6 @@
  */
 
 #include "list.h"
-#include "maze.h"
 
 #define LIST_SIZE 256
 

@@ -5,11 +5,9 @@
  * Created on 17 February 2016, 21:31
  */
 #include <assert.h>
-#include <stdio.h>
 #include "maze.h"
 #include "mazereader.h"
 #include "mazeflooder.h"
-#include "mazeprinter.h"
 #include "mazesearcher.h"
 
 static location_t mousePosition;

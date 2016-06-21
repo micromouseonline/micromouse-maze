@@ -6,7 +6,6 @@
  */
 
 #include "maze.h"
-#include "mazeflooder.h"
 #include "mazepathfinder.h"
 
 

@@ -4,7 +4,6 @@
  *
  * Created on 13 February 2016, 21:48
  */
-#include <stdio.h>
 #include "maze.h"
 #include "list.h"
 #include "mazeflooder.h"
