@@ -366,13 +366,16 @@ void UpdateCellFromWallData (location_t location, walls_t wallData)
   }
 }
 
+walls_t * wallsPointer(location_t location){
+  return & _walls[location.row][location.col];
+}
 
 /* clear a single wall - looks after neighbours - set seen*/
-void MazeRemoveWall (location_t location, direction_t direction)
+void MazeRemoveWall ( location_t location, direction_t direction)
 {
-  WallClear (&_walls[location.row][location.col], direction);
-  location = Neighbour (location, direction);
-  WallClear (&_walls[location.row][location.col], Behind (direction));
+  WallClear (wallsPointer(location), direction);
+  location_t neighbour = Neighbour (location, direction);
+  WallClear (wallsPointer(neighbour), Behind (direction));
 }
 
 /* return all the walls for a given location */

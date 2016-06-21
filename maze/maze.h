@@ -104,8 +104,10 @@ void UpdateCellFromWallData (location_t location, walls_t walls);
 /* clear a single wall - looks after neighbours - set seen*/
 void MazeRemoveWall (location_t location, direction_t direction);
 
+/* return a pointer to the walldata at a given location */
+walls_t * wallsPointer(location_t location);
 
-/* return all the walls for a given location */
+/* return the actual wall data for a given location */
 walls_t Walls (location_t location);
 
 bool Visited (location_t location);
