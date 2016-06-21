@@ -2,10 +2,10 @@ cmake_minimum_required(VERSION 2.8)
 
 set(CMAKE_LEGACY_CYGWIN_WIN32 0)
 #set(CMAKE_CXX_FLAGS " -std=gnu++0x")
-add_definitions(-std=gnu++0x)
+#add_definitions(-std=gnu++0x)
 
 
-project(libmaze)
+project(maze)
 
 set(HEADER_FILES
         list.h
@@ -17,16 +17,16 @@ set(HEADER_FILES
         mazesearcher.h)
 
 set (SOURCE_FILES
-        list.c
-        maze.c
-        mazeflooder.c
-        mazepathfinder.c
-        mazeprinter.c
-        mazereader.c
-        mazesearcher.c
+        list.cpp
+        maze.cpp
+        mazeflooder.cpp
+        mazepathfinder.cpp
+        mazeprinter.cpp
+        mazereader.cpp
+        mazesearcher.cpp
         )
 
-add_library(libmaze
+add_library(maze
         STATIC
         ${SOURCE_FILES}
         ${HEADER_FILES})

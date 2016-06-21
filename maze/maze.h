@@ -60,7 +60,7 @@ extern "C" {
 
 #define ALL_SEEN (NORTH_SEEN + EAST_SEEN + SOUTH_SEEN + WEST_SEEN)
 #define VISITED ALL_SEEN
-#define EMPTY ((walls_t) 0x00)
+
 
 
 /* one day diagonals may make this 8 */

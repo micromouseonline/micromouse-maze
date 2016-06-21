@@ -13,14 +13,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
-#include <string.h>
-#include "libmaze/maze.h"
-#include "libmaze/mazeprinter.h"
-#include "libmaze/mazereader.h"
-#include "libmaze/mazeflooder.h"
-#include "libmaze/mazepathfinder.h"
-#include "libmaze/mazesearcher.h"
+#include "maze.h"
+#include "mazeprinter.h"
+#include "mazereader.h"
+#include "mazeflooder.h"
+#include "mazepathfinder.h"
+#include "mazesearcher.h"
 
 /*
  *

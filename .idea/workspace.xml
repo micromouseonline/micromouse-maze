@@ -2,6 +2,7 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" assignedExecutableTargets="true" buildAllGenerated="true">
     <generated>
+      <config projectName="maze" targetName="maze" />
       <config projectName="LibMaze" targetName="libmaze" />
       <config projectName="LibMaze" targetName="gtest_main" />
       <config projectName="micromouse_maze" targetName="micromouse_maze" />
@@ -11,6 +12,8 @@
       <config projectName="micromouse" targetName="micromouse_maze" />
       <config projectName="LibMaze" targetName="gtest" />
       <config projectName="LibMaze" targetName="calendar_run" />
+      <config projectName="maze" targetName="runTestSuite" />
+      <config projectName="LibMaze" targetName="libmaze_run" />
     </generated>
   </component>
   <component name="CMakeSettings" AUTO_RELOAD="true" GENERATION_PASS_SYSTEM_ENVIRONMENT="true" BUILD_OUTPUT_DIR="$PROJECT_DIR$">
@@ -20,234 +23,66 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="340da844-fb5b-4101-a8f9-54f0cc06849b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libmaze/CMakeLists.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main.cpp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/CMakeLists.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/CHANGES" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/CMakeLists.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/CONTRIBUTORS" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/LICENSE" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/Makefile.am" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/Makefile.in" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/README" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/aclocal.m4" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/build-aux/config.guess" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/build-aux/config.h.in" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/build-aux/config.sub" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/build-aux/depcomp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/build-aux/install-sh" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/build-aux/ltmain.sh" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/build-aux/missing" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/cmake/internal_utils.cmake" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/codegear/gtest.cbproj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/codegear/gtest.groupproj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/codegear/gtest_link.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/codegear/gtest_main.cbproj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/codegear/gtest_unittest.cbproj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/configure" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/configure.ac" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/fused-src/gtest/gtest-all.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/fused-src/gtest/gtest.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/gtest-param-test.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/internal/gtest-param-util-generated.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/internal/gtest-type-util.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/m4/acx_pthread.m4" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/m4/gtest.m4" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/m4/libtool.m4" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/m4/ltoptions.m4" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/m4/ltsugar.m4" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/m4/ltversion.m4" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/m4/lt~obsolete.m4" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/make/Makefile" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/msvc/gtest-md.sln" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/msvc/gtest-md.vcproj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/msvc/gtest.sln" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/msvc/gtest.vcproj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/msvc/gtest_main-md.vcproj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/msvc/gtest_main.vcproj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/msvc/gtest_prod_test-md.vcproj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/msvc/gtest_prod_test.vcproj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/msvc/gtest_unittest-md.vcproj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/msvc/gtest_unittest.vcproj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/samples/prime_tables.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/samples/sample1.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/samples/sample1.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/samples/sample10_unittest.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/samples/sample1_unittest.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/samples/sample2.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/samples/sample2.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/samples/sample2_unittest.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/samples/sample3-inl.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/samples/sample3_unittest.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/samples/sample4.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/samples/sample4.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/samples/sample4_unittest.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/samples/sample5_unittest.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/samples/sample6_unittest.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/samples/sample7_unittest.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/samples/sample8_unittest.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/samples/sample9_unittest.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/scripts/fuse_gtest_files.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/scripts/gen_gtest_pred_impl.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/scripts/gtest-config.in" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/scripts/pump.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/scripts/test/Makefile" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/src/gtest_main.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest-death-test_ex_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest-death-test_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest-filepath_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest-linked_ptr_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest-listener_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest-message_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest-options_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest-param-test2_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest-param-test_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest-param-test_test.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest-port_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest-printers_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest-test-part_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest-tuple_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest-typed-test2_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest-typed-test_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest-typed-test_test.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest-unittest-api_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_all_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_break_on_failure_unittest.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_break_on_failure_unittest_.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_catch_exceptions_test.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_catch_exceptions_test_.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_color_test.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_color_test_.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_env_var_test.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_env_var_test_.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_environment_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_filter_unittest.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_filter_unittest_.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_help_test.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_help_test_.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_list_tests_unittest.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_list_tests_unittest_.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_main_unittest.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_no_test_unittest.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_output_test.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_output_test_.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_output_test_golden_lin.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_pred_impl_unittest.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_premature_exit_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_prod_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_repeat_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_shuffle_test.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_shuffle_test_.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_sole_header_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_stress_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_test_utils.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_throw_on_failure_ex_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_throw_on_failure_test.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_throw_on_failure_test_.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_uninitialized_test.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_uninitialized_test_.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_unittest.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_xml_outfile2_test_.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_xml_outfiles_test.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_xml_output_unittest.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_xml_output_unittest_.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_xml_test_utils.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/production.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/production.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/xcode/Config/DebugProject.xcconfig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/xcode/Config/FrameworkTarget.xcconfig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/xcode/Config/General.xcconfig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/xcode/Config/ReleaseProject.xcconfig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/xcode/Config/StaticLibraryTarget.xcconfig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/xcode/Config/TestTarget.xcconfig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/xcode/Resources/Info.plist" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/xcode/Samples/FrameworkSample/Info.plist" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/xcode/Samples/FrameworkSample/WidgetFramework.xcodeproj/project.pbxproj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/xcode/Samples/FrameworkSample/runtests.sh" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/xcode/Samples/FrameworkSample/widget.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/xcode/Samples/FrameworkSample/widget.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/xcode/Samples/FrameworkSample/widget_test.cc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/xcode/Scripts/runtests.sh" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/xcode/Scripts/versiongenerate.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/xcode/gtest.xcodeproj/project.pbxproj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/test_suite/CMakeLists.txt" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.dep.inc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/coverage.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/gtest/gtest/gtest-param-test.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/gtest/gtest/internal/custom/gtest-port.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/gtest/gtest/internal/gtest-param-util-generated.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/gtest/gtest/internal/gtest-port-arch.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/gtest/gtest/internal/gtest-type-util.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/main.c" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/libmaze/README.md" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/gtest/gtest-death-test.h" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/gtest-death-test.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/gtest/gtest-message.h" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/gtest-message.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/gtest/gtest-param-test.h.pump" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/gtest-param-test.h.pump" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/gtest/gtest-printers.h" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/gtest-printers.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/gtest/gtest-spi.h" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/gtest-spi.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/gtest/gtest-test-part.h" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/gtest-test-part.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/gtest/gtest-typed-test.h" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/gtest-typed-test.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/gtest/gtest.h" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/gtest.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/gtest/gtest_pred_impl.h" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/gtest_pred_impl.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/gtest/gtest_prod.h" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/gtest_prod.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/gtest/internal/custom/gtest-printers.h" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/test/gtest_xml_outfile1_test_.cc" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/gtest/internal/custom/gtest.h" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/codegear/gtest_all.cc" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/gtest/internal/gtest-death-test-internal.h" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/internal/gtest-death-test-internal.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/gtest/internal/gtest-filepath.h" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/internal/gtest-filepath.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/gtest/internal/gtest-internal.h" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/internal/gtest-internal.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/gtest/internal/gtest-linked_ptr.h" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/internal/gtest-linked_ptr.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/gtest/internal/gtest-param-util-generated.h.pump" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/internal/gtest-param-util-generated.h.pump" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/gtest/internal/gtest-param-util.h" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/internal/gtest-param-util.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/gtest/internal/gtest-port.h" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/internal/gtest-port.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/gtest/internal/gtest-string.h" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/internal/gtest-string.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/gtest/internal/gtest-tuple.h" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/internal/gtest-tuple.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/gtest/internal/gtest-tuple.h.pump" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/internal/gtest-tuple.h.pump" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/gtest/internal/gtest-type-util.h.pump" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/internal/gtest-type-util.h.pump" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/src/gtest-all.cc" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/src/gtest-all.cc" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/src/gtest-death-test.cc" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/src/gtest-death-test.cc" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/src/gtest-filepath.cc" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/src/gtest-filepath.cc" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/src/gtest-internal-inl.h" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/src/gtest-internal-inl.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/src/gtest-port.cc" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/src/gtest-port.cc" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/src/gtest-printers.cc" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/src/gtest-printers.cc" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/src/gtest-test-part.cc" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/src/gtest-test-part.cc" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/src/gtest-typed-test.cc" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/src/gtest-typed-test.cc" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/src/gtest.cc" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/src/gtest.cc" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gtest/src/gtest_main.cc" afterPath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/fused-src/gtest/gtest_main.cc" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/list.c" afterPath="$PROJECT_DIR$/libmaze/list.c" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/list.h" afterPath="$PROJECT_DIR$/libmaze/list.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/maze.c" afterPath="$PROJECT_DIR$/libmaze/maze.c" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/maze.h" afterPath="$PROJECT_DIR$/libmaze/maze.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mazeflooder.c" afterPath="$PROJECT_DIR$/libmaze/mazeflooder.c" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mazeflooder.h" afterPath="$PROJECT_DIR$/libmaze/mazeflooder.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mazepathfinder.c" afterPath="$PROJECT_DIR$/libmaze/mazepathfinder.c" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mazepathfinder.h" afterPath="$PROJECT_DIR$/libmaze/mazepathfinder.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mazeprinter.c" afterPath="$PROJECT_DIR$/libmaze/mazeprinter.c" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mazeprinter.h" afterPath="$PROJECT_DIR$/libmaze/mazeprinter.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mazereader.c" afterPath="$PROJECT_DIR$/libmaze/mazereader.c" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mazereader.h" afterPath="$PROJECT_DIR$/libmaze/mazereader.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mazesearcher.c" afterPath="$PROJECT_DIR$/libmaze/mazesearcher.c" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mazesearcher.h" afterPath="$PROJECT_DIR$/libmaze/mazesearcher.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/tests/testCosts.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testCosts.cpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/tests/testDirection.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testDirection.cpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/tests/testFlood.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testFlood.cpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/tests/testList.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testList.cpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/tests/testLocation.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testLocation.cpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/tests/testMaze.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testMaze.cpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/tests/testMazePrinter.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testMazePrinter.cpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/tests/testMazeReader.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testMazeReader.cpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/tests/testModifiedFlood.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testModifiedFlood.cpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/tests/testPathfinder.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testPathfinder.cpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/tests/testRunner.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testRunner.cpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/tests/testSearcher.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testSearcher.cpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/tests/testWalls.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testWalls.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Debug/libmaze.a" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/CMakeFiles/3.5.2/CMakeCCompiler.cmake" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/CMakeFiles/3.5.2/CMakeCXXCompiler.cmake" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/CMakeFiles/3.5.2/CMakeDetermineCompilerABI_C.bin" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/CMakeFiles/3.5.2/CMakeDetermineCompilerABI_CXX.bin" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/CMakeFiles/3.5.2/CMakeSystem.cmake" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/CMakeFiles/3.5.2/CompilerIdC/a.out" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/CMakeFiles/3.5.2/CompilerIdCXX/a.out" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/CMakeFiles/cmake.check_cache" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/CMakeFiles/feature_tests.bin" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/CMakeFiles/feature_tests.c" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/CMakeFiles/feature_tests.cxx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Debug/libgtest.a" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Debug/libgtest_main.a" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Debug/liblibmaze.a" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Makefile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/libmaze/Makefile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/libmaze/liblibmaze.a" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/nbproject/Makefile-Coverage.mk" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/nbproject/Makefile-Debug.mk" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/nbproject/Makefile-Release.mk" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/nbproject/Makefile-impl.mk" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/nbproject/Makefile-variables.mk" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/nbproject/Package-Coverage.bash" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/nbproject/Package-Debug.bash" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/nbproject/Package-Release.bash" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/nbproject/configurations.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/nbproject/project.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/Makefile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/Makefile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/libgtest.a" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/lib/gtest-1.7.0/libgtest_main.a" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/test_suite/Makefile" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/libmaze/CMakeLists.txt" afterPath="$PROJECT_DIR$/maze/CMakeLists.txt" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/libmaze/README.md" afterPath="$PROJECT_DIR$/maze/README.md" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/libmaze/list.c" afterPath="$PROJECT_DIR$/maze/list.cpp" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/libmaze/list.h" afterPath="$PROJECT_DIR$/maze/list.h" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/libmaze/maze.c" afterPath="$PROJECT_DIR$/maze/maze.cpp" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/libmaze/maze.h" afterPath="$PROJECT_DIR$/maze/maze.h" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/libmaze/mazeflooder.c" afterPath="$PROJECT_DIR$/maze/mazeflooder.cpp" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/libmaze/mazeflooder.h" afterPath="$PROJECT_DIR$/maze/mazeflooder.h" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/libmaze/mazepathfinder.c" afterPath="$PROJECT_DIR$/maze/mazepathfinder.cpp" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/libmaze/mazepathfinder.h" afterPath="$PROJECT_DIR$/maze/mazepathfinder.h" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/libmaze/mazeprinter.c" afterPath="$PROJECT_DIR$/maze/mazeprinter.cpp" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/libmaze/mazeprinter.h" afterPath="$PROJECT_DIR$/maze/mazeprinter.h" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/libmaze/mazereader.c" afterPath="$PROJECT_DIR$/maze/mazereader.cpp" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/libmaze/mazereader.h" afterPath="$PROJECT_DIR$/maze/mazereader.h" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/libmaze/mazesearcher.c" afterPath="$PROJECT_DIR$/maze/mazesearcher.cpp" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/libmaze/mazesearcher.h" afterPath="$PROJECT_DIR$/maze/mazesearcher.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mazefiles/UK-robofest-NOV-2015-MAZE-A.maz" afterPath="$PROJECT_DIR$/mazefiles/UK-robofest-NOV-2015-MAZE-A.maz" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Makefile" afterPath="$PROJECT_DIR$/Makefile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nbproject/Makefile-Coverage.mk" afterPath="$PROJECT_DIR$/nbproject/Makefile-Coverage.mk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nbproject/Makefile-Debug.mk" afterPath="$PROJECT_DIR$/nbproject/Makefile-Debug.mk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nbproject/Makefile-Release.mk" afterPath="$PROJECT_DIR$/nbproject/Makefile-Release.mk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nbproject/Makefile-variables.mk" afterPath="$PROJECT_DIR$/nbproject/Makefile-variables.mk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nbproject/Package-Debug.bash" afterPath="$PROJECT_DIR$/nbproject/Package-Debug.bash" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nbproject/configurations.xml" afterPath="$PROJECT_DIR$/nbproject/configurations.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/micromouse-maze.iml" afterPath="$PROJECT_DIR$/.idea/micromouse-maze.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.cpp" afterPath="$PROJECT_DIR$/main.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/CMakeLists.txt" afterPath="$PROJECT_DIR$/tests/CMakeLists.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_suite/CMakeLists.txt" afterPath="$PROJECT_DIR$/tests/test_suite/CMakeLists.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_suite/testPathfinder.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testPathfinder.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_suite/testRunner.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testRunner.cpp" />
     </list>
     <ignored path="micromouse-maze.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -271,50 +106,28 @@
       <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="35" selection-start-line="0" selection-start-column="35" selection-end-line="0" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="maze.h" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/libmaze/maze.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="685">
-              <caret line="121" column="0" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
+            <state relative-caret-position="88">
+              <caret line="4" column="1" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/libmaze/CMakeLists.txt">
+        <entry file="file://$PROJECT_DIR$/maze/CMakeLists.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="30" selection-start-line="2" selection-start-column="30" selection-end-line="2" selection-end-column="30" />
+            <state relative-caret-position="88">
+              <caret line="4" column="1" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="maze.c" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/libmaze/maze.c">
+      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/CMakeLists.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3224">
-              <caret line="367" column="0" selection-start-line="367" selection-start-column="0" selection-end-line="367" selection-end-column="0" />
-              <folding>
-                <element signature="e#92#111#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="testModifiedFlood.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test_suite/testModifiedFlood.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="13" column="30" selection-start-line="13" selection-start-column="30" selection-end-line="13" selection-end-column="30" />
+            <state relative-caret-position="198">
+              <caret line="9" column="60" selection-start-line="9" selection-start-column="60" selection-end-line="9" selection-end-column="60" />
               <folding />
             </state>
           </provider>
@@ -323,48 +136,73 @@
       <file leaf-file-name="testPathfinder.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test_suite/testPathfinder.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
-              <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+            <state relative-caret-position="264">
+              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main.cpp">
+      <file leaf-file-name="mazeflooder.cpp" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/maze/mazeflooder.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="419">
-              <caret line="85" column="42" selection-start-line="85" selection-start-column="42" selection-end-line="85" selection-end-column="42" />
+            <state relative-caret-position="651">
+              <caret line="136" column="6" selection-start-line="136" selection-start-column="6" selection-end-line="136" selection-end-column="6" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Makefile" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Makefile">
+      <file leaf-file-name="maze.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/maze/maze.h">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
+              <caret line="67" column="24" selection-start-line="67" selection-start-column="24" selection-end-line="67" selection-end-column="24" />
+              <folding>
+                <marker date="1466458587000" expanded="false" signature="632:644" placeholder="..." />
+                <marker date="1466458587000" expanded="false" signature="4320:4321" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mazepathfinder.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/maze/mazepathfinder.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="44" column="21" selection-start-line="44" selection-start-column="21" selection-end-line="44" selection-end-column="21" />
+              <folding>
+                <marker date="1466519099000" expanded="true" signature="643:1294" placeholder="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mazeprinter.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/maze/mazeprinter.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-731">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gtest.m4" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/lib/gtest-1.7.0/m4/gtest.m4">
+      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/test_suite/CMakeLists.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="726">
+              <caret line="33" column="2" selection-start-line="31" selection-start-column="1" selection-end-line="33" selection-end-column="2" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="testSearcher.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test_suite/testSearcher.cpp">
+      <file leaf-file-name="testCosts.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/test_suite/testCosts.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -386,30 +224,35 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/maze.c" />
-        <option value="$PROJECT_DIR$/tests/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/tests/test_suite/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/tests/test_suite/testMazeReader.cpp" />
         <option value="$PROJECT_DIR$/tests/test_suite/testSearcher.cpp" />
         <option value="$PROJECT_DIR$/tests/test_suite/testModifiedFlood.cpp" />
-        <option value="$PROJECT_DIR$/tests/test_suite/testPathfinder.cpp" />
-        <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/libmaze/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/libmaze/maze.c" />
+        <option value="$PROJECT_DIR$/libmaze/maze.h" />
+        <option value="$PROJECT_DIR$/main.cpp" />
+        <option value="$PROJECT_DIR$/tests/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/tests/test_suite/testRunner.cpp" />
+        <option value="$PROJECT_DIR$/tests/test_suite/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/maze/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/maze/mazepathfinder.c" />
+        <option value="$PROJECT_DIR$/tests/test_suite/testPathfinder.cpp" />
+        <option value="$PROJECT_DIR$/maze/mazeflooder.c" />
       </list>
     </option>
   </component>
-  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolGruntFileManager" detection-done="true" />
+  <component name="JsBuildToolPackageJson" detection-done="true" />
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
-    <sorting>DEFINITION_ORDER</sorting>
   </component>
+  <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1616" />
-    <option name="height" value="886" />
+    <option name="x" value="373" />
+    <option name="y" value="222" />
+    <option name="width" value="1858" />
+    <option name="height" value="1047" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -464,39 +307,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="micromouse-maze" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="micromouse-maze" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="micromouse-maze" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="micromouse-maze" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="libmaze" />
+              <option name="myItemId" value="maze" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -561,6 +372,12 @@
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
@@ -675,17 +492,22 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="libmaze_run" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LibMaze" TARGET_NAME="libmaze_test" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="LibMaze" RUN_TARGET_NAME="libmaze_test">
+    <configuration default="false" name="maze" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="maze" TARGET_NAME="maze" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="maze" RUN_TARGET_NAME="maze">
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="all tests" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LibMaze" TARGET_NAME="runTestSuite" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="LibMaze" RUN_TARGET_NAME="runTestSuite" TEST_MODE="SUITE_TEST">
+    <configuration default="false" name="GoogleTests" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="maze" TARGET_NAME="runTestSuite" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="maze" RUN_TARGET_NAME="runTestSuite" TEST_MODE="SUITE_TEST">
       <envs />
       <method />
     </configuration>
-    <list size="2">
-      <item index="0" class="java.lang.String" itemvalue="Application.libmaze_run" />
-      <item index="1" class="java.lang.String" itemvalue="Google Test.all tests" />
+    <configuration default="false" name="libmaze_run" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="maze" TARGET_NAME="libmaze_run" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="maze" RUN_TARGET_NAME="libmaze_run">
+      <envs />
+      <method />
+    </configuration>
+    <list size="3">
+      <item index="0" class="java.lang.String" itemvalue="Application.maze" />
+      <item index="1" class="java.lang.String" itemvalue="Google Test.GoogleTests" />
+      <item index="2" class="java.lang.String" itemvalue="Application.libmaze_run" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
@@ -705,52 +527,58 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="all_tests - 2016.06.20 at 19h 34m 52s.xml">
-      <configuration name="all tests" configurationId="CMakeGoogleTestRunConfigurationType" />
+    <history-entry file="GoogleTests - 2016.06.21 at 15h 28m 41s.xml">
+      <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="all_tests - 2016.06.20 at 19h 35m 19s.xml">
-      <configuration name="all tests" configurationId="CMakeGoogleTestRunConfigurationType" />
+    <history-entry file="GoogleTests - 2016.06.21 at 15h 29m 10s.xml">
+      <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="all_tests - 2016.06.20 at 19h 40m 26s.xml">
-      <configuration name="all tests" configurationId="CMakeGoogleTestRunConfigurationType" />
+    <history-entry file="GoogleTests - 2016.06.21 at 15h 30m 36s.xml">
+      <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="all_tests - 2016.06.20 at 19h 46m 18s.xml">
-      <configuration name="all tests" configurationId="CMakeGoogleTestRunConfigurationType" />
+    <history-entry file="GoogleTests - 2016.06.21 at 15h 31m 35s.xml">
+      <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="all_tests - 2016.06.20 at 19h 46m 44s.xml">
-      <configuration name="all tests" configurationId="CMakeGoogleTestRunConfigurationType" />
+    <history-entry file="GoogleTests - 2016.06.21 at 15h 34m 49s.xml">
+      <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="all_tests - 2016.06.20 at 19h 48m 07s.xml">
-      <configuration name="all tests" configurationId="CMakeGoogleTestRunConfigurationType" />
+    <history-entry file="GoogleTests - 2016.06.21 at 15h 35m 39s.xml">
+      <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="all_tests - 2016.06.20 at 19h 48m 42s.xml">
-      <configuration name="all tests" configurationId="CMakeGoogleTestRunConfigurationType" />
+    <history-entry file="GoogleTests - 2016.06.21 at 15h 35m 56s.xml">
+      <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="all_tests - 2016.06.20 at 20h 33m 02s.xml">
-      <configuration name="all tests" configurationId="CMakeGoogleTestRunConfigurationType" />
+    <history-entry file="GoogleTests - 2016.06.21 at 15h 36m 17s.xml">
+      <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="GoogleTests - 2016.06.21 at 16h 07m 19s.xml">
+      <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="GoogleTests - 2016.06.21 at 16h 07m 59s.xml">
+      <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1616" height="886" extended-state="6" />
-    <editor active="true" />
+    <frame x="373" y="222" width="1858" height="1047" extended-state="0" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.210625" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18299246" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33116037" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30899608" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27096114" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30674848" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32985657" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32216495" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3241309" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19429494" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3285528" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -772,84 +600,66 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/libmaze/maze.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#653#672#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_suite/testLocation.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="1" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/libmaze/maze.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6579">
-          <caret line="387" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="387" selection-end-column="0" />
-          <folding>
-            <element signature="e#92#111#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_suite/testLocation.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="1" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BasicMaze.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/libmaze/list.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cppcheck-errors.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="264">
+          <caret line="12" column="35" selection-start-line="12" selection-start-column="35" selection-end-line="12" selection-end-column="35" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="9" column="60" selection-start-line="9" selection-start-column="60" selection-end-line="9" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/testPathfinder.cpp">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="34" selection-start-line="0" selection-start-column="34" selection-end-line="0" selection-end-column="34" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maze/mazepathfinder.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="550">
+          <caret line="25" column="4" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="4" />
+          <folding>
+            <marker date="1466519099000" expanded="true" signature="643:1294" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="726">
+          <caret line="33" column="2" selection-start-line="31" selection-start-column="1" selection-end-line="33" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/testCosts.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/testRunner.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="9" column="27" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/lib/gtest-1.7.0/src/gtest_main.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -862,65 +672,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_suite/testMaze.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="1" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
-          <folding>
-            <element signature="e#0#24#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_suite/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="8" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_suite/testMazeReader.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="26" column="24" selection-start-line="26" selection-start-column="24" selection-end-line="26" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_suite/testSearcher.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_suite/testModifiedFlood.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="13" column="30" selection-start-line="13" selection-start-column="30" selection-end-line="13" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_suite/testPathfinder.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="419">
-          <caret line="85" column="42" selection-start-line="85" selection-start-column="42" selection-end-line="85" selection-end-column="42" />
+        <state relative-caret-position="308">
+          <caret line="14" column="19" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Makefile">
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="35" selection-start-line="12" selection-start-column="35" selection-end-line="12" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -928,7 +696,55 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/lib/gtest-1.7.0/m4/gtest.m4">
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="33" column="2" selection-start-line="31" selection-start-column="1" selection-end-line="33" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/testCosts.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/testRunner.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="27" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/lib/gtest-1.7.0/src/gtest_main.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/lib/gtest-1.7.0/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="19" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -939,33 +755,214 @@
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="35" selection-start-line="0" selection-start-column="35" selection-end-line="0" selection-end-column="35" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libmaze/CMakeLists.txt">
+    <entry file="file://$PROJECT_DIR$/maze/maze.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="30" selection-start-line="2" selection-start-column="30" selection-end-line="2" selection-end-column="30" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libmaze/maze.c">
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/testLocation.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3224">
-          <caret line="367" column="0" selection-start-line="367" selection-start-column="0" selection-end-line="367" selection-end-column="0" />
+        <state relative-caret-position="136">
+          <caret line="8" column="1" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maze/maze.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6579">
+          <caret line="387" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="387" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/testLocation.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="1" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BasicMaze.cpp" />
+    <entry file="file://$PROJECT_DIR$/maze/list.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cppcheck-errors.txt" />
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/testMaze.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="1" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/testMazeReader.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="26" column="24" selection-start-line="26" selection-start-column="24" selection-end-line="26" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/testSearcher.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/testModifiedFlood.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="13" column="30" selection-start-line="13" selection-start-column="30" selection-end-line="13" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Makefile" />
+    <entry file="file://$PROJECT_DIR$/maze/maze.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="313" column="41" selection-start-line="313" selection-start-column="41" selection-end-line="313" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="14" column="19" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maze/Makefile" />
+    <entry file="file://$PROJECT_DIR$/tests/lib/gtest-1.7.0/m4/gtest.m4">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/testRunner.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="9" column="27" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/lib/gtest-1.7.0/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/lib/gtest-1.7.0/src/gtest_main.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="726">
+          <caret line="33" column="2" selection-start-line="31" selection-start-column="1" selection-end-line="33" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/testCosts.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="9" column="60" selection-start-line="9" selection-start-column="60" selection-end-line="9" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maze/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="4" column="1" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="4" column="1" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/gtest.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="1997" column="8" selection-start-line="1997" selection-start-column="8" selection-end-line="1997" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maze/mazepathfinder.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="44" column="21" selection-start-line="44" selection-start-column="21" selection-end-line="44" selection-end-column="21" />
           <folding>
-            <element signature="e#92#111#0" expanded="true" />
+            <marker date="1466519099000" expanded="true" signature="643:1294" placeholder="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libmaze/maze.h">
+    <entry file="file://$PROJECT_DIR$/maze/mazeprinter.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="685">
-          <caret line="121" column="0" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
+        <state relative-caret-position="-731">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maze/maze.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="67" column="24" selection-start-line="67" selection-start-column="24" selection-end-line="67" selection-end-column="24" />
+          <folding>
+            <marker date="1466458587000" expanded="false" signature="632:644" placeholder="..." />
+            <marker date="1466458587000" expanded="false" signature="4320:4321" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/testPathfinder.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maze/mazeflooder.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="651">
+          <caret line="136" column="6" selection-start-line="136" selection-start-column="6" selection-end-line="136" selection-end-column="6" />
           <folding />
         </state>
       </provider>

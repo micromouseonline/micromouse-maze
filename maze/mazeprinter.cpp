@@ -17,6 +17,7 @@ void PrintMaze (print_options_t option)
 {
   location_t loc;
   walls_t walls;
+  printf("\n");
   for (loc.row = MazeHeight() - 1; loc.row >= 0; loc.row--) {
     for (loc.col = 0; loc.col < MazeWidth(); loc.col++) {
       walls = Walls (loc);

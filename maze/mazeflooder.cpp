@@ -134,8 +134,8 @@ void ModifiedFloodAll (location_t here)
     SetDirection (here, direction);
     if (Cost (here) != smallestCost + 1) {
       SetCost (here, smallestCost + 1);
-      //AddOpenNeighboursToList (here);
-      AddAllNeighboursToList (here);
+      AddOpenNeighboursToList (here);
+      //AddAllNeighboursToList (here);
     }
   }
 }

@@ -22,7 +22,7 @@
 
 
 //TODO:  add another 'direction' that is STOP.
-
+// assumes the maze to have been flooded
 int IsolatePath (location_t start, location_t target)
 {
   int pathLength = 0;
@@ -42,7 +42,7 @@ int IsolatePath (location_t start, location_t target)
     SetDirection (here, direction);
     here = Neighbour (here, direction);
     pathLength++;
-    if (pathLength > 200) {
+    if (pathLength >= 250) {
       break;
     }
   }

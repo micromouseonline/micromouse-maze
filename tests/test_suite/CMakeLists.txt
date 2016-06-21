@@ -20,12 +20,15 @@ add_executable(runTestSuite
         testPathFinder.cpp
         testSearcher.cpp
         testWalls.cpp
+       # testRunner.cpp
         )
 
 target_link_libraries(
         runTestSuite
         gtest
-        gtest_main)
-target_link_libraries(
-        runTestSuite
-        libmaze)
+        gtest_main
+        maze
+        )
+#target_link_libraries(
+#        runTestSuite
+#        maze)
