@@ -12,8 +12,7 @@
 
 static uint8_t wallData[MAZE_ROWS][MAZE_COLS];
 
-void ClearWallData (void)
-{
+void ClearWallData(void) {
   location_t loc;
   for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
     for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
@@ -47,18 +46,16 @@ void ReadRealWallsFromFile(char *filename) {
 /*
  * TODO: should this be in the maze.c file?
  */
-void UpdateEntireMazeFromRealWalls (void)
-{
+void UpdateEntireMazeFromRealWalls(void) {
   location_t loc;
   for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
     for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
-      UpdateCellFromWallData (loc, wallData[loc.row][loc.col]);
+      UpdateCellFromWallData(loc, wallData[loc.row][loc.col]);
     }
   }
 }
 
-walls_t ReadWallSensors (location_t loc)
-{
+walls_t ReadWallSensors(location_t loc) {
   return wallData[loc.row][loc.col];
 }
 
