@@ -29,6 +29,7 @@ int main(int argc, char **argv) {
   location_t target = DefaultGoal();
 
   if (argc > 1) {
+    int totalMazes = 0;
     int fullCount = 0;
     int fullfullCount = 0;
     int modAllCount = 0;
@@ -61,21 +62,22 @@ int main(int argc, char **argv) {
         z = '*';
         modAllCount++;
       }
-      if ((stepsFull > stepsModAll) || (stepsFull > stepsModOpen)) {
-        x = '*';
+      if ((stepsFull >= stepsModAll) || (stepsFull >= stepsModOpen)) {
+        x = '!';
         fullfullCount++;
       }
+      totalMazes++;
       printf("%7d%c  %9d%c  %9d%c  steps for %s\n", stepsFull, x, stepsModOpen, y, stepsModAll, z, argv[i]);
       //printf ("%4d : %3d %c %3d steps for %s\n", stepsFull - stepsModAll, stepsFull, (stepsFull > stepsModAll) ? '>' : '<', stepsModAll,  argv[i]);
     }
-    printf("\n\n");
-    printf("                     Full Flood %3d mazes\n", fullfullCount);
+    printf("\n%d mazes:\n",totalMazes);
+    printf("                Full FULL Flood %3d mazes\n", fullfullCount);
     printf("                     Full Flood %3d mazes\n", fullCount);
     printf(" Modified Open Neighbours Flood %3d mazes\n", modOpenCount);
     printf("  Modified All Neighbours Flood %3d mazes\n", modAllCount);
     printf("\n%3d mazes in total\n", fullfullCount + fullCount + modOpenCount + modAllCount);
   } else {
-    char fileName[] = "../mazefiles/minos03f.maz";
+    char fileName[] = "mazefiles/minos03f.maz";
     ReadRealWallsFromFile(fileName);
     MouseInit();
     MazeInit();
