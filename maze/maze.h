@@ -72,6 +72,9 @@ typedef uint8_t direction_t;
 typedef uint16_t cost_t;
 #define MAX_COST UINT16_MAX
 
+// note: these are ints even though they do not have valid values when negative
+//   just to make it easier to write for loops.
+
 typedef struct {
   int8_t row;
   int8_t col;
