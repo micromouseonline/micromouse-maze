@@ -25,7 +25,7 @@ const uint16_t MAX_COST = UINT16_MAX;
 
 
 #define ORIGIN 0x00
-#define UNREACHABLE INT16_MAX
+#define UNREACHABLE UINT16_MAX
 
 #define MAYBE_ABSENT    0   // not checked this wall
 #define MAYBE_PRESENT   1   // not checked this wall
