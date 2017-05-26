@@ -5,7 +5,7 @@
 
 
 TEST (Walls, DefaultWalls){
-  D5Maze maze;
+  Maze maze;
   maze.clearMaze();
   EXPECT_EQ(0x00, maze.toFileFormat(maze.walls(2,2)));
   // check the corners
@@ -16,7 +16,7 @@ TEST (Walls, DefaultWalls){
 }
 
 TEST(Walls, HasExit){
-  D5Maze maze;
+  Maze maze;
   maze.clearMaze();
   EXPECT_TRUE(maze.hasExit(0x22,EAST));
   EXPECT_TRUE(maze.hasExit(0x22,SOUTH));
@@ -30,7 +30,7 @@ TEST(Walls, HasExit){
 }
 
 TEST(Walls, SetGetWalls){
-  D5Maze maze;
+  Maze maze;
   maze.clearMaze();
   maze.setWall(0x22,NORTH);
   EXPECT_TRUE(maze.hasExit(0x22,EAST));
@@ -41,5 +41,4 @@ TEST(Walls, SetGetWalls){
   EXPECT_TRUE(maze.hasExit(0x12,EAST));
   EXPECT_FALSE(maze.hasExit(0x22,NORTH));
   EXPECT_FALSE(maze.hasExit(0x23,SOUTH));
-
 }

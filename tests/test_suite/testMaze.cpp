@@ -7,7 +7,7 @@
 
 
 TEST(Maze,SetGetGoal){
-  D5Maze maze;
+  Maze maze;
   EXPECT_EQ(DEFAULT_GOAL,maze.goal());
   maze.setGoal(99);
   EXPECT_EQ(99,maze.goal());

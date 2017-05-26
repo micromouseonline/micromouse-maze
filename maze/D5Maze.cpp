@@ -27,17 +27,16 @@ const int costTable[] =
     {100, 13, 11, 9, 8, 7, 6, 6, 5, 5, 5, 5, 5, 4, 4, 4, 4};
 
 
-D5Maze theMaze;
+Maze theMaze;
 
-D5Maze::D5Maze() {
+Maze::Maze() {
   _isSolved = false;
   _goalFound = false;
   resetData();
-  testForSolution();
   setGoal(DEFAULT_GOAL);
 };
 
-bool D5Maze::testForSolution(void) { // takes less than 3ms
+bool Maze::testForSolution(void) { // takes less than 3ms
   flood(theMaze.goal(), unknownsAreWalls);
   flood(theMaze.goal(), unknownsAreClear);
   _costDifference = abs(_costWithUnknownsAsClear - _costWithUnknownsAsWalls);
@@ -47,16 +46,15 @@ bool D5Maze::testForSolution(void) { // takes less than 3ms
 };
 
 
-void D5Maze::clearMaze() {
+void Maze::clearMaze() {
   resetData();
-
 }
 
-void D5Maze::resetData() {
+void Maze::resetData() {
   for (int i = 0; i < NUMCELLS; i++) {
     mWalls[i] = 0;
+    mCost[i] = UINT16_MAX;
     mHeading[i] = NORTH;
-    //  queue[i] = 0;
   }
   for (int i = 0; i < MAZEWIDTH; i++) {
     setWall(i, WEST);
@@ -74,7 +72,7 @@ void D5Maze::resetData() {
  * should only be used when setting up a maze.
  * To update the maze when running, use updateWalls(cell,wallData)
  */
-void D5Maze::setWall(uint16_t cell, uint8_t heading) {
+void Maze::setWall(uint16_t cell, uint8_t heading) {
   switch (heading) {
     case NORTH:
       mWalls[cell] |= CHECKED_NORTH + WALLNORTH;
@@ -105,7 +103,7 @@ void D5Maze::setWall(uint16_t cell, uint8_t heading) {
  * should only be used when setting up a maze.
  * To update the maze when running, use updateWalls(cell,wallData)
  */
-void D5Maze::clearWall(uint16_t cell, uint8_t heading) {
+void Maze::clearWall(uint16_t cell, uint8_t heading) {
   switch (heading) {
     case NORTH:
       mWalls[cell] &= ~WALLNORTHMASK;
@@ -147,7 +145,7 @@ void D5Maze::clearWall(uint16_t cell, uint8_t heading) {
  * completely visited
  * Whenever an update is done, the maze gets saved to the backup array.
  */
-void D5Maze::updateWalls(uint16_t cell, uint8_t newWalls) {
+void Maze::updateWalls(uint16_t cell, uint8_t newWalls) {
   //logInfo ("Update walls at 0x%02X with 0x%02X \n", cell, newWalls);
   uint8_t replacementWalls = newWalls;
   // first do the walls in this cell
@@ -196,7 +194,7 @@ void D5Maze::updateWalls(uint16_t cell, uint8_t newWalls) {
  * Distance is returned based upon the setting of the wall flag.
  * No account is taken of the 'wall seen' flag.
  */
-int16_t D5Maze::costNorth(uint16_t cell) {
+int16_t Maze::costNorth(uint16_t cell) {
   if (mWalls[cell] & WALLNORTH) {
     return UNREACHABLE;
   }
@@ -204,7 +202,7 @@ int16_t D5Maze::costNorth(uint16_t cell) {
   return mCost[cell];
 }
 
-int16_t D5Maze::costEast(uint16_t cell) {
+int16_t Maze::costEast(uint16_t cell) {
   if (walls(cell) & WALLEAST) {
     return UNREACHABLE;
   }
@@ -212,7 +210,7 @@ int16_t D5Maze::costEast(uint16_t cell) {
   return mCost[cell];
 }
 
-int16_t D5Maze::costSouth(uint16_t cell) {
+int16_t Maze::costSouth(uint16_t cell) {
   if (walls(cell) & WALLSOUTH) {
     return UNREACHABLE;
   }
@@ -220,7 +218,7 @@ int16_t D5Maze::costSouth(uint16_t cell) {
   return mCost[cell];
 }
 
-int16_t D5Maze::costWest(uint16_t cell) {
+int16_t Maze::costWest(uint16_t cell) {
   if (walls(cell) & WALLWEST) {
     return UNREACHABLE;
   }
@@ -228,7 +226,7 @@ int16_t D5Maze::costWest(uint16_t cell) {
   return mCost[cell];
 }
 
-int16_t D5Maze::cost(uint16_t cell, uint16_t direction) {
+int16_t Maze::cost(uint16_t cell, uint16_t direction) {
   int16_t result;
   switch (direction) {
     case NORTH:
@@ -250,7 +248,7 @@ int16_t D5Maze::cost(uint16_t cell, uint16_t direction) {
 }
 
 
-uint16_t D5Maze::smallestNeighbourDirection(uint16_t cell, uint8_t heading) {
+uint16_t Maze::smallestNeighbourDirection(uint16_t cell, uint8_t heading) {
   uint16_t direction;
   int16_t distance;
   int16_t smallest;
@@ -280,20 +278,20 @@ uint16_t D5Maze::smallestNeighbourDirection(uint16_t cell, uint8_t heading) {
   return direction;
 }
 
-void D5Maze::setUnknownsAsWalls(void) {
+void Maze::setUnknownsAsWalls(void) {
   for (uint16_t i = 0; i < NUMCELLS; i++) {
     mWalls[i] |= (((~mWalls[i]) & VISITED) >> 1);
   }
 }
 
-void D5Maze::setUnknownsAsClear(void) {
+void Maze::setUnknownsAsClear(void) {
   for (uint16_t i = 0; i < NUMCELLS; i++) {
     mWalls[i] &= ~(((~mWalls[i]) & VISITED) >> 1);
   }
 }
 
 
-uint16_t D5Maze::neighbour(uint16_t cell, uint16_t heading) {
+uint16_t Maze::neighbour(uint16_t cell, uint16_t heading) {
   uint16_t neighbour;
   switch (heading) {
     case NORTH:
@@ -314,7 +312,7 @@ uint16_t D5Maze::neighbour(uint16_t cell, uint16_t heading) {
   return neighbour;
 }
 
-uint16_t D5Maze::recalculateGoal() {
+uint16_t Maze::recalculateGoal() {
   uint16_t newGoal = goal();
   // count the entrances
   int entranceCount = 0;
@@ -371,7 +369,7 @@ uint16_t D5Maze::recalculateGoal() {
   return entranceCount;
 }
 
-int16_t D5Maze::flood(uint16_t goal, floodMode mode) {
+int16_t Maze::flood(uint16_t goal, floodMode mode) {
   int16_t cost;
   if (mode == unknownsAreWalls) {
     setUnknownsAsWalls();
@@ -415,7 +413,7 @@ int16_t D5Maze::flood(uint16_t goal, floodMode mode) {
  * Note that single-cell goals may have multiple exits and the centre region in the
  * classic contest will also have a number of possible exits
  * */
-int D5Maze::runLengthFlood(int goal) {
+int Maze::runLengthFlood(int goal) {
   openList.clear();
   // set every cell as unexamined
   for (uint16_t i = 0; i < NUMCELLS; i++) {
@@ -541,15 +539,15 @@ int D5Maze::runLengthFlood(int goal) {
   return mCost[0];
 }
 
-void D5Maze::setGoal(uint16_t goal) {
+void Maze::setGoal(uint16_t goal) {
   _goal = goal;
 }
 
-uint16_t D5Maze::goal() {
+uint16_t Maze::goal() {
   return _goal;
 }
 
-uint16_t D5Maze::cellNorth(uint16_t cell) {
+uint16_t Maze::cellNorth(uint16_t cell) {
   cell = (uint16_t)(cell + 1);
   if (cell >= NUMCELLS) {
     cell -= NUMCELLS;
@@ -557,7 +555,7 @@ uint16_t D5Maze::cellNorth(uint16_t cell) {
   return cell;
 }
 
-uint16_t D5Maze::cellEast(uint16_t cell) {
+uint16_t Maze::cellEast(uint16_t cell) {
   cell = (uint16_t)(cell + MAZEWIDTH);
   if (cell >= NUMCELLS) {
     cell -= NUMCELLS;
@@ -565,7 +563,7 @@ uint16_t D5Maze::cellEast(uint16_t cell) {
   return cell;
 }
 
-uint16_t D5Maze::cellSouth(uint16_t cell) {
+uint16_t Maze::cellSouth(uint16_t cell) {
   cell = (uint16_t)(cell + NUMCELLS - 1);
   if (cell >= NUMCELLS) {
     cell -= NUMCELLS;
@@ -573,7 +571,7 @@ uint16_t D5Maze::cellSouth(uint16_t cell) {
   return cell;
 }
 
-uint16_t D5Maze::cellWest(uint16_t cell) {
+uint16_t Maze::cellWest(uint16_t cell) {
   cell = (uint16_t)(cell + NUMCELLS - MAZEWIDTH);
   if (cell >= NUMCELLS) {
     cell -= NUMCELLS;
@@ -581,11 +579,11 @@ uint16_t D5Maze::cellWest(uint16_t cell) {
   return cell;
 }
 
-bool D5Maze::isKnownWall(uint8_t wallData, uint8_t heading) {
+bool Maze::isKnownWall(uint8_t wallData, uint8_t heading) {
   return (wallData & (WALL_KNOWN << (2 * heading))) != 0;
 }
 
-int D5Maze::hasExit(int cell, int direction) {
+int Maze::hasExit(int cell, int direction) {
   int result = 0;
   switch (direction) {
     case NORTH:
@@ -606,59 +604,65 @@ int D5Maze::hasExit(int cell, int direction) {
   return result;
 }
 
-int D5Maze::rightOf(int direction) {
+int Maze::rightOf(int direction) {
   return (direction + 1) % 4;
 }
 
-int D5Maze::leftOf(int direction) {
+int Maze::leftOf(int direction) {
   return (direction + 3) % 4;
 }
 
-uint8_t D5Maze::walls(uint16_t cell) {
+uint8_t Maze::walls(uint16_t cell) {
   return mWalls[cell];
 }
 
-uint8_t D5Maze::walls(uint16_t x, uint16_t y) {
+uint8_t Maze::walls(uint16_t x, uint16_t y) {
   return mWalls[x * MAZEWIDTH + y];
 }
 
-int16_t D5Maze::cost(uint16_t cell) {
+uint16_t Maze::cost(uint16_t cell) {
   return mCost[cell];
 }
 
 
-uint8_t D5Maze::heading(uint16_t cell) {
+uint8_t Maze::heading(uint16_t cell) {
   return  mHeading[cell];
 }
 
-uint8_t D5Maze::heading(uint16_t x, uint16_t y) {
-  return mHeading[x * MAZEWIDTH + y];
-}
 
-bool D5Maze::isSolved(void) {
+bool Maze::isSolved(void) {
   return _isSolved;
 }
 
-bool D5Maze::isVisited(uint16_t cell) {
+bool Maze::isVisited(uint16_t cell) {
   return ((mWalls[cell] & VISITED) == VISITED);
 }
 
-bool D5Maze::isVisited(uint16_t x, uint16_t y) {
+bool Maze::isVisited(uint16_t x, uint16_t y) {
   return ((mWalls[x * MAZEWIDTH + y] & VISITED) == VISITED);
 }
 
-int16_t D5Maze::costDifference(void) {
+int16_t Maze::costDifference(void) {
   return _costDifference;
 }
 
-bool D5Maze::goalFound(void) {
+bool Maze::goalFound(void) {
   return _goalFound;
 }
 
-uint8_t D5Maze::toFileFormat(uint8_t wallData) {
+uint8_t Maze::toFileFormat(uint8_t wallData) {
   return (uint8_t)((wallData & 1) + ((wallData >> 1) & 2) + ((wallData >> 2) & 4) + ((wallData >> 3) & 8));
 }
 
-int D5Maze::behind(int direction) {
+int Maze::behind(int direction) {
   return (direction +2 ) % 4;
-};
+}
+
+void Maze::setHeading(uint16_t cell, uint8_t heading) {
+  assert(heading == NORTH || heading == EAST || heading == SOUTH || heading == WEST);
+  mHeading[cell] = heading;
+}
+
+void Maze::setCost(uint16_t cell, uint16_t cost) {
+   mCost[cell] = cost;
+}

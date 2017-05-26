@@ -1,13 +1,14 @@
 #include "gtest/gtest.h"
-#include "maze.h"
-
+#include "gtest/gtest-spi.h"
 #include "D5Maze.h"
 
+/*
+ * test the ability of the maze to store direction information
+ */
 
-TEST (Direction, MazeGetDirection_defaultValue_isNORTH)
+TEST (Direction, MazeHeading_defaultValue_isNORTH)
 {
-  D5Maze maze;
-
+  Maze maze;
   maze.clearMaze();
   for(int i = 0; i < NUMCELLS; i++){
     EXPECT_EQ(NORTH,maze.heading(i));
@@ -16,37 +17,42 @@ TEST (Direction, MazeGetDirection_defaultValue_isNORTH)
 
 TEST (Direction, MazeSetDirection_ReturnSetValue)
 {
-  D5Maze maze;
+  Maze maze;
   maze.clearMaze();
+  maze.setHeading(0x33,EAST);
+  EXPECT_EQ(EAST,maze.heading(0x33));
+  maze.setHeading(0x33,SOUTH);
+  EXPECT_EQ(SOUTH,maze.heading(0x33));
+  maze.setHeading(0x33,WEST);
+  EXPECT_EQ(WEST,maze.heading(0x33));
+  maze.setHeading(0x33,NORTH);
+  EXPECT_EQ(NORTH,maze.heading(0x33));
 }
 
 TEST (Direction, DirectionGetLeftFrom)
 {
-  D5Maze maze;
-  EXPECT_EQ (WEST, maze.leftOf(NORTH));
-  EXPECT_EQ (SOUTH, maze.leftOf (WEST));
-  EXPECT_EQ (EAST, maze.leftOf(SOUTH));
-  EXPECT_EQ (NORTH, maze.leftOf(EAST));
+  EXPECT_EQ (WEST, Maze::leftOf(NORTH));
+  EXPECT_EQ (SOUTH, Maze::leftOf (WEST));
+  EXPECT_EQ (EAST, Maze::leftOf(SOUTH));
+  EXPECT_EQ (NORTH, Maze::leftOf(EAST));
 }
 
 
 TEST (Direction, DirectionGetRightFrom)
 {
-  D5Maze maze;
-  EXPECT_EQ (EAST, maze.rightOf (NORTH));
-  EXPECT_EQ (SOUTH, maze.rightOf  (EAST));
-  EXPECT_EQ (WEST, maze.rightOf  (SOUTH));
-  EXPECT_EQ (NORTH, maze.rightOf  (WEST));
+  EXPECT_EQ (EAST, Maze::rightOf (NORTH));
+  EXPECT_EQ (SOUTH, Maze::rightOf  (EAST));
+  EXPECT_EQ (WEST, Maze::rightOf  (SOUTH));
+  EXPECT_EQ (NORTH, Maze::rightOf  (WEST));
 
 }
 
 TEST (Direction, Behind)
 {
-  D5Maze maze;
-  EXPECT_EQ (SOUTH, maze.behind (NORTH));
-  EXPECT_EQ (WEST, maze.behind (EAST));
-  EXPECT_EQ (NORTH, maze.behind (SOUTH));
-  EXPECT_EQ (EAST, maze.behind (WEST));
+  EXPECT_EQ (SOUTH, Maze::behind (NORTH));
+  EXPECT_EQ (WEST, Maze::behind (EAST));
+  EXPECT_EQ (NORTH, Maze::behind (SOUTH));
+  EXPECT_EQ (EAST, Maze::behind (WEST));
 }
 
 
