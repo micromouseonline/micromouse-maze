@@ -10,7 +10,6 @@ project(maze)
 set(HEADER_FILES
         list.h
         D5Maze.h
-        newmaze.h
         maze.h
         mazedata.h
         mazeflooder.h
@@ -24,7 +23,6 @@ set(HEADER_FILES
 set (SOURCE_FILES
         list.cpp
         D5Maze.cpp
-        newmaze.cpp
         maze.cpp
         mazedata.cpp
         mazeflooder.cpp

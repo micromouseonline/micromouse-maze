@@ -23,6 +23,7 @@ public:
  int hasExit(int cell, int direction);
  int rightOf(int direction);
  int leftOf(int direction);
+ int behind(int direction);
 // return the state of the walls at a given cell.
  uint8_t walls(uint16_t cell);
  uint8_t walls(uint16_t x, uint16_t y);

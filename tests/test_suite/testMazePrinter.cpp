@@ -5,7 +5,7 @@
 #include "mazereader.h"
 #include "mazeflooder.h"
 #include "mazeprinter.h"
-#include "newmaze.h"
+
 #include "D5Maze.h"
 
 TEST (MazePrinter, DummyPrintingForCoverageTests)

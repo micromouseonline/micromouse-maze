@@ -1,20 +1,16 @@
 #include "gtest/gtest.h"
 #include "maze.h"
 #include "mazeprinter.h"
-#include "newmaze.h"
+
 #include "D5Maze.h"
 /////////////////////
 
 
 TEST(Maze,SetGetGoal){
-  NewMaze newMaze;
-  D5Maze oldMaze;
-  EXPECT_EQ(DEFAULT_GOAL,newMaze.goal());
-  EXPECT_EQ(DEFAULT_GOAL,oldMaze.goal());
-  newMaze.setGoal(99);
-  oldMaze.setGoal(99);
-  EXPECT_EQ(99,newMaze.goal());
-  EXPECT_EQ(99,oldMaze.goal());
+  D5Maze maze;
+  EXPECT_EQ(DEFAULT_GOAL,maze.goal());
+  maze.setGoal(99);
+  EXPECT_EQ(99,maze.goal());
 }
 
 /////////////////////

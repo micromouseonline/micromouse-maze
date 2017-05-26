@@ -55,6 +55,7 @@ void D5Maze::clearMaze() {
 void D5Maze::resetData() {
   for (int i = 0; i < NUMCELLS; i++) {
     mWalls[i] = 0;
+    mHeading[i] = NORTH;
     //  queue[i] = 0;
   }
   for (int i = 0; i < MAZEWIDTH; i++) {
@@ -606,45 +607,11 @@ int D5Maze::hasExit(int cell, int direction) {
 }
 
 int D5Maze::rightOf(int direction) {
-  int result;
-  switch (direction) {
-    case NORTH:
-      result =  EAST;
-      break;
-    case EAST:
-      result =  SOUTH;
-      break;
-    case SOUTH:
-      result =  WEST;
-      break;
-    case WEST:
-      result =  NORTH;
-      break;
-    default:
-      result =  direction;
-  }
-  return result;
+  return (direction + 1) % 4;
 }
 
 int D5Maze::leftOf(int direction) {
-  int result;
-  switch (direction) {
-    case NORTH:
-      result =  WEST;
-      break;
-    case EAST:
-      result =  NORTH;
-      break;
-    case SOUTH:
-      result =  EAST;
-      break;
-    case WEST:
-      result =  SOUTH;
-      break;
-    default:
-      result =  direction;
-  }
-  return result;
+  return (direction + 3) % 4;
 }
 
 uint8_t D5Maze::walls(uint16_t cell) {
@@ -690,4 +657,8 @@ bool D5Maze::goalFound(void) {
 
 uint8_t D5Maze::toFileFormat(uint8_t wallData) {
   return (uint8_t)((wallData & 1) + ((wallData >> 1) & 2) + ((wallData >> 2) & 4) + ((wallData >> 3) & 8));
+}
+
+int D5Maze::behind(int direction) {
+  return (direction +2 ) % 4;
 };

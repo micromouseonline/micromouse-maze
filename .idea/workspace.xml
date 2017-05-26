@@ -24,8 +24,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="340da844-fb5b-4101-a8f9-54f0cc06849b" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/test_suite/testModifiedFlood.cpp" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_suite/CMakeLists.txt" afterPath="$PROJECT_DIR$/tests/test_suite/CMakeLists.txt" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/maze/newmaze.cpp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/maze/newmaze.h" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maze/CMakeLists.txt" afterPath="$PROJECT_DIR$/maze/CMakeLists.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maze/D5Maze.cpp" afterPath="$PROJECT_DIR$/maze/D5Maze.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maze/D5Maze.h" afterPath="$PROJECT_DIR$/maze/D5Maze.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_suite/testCosts.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testCosts.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_suite/testDirection.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testDirection.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_suite/testFlood.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testFlood.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_suite/testList.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testList.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_suite/testLocation.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testLocation.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_suite/testMaze.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testMaze.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_suite/testMazePrinter.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testMazePrinter.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_suite/testMazeReader.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testMazeReader.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_suite/testPathfinder.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testPathfinder.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_suite/testSearcher.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testSearcher.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_suite/testWalls.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testWalls.cpp" />
     </list>
     <ignored path="micromouse-maze.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -45,31 +60,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="testLocation.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test_suite/testLocation.cpp">
+      <file leaf-file-name="D5Maze.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/maze/D5Maze.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-              <folding>
-                <marker date="1495760542000" expanded="false" signature="9:42" ph="..." />
-                <marker date="1495760542000" expanded="true" signature="9:83" ph="..." />
-                <marker date="1495760542000" expanded="true" signature="123:216" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="254:336" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="370:459" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="509:591" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="640:681" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="731:773" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="828:1022" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="1096:1280" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="1343:1536" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="1599:1791" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="1856:2049" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="2113:2305" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="2340:2522" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="2556:2692" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="2737:3125" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="3168:3558" ph="{...}" />
-              </folding>
+            <state relative-caret-position="322">
+              <caret line="24" column="27" selection-start-line="24" selection-start-column="27" selection-end-line="24" selection-end-column="27" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -77,141 +73,77 @@
       <file leaf-file-name="testMaze.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test_suite/testMaze.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="12" column="41" selection-start-line="12" selection-start-column="41" selection-end-line="12" selection-end-column="41" />
+            <state relative-caret-position="484">
+              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
               <folding>
-                <marker date="1495758451000" expanded="true" signature="9:108" ph="..." />
-                <marker date="1495758451000" expanded="true" signature="154:388" ph="{...}" />
-                <marker date="1495758451000" expanded="true" signature="451:656" ph="{...}" />
-                <marker date="1495758451000" expanded="true" signature="696:890" ph="{...}" />
-                <marker date="1495758451000" expanded="true" signature="943:1895" ph="{...}" />
-                <marker date="1495758451000" expanded="true" signature="1950:2384" ph="{...}" />
-                <marker date="1495758451000" expanded="true" signature="2436:2576" ph="{...}" />
-                <marker date="1495758451000" expanded="true" signature="2632:2780" ph="{...}" />
-                <marker date="1495758451000" expanded="true" signature="2830:3050" ph="{...}" />
-                <marker date="1495758451000" expanded="true" signature="3097:3499" ph="{...}" />
-                <marker date="1495758451000" expanded="true" signature="3547:3961" ph="{...}" />
-                <marker date="1495758451000" expanded="true" signature="4007:4412" ph="{...}" />
-                <marker date="1495758451000" expanded="true" signature="4445:4909" ph="{...}" />
-                <marker date="1495758451000" expanded="true" signature="4934:5286" ph="{...}" />
-                <marker date="1495758451000" expanded="true" signature="5309:5453" ph="{...}" />
+                <element signature="e#0#24#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="testMazePrinter.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test_suite/testMazePrinter.cpp">
+      <file leaf-file-name="D5Maze.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/maze/D5Maze.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="637" column="13" selection-start-line="637" selection-start-column="13" selection-end-line="637" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="testList.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/test_suite/testList.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="44">
+              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="testDirection.cpp" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/tests/test_suite/testDirection.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="308">
+              <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+              <folding>
+                <element signature="e#0#24#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="testWalls.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/test_suite/testWalls.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="704">
+              <caret line="32" column="13" selection-start-line="32" selection-start-column="9" selection-end-line="32" selection-end-column="13" />
+              <folding>
+                <element signature="e#0#24#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="testCosts.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/test_suite/testCosts.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="198">
               <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
               <folding>
-                <marker date="1495760542000" expanded="true" signature="9:177" ph="..." />
-                <marker date="1495760542000" expanded="true" signature="229:476" ph="{...}" />
+                <element signature="e#0#24#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="testMazeReader.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test_suite/testMazeReader.cpp">
+      <file leaf-file-name="mazeprinter.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/maze/mazeprinter.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-              <folding>
-                <marker date="1495760542000" expanded="false" signature="9:67" ph="..." />
-                <marker date="1495760542000" expanded="true" signature="9:108" ph="..." />
-                <marker date="1495760542000" expanded="true" signature="146:344" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="390:563" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="601:913" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="testPathfinder.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test_suite/testPathfinder.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-              <folding>
-                <marker date="1495760542000" expanded="false" signature="9:164" ph="..." />
-                <marker date="1495760542000" expanded="true" signature="9:205" ph="..." />
-                <marker date="1495760542000" expanded="true" signature="250:564" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="315:532" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="622:809" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="878:1291" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="1318:1407" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="1467:1838" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="testRunner.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test_suite/testRunner.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-              <folding>
-                <marker date="1466460301000" expanded="true" signature="91:201" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="testSearcher.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test_suite/testSearcher.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-              <folding>
-                <marker date="1495760542000" expanded="false" signature="9:142" ph="..." />
-                <marker date="1495760542000" expanded="true" signature="9:183" ph="..." />
-                <marker date="1495760542000" expanded="true" signature="230:786" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="297:753" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="830:961" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="1017:1134" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="1188:1253" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="1324:1845" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="2036:2342" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="2467:2664" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="2796:2988" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="3105:3547" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="3671:4117" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="4308:4712" ph="{...}" />
-                <marker date="1495760542000" expanded="true" signature="4899:5297" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mazeflooder.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/maze/mazeflooder.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="12" column="11" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
-              <folding>
-                <marker date="1466549853000" expanded="false" signature="107:158" ph="..." />
-                <marker date="1466549853000" expanded="true" signature="275:1882" ph="{...}" />
-                <marker date="1466549853000" expanded="true" signature="1931:2226" ph="{...}" />
-                <marker date="1466549853000" expanded="true" signature="2274:2423" ph="{...}" />
-                <marker date="1466549853000" expanded="true" signature="2462:2923" ph="{...}" />
-                <marker date="1466549853000" expanded="true" signature="2966:3466" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="testWalls.cpp" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/tests/test_suite/testWalls.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="13" column="1" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
-              <folding>
-                <marker date="1495760542000" expanded="true" signature="9:65" ph="..." />
-                <marker date="1495760542000" expanded="true" signature="90:268" ph="{...}" />
-              </folding>
+            <state relative-caret-position="176">
+              <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -250,13 +182,6 @@
         <option value="$PROJECT_DIR$/maze/mazedata.h" />
         <option value="$PROJECT_DIR$/maze/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/maze/mazeconstants.h" />
-        <option value="$PROJECT_DIR$/tests/test_suite/testMaze.cpp" />
-        <option value="$PROJECT_DIR$/maze/D5Maze.h" />
-        <option value="$PROJECT_DIR$/maze/D5Maze.cpp" />
-        <option value="$PROJECT_DIR$/maze/newmaze.cpp" />
-        <option value="$PROJECT_DIR$/maze/newmaze.h" />
-        <option value="$PROJECT_DIR$/tests/test_suite/testCosts.cpp" />
-        <option value="$PROJECT_DIR$/tests/test_suite/testDirection.cpp" />
         <option value="$PROJECT_DIR$/tests/test_suite/testFlood.cpp" />
         <option value="$PROJECT_DIR$/tests/test_suite/testList.cpp" />
         <option value="$PROJECT_DIR$/tests/test_suite/testLocation.cpp" />
@@ -265,7 +190,14 @@
         <option value="$PROJECT_DIR$/tests/test_suite/testModifiedFlood.cpp" />
         <option value="$PROJECT_DIR$/tests/test_suite/testPathfinder.cpp" />
         <option value="$PROJECT_DIR$/tests/test_suite/testSearcher.cpp" />
+        <option value="$PROJECT_DIR$/maze/D5Maze.h" />
+        <option value="$PROJECT_DIR$/maze/newmaze.h" />
+        <option value="$PROJECT_DIR$/maze/D5Maze.cpp" />
+        <option value="$PROJECT_DIR$/maze/newmaze.cpp" />
+        <option value="$PROJECT_DIR$/tests/test_suite/testCosts.cpp" />
+        <option value="$PROJECT_DIR$/tests/test_suite/testMaze.cpp" />
         <option value="$PROJECT_DIR$/tests/test_suite/testWalls.cpp" />
+        <option value="$PROJECT_DIR$/tests/test_suite/testDirection.cpp" />
       </list>
     </option>
   </component>
@@ -604,44 +536,44 @@
       <updated>1465395788520</updated>
       <workItem from="1476051379542" duration="596000" />
       <workItem from="1476571615288" duration="16000" />
-      <workItem from="1495751859707" duration="8725000" />
+      <workItem from="1495751859707" duration="15595000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="GoogleTests - 2017.05.26 at 00h 56m 15s.xml">
+    <history-entry file="GoogleTests - 2017.05.26 at 03h 02m 32s.xml">
       <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="GoogleTests - 2017.05.26 at 01h 01m 37s.xml">
+    <history-entry file="GoogleTests - 2017.05.26 at 03h 05m 07s.xml">
       <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="GoogleTests - 2017.05.26 at 01h 09m 50s.xml">
+    <history-entry file="GoogleTests - 2017.05.26 at 03h 05m 29s.xml">
       <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="GoogleTests - 2017.05.26 at 01h 22m 23s.xml">
+    <history-entry file="GoogleTests - 2017.05.26 at 03h 06m 14s.xml">
       <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="GoogleTests - 2017.05.26 at 01h 27m 00s.xml">
+    <history-entry file="GoogleTests - 2017.05.26 at 03h 07m 41s.xml">
       <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="GoogleTests - 2017.05.26 at 01h 27m 33s.xml">
+    <history-entry file="GoogleTests - 2017.05.26 at 03h 08m 11s.xml">
       <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="GoogleTests - 2017.05.26 at 01h 32m 34s.xml">
+    <history-entry file="GoogleTests - 2017.05.26 at 03h 09m 07s.xml">
       <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="GoogleTests - 2017.05.26 at 01h 33m 04s.xml">
+    <history-entry file="GoogleTests - 2017.05.26 at 09h 06m 48s.xml">
       <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="GoogleTests - 2017.05.26 at 02h 00m 15s.xml">
+    <history-entry file="GoogleTests - 2017.05.26 at 22h 31m 14s.xml">
       <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="GoogleTests - 2017.05.26 at 02h 02m 26s.xml">
+    <history-entry file="GoogleTests - 2017.05.26 at 22h 31m 47s.xml">
       <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9337000" />
+    <option name="totallyTimeSpent" value="16207000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1281" y="23" width="1280" height="1360" extended-state="0" />
@@ -654,7 +586,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32728708" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32914045" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25630915" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25630915" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16962843" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
@@ -738,13 +670,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maze/mazeprinter.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="24" column="19" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="19" />
         </state>
       </provider>
     </entry>
@@ -833,7 +758,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="154">
           <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#102#119#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -841,14 +768,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maze/maze.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="616">
-          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -885,67 +804,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/maze/D5Maze.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="660" column="0" selection-start-line="660" selection-start-column="0" selection-end-line="660" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maze/newmaze.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="303">
-          <caret line="669" column="0" selection-start-line="669" selection-start-column="0" selection-end-line="669" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maze/D5Maze.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="699">
-          <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="56" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maze/newmaze.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="823">
-          <caret line="58" column="30" selection-start-line="58" selection-start-column="30" selection-end-line="58" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_suite/testCosts.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_suite/testDirection.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_suite/testFlood.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
           <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_suite/testList.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#0#24#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -954,48 +819,7 @@
         <state relative-caret-position="66">
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding>
-            <marker date="1495760542000" expanded="false" signature="9:42" ph="..." />
-            <marker date="1495760542000" expanded="true" signature="9:83" ph="..." />
-            <marker date="1495760542000" expanded="true" signature="123:216" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="254:336" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="370:459" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="509:591" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="640:681" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="731:773" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="828:1022" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="1096:1280" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="1343:1536" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="1599:1791" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="1856:2049" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="2113:2305" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="2340:2522" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="2556:2692" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="2737:3125" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="3168:3558" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_suite/testMaze.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="12" column="41" selection-start-line="12" selection-start-column="41" selection-end-line="12" selection-end-column="41" />
-          <folding>
-            <marker date="1495758451000" expanded="true" signature="9:108" ph="..." />
-            <marker date="1495758451000" expanded="true" signature="154:388" ph="{...}" />
-            <marker date="1495758451000" expanded="true" signature="451:656" ph="{...}" />
-            <marker date="1495758451000" expanded="true" signature="696:890" ph="{...}" />
-            <marker date="1495758451000" expanded="true" signature="943:1895" ph="{...}" />
-            <marker date="1495758451000" expanded="true" signature="1950:2384" ph="{...}" />
-            <marker date="1495758451000" expanded="true" signature="2436:2576" ph="{...}" />
-            <marker date="1495758451000" expanded="true" signature="2632:2780" ph="{...}" />
-            <marker date="1495758451000" expanded="true" signature="2830:3050" ph="{...}" />
-            <marker date="1495758451000" expanded="true" signature="3097:3499" ph="{...}" />
-            <marker date="1495758451000" expanded="true" signature="3547:3961" ph="{...}" />
-            <marker date="1495758451000" expanded="true" signature="4007:4412" ph="{...}" />
-            <marker date="1495758451000" expanded="true" signature="4445:4909" ph="{...}" />
-            <marker date="1495758451000" expanded="true" signature="4934:5286" ph="{...}" />
-            <marker date="1495758451000" expanded="true" signature="5309:5453" ph="{...}" />
+            <element signature="e#0#24#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1005,8 +829,7 @@
         <state relative-caret-position="198">
           <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding>
-            <marker date="1495760542000" expanded="true" signature="9:177" ph="..." />
-            <marker date="1495760542000" expanded="true" signature="229:476" ph="{...}" />
+            <element signature="e#0#24#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1016,38 +839,7 @@
         <state relative-caret-position="66">
           <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding>
-            <marker date="1495760542000" expanded="false" signature="9:67" ph="..." />
-            <marker date="1495760542000" expanded="true" signature="9:108" ph="..." />
-            <marker date="1495760542000" expanded="true" signature="146:344" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="390:563" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="601:913" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_suite/testPathfinder.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding>
-            <marker date="1495760542000" expanded="false" signature="9:164" ph="..." />
-            <marker date="1495760542000" expanded="true" signature="9:205" ph="..." />
-            <marker date="1495760542000" expanded="true" signature="250:564" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="315:532" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="622:809" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="878:1291" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="1318:1407" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="1467:1838" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_suite/testRunner.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding>
-            <marker date="1466460301000" expanded="true" signature="91:201" ph="{...}" />
+            <element signature="e#0#24#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1057,21 +849,7 @@
         <state relative-caret-position="66">
           <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding>
-            <marker date="1495760542000" expanded="false" signature="9:142" ph="..." />
-            <marker date="1495760542000" expanded="true" signature="9:183" ph="..." />
-            <marker date="1495760542000" expanded="true" signature="230:786" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="297:753" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="830:961" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="1017:1134" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="1188:1253" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="1324:1845" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="2036:2342" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="2467:2664" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="2796:2988" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="3105:3547" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="3671:4117" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="4308:4712" ph="{...}" />
-            <marker date="1495760542000" expanded="true" signature="4899:5297" ph="{...}" />
+            <element signature="e#0#24#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1080,14 +858,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
           <caret line="12" column="11" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
-          <folding>
-            <marker date="1466549853000" expanded="false" signature="107:158" ph="..." />
-            <marker date="1466549853000" expanded="true" signature="275:1882" ph="{...}" />
-            <marker date="1466549853000" expanded="true" signature="1931:2226" ph="{...}" />
-            <marker date="1466549853000" expanded="true" signature="2274:2423" ph="{...}" />
-            <marker date="1466549853000" expanded="true" signature="2462:2923" ph="{...}" />
-            <marker date="1466549853000" expanded="true" signature="2966:3466" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1099,13 +870,116 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/maze/maze.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="89" column="5" selection-start-line="89" selection-start-column="5" selection-end-line="89" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/testRunner.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="66">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/testPathfinder.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="66">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#19#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maze/newmaze.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="141">
+          <caret line="27" column="10" selection-start-line="27" selection-start-column="10" selection-end-line="27" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maze/mazeprinter.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maze/D5Maze.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="637" column="13" selection-start-line="637" selection-start-column="13" selection-end-line="637" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maze/D5Maze.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="24" column="27" selection-start-line="24" selection-start-column="27" selection-end-line="24" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maze/newmaze.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/testList.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/testCosts.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/testMaze.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="484">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_suite/testWalls.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="13" column="1" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
+        <state relative-caret-position="704">
+          <caret line="32" column="13" selection-start-line="32" selection-start-column="9" selection-end-line="32" selection-end-column="13" />
           <folding>
-            <marker date="1495760542000" expanded="true" signature="9:65" ph="..." />
-            <marker date="1495760542000" expanded="true" signature="90:268" ph="{...}" />
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/testDirection.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
           </folding>
         </state>
       </provider>

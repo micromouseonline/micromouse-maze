@@ -5,7 +5,7 @@
 #include "mazeflooder.h"
 #include "mazepathfinder.h"
 #include "mazeprinter.h"
-#include "newmaze.h"
+
 #include "D5Maze.h"
 
 
