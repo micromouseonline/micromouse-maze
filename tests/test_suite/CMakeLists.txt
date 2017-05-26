@@ -9,7 +9,7 @@ include_directories(
 
 add_executable(runTestSuite
         testMaze.cpp
-        testList.cpp
+        testPriorityQueue.cpp
         testCosts.cpp
         testDirection.cpp
         testFlood.cpp

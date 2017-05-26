@@ -8,10 +8,6 @@ PriorityQueue::PriorityQueue() : mHead(0)
 void PriorityQueue::clear()
 {
   mHead = 0;
-  FloodInfo emptyInfo = {0};
-  for (int i = 0; i < max; i++) {
-    info[i] = emptyInfo;
-  }
 }
 
 int PriorityQueue::size()
@@ -24,19 +20,18 @@ bool PriorityQueue::empty()
   return size() == 0;
 }
 
-bool PriorityQueue::hasItems()
+bool PriorityQueue::full()
 {
-  return size() > 0;
+  return mHead == maxSize;
 }
 
-FloodInfo PriorityQueue::item(int i)
-{
-  return info[i];
-}
 
 void PriorityQueue::push(int cell, int cost, char lastTurn, uint8_t runLength)
 {
-//    assert (mHead < max);
+  assert (mHead < maxSize);
+  if (full()){
+    return; // this is an error
+  }
   info[mHead].cost = cost;
   info[mHead].cell = cell;
   info[mHead].lastTurn = lastTurn;
@@ -46,22 +41,33 @@ void PriorityQueue::push(int cell, int cost, char lastTurn, uint8_t runLength)
 
 void PriorityQueue::push(FloodInfo infoBlock)
 {
-//    assert (mHead < max);
+   assert (mHead < maxSize);
+  if (full()){
+    return; // this is an error
+  }
   info[mHead] = infoBlock;
   mHead++;
 }
 
 FloodInfo PriorityQueue::last()
 {
+  if (empty()){
+    FloodInfo nullInfo = {0};
+    return nullInfo;
+  }
   FloodInfo result = info[--mHead];
   return result;
 }
 
 FloodInfo PriorityQueue::smallest()
 {
+  if (empty()){
+    FloodInfo nullInfo = {0};
+    return nullInfo;
+  }
   int index = 0;
   for (int i = 0; i < mHead; i++) {
-    if (info[i].cost <= info[index].cost) {
+    if (info[i] <= info[index]) {
       index = i;
     }
   }
@@ -73,9 +79,13 @@ FloodInfo PriorityQueue::smallest()
 
 FloodInfo PriorityQueue::largest()
 {
+  if (empty()){
+    FloodInfo nullInfo = {0};
+    return nullInfo;
+  }
   int index = 0;
   for (int i = 0; i < mHead; i++) {
-    if (info[i].cost >= info[index].cost) {
+    if (info[i] >= info[index]) {
       index = i;
     }
   }

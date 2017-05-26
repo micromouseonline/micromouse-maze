@@ -13,8 +13,8 @@
       <sourceFolder url="file://$MODULE_DIR$/tests/test_suite/testMaze.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/test_suite/testCosts.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/test_suite/testFlood.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/test_suite/testPriorityQueue.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/test_suite/testPathfinder.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/tests/test_suite/testList.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/test_suite/testWalls.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/test_suite/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/CMakeLists.txt" isTestSource="false" />
