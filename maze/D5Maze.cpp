@@ -194,7 +194,7 @@ void Maze::updateWalls(uint16_t cell, uint8_t newWalls) {
  * Distance is returned based upon the setting of the wall flag.
  * No account is taken of the 'wall seen' flag.
  */
-int16_t Maze::costNorth(uint16_t cell) {
+uint16_t Maze::costNorth(uint16_t cell) {
   if (mWalls[cell] & WALLNORTH) {
     return UNREACHABLE;
   }
@@ -202,7 +202,7 @@ int16_t Maze::costNorth(uint16_t cell) {
   return mCost[cell];
 }
 
-int16_t Maze::costEast(uint16_t cell) {
+uint16_t Maze::costEast(uint16_t cell) {
   if (walls(cell) & WALLEAST) {
     return UNREACHABLE;
   }
@@ -210,7 +210,7 @@ int16_t Maze::costEast(uint16_t cell) {
   return mCost[cell];
 }
 
-int16_t Maze::costSouth(uint16_t cell) {
+uint16_t Maze::costSouth(uint16_t cell) {
   if (walls(cell) & WALLSOUTH) {
     return UNREACHABLE;
   }
@@ -218,7 +218,7 @@ int16_t Maze::costSouth(uint16_t cell) {
   return mCost[cell];
 }
 
-int16_t Maze::costWest(uint16_t cell) {
+uint16_t Maze::costWest(uint16_t cell) {
   if (walls(cell) & WALLWEST) {
     return UNREACHABLE;
   }
@@ -226,8 +226,8 @@ int16_t Maze::costWest(uint16_t cell) {
   return mCost[cell];
 }
 
-int16_t Maze::cost(uint16_t cell, uint16_t direction) {
-  int16_t result;
+uint16_t Maze::cost(uint16_t cell, uint16_t direction) {
+  uint16_t result;
   switch (direction) {
     case NORTH:
       result = costNorth(cell);
@@ -425,35 +425,35 @@ int Maze::runLengthFlood(int goal) {
   //TODO: Guard against a closed-in goal
   if (hasExit(goal, NORTH)) {
     int nextCell = cellNorth(goal);
-    openList.push(nextCell, 0);
+    openList.push(nextCell, 0,'F',0);
     mHeading[nextCell] = NORTH;
     mCost[nextCell] = costTable[1];
     mHeading[goal] = NORTH;
   }
   if (hasExit(goal, EAST)) {
     int nextCell = cellEast(goal);
-    openList.push(nextCell, 0);
+    openList.push(nextCell, 0,'F',0);
     mHeading[nextCell] = EAST;
     mCost[nextCell] = costTable[1];
     mHeading[goal] = EAST;
   }
   if (hasExit(goal, WEST)) {
     int nextCell = cellWest(goal);
-    openList.push(nextCell, 0);
+    openList.push(nextCell, 0,'F',0);
     mHeading[nextCell] = WEST;
     mCost[nextCell] = costTable[1];
     mHeading[goal] = WEST;
   }
   if (hasExit(goal, SOUTH)) {
     int nextCell = cellSouth(goal);
-    openList.push(nextCell, 0);
+    openList.push(nextCell, 0,'F',0);
     mHeading[nextCell] = SOUTH;
     mCost[nextCell] = costTable[1];
     mHeading[goal] = SOUTH;
   }
   // each (accessible) cell will be processed only once
   int nextCost = 0;
-  while (openList.hasItems()) {
+  while (!openList.empty()) {
     FloodInfo info = openList.smallest();
     uint16_t here = info.cell;
     int headingHere = mHeading[here];

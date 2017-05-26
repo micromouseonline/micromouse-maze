@@ -97,15 +97,15 @@ public:
 
   int runLengthFlood(int goal);
 
-  int16_t costNorth(uint16_t cell);
+  uint16_t costNorth(uint16_t cell);
 
-  int16_t costEast(uint16_t cell);
+  uint16_t costEast(uint16_t cell);
 
-  int16_t costSouth(uint16_t cell);
+  uint16_t costSouth(uint16_t cell);
 
-  int16_t costWest(uint16_t cell);
+  uint16_t costWest(uint16_t cell);
 
-  int16_t cost(uint16_t cell, uint16_t heading);
+  uint16_t cost(uint16_t cell, uint16_t heading);
 
   uint16_t cost(uint16_t cell);
 
@@ -124,9 +124,9 @@ protected:
   uint16_t _goal;
   uint8_t *savedWalls;
   uint8_t mWalls[NUMCELLS];
-  int16_t _costWithUnknownsAsWalls;
-  int16_t _costWithUnknownsAsClear;
-  int16_t _costDifference;
+  uint16_t _costWithUnknownsAsWalls;
+  uint16_t _costWithUnknownsAsClear;
+  uint16_t _costDifference;
   bool _isSolved;
   bool _goalFound;
 };
