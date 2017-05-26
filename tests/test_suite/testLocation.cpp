@@ -1,5 +1,7 @@
 #include "gtest/gtest.h"
 #include "maze.h"
+#include "newmaze.h"
+#include "D5Maze.h"
 
 TEST (Location, Location_constructor)
 {

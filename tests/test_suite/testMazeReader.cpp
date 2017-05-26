@@ -2,6 +2,8 @@
 
 #include "maze.h"
 #include "mazereader.h"
+#include "newmaze.h"
+#include "D5Maze.h"
 
 TEST (MazeReader, LoadMazeFromFile)
 {

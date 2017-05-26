@@ -3,6 +3,7 @@
 #include "D5Maze.h"
 
 
+
 TEST (Walls, SetWall){
   NewMaze newMaze;
   D5Maze oldMaze;

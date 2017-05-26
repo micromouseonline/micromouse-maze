@@ -199,10 +199,10 @@ void NewMaze::updateWalls(uint16_t cell, uint8_t newWalls) {
 
 
 /*
- * Distance is returned based upon the setting of the wall flag.
+ * Cost is returned based upon the setting of the wall flag.
  * No account is taken of the 'wall seen' flag.
  */
-int16_t NewMaze::distanceNorth(uint16_t cell) {
+int16_t NewMaze::costNorth(uint16_t cell) {
   if (mWalls[cell] & WALLNORTH) {
     return UNREACHABLE;
   }
@@ -210,7 +210,7 @@ int16_t NewMaze::distanceNorth(uint16_t cell) {
   return mCost[cell];
 }
 
-int16_t NewMaze::distanceEast(uint16_t cell) {
+int16_t NewMaze::costEast(uint16_t cell) {
   if (walls(cell) & WALLEAST) {
     return UNREACHABLE;
   }
@@ -218,7 +218,7 @@ int16_t NewMaze::distanceEast(uint16_t cell) {
   return mCost[cell];
 }
 
-int16_t NewMaze::distanceSouth(uint16_t cell) {
+int16_t NewMaze::costSouth(uint16_t cell) {
   if (walls(cell) & WALLSOUTH) {
     return UNREACHABLE;
   }
@@ -226,7 +226,7 @@ int16_t NewMaze::distanceSouth(uint16_t cell) {
   return mCost[cell];
 }
 
-int16_t NewMaze::distanceWest(uint16_t cell) {
+int16_t NewMaze::costWest(uint16_t cell) {
   if (walls(cell) & WALLWEST) {
     return UNREACHABLE;
   }
@@ -234,20 +234,20 @@ int16_t NewMaze::distanceWest(uint16_t cell) {
   return mCost[cell];
 }
 
-int16_t NewMaze::getDistance(uint16_t cell, uint16_t direction) {
+int16_t NewMaze::cost(uint16_t cell, uint16_t direction) {
   int16_t result;
   switch (direction) {
     case NORTH:
-      result =  distanceNorth(cell);
+      result = costNorth(cell);
       break;
     case EAST:
-      result =  distanceEast(cell);
+      result = costEast(cell);
       break;
     case SOUTH:
-      result =  distanceSouth(cell);
+      result = costSouth(cell);
       break;
     case WEST:
-      result =  distanceWest(cell);
+      result = costWest(cell);
       break;
     default:
       result =  UNREACHABLE;
@@ -255,30 +255,35 @@ int16_t NewMaze::getDistance(uint16_t cell, uint16_t direction) {
   return result;
 }
 
+int16_t NewMaze::cost(uint16_t cell) {
+  return mCost[cell];
+};
+
+
 uint16_t NewMaze::smallestNeighbourDirection(uint16_t cell, uint8_t heading) {
   uint16_t direction;
   int16_t distance;
   int16_t smallest;
   // assume it is ahead
   direction = heading;
-  smallest = getDistance(cell, direction);
+  smallest = cost(cell, direction);
   // now look right
   heading = (heading + 1) & 0x03;
-  distance = getDistance(cell, heading);
+  distance = cost(cell, heading);
   if (distance < smallest) {
     smallest = distance;
     direction = heading;
   }
   // then look left
   heading = (heading + 2) & 0x03;
-  distance = getDistance(cell, heading);
+  distance = cost(cell, heading);
   if (distance < smallest) {
     smallest = distance;
     direction = heading;
   }
   // it should not be behind but ..
   heading = (heading + 3) & 0x03;
-  distance = getDistance(cell, heading);
+  distance = cost(cell, heading);
   if (distance < smallest) {
     direction = heading;
   }
@@ -545,3 +550,154 @@ int NewMaze::runLengthFlood(int goal) {
   }
   return mCost[0];
 };
+
+
+void NewMaze::setGoal(uint16_t goal) {
+  _goal = goal;
+}
+
+uint16_t NewMaze::goal() {
+  return _goal;
+}
+
+uint16_t NewMaze::cellNorth(uint16_t cell) {
+  cell = (uint16_t)(cell + 1);
+  if (cell >= NUMCELLS) {
+    cell -= NUMCELLS;
+  }
+  return cell;
+}
+
+uint16_t NewMaze::cellEast(uint16_t cell) {
+  cell = (uint16_t)(cell + MAZEWIDTH);
+  if (cell >= NUMCELLS) {
+    cell -= NUMCELLS;
+  }
+  return cell;
+}
+
+uint16_t NewMaze::cellSouth(uint16_t cell) {
+  cell = (uint16_t)(cell + NUMCELLS - 1);
+  if (cell >= NUMCELLS) {
+    cell -= NUMCELLS;
+  }
+  return cell;
+}
+
+uint16_t NewMaze::cellWest(uint16_t cell) {
+  cell = (uint16_t)(cell + NUMCELLS - MAZEWIDTH);
+  if (cell >= NUMCELLS) {
+    cell -= NUMCELLS;
+  }
+  return cell;
+}
+
+bool NewMaze::isKnownWall(uint8_t wallData, uint8_t heading) {
+  return (wallData & (WALL_KNOWN << (2 * heading))) != 0;
+}
+
+int NewMaze::hasExit(int cell, int direction) {
+  int result = 0;
+  switch (direction) {
+    case NORTH:
+      result = (mWalls[cell] & WALLNORTH) == 0 ;
+      break;
+    case EAST:
+      result = (mWalls[cell] & WALLEAST) == 0;
+      break;
+    case SOUTH:
+      result = (mWalls[cell] & WALLSOUTH) == 0;
+      break;
+    case WEST:
+      result = (mWalls[cell] & WALLWEST) == 0;
+      break;
+    default:
+      result =  0;
+  }
+  return result;
+}
+
+int NewMaze::rightOf(int direction) {
+  int result;
+  switch (direction) {
+    case NORTH:
+      result =  EAST;
+      break;
+    case EAST:
+      result =  SOUTH;
+      break;
+    case SOUTH:
+      result =  WEST;
+      break;
+    case WEST:
+      result =  NORTH;
+      break;
+    default:
+      result =  direction;
+  }
+  return result;
+}
+
+int NewMaze::leftOf(int direction) {
+  int result;
+  switch (direction) {
+    case NORTH:
+      result =  WEST;
+      break;
+    case EAST:
+      result =  NORTH;
+      break;
+    case SOUTH:
+      result =  EAST;
+      break;
+    case WEST:
+      result =  SOUTH;
+      break;
+    default:
+      result =  direction;
+  }
+  return result;
+}
+
+uint8_t NewMaze::walls(uint16_t cell) {
+  return mWalls[cell];
+}
+
+uint8_t NewMaze::walls(uint16_t x, uint16_t y) {
+  return mWalls[x * MAZEWIDTH + y];
+}
+
+
+
+uint8_t NewMaze::heading(uint16_t cell) {
+  return  mHeading[cell];
+}
+
+uint8_t NewMaze::heading(uint16_t x, uint16_t y) {
+  return mHeading[x * MAZEWIDTH + y];
+}
+
+bool NewMaze::isSolved(void) {
+  return _isSolved;
+}
+
+bool NewMaze::isVisited(uint16_t cell) {
+  return ((mWalls[cell] & VISITED) == VISITED);
+}
+
+bool NewMaze::isVisited(uint16_t x, uint16_t y) {
+  return ((mWalls[x * MAZEWIDTH + y] & VISITED) == VISITED);
+}
+
+int16_t NewMaze::costDifference(void) {
+  return _costDifference;
+}
+
+bool NewMaze::goalFound(void) {
+  return _goalFound;
+}
+
+uint8_t NewMaze::toFileFormat(uint8_t wallData) {
+  return (uint8_t)((wallData & 1) + ((wallData >> 1) & 2) + ((wallData >> 2) & 4) + ((wallData >> 3) & 8));
+};
+

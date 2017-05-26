@@ -1,5 +1,7 @@
 #include "gtest/gtest.h"
 #include "list.h"
+#include "newmaze.h"
+#include "D5Maze.h"
 
 
 TEST (List, Initialisation_listIsEmpty)

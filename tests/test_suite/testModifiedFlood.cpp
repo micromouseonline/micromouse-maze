@@ -5,6 +5,8 @@
 #include "mazeflooder.h"
 #include "mazeprinter.h"
 #include "mazereader.h"
+#include "newmaze.h"
+#include "D5Maze.h"
 
 class ModifiedFloodTest : public ::testing::Test
 {

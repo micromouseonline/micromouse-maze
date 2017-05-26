@@ -4,6 +4,8 @@
 #include "mazereader.h"
 #include "mazeprinter.h"
 #include "mazesearcher.h"
+#include "newmaze.h"
+#include "D5Maze.h"
 
 
 class SearcherTest : public ::testing::Test
