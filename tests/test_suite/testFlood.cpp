@@ -4,72 +4,61 @@
 #include "mazeflooder.h"
 
 #include "D5Maze.h"
+#include "D5Maze.h"
 
-TEST (Flood, FloodMazeClassic_TargetCostZero)
-{
-  location_t target = {3, 4};
-  MazeResetWalls();
-  MazeInit();
-  FloodMazeClassic (target);
-  EXPECT_EQ (0, Cost (target));
+class Flood : public ::testing::Test {
+protected:
+  Maze *maze;
+
+  virtual void SetUp() {
+    maze = new Maze();
+    maze->resetData();
+  }
+
+  virtual void TearDown() {
+    delete maze;
+  }
+
+};
+
+TEST_F (Flood, FloodMaze_TargetCostIsZero) {
+  uint16_t goalCell = 0x34;
+  maze->setGoal(goalCell);
+  EXPECT_EQ(UINT16_MAX, maze->cost(0));
+  maze->setGoal(goalCell);
+  maze->flood(goalCell, Maze::unknownsAreWalls);
+  EXPECT_EQ(0, maze->cost(goalCell));
+  EXPECT_NE(0, maze->cost(0));
 }
 
-TEST (Flood, FloodMazeClassic_BlockedMaze_HomeCostMax)
-{
-  location_t target = {7, 7};
-  MazeResetWalls();
-  MazeInit();
-  MazeAddWall (target, NORTH);
-  MazeAddWall (target, EAST);
-  MazeAddWall (target, SOUTH);
-  MazeAddWall (target, WEST);
-  FloodMazeClassic (target);
-  EXPECT_EQ (MAX_COST, Cost (Home()));
+TEST_F (Flood, FloodMaze_BlockedMaze_HomeCostMax) {
+  maze->setWall(0x00, NORTH);
+  maze->flood(maze->goal(), Maze::unknownsAreClear);
+  EXPECT_EQ(UINT16_MAX, maze->cost(0));
 }
 
 
-TEST (Flood, FloodMazeClassic_EmptyMaze_TargetNeighbours1)
-{
-  location_t target = {3, 4};
-  MazeResetWalls();
-  MazeInit();
-  FloodMazeClassic (target);
-  EXPECT_EQ (1, Cost (Neighbour (target, NORTH)));
-  EXPECT_EQ (1, Cost (Neighbour (target, EAST)));
-  EXPECT_EQ (1, Cost (Neighbour (target, SOUTH)));
-  EXPECT_EQ (1, Cost (Neighbour (target, WEST)));
+TEST_F (Flood, FloodMaze_EmptyOpenMaze_NeighboursPointToGoal) {
+  uint16_t goal = 0x55;
+  maze->flood(goal, Maze::unknownsAreClear);
+  uint16_t neighbour = maze->cellNorth(goal);
+  EXPECT_EQ(SOUTH, maze->heading(neighbour));
+  EXPECT_EQ(SOUTH, maze->smallestNeighbourDirection(neighbour));
+  neighbour = maze->cellWest(goal);
+  EXPECT_EQ(EAST, maze->heading(neighbour));
+  EXPECT_EQ(EAST, maze->smallestNeighbourDirection(neighbour));
+  neighbour = maze->cellSouth(goal);
+  EXPECT_EQ(NORTH, maze->heading(neighbour));
+  EXPECT_EQ(NORTH, maze->smallestNeighbourDirection(neighbour));
+  neighbour = maze->cellEast(goal);
+  EXPECT_EQ(WEST, maze->heading(neighbour));
+  EXPECT_EQ(WEST, maze->smallestNeighbourDirection(neighbour));
 }
 
-TEST (Flood, SmallestNeighbour_SetCostsWithClearMinimum_GetCorrectNeighbour)
-{
 
-  location_t target = {8, 8};
-  direction_t direction;
-  MazeResetWalls();
-  MazeInit();
-  SetCost (target, 99);
-  SetCost (Neighbour (target, NORTH), 22);
-  SetCost (Neighbour (target, EAST), 1);
-  SetCost (Neighbour (target, SOUTH), 22);
-  SetCost (Neighbour (target, WEST), 22);
-  direction = SmallestNeighbourDirection (target);
-  EXPECT_EQ (EAST, direction);
+TEST_F (Flood, FloodMaze_EmptyClosedMaze) {
+  uint16_t goal = 0x55;
+  maze->flood(goal, Maze::unknownsAreWalls);
+  EXPECT_EQ(UINT16_MAX,maze->cost(0));
+  EXPECT_EQ(0,maze->cost(goal));
 }
-
-TEST (Flood, SmallestNeighbour_SetCostsWithWalls_GetCorrectNeighbour)
-{
-  location_t target = {8, 8};
-  direction_t direction;
-  MazeResetWalls();
-  MazeInit();
-  SetCost (target, 99);
-  MazeAddWall (target, EAST);
-  MazeAddWall (target, SOUTH);
-  SetCost (Neighbour (target, NORTH), 22);
-  SetCost (Neighbour (target, EAST), 1);
-  SetCost (Neighbour (target, SOUTH), 2);
-  SetCost (Neighbour (target, WEST), 3);
-  direction = SmallestNeighbourDirection (target);
-  EXPECT_EQ (WEST, direction);
-}
-
