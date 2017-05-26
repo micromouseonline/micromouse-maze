@@ -11,6 +11,12 @@
 
 class Maze {
 public:
+  typedef enum {
+    unknownsAreWalls,
+    unknownsAreClear
+  } floodMode;
+
+
   Maze();
 
   // static functions about headings

@@ -65,10 +65,7 @@ typedef struct {
   int8_t col;
 } location_t;
 
-typedef enum {
-  unknownsAreWalls,
-  unknownsAreClear
-} floodMode;
+
 /* one day diagonals may make this 8 */
 typedef uint8_t walls_t;
 
