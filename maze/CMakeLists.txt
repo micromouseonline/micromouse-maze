@@ -9,21 +9,30 @@ project(maze)
 
 set(HEADER_FILES
         list.h
+        D5Maze.h
+        newmaze.h
         maze.h
+        mazedata.h
         mazeflooder.h
         mazepathfinder.h
         mazeprinter.h
         mazereader.h
-        mazesearcher.h)
+        mazesearcher.h
+        priorityqueue.h
+        mazeconstants.h )
 
 set (SOURCE_FILES
         list.cpp
+        D5Maze.cpp
+        newmaze.cpp
         maze.cpp
+        mazedata.cpp
         mazeflooder.cpp
         mazepathfinder.cpp
         mazeprinter.cpp
         mazereader.cpp
         mazesearcher.cpp
+        priorityqueue.cpp
         )
 
 add_library(maze

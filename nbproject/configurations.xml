@@ -58,6 +58,9 @@
         <dependencyChecking>false</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
+      <flagsDictionary>
+        <element flagsID="0" commonFlags="-std=gnu++0x"/>
+      </flagsDictionary>
       <codeAssistance>
       </codeAssistance>
       <makefileType>
@@ -76,6 +79,7 @@
         <ccTool>
           <incDir>
             <pElem>maze</pElem>
+            <pElem>build/maze</pElem>
           </incDir>
         </ccTool>
       </folder>
@@ -100,9 +104,8 @@
       <folder path="0/tests/test_suite">
         <ccTool>
           <incDir>
-            <pElem>tests/lib/gtest-1.7.0/include/gtest/internal</pElem>
-            <pElem>tests/lib/gtest-1.7.0/include/gtest</pElem>
-            <pElem>tests/test_suite</pElem>
+            <pElem>maze</pElem>
+            <pElem>build/tests/test_suite</pElem>
           </incDir>
         </ccTool>
       </folder>
@@ -110,204 +113,105 @@
         <ccTool>
           <incDir>
             <pElem>maze</pElem>
-            <pElem>.</pElem>
-            <pElem>../../../Library/Caches/CLion2016.1/cmake/generated/micromouse-maze-3f6d3067/3f6d3067/Debug</pElem>
+            <pElem>build</pElem>
           </incDir>
         </ccTool>
       </item>
       <item path="maze/list.cpp" ex="false" tool="1" flavor2="0">
-        <ccTool>
-          <incDir>
-            <pElem>../../../Library/Caches/CLion2016.1/cmake/generated/micromouse-maze-3f6d3067/3f6d3067/Debug/maze</pElem>
-          </incDir>
-        </ccTool>
       </item>
       <item path="maze/maze.cpp" ex="false" tool="1" flavor2="0">
-        <ccTool>
-          <incDir>
-            <pElem>build/maze</pElem>
-          </incDir>
-        </ccTool>
       </item>
       <item path="maze/mazeflooder.cpp" ex="false" tool="1" flavor2="0">
-        <ccTool>
-          <incDir>
-            <pElem>../../../Library/Caches/CLion2016.1/cmake/generated/micromouse-maze-3f6d3067/3f6d3067/Debug/maze</pElem>
-          </incDir>
-        </ccTool>
       </item>
       <item path="maze/mazepathfinder.cpp" ex="false" tool="1" flavor2="0">
-        <ccTool>
-          <incDir>
-            <pElem>../../../Library/Caches/CLion2016.1/cmake/generated/micromouse-maze-3f6d3067/3f6d3067/Debug/maze</pElem>
-          </incDir>
-        </ccTool>
       </item>
       <item path="maze/mazeprinter.cpp" ex="false" tool="1" flavor2="0">
-        <ccTool>
-          <incDir>
-            <pElem>../../../Library/Caches/CLion2016.1/cmake/generated/micromouse-maze-3f6d3067/3f6d3067/Debug/maze</pElem>
-          </incDir>
-        </ccTool>
       </item>
       <item path="maze/mazereader.cpp" ex="false" tool="1" flavor2="0">
-        <ccTool>
-          <incDir>
-            <pElem>../../../Library/Caches/CLion2016.1/cmake/generated/micromouse-maze-3f6d3067/3f6d3067/Debug/maze</pElem>
-          </incDir>
-        </ccTool>
       </item>
       <item path="maze/mazesearcher.cpp" ex="false" tool="1" flavor2="0">
-        <ccTool>
-          <incDir>
-            <pElem>../../../Library/Caches/CLion2016.1/cmake/generated/micromouse-maze-3f6d3067/3f6d3067/Debug/maze</pElem>
-          </incDir>
-        </ccTool>
       </item>
       <item path="tests/lib/gtest-1.7.0/src/gtest-all.cc"
             ex="false"
             tool="1"
-            flavor2="0">
+            flavor2="4">
         <ccTool>
           <incDir>
             <pElem>tests/lib/gtest-1.7.0/include/gtest/internal</pElem>
             <pElem>tests/lib/gtest-1.7.0/src</pElem>
             <pElem>tests/lib/gtest-1.7.0/include/gtest</pElem>
-            <pElem>tests/lib/gtest-1.7.0/include</pElem>
-            <pElem>tests/lib/gtest-1.7.0</pElem>
-            <pElem>build/tests/lib/gtest-1.7.0</pElem>
           </incDir>
         </ccTool>
       </item>
       <item path="tests/lib/gtest-1.7.0/src/gtest_main.cc"
             ex="false"
             tool="1"
-            flavor2="0">
+            flavor2="4">
         <ccTool>
           <incDir>
             <pElem>tests/lib/gtest-1.7.0/src</pElem>
             <pElem>tests/lib/gtest-1.7.0/include/gtest</pElem>
-            <pElem>tests/lib/gtest-1.7.0/include</pElem>
-            <pElem>build/tests/lib/gtest-1.7.0</pElem>
           </incDir>
         </ccTool>
       </item>
       <item path="tests/test_suite/testCosts.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-          <incDir>
-            <pElem>maze</pElem>
-            <pElem>tests/lib/gtest-1.7.0/include</pElem>
-            <pElem>build/tests/test_suite</pElem>
-          </incDir>
+        <ccTool flags="0">
         </ccTool>
       </item>
       <item path="tests/test_suite/testDirection.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-          <incDir>
-            <pElem>maze</pElem>
-            <pElem>tests/lib/gtest-1.7.0/include</pElem>
-            <pElem>build/tests/test_suite</pElem>
-          </incDir>
+        <ccTool flags="0">
         </ccTool>
       </item>
       <item path="tests/test_suite/testFlood.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-          <incDir>
-            <pElem>maze</pElem>
-            <pElem>tests/lib/gtest-1.7.0/include</pElem>
-            <pElem>build/tests/test_suite</pElem>
-          </incDir>
+        <ccTool flags="0">
         </ccTool>
       </item>
       <item path="tests/test_suite/testList.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-          <incDir>
-            <pElem>maze</pElem>
-            <pElem>tests/lib/gtest-1.7.0/include</pElem>
-            <pElem>build/tests/test_suite</pElem>
-          </incDir>
+        <ccTool flags="0">
         </ccTool>
       </item>
       <item path="tests/test_suite/testLocation.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-          <incDir>
-            <pElem>maze</pElem>
-            <pElem>tests/lib/gtest-1.7.0/include</pElem>
-            <pElem>build/tests/test_suite</pElem>
-          </incDir>
+        <ccTool flags="0">
         </ccTool>
       </item>
       <item path="tests/test_suite/testMaze.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-          <incDir>
-            <pElem>maze</pElem>
-            <pElem>tests/lib/gtest-1.7.0/include</pElem>
-            <pElem>build/tests/test_suite</pElem>
-          </incDir>
+        <ccTool flags="0">
         </ccTool>
       </item>
       <item path="tests/test_suite/testMazePrinter.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool>
-          <incDir>
-            <pElem>maze</pElem>
-            <pElem>tests/lib/gtest-1.7.0/include</pElem>
-            <pElem>build/tests/test_suite</pElem>
-          </incDir>
+        <ccTool flags="0">
         </ccTool>
       </item>
       <item path="tests/test_suite/testMazeReader.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool>
-          <incDir>
-            <pElem>maze</pElem>
-            <pElem>tests/lib/gtest-1.7.0/include</pElem>
-            <pElem>build/tests/test_suite</pElem>
-          </incDir>
+        <ccTool flags="0">
         </ccTool>
       </item>
       <item path="tests/test_suite/testModifiedFlood.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool>
-          <incDir>
-            <pElem>tests/lib/gtest-1.7.0/include</pElem>
-            <pElem>build/tests/test_suite</pElem>
-          </incDir>
+        <ccTool flags="0">
         </ccTool>
       </item>
       <item path="tests/test_suite/testPathfinder.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool>
-          <incDir>
-            <pElem>maze</pElem>
-            <pElem>tests/lib/gtest-1.7.0/include</pElem>
-            <pElem>build/tests/test_suite</pElem>
-          </incDir>
+        <ccTool flags="0">
         </ccTool>
       </item>
       <item path="tests/test_suite/testSearcher.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-          <incDir>
-            <pElem>tests/lib/gtest-1.7.0/include</pElem>
-            <pElem>build/tests/test_suite</pElem>
-          </incDir>
+        <ccTool flags="0">
         </ccTool>
       </item>
       <item path="tests/test_suite/testWalls.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-          <incDir>
-            <pElem>maze</pElem>
-            <pElem>tests/lib/gtest-1.7.0/include</pElem>
-            <pElem>build/tests/test_suite</pElem>
-          </incDir>
+        <ccTool flags="0">
         </ccTool>
       </item>
     </conf>

@@ -1,8 +1,23 @@
 #include "gtest/gtest.h"
 #include "maze.h"
 #include "mazeprinter.h"
+#include "newmaze.h"
+#include "D5Maze.h"
+/////////////////////
 
 
+TEST(Maze,SetGetGoal){
+  NewMaze newMaze;
+  D5Maze oldMaze;
+  EXPECT_EQ(DEFAULT_GOAL,newMaze.goal());
+  EXPECT_EQ(DEFAULT_GOAL,oldMaze.goal());
+  newMaze.setGoal(99);
+  oldMaze.setGoal(99);
+  EXPECT_EQ(99,newMaze.goal());
+  EXPECT_EQ(99,oldMaze.goal());
+}
+
+/////////////////////
 TEST (Maze, MazeResetWalls_blankWalls)
 {
   MazeResetWalls();

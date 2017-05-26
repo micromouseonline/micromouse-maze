@@ -389,3 +389,4 @@ bool Visited (location_t location)
 {
   return (Walls (location) & VISITED) == VISITED;
 }
+

@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 
 #include "maze.h"
-#include "mazeReader.h"
+#include "mazereader.h"
 
 TEST (MazeReader, LoadMazeFromFile)
 {
