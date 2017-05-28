@@ -8,8 +8,9 @@
 #ifndef MAZEDATA_H
 #define	MAZEDATA_H
 
-#include <stdint.h>
 // maze storage
+#include <stdint.h>
+extern const uint8_t testMaze5x5[]; // small pathfinder test maze
 extern const uint8_t testMaze1[]; // simple single short route
 extern const uint8_t testmaze2[]; // two routes - favours runlength flood
 extern const uint8_t _Users_peterharrison_Desktop_TAIWAN2015_FINALS_maz[];

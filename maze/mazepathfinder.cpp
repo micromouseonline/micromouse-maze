@@ -5,7 +5,7 @@
  * Created on 16 February 2016, 14:55
  */
 
-#include "maze.h"
+#include "oldmaze.h"
 #include "mazepathfinder.h"
 
 

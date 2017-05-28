@@ -5,7 +5,7 @@
  * Created on 17 February 2016, 21:31
  */
 #include <assert.h>
-#include "maze.h"
+#include "oldmaze.h"
 #include "mazereader.h"
 #include "mazeflooder.h"
 #include "mazesearcher.h"

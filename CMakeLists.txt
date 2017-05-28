@@ -4,8 +4,8 @@ set(CMAKE_LEGACY_CYGWIN_WIN32 0)
 
 #add_definitions(-std=gnu++0x)
 
-set(SOURCE_FILES main.cpp)
-add_executable(libmaze_run ${SOURCE_FILES})
+set(SOURCE_FILES main.cpp maze/MazeFiler.cpp maze/MazeFiler.h)
+add_executable(libmaze_run ${SOURCE_FILES} maze/MazeFiler.cpp maze/MazeFiler.h)
 
 # places to look for include files
 include_directories(maze)

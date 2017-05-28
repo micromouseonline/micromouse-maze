@@ -1,111 +1,134 @@
-/*
- * File:   maze.h
- * Author: peterharrison
- *
- * Created on 08 February 2016, 00:09
- *
- * This module concerns itself only with the direct manipulation of the maze
- * data structures:
- *  - setting and clearing walls
- *  - testing walls
- *  - setting and getting costs
- *  - setting and getting directions
- *  - providing utilities like finding a neighbour location
- *
- * There should be no global variables in here,
- * only functions, types and constants
- * instance variables will be declared static in maze.c allowing implemenation
- * to be changed without affecting API
- */
+//
+// Created by Peter Harrison on 26/05/2017.
+//
 
-#ifndef MAZE_H
-#define MAZE_H
+#ifndef MAZE_D5MAZE_H
+#define MAZE_D5MAZE_H
 
-#include <stdint.h>
-#include <stdbool.h>
 #include "mazeconstants.h"
-#include "mazedata.h"
+#include "priorityqueue.h"
+#include <stdint.h>
+
+class Maze {
+public:
+  typedef enum {
+    unknownsAreWalls,
+    unknownsAreClear
+  } floodMode;
 
 
+  Maze();
+
+  // static functions about headings
+  static int rightOf(int direction);
+
+  static int leftOf(int direction);
+
+  static int behind(int direction);
 
 
+  // static functions about neighbours
+  static uint16_t cellNorth(uint16_t cell);
 
-/* ========== manipulating the maze ==============*/
+  static uint16_t cellEast(uint16_t cell);
 
-uint8_t MazeWidth(void);
-uint8_t MazeHeight(void);
+  static uint16_t cellSouth(uint16_t cell);
 
-/*
- * Set up the working maze with wall information for a classic 16x16 empty
- * maze. That is, walls around the outsides and to the East of the home
- * cell
- */
-void MazeInit(void);
+  static uint16_t cellWest(uint16_t cell);
 
-/*
- * clear the costs and directions
- * set the walls to the outside and start cell walls only
- */
-void MazeResetWalls(void);
+  // manipulating the goal cell
+  void setGoal(uint16_t goal);
 
-/* set a single wall - looks after neighbours - set seen*/
-void MazeAddWall(location_t location, direction_t direction);
+  uint16_t goal();
 
-/* set all four walls for a location - updates neighbours - set seen*/
-void UpdateCellFromWallData(location_t location, walls_t walls);
+  // wall data
+  bool isKnownWall(uint8_t wallData, uint8_t heading);
 
-/* clear a single wall - looks after neighbours - set seen*/
-void MazeRemoveWall(location_t location, direction_t direction);
+  int hasExit(int cell, int direction);
 
-/* return a pointer to the walldata at a given location */
-walls_t *wallsPointer(location_t location);
+// return the state of the walls at a given cell.
+  uint8_t walls(uint16_t cell);
 
-/* return the actual wall data for a given location */
-walls_t Walls(location_t location);
+  uint8_t walls(uint16_t x, uint16_t y);
 
-bool Visited(location_t location);
+  // return the heading data
+  uint8_t heading(uint16_t cell);
 
-/* return true if there is no wall in the given direction */
-bool HasExit(location_t location, direction_t direction);
+ // uint8_t heading(uint16_t x, uint16_t y);
 
+  void setHeading(uint16_t cell, uint8_t heading);
 
-/* ========== manipulating the cost ==============*/
-cost_t Cost(location_t location);
-void SetCost(location_t location, cost_t cost);
-void MazeResetCosts(void);
+ // void setHeading(uint16_t x, uint16_t y, uint8_t heading);
 
+  //
+  bool isSolved(void);
 
-/* ========== manipulating the locations ==============*/
-void SetGoal(location_t location);
-location_t Location(uint8_t row, uint8_t col);
-location_t DefaultGoal(void);
-location_t Goal(void);
-location_t Home(void);
-location_t Neighbour(location_t location, direction_t direction);
-bool IsGoal(location_t location);
-bool IsHome(location_t location);
+  bool isVisited(uint16_t cell);
 
-/* ========== manipulating the walls ==============*/
-bool WallIsSeen(walls_t walls, direction_t direction);
-bool WallExists(walls_t walls, direction_t direction);
+  bool isVisited(uint16_t x, uint16_t y);
 
-/* setting and clearing always sets the seen bits */
-/* clear all the walls and the seen bits */
-walls_t WallsNone(void);
-void WallSet(walls_t *walls, direction_t direction);
-void WallClear(walls_t *walls, direction_t direction);
+  int16_t costDifference(void);
 
+  bool goalFound(void);
 
-/* ========== manipulating the directions ==============*/
-void MazeResetDirections(void);
-void SetDirection(location_t location, direction_t direction);
-direction_t Direction(location_t location);
-/* handy utilities for directions */
-direction_t LeftFrom(direction_t direction);
-direction_t RightFrom(direction_t direction);
-direction_t Behind(direction_t direction);
+  uint8_t toFileFormat(uint8_t wallData);
 
-direction_t SmallestNeighbourDirection(location_t loc);
+  void resetData(void);
 
-#endif /* MAZE_H */
+// set maze to empty except start and edges
+  void clearMaze(void);
 
+// modify a single wall in a cell. Will not remove existing data
+  void setWall(uint16_t cell, uint8_t wall);
+
+  void clearWall(uint16_t cell, uint8_t wall);
+
+// adds all walls for a cell
+// mWalls should be a four bit quantity as stored in a .maz file
+  void updateWalls(uint16_t cell, uint8_t mWalls);
+
+  uint16_t neighbour(uint16_t cell, uint16_t heading);
+
+  void setUnknownsAsWalls(void);
+
+  void setUnknownsAsClear(void);
+
+  int16_t flood(uint16_t goal, floodMode mode);
+
+  int runLengthFlood(int goal);
+
+  uint16_t costNorth(uint16_t cell);
+
+  uint16_t costEast(uint16_t cell);
+
+  uint16_t costSouth(uint16_t cell);
+
+  uint16_t costWest(uint16_t cell);
+
+  uint16_t cost(uint16_t cell, uint16_t heading);
+
+  uint16_t cost(uint16_t cell);
+
+  void setCost(uint16_t cell, uint16_t cost);
+
+  uint16_t smallestNeighbourDirection(uint16_t cell, uint8_t heading = NORTH);
+
+  bool testForSolution(void);
+
+  uint16_t recalculateGoal();
+
+protected:
+  uint16_t mCost[NUMCELLS];
+  uint8_t mHeading[NUMCELLS];
+  PriorityQueue openList;
+  uint16_t _goal;
+  uint8_t *savedWalls;
+  uint8_t mWalls[NUMCELLS];
+  uint16_t _costWithUnknownsAsWalls;
+  uint16_t _costWithUnknownsAsClear;
+  uint16_t _costDifference;
+  bool _isSolved;
+  bool _goalFound;
+};
+
+#endif //MAZE_D5MAZE_H

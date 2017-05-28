@@ -14,7 +14,7 @@ extern "C" {
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "maze.h"
+#include "oldmaze.h"
 
 /* Set the list size to zero, initialise Size and MaxSize to zero*/
 void ListReset (void);

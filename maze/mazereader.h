@@ -24,6 +24,9 @@ void ReadRealWallsFromFile (char * filename);
  */
 void UpdateEntireMazeFromRealWalls () ;
 
+
+void UpdateEntireMazeFromData(const uint8_t * data);
+
 /*
  * Return wall data for a single cell without updating the working maze.
  * Use this when searching to simulate grabbing wall sensor data.

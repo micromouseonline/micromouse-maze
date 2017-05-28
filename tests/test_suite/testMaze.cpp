@@ -1,8 +1,8 @@
 #include "gtest/gtest.h"
-#include "maze.h"
+#include "oldmaze.h"
 #include "mazeprinter.h"
 
-#include "D5Maze.h"
+#include "maze.h"
 /////////////////////
 
 

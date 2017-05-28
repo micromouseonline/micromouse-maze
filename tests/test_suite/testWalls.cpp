@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 
-#include "D5Maze.h"
+#include "maze.h"
 
 
 

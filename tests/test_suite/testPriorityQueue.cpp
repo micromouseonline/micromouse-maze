@@ -39,6 +39,7 @@ TEST_F(QueueTest, PushAndRetrieve_Single_Item){
   EXPECT_FALSE(queue->empty());
   item = queue->last();
   EXPECT_TRUE(item == info);
+  EXPECT_TRUE(queue->empty());
 }
 
 TEST_F(QueueTest, PushAndRetrieve_LargetAndSmallest_Item){

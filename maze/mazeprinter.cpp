@@ -6,7 +6,7 @@
  * Created on 13 February 2016, 19:53
  */
 #include <stdio.h>
-#include "maze.h"
+#include "oldmaze.h"
 #include "mazeprinter.h"
 #include "mazesearcher.h"
 

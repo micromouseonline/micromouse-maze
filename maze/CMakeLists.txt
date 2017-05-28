@@ -9,8 +9,8 @@ project(maze)
 
 set(HEADER_FILES
         list.h
-        D5Maze.h
         maze.h
+        oldmaze.h
         mazedata.h
         mazeflooder.h
         mazepathfinder.h
@@ -18,12 +18,12 @@ set(HEADER_FILES
         mazereader.h
         mazesearcher.h
         priorityqueue.h
-        mazeconstants.h )
+        mazeconstants.h MazeFiler.cpp MazeFiler.h)
 
 set (SOURCE_FILES
         list.cpp
-        D5Maze.cpp
         maze.cpp
+        oldmaze.cpp
         mazedata.cpp
         mazeflooder.cpp
         mazepathfinder.cpp
@@ -31,9 +31,9 @@ set (SOURCE_FILES
         mazereader.cpp
         mazesearcher.cpp
         priorityqueue.cpp
-        )
+        MazeFiler.cpp MazeFiler.h)
 
 add_library(maze
         STATIC
         ${SOURCE_FILES}
-        ${HEADER_FILES})
+        ${HEADER_FILES} MazeFiler.cpp MazeFiler.h)

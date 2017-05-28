@@ -1,10 +1,10 @@
 #include "gtest/gtest.h"
-#include "maze.h"
+#include "oldmaze.h"
 #include "mazereader.h"
 #include "mazeflooder.h"
 
-#include "D5Maze.h"
-#include "D5Maze.h"
+#include "maze.h"
+#include "maze.h"
 
 class Flood : public ::testing::Test {
 protected:

@@ -13,7 +13,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "maze.h"
+#include "oldmaze.h"
 #include "mazeprinter.h"
 #include "mazereader.h"
 #include "mazeflooder.h"
@@ -86,8 +86,7 @@ int main(int argc, char **argv) {
     printf("searched in %d steps\n", steps);
     int length = IsolatePath(Home(), Goal());
     printf("Path length is %d cells\n", length);
-    PrintMaze(DIRS);
-    PrintMaze(COSTS);
+
   }
   return (EXIT_SUCCESS);
 }

@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 #include <assert.h>
-#include "maze.h"
+#include "oldmaze.h"
 #include "mazereader.h"
 
 static uint8_t wallData[MAZE_ROWS][MAZE_COLS];
@@ -54,6 +54,18 @@ void UpdateEntireMazeFromRealWalls(void) {
     }
   }
 }
+  void UpdateEntireMazeFromData(const uint8_t * data) {
+    location_t loc;
+    for(int i = 0; i < MAZE_COLS*MAZE_ROWS;i++){
+      ((uint8_t *)wallData)[i] = data[i];
+    }
+    for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
+      for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
+        UpdateCellFromWallData(loc, wallData[loc.col][loc.row]);
+      }
+    }
+  }
+
 
 walls_t ReadWallSensors(location_t loc) {
   return wallData[loc.row][loc.col];

@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 #include "gtest/gtest-spi.h"
-#include "D5Maze.h"
+#include "maze.h"
 
 /*
  * test the ability of the maze to store direction information

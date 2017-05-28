@@ -1,12 +1,12 @@
 #include <iostream>
 #include "gtest/gtest.h"
-#include "maze.h"
+#include "oldmaze.h"
 #include "mazereader.h"
 #include "mazeflooder.h"
 #include "mazepathfinder.h"
 #include "mazeprinter.h"
 
-#include "D5Maze.h"
+#include "maze.h"
 
 
 class PathFinder : public ::testing::Test {
@@ -41,7 +41,7 @@ TEST (PathFinder, StartsAtUnreachablel_ReturnsNegativePathLength) {
   MazeAddWall(Location(6, 12), SOUTH);
   MazeAddWall(Location(6, 12), WEST);
   FloodMazeClassic(DefaultGoal());
-  PrintMaze(COSTS);
+ // PrintMaze(COSTS);
   location_t start = Location(6, 12);
   location_t end = DefaultGoal();
   int pathLength = IsolatePath(start, end);
@@ -67,5 +67,6 @@ TEST (PathFinder, testTargetNotReachable_ExpectPathGT200) {
   MazeAddWall(testGoal, SOUTH);
   pathLength = IsolatePath(Home(), testGoal);
   ASSERT_GE (pathLength, 250);
+  ASSERT_STREQ("   ", "   ");
 }
 

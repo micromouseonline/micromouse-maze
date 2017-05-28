@@ -1,11 +1,11 @@
 #include "gtest/gtest.h"
-#include "maze.h"
+#include "oldmaze.h"
 #include "mazeflooder.h"
 #include "mazereader.h"
 #include "mazeprinter.h"
 #include "mazesearcher.h"
 
-#include "D5Maze.h"
+#include "maze.h"
 
 
 class SearcherTest : public ::testing::Test
