@@ -37,8 +37,10 @@ Maze::Maze() {
 };
 
 bool Maze::testForSolution(void) { // takes less than 3ms
-  flood(theMaze.goal(), unknownsAreWalls);
-  flood(theMaze.goal(), unknownsAreClear);
+  setUnknowns();
+  _costWithUnknownsAsWalls = flood(theMaze.goal());
+  clearUnknowns();
+  _costWithUnknownsAsClear = flood(theMaze.goal());
   _costDifference = abs(_costWithUnknownsAsClear - _costWithUnknownsAsWalls);
   _goalFound = _costWithUnknownsAsWalls < UNREACHABLE;
   _isSolved = _goalFound && ((_costDifference < 1));
@@ -354,21 +356,8 @@ uint16_t Maze::recalculateGoal() {
   return entranceCount;
 }
 
-int16_t Maze::flood(uint16_t goal, floodMode mode) {
-  int16_t cost;
-  if (mode == unknownsAreWalls) {
-    setUnknowns();
-    cost = runLengthFlood(goal);
-    //logInfo ("Flooding to: 0x%02X unknowns set, cost = %d.\n", goal, cost);
-    _costWithUnknownsAsWalls = cost;
-  } else {
-    clearUnknowns();
-    cost = runLengthFlood(goal);
-    //logInfo ("Flooding to: 0x%02X unknowns clear, cost = %d.\n", goal, cost);
-    _costWithUnknownsAsClear = cost;
-  }
-  clearUnknowns();
-  return cost;
+uint16_t Maze::flood(uint16_t goal) {
+  return runLengthFlood(goal);
 }
 
 /*
@@ -398,7 +387,7 @@ int16_t Maze::flood(uint16_t goal, floodMode mode) {
  * Note that single-cell goals may have multiple exits and the centre region in the
  * classic contest will also have a number of possible exits
  * */
-int Maze::runLengthFlood(int goal) {
+uint16_t  Maze::runLengthFlood(int goal) {
   openList.clear();
   // set every cell as unexamined
   for (uint16_t i = 0; i < NUMCELLS; i++) {

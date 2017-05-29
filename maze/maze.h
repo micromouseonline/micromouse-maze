@@ -92,9 +92,9 @@ public:
 
   void clearUnknowns(void);
 
-  int16_t flood(uint16_t goal, floodMode mode);
+  uint16_t flood(uint16_t goal);
 
-  int runLengthFlood(int goal);
+  uint16_t runLengthFlood(int goal);
 
   uint16_t costNorth(uint16_t cell);
 
