@@ -41,10 +41,13 @@ public:
 
   uint16_t goal();
 
+  uint16_t home();
+
   // wall data
   bool isKnownWall(uint8_t wallData, uint8_t heading);
 
-  int hasExit(int cell, int direction);
+  bool hasExit(uint16_t cell, uint8_t direction);
+  bool hasWall(uint16_t cell, uint8_t direction);
 
 // return the state of the walls at a given cell.
   uint8_t walls(uint16_t cell);
@@ -71,8 +74,6 @@ public:
 
   bool goalFound(void);
 
-  uint8_t toFileFormat(uint8_t wallData);
-
   void resetData(void);
 
 // set maze to empty except start and edges
@@ -89,9 +90,9 @@ public:
 
   uint16_t neighbour(uint16_t cell, uint16_t heading);
 
-  void setUnknownsAsWalls(void);
+  void setUnknowns(void);
 
-  void setUnknownsAsClear(void);
+  void clearUnknowns(void);
 
   int16_t flood(uint16_t goal, floodMode mode);
 
@@ -116,6 +117,9 @@ public:
   bool testForSolution(void);
 
   uint16_t recalculateGoal();
+
+  uint16_t numCells();
+  uint16_t width();
 
 protected:
   uint16_t mCost[NUMCELLS];

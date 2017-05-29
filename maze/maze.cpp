@@ -47,12 +47,14 @@ bool Maze::testForSolution(void) { // takes less than 3ms
 
 
 void Maze::clearMaze() {
-  resetData();
+  for (int i = 0; i < NUMCELLS; i++) {
+    mWalls[i] = 0;
+  }
 }
 
 void Maze::resetData() {
+  clearMaze();
   for (int i = 0; i < NUMCELLS; i++) {
-    mWalls[i] = 0;
     mCost[i] = UINT16_MAX;
     mHeading[i] = NORTH;
   }
@@ -195,7 +197,7 @@ void Maze::updateWalls(uint16_t cell, uint8_t newWalls) {
  * No account is taken of the 'wall seen' flag.
  */
 uint16_t Maze::costNorth(uint16_t cell) {
-  if (mWalls[cell] & WALLNORTH) {
+  if (hasWall(cell,NORTH)) {
     return UNREACHABLE;
   }
   cell = cellNorth(cell);
@@ -203,7 +205,7 @@ uint16_t Maze::costNorth(uint16_t cell) {
 }
 
 uint16_t Maze::costEast(uint16_t cell) {
-  if (walls(cell) & WALLEAST) {
+  if (hasWall(cell,EAST)) {
     return UNREACHABLE;
   }
   cell = cellEast(cell);
@@ -211,7 +213,7 @@ uint16_t Maze::costEast(uint16_t cell) {
 }
 
 uint16_t Maze::costSouth(uint16_t cell) {
-  if (walls(cell) & WALLSOUTH) {
+  if (hasWall(cell,SOUTH)) {
     return UNREACHABLE;
   }
   cell = cellSouth(cell);
@@ -219,7 +221,7 @@ uint16_t Maze::costSouth(uint16_t cell) {
 }
 
 uint16_t Maze::costWest(uint16_t cell) {
-  if (walls(cell) & WALLWEST) {
+  if (hasWall(cell,WEST)) {
     return UNREACHABLE;
   }
   cell = cellWest(cell);
@@ -278,13 +280,13 @@ uint16_t Maze::smallestNeighbourDirection(uint16_t cell, uint8_t heading) {
   return direction;
 }
 
-void Maze::setUnknownsAsWalls(void) {
+void Maze::setUnknowns(void) {
   for (uint16_t i = 0; i < NUMCELLS; i++) {
     mWalls[i] |= (((~mWalls[i]) & VISITED) >> 1);
   }
 }
 
-void Maze::setUnknownsAsClear(void) {
+void Maze::clearUnknowns(void) {
   for (uint16_t i = 0; i < NUMCELLS; i++) {
     mWalls[i] &= ~(((~mWalls[i]) & VISITED) >> 1);
   }
@@ -372,17 +374,17 @@ uint16_t Maze::recalculateGoal() {
 int16_t Maze::flood(uint16_t goal, floodMode mode) {
   int16_t cost;
   if (mode == unknownsAreWalls) {
-    setUnknownsAsWalls();
+    setUnknowns();
     cost = runLengthFlood(goal);
     //logInfo ("Flooding to: 0x%02X unknowns set, cost = %d.\n", goal, cost);
     _costWithUnknownsAsWalls = cost;
   } else {
-    setUnknownsAsClear();
+    clearUnknowns();
     cost = runLengthFlood(goal);
     //logInfo ("Flooding to: 0x%02X unknowns clear, cost = %d.\n", goal, cost);
     _costWithUnknownsAsClear = cost;
   }
-  setUnknownsAsClear();
+  clearUnknowns();
   return cost;
 }
 
@@ -547,6 +549,10 @@ uint16_t Maze::goal() {
   return _goal;
 }
 
+uint16_t Maze::home() {
+  return 0;
+}
+
 uint16_t Maze::cellNorth(uint16_t cell) {
   cell = (uint16_t)(cell + 1);
   if (cell >= NUMCELLS) {
@@ -583,7 +589,7 @@ bool Maze::isKnownWall(uint8_t wallData, uint8_t heading) {
   return (wallData & (WALL_KNOWN << (2 * heading))) != 0;
 }
 
-int Maze::hasExit(int cell, int direction) {
+bool Maze::hasExit(uint16_t cell, uint8_t direction) {
   int result = 0;
   switch (direction) {
     case NORTH:
@@ -604,6 +610,10 @@ int Maze::hasExit(int cell, int direction) {
   return result;
 }
 
+bool Maze::hasWall(uint16_t cell, uint8_t direction) {
+  return !hasExit(cell,direction);
+}
+
 int Maze::rightOf(int direction) {
   return (direction + 1) % 4;
 }
@@ -613,7 +623,8 @@ int Maze::leftOf(int direction) {
 }
 
 uint8_t Maze::walls(uint16_t cell) {
-  return mWalls[cell];
+  uint8_t wallData = mWalls[cell];
+  return (uint8_t)((wallData & 1) + ((wallData >> 1) & 2) + ((wallData >> 2) & 4) + ((wallData >> 3) & 8));;
 }
 
 uint8_t Maze::walls(uint16_t x, uint16_t y) {
@@ -650,10 +661,6 @@ bool Maze::goalFound(void) {
   return _goalFound;
 }
 
-uint8_t Maze::toFileFormat(uint8_t wallData) {
-  return (uint8_t)((wallData & 1) + ((wallData >> 1) & 2) + ((wallData >> 2) & 4) + ((wallData >> 3) & 8));
-}
-
 int Maze::behind(int direction) {
   return (direction +2 ) % 4;
 }
@@ -665,4 +672,12 @@ void Maze::setHeading(uint16_t cell, uint8_t heading) {
 
 void Maze::setCost(uint16_t cell, uint16_t cost) {
    mCost[cell] = cost;
+}
+
+uint16_t Maze::numCells() {
+  return NUMCELLS;
+}
+
+uint16_t Maze::width() {
+  return MAZEWIDTH;
 }
