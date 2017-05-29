@@ -9,24 +9,24 @@
 TEST (Direction, MazeHeading_defaultValue_isNORTH)
 {
   Maze maze;
-  maze.clearMaze();
+  maze.resetToEmptyMaze();
   for(int i = 0; i < NUMCELLS; i++){
-    EXPECT_EQ(NORTH,maze.heading(i));
+    EXPECT_EQ(NORTH, maze.direction(i));
   }
 }
 
 TEST (Direction, MazeSetDirection_ReturnSetValue)
 {
   Maze maze;
-  maze.clearMaze();
-  maze.setHeading(0x33,EAST);
-  EXPECT_EQ(EAST,maze.heading(0x33));
-  maze.setHeading(0x33,SOUTH);
-  EXPECT_EQ(SOUTH,maze.heading(0x33));
-  maze.setHeading(0x33,WEST);
-  EXPECT_EQ(WEST,maze.heading(0x33));
-  maze.setHeading(0x33,NORTH);
-  EXPECT_EQ(NORTH,maze.heading(0x33));
+  maze.resetToEmptyMaze();
+  maze.setDirection(0x33, EAST);
+  EXPECT_EQ(EAST, maze.direction(0x33));
+  maze.setDirection(0x33, SOUTH);
+  EXPECT_EQ(SOUTH, maze.direction(0x33));
+  maze.setDirection(0x33, WEST);
+  EXPECT_EQ(WEST, maze.direction(0x33));
+  maze.setDirection(0x33, NORTH);
+  EXPECT_EQ(NORTH, maze.direction(0x33));
 }
 
 TEST (Direction, DirectionGetLeftFrom)

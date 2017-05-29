@@ -30,35 +30,27 @@ const int costTable[] =
 Maze theMaze;
 
 Maze::Maze() {
-  _isSolved = false;
-  _goalFound = false;
-  resetData();
+  mIsSolved = false;
+  resetToEmptyMaze();
   setGoal(DEFAULT_GOAL);
 };
 
 bool Maze::testForSolution(void) { // takes less than 3ms
   setUnknowns();
-  _costWithUnknownsAsWalls = flood(theMaze.goal());
+  mPathCostOpen = flood(theMaze.goal());
   clearUnknowns();
-  _costWithUnknownsAsClear = flood(theMaze.goal());
-  _costDifference = abs(_costWithUnknownsAsClear - _costWithUnknownsAsWalls);
-  _goalFound = _costWithUnknownsAsWalls < UNREACHABLE;
-  _isSolved = _goalFound && ((_costDifference < 1));
-  return _isSolved;
+  mPathCostClosed = flood(theMaze.goal());
+  mCostDifference = abs(mPathCostClosed - mPathCostOpen);
+  mIsSolved = ((mCostDifference < 1));
+  return mIsSolved;
 };
 
 
-void Maze::clearMaze() {
-  for (int i = 0; i < NUMCELLS; i++) {
-    mWalls[i] = 0;
-  }
-}
-
-void Maze::resetData() {
-  clearMaze();
+void Maze::resetToEmptyMaze() {
   for (int i = 0; i < NUMCELLS; i++) {
     mCost[i] = UINT16_MAX;
-    mHeading[i] = NORTH;
+    mDirection[i] = NORTH;
+    mWalls[i] = 0;
   }
   for (int i = 0; i < MAZEWIDTH; i++) {
     setWall(i, WEST);
@@ -71,13 +63,13 @@ void Maze::resetData() {
   mWalls[0] |= VISITED;
 }
 /*
- * unconditionally adds a wall to the data.
+ * unconditionally adds a wall in the map.
  * over-writes whatever is there.
  * should only be used when setting up a maze.
  * To update the maze when running, use updateWalls(cell,wallData)
  */
-void Maze::setWall(uint16_t cell, uint8_t heading) {
-  switch (heading) {
+void Maze::setWall(uint16_t cell, uint8_t direction) {
+  switch (direction) {
     case NORTH:
       mWalls[cell] |= CHECKED_NORTH + WALLNORTH;
       cell = cellNorth(cell);
@@ -102,13 +94,13 @@ void Maze::setWall(uint16_t cell, uint8_t heading) {
 }
 
 /*
- * unconditionally adds a wall to the data.
+ * unconditionally clears a wall in the map.
  * over-writes whatever is there.
  * should only be used when setting up a maze.
  * To update the maze when running, use updateWalls(cell,wallData)
  */
-void Maze::clearWall(uint16_t cell, uint8_t heading) {
-  switch (heading) {
+void Maze::clearWall(uint16_t cell, uint8_t direction) {
+  switch (direction) {
     case NORTH:
       mWalls[cell] &= ~WALLNORTHMASK;
       mWalls[cell] |= CHECKED_NORTH;
@@ -213,6 +205,7 @@ uint16_t Maze::costWest(uint16_t cell) {
   return mCost[cell];
 }
 
+
 uint16_t Maze::cost(uint16_t cell, uint16_t direction) {
   uint16_t result;
   switch (direction) {
@@ -275,28 +268,6 @@ void Maze::clearUnknowns(void) {
   for (uint16_t i = 0; i < NUMCELLS; i++) {
     mWalls[i] &= ~(((~mWalls[i]) & VISITED) >> 1);
   }
-}
-
-
-uint16_t Maze::neighbour(uint16_t cell, uint16_t heading) {
-  uint16_t neighbour;
-  switch (heading) {
-    case NORTH:
-      neighbour =  cellNorth(cell);
-      break;
-    case EAST:
-      neighbour =  cellEast(cell);
-      break;
-    case SOUTH:
-      neighbour =  cellSouth(cell);
-      break;
-    case WEST:
-      neighbour =  cellWest(cell);
-      break;
-    default:
-      neighbour =  UINT16_MAX;
-  }
-  return neighbour;
 }
 
 uint16_t Maze::recalculateGoal() {
@@ -387,7 +358,7 @@ uint16_t Maze::flood(uint16_t goal) {
  * Note that single-cell goals may have multiple exits and the centre region in the
  * classic contest will also have a number of possible exits
  * */
-uint16_t  Maze::runLengthFlood(int goal) {
+uint16_t  Maze::runLengthFlood(uint16_t goal) {
   openList.clear();
   // set every cell as unexamined
   for (uint16_t i = 0; i < NUMCELLS; i++) {
@@ -395,42 +366,42 @@ uint16_t  Maze::runLengthFlood(int goal) {
   }
   // except the goal
   mCost[goal] = 0;
-  mHeading[goal] = NORTH;
+  mDirection[goal] = NORTH;
   //TODO: Guard against a closed-in goal
   if (hasExit(goal, NORTH)) {
     int nextCell = cellNorth(goal);
     openList.push(nextCell, 0,'F',0);
-    mHeading[nextCell] = NORTH;
+    mDirection[nextCell] = NORTH;
     mCost[nextCell] = costTable[1];
-    mHeading[goal] = NORTH;
+    mDirection[goal] = NORTH;
   }
   if (hasExit(goal, EAST)) {
     int nextCell = cellEast(goal);
     openList.push(nextCell, 0,'F',0);
-    mHeading[nextCell] = EAST;
+    mDirection[nextCell] = EAST;
     mCost[nextCell] = costTable[1];
-    mHeading[goal] = EAST;
+    mDirection[goal] = EAST;
   }
   if (hasExit(goal, WEST)) {
     int nextCell = cellWest(goal);
     openList.push(nextCell, 0,'F',0);
-    mHeading[nextCell] = WEST;
+    mDirection[nextCell] = WEST;
     mCost[nextCell] = costTable[1];
-    mHeading[goal] = WEST;
+    mDirection[goal] = WEST;
   }
   if (hasExit(goal, SOUTH)) {
     int nextCell = cellSouth(goal);
     openList.push(nextCell, 0,'F',0);
-    mHeading[nextCell] = SOUTH;
+    mDirection[nextCell] = SOUTH;
     mCost[nextCell] = costTable[1];
-    mHeading[goal] = SOUTH;
+    mDirection[goal] = SOUTH;
   }
   // each (accessible) cell will be processed only once
   int nextCost = 0;
   while (!openList.empty()) {
     FloodInfo info = openList.smallest();
     uint16_t here = info.cell;
-    int headingHere = mHeading[here];
+    int headingHere = mDirection[here];
     int nextHeading = headingHere;
     uint8_t runLength = info.runLength ;
     char lastTurn = info.lastTurn;
@@ -451,7 +422,7 @@ uint16_t  Maze::runLengthFlood(int goal) {
       }
       if (mCost[nextCell] == UNREACHABLE) {
         openList.push(nextCell, nextCost, 'F', runLength);
-        mHeading[nextCell] = nextHeading;
+        mDirection[nextCell] = nextHeading;
         mCost[nextCell] = nextCost;
       }
     };
@@ -477,7 +448,7 @@ uint16_t  Maze::runLengthFlood(int goal) {
       }
       if (mCost[nextCell] == UNREACHABLE) {
         openList.push(nextCell, nextCost, 'L', runLength);
-        mHeading[nextCell] = nextHeading;
+        mDirection[nextCell] = nextHeading;
         mCost[nextCell] = nextCost;
       }
     }
@@ -502,23 +473,23 @@ uint16_t  Maze::runLengthFlood(int goal) {
       }
       if (mCost[nextCell] == UNREACHABLE) {
         openList.push(nextCell, nextCost, 'R', runLength);
-        mHeading[nextCell] = nextHeading;
+        mDirection[nextCell] = nextHeading;
         mCost[nextCell] = nextCost;
       }
     }
   }
   for (int i = 0; i < NUMCELLS; i++) {
-    mHeading[i] = (smallestNeighbourDirection(i));
+    mDirection[i] = (smallestNeighbourDirection(i));
   }
   return mCost[0];
 }
 
 void Maze::setGoal(uint16_t goal) {
-  _goal = goal;
+  mGoal = goal;
 }
 
 uint16_t Maze::goal() {
-  return _goal;
+  return mGoal;
 }
 
 uint16_t Maze::home() {
@@ -557,8 +528,29 @@ uint16_t Maze::cellWest(uint16_t cell) {
   return cell;
 }
 
-bool Maze::isKnownWall(uint8_t wallData, uint8_t heading) {
-  return (wallData & (WALL_KNOWN << (2 * heading))) != 0;
+uint16_t Maze::neighbour(uint16_t cell, uint16_t direction) {
+  uint16_t neighbour;
+  switch (direction) {
+    case NORTH:
+      neighbour =  cellNorth(cell);
+      break;
+    case EAST:
+      neighbour =  cellEast(cell);
+      break;
+    case SOUTH:
+      neighbour =  cellSouth(cell);
+      break;
+    case WEST:
+      neighbour =  cellWest(cell);
+      break;
+    default:
+      neighbour =  UINT16_MAX;
+  }
+  return neighbour;
+}
+
+bool Maze::isKnownWall(uint16_t cell, uint8_t direction) {
+  return (mWalls[cell] & (WALL_KNOWN << (2 * direction))) != 0;
 }
 
 bool Maze::hasExit(uint16_t cell, uint8_t direction) {
@@ -586,11 +578,11 @@ bool Maze::hasWall(uint16_t cell, uint8_t direction) {
   return !hasExit(cell,direction);
 }
 
-int Maze::rightOf(int direction) {
+uint8_t Maze::rightOf(uint8_t direction) {
   return (direction + 1) % 4;
 }
 
-int Maze::leftOf(int direction) {
+uint8_t Maze::leftOf(uint8_t direction) {
   return (direction + 3) % 4;
 }
 
@@ -599,22 +591,18 @@ uint8_t Maze::walls(uint16_t cell) {
   return (uint8_t)((wallData & 1) + ((wallData >> 1) & 2) + ((wallData >> 2) & 4) + ((wallData >> 3) & 8));;
 }
 
-uint8_t Maze::walls(uint16_t x, uint16_t y) {
-  return mWalls[x * MAZEWIDTH + y];
-}
-
 uint16_t Maze::cost(uint16_t cell) {
   return mCost[cell];
 }
 
 
-uint8_t Maze::heading(uint16_t cell) {
-  return  mHeading[cell];
+uint8_t Maze::direction(uint16_t cell) {
+  return  mDirection[cell];
 }
 
 
 bool Maze::isSolved(void) {
-  return _isSolved;
+  return mIsSolved;
 }
 
 bool Maze::isVisited(uint16_t cell) {
@@ -622,20 +610,17 @@ bool Maze::isVisited(uint16_t cell) {
 }
 
 int16_t Maze::costDifference(void) {
-  return _costDifference;
+  return mCostDifference;
 }
 
-bool Maze::goalFound(void) {
-  return _goalFound;
-}
 
-int Maze::behind(int direction) {
+uint8_t Maze::behind(uint8_t direction) {
   return (direction +2 ) % 4;
 }
 
-void Maze::setHeading(uint16_t cell, uint8_t heading) {
-  assert(heading == NORTH || heading == EAST || heading == SOUTH || heading == WEST);
-  mHeading[cell] = heading;
+void Maze::setDirection(uint16_t cell, uint8_t direction) {
+  assert(direction == NORTH || direction == EAST || direction == SOUTH || direction == WEST);
+  mDirection[cell] = direction;
 }
 
 void Maze::setCost(uint16_t cell, uint16_t cost) {

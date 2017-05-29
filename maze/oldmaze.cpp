@@ -17,6 +17,10 @@ static walls_t _walls[MAZE_COLS][MAZE_ROWS];
 static cost_t _cost[MAZE_COLS][MAZE_ROWS];
 static direction_t _direction[MAZE_COLS][MAZE_ROWS];
 
+static walls_t mWalls[NUMCELLS];
+static cost_t _mCost[NUMCELLS];
+static direction_t mDirection[NUMCELLS];
+
 /* initialise to a known value*/
 static location_t _defaultGoal = {7, 7};
 static location_t _goal = {7, 7};
@@ -95,24 +99,6 @@ location_t Neighbour (location_t location, direction_t direction)
   return result;
 };
 
-bool IsGoal (location_t location)
-{
-  /*
-   * for the classic contest we could also consider:
-   * if (location.row < 7) return false;
-   * if (location.row > 8) return false;
-   * if (location.col < 7) return false;
-   * if (location.col > 8) return false;
-   * return true;
-   */
-  return (location.row == _goal.row && location.col == _goal.col);
-};
-
-bool IsHome (location_t location)
-{
-  return (location.row == _home.row && location.col == _home.col);
-};
-
 
 //=======================================
 // DIRECTION
@@ -130,6 +116,11 @@ void MazeResetDirections (void)
 void SetDirection (location_t location, direction_t direction)
 {
   _direction[location.row][location.col] = direction;
+};
+
+void SetDirection (uint16_t cell, uint8_t direction)
+{
+  mDirection[cell] = direction;
 };
 
 direction_t Direction (location_t location)
@@ -215,34 +206,38 @@ bool HasExit (location_t location, direction_t direction)
 /* ========== manipulating the walls ==============*/
 bool WallIsSeen (walls_t walls, direction_t direction)
 {
-  return ( (walls & (WALL_SEEN << direction)) != 0);;
+  return false;
+//  return ( (walls & (WALL_SEEN << direction)) != 0);;
 };
 
 bool WallExists (walls_t walls, direction_t direction)
 {
-  return ( (walls & (WALL << direction)) != 0);
+  return false;
+ // return ( (walls & (WALL << direction)) != 0);
 };
 
 /* setting and clearing always sets the seen bits */
 void WallSet (walls_t * walls, direction_t direction)
 {
-  *walls |= (WALL << direction);
-  *walls |= (WALL_SEEN << direction);
+//  *walls |= (WALL << direction);
+//  *walls |= (WALL_SEEN << direction);
 };
 
 void WallClear (walls_t * walls, direction_t direction)
 {
-  *walls &= ~ (WALL << direction);
-  *walls |= (WALL_SEEN << direction);
+//  *walls &= ~ (WALL << direction);
+//  *walls |= (WALL_SEEN << direction);
 };
 
 //return an initialised wall structure
 walls_t WallsNone (void)
 {
-  walls_t walls = 0;
-  walls &= ~ALL_WALLS;
-  walls &= ~ALL_SEEN;
-  return walls;
+//  walls_t walls = 0;
+//  walls &= ~ALL_WALLS;
+//  walls &= ~ALL_SEEN;
+//  return walls;
+  return 0;
+
 }
 
 
@@ -308,12 +303,12 @@ void MazeInit (void)
  */
 void MazeResetWalls (void)
 {
-  location_t loc;
-  for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
-    for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
-      _walls[loc.row][loc.col] = NO_WALLS;
-    }
-  }
+//  location_t loc;
+//  for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
+//    for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
+//      _walls[loc.row][loc.col] = NO_WALLS;
+//    }
+//  }
 }
 
 
@@ -323,70 +318,73 @@ void MazeResetWalls (void)
  */
 void MazeResetCosts (void)
 {
-  location_t loc;
-  for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
-    for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
-      _cost[loc.row][loc.col] = 0;
-    }
-  }
+//  location_t loc;
+//  for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
+//    for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
+//      _cost[loc.row][loc.col] = 0;
+//    }
+//  }
 }
 
 
 /* set a single wall - looks after neighbours - set seen*/
 void MazeAddWall (location_t location, direction_t direction)
 {
-  WallSet (&_walls[location.row][location.col], direction);
-  location = Neighbour (location, direction);
-  WallSet (&_walls[location.row][location.col], Behind (direction));
+//  WallSet (&_walls[location.row][location.col], direction);
+//  location = Neighbour (location, direction);
+//  WallSet (&_walls[location.row][location.col], Behind (direction));
 }
 
 
 /* set all four walls for a location - updates neighbours - set seen*/
 void UpdateCellFromWallData (location_t location, walls_t wallData)
 {
-  if (wallData & NORTH_WALL) {
-    MazeAddWall (location, NORTH);
-  } else {
-    MazeRemoveWall (location, NORTH);
-  }
-  if (wallData & EAST_WALL) {
-    MazeAddWall (location, EAST);
-  } else {
-    MazeRemoveWall (location, EAST);
-  }
-  if (wallData & SOUTH_WALL) {
-    MazeAddWall (location, SOUTH);
-  } else {
-    MazeRemoveWall (location, SOUTH);
-  }
-  if (wallData & WEST_WALL) {
-    MazeAddWall (location, WEST);
-  } else {
-    MazeRemoveWall (location, WEST);
-  }
+//  if (wallData & NORTH_WALL) {
+//    MazeAddWall (location, NORTH);
+//  } else {
+//    MazeRemoveWall (location, NORTH);
+//  }
+//  if (wallData & EAST_WALL) {
+//    MazeAddWall (location, EAST);
+//  } else {
+//    MazeRemoveWall (location, EAST);
+//  }
+//  if (wallData & SOUTH_WALL) {
+//    MazeAddWall (location, SOUTH);
+//  } else {
+//    MazeRemoveWall (location, SOUTH);
+//  }
+//  if (wallData & WEST_WALL) {
+//    MazeAddWall (location, WEST);
+//  } else {
+//    MazeRemoveWall (location, WEST);
+//  }
 }
 
 walls_t * wallsPointer(location_t location){
-  return & _walls[location.row][location.col];
+//  return & _walls[location.row][location.col];
+  return 0;
 }
 
 /* clear a single wall - looks after neighbours - set seen*/
 void MazeRemoveWall ( location_t location, direction_t direction)
 {
-  WallClear (wallsPointer(location), direction);
-  location_t neighbour = Neighbour (location, direction);
-  WallClear (wallsPointer(neighbour), Behind (direction));
+//  WallClear (wallsPointer(location), direction);
+//  location_t neighbour = Neighbour (location, direction);
+//  WallClear (wallsPointer(neighbour), Behind (direction));
 }
 
 /* return all the walls for a given location */
 walls_t Walls (location_t location)
 {
-  return _walls[location.row][location.col];
+//  return _walls[location.row][location.col];
+  return 0;
 }
 
 
 bool Visited (location_t location)
 {
-  return (Walls (location) & VISITED) == VISITED;
+//  return (Walls (location) & VISITED) == VISITED;
+  return 0;
 }
 

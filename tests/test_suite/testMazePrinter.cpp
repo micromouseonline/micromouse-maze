@@ -11,15 +11,15 @@
 
 TEST (MazePrinter, DummyPrintingForCoverageTests)
 {
-  char mazeFileName[] = "mazefiles/minos03f.maz";
-  MazeResetWalls();
-
-  ReadRealWallsFromFile (mazeFileName);
-  UpdateEntireMazeFromRealWalls ();
-  UpdateEntireMazeFromData(testMaze5x5);
-  FloodMazeClassic (DefaultGoal());
-  PrintMaze (WALLS);
-  PrintMaze (COSTS);
-  PrintMaze (DIRS);
+//  char mazeFileName[] = "mazefiles/minos03f.maz";
+//  MazeResetWalls();
+//
+//  ReadRealWallsFromFile (mazeFileName);
+//  UpdateEntireMazeFromRealWalls ();
+//  UpdateEntireMazeFromData(testMaze5x5);
+//  FloodMazeClassic (DefaultGoal());
+//  PrintMaze (WALLS);
+//  PrintMaze (COSTS);
+//  PrintMaze (DIRS);
 }
 
