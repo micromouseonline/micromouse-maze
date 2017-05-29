@@ -152,7 +152,7 @@ void Maze::clearWall(uint16_t cell, uint8_t heading) {
  * DO NOT USE THIS WHEN EXPLORING.
  * INSTEAD, USE updateWallsFromSensors()
  */
-void Maze::updateCellFromFileData(uint16_t cell, uint8_t wallData) {
+void Maze::copyCellFromFileData(uint16_t cell, uint8_t wallData) {
   if (wallData & 0x01){
     setWall(cell,NORTH);
   } else {

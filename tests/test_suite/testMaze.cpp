@@ -48,6 +48,15 @@ TEST_F (MazeTest, ResetData_DefaultCostsAreUINT16_MAX) {
   }
 }
 
+TEST_F (MazeTest, ResetData_OnlyHomeCellVisited) {
+  maze->resetData();
+  for (int i = 0; i < maze->numCells(); i++) {
+    if (i != maze->home()) {
+      EXPECT_FALSE (maze->isVisited(i));
+    }
+  }
+}
+
 
 TEST_F(MazeTest, SetClearAndGetWalls) {
   maze->resetData();
@@ -102,10 +111,11 @@ TEST_F(MazeTest, HasExit) {
   EXPECT_FALSE(maze->hasExit(0xF0, SOUTH));
 }
 
-TEST_F (MazeTest, UpdateCellFromFileData_GetExactCopy) {
+TEST_F (MazeTest, CopyCellFromFileData_GetExactCopy) {
   const uint8_t *src = japan2007;
+  maze->resetData();
   for (int i = 0; i < maze->numCells(); i++) {
-    maze->updateCellFromFileData(i, src[i]);
+    maze->copyCellFromFileData(i, src[i]);
   }
   for (int i = 0; i < maze->numCells(); i++) {
     EXPECT_EQ(src[i], maze->walls(i));
@@ -114,10 +124,4 @@ TEST_F (MazeTest, UpdateCellFromFileData_GetExactCopy) {
 }
 
 
-TEST_F (MazeTest, VisitedCells) {
-//  MazeInit();
-//  EXPECT_FALSE (Visited (Location (0, 0)));
-//  MazeAddWall (Location (0, 0), NORTH);
-//  EXPECT_TRUE (Visited (Location (0, 0)));
-}
 

@@ -84,7 +84,7 @@ public:
 
 // adds all walls for a cell
 // mWalls should be a four bit quantity as stored in a .maz file
-  void updateCellFromFileData(uint16_t cell, uint8_t wallData);
+  void copyCellFromFileData(uint16_t cell, uint8_t wallData);
 
   uint16_t neighbour(uint16_t cell, uint16_t heading);
 
