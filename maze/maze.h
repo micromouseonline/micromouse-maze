@@ -68,8 +68,6 @@ public:
 
   bool isVisited(uint16_t cell);
 
-  bool isVisited(uint16_t x, uint16_t y);
-
   int16_t costDifference(void);
 
   bool goalFound(void);
@@ -86,7 +84,7 @@ public:
 
 // adds all walls for a cell
 // mWalls should be a four bit quantity as stored in a .maz file
-  void updateWalls(uint16_t cell, uint8_t mWalls);
+  void updateCellFromFileData(uint16_t cell, uint8_t wallData);
 
   uint16_t neighbour(uint16_t cell, uint16_t heading);
 

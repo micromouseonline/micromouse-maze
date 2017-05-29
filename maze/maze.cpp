@@ -141,52 +141,35 @@ void Maze::clearWall(uint16_t cell, uint8_t heading) {
 
 /*
  * This will take a full set of wall data for a cell
- * and update that cell as well as its neighbors with
- * data for all four walls whether or not they are present
+ * in the format used in .maz files and update that cell
+ * as well as its neighbors with data for all four walls
+ * whether or not they are present
  * Effectively, it will also mark the current cell as
  * completely visited
- * Whenever an update is done, the maze gets saved to the backup array.
+ * Note that this will clear any walls that are already set.
+ * DO NOT USE THIS WHEN EXPLORING.
+ * INSTEAD, USE updateWallsFromSensors()
  */
-void Maze::updateWalls(uint16_t cell, uint8_t newWalls) {
-  //logInfo ("Update walls at 0x%02X with 0x%02X \n", cell, newWalls);
-  uint8_t replacementWalls = newWalls;
-  // first do the walls in this cell
-  uint8_t existingWalls = mWalls[cell];
-  if (isKnownWall(existingWalls, NORTH)) {
-    replacementWalls &= ~(WALLNORTHMASK);  // remove them from the update
+void Maze::updateCellFromFileData(uint16_t cell, uint8_t wallData) {
+  if (wallData & 0x01){
+    setWall(cell,NORTH);
+  } else {
+    clearWall(cell,NORTH);
   }
-  if (isKnownWall(existingWalls, SOUTH)) {
-    replacementWalls &= ~(WALLSOUTHMASK);  // remove them from the update
+  if (wallData & 0x02){
+    setWall(cell,EAST);
+  } else {
+    clearWall(cell,EAST);
   }
-  if (isKnownWall(existingWalls, EAST)) {
-    replacementWalls &= ~(WALLEASTMASK);  // remove them from the update
+  if (wallData & 0x04){
+    setWall(cell,SOUTH);
+  } else {
+    clearWall(cell,SOUTH);
   }
-  if (isKnownWall(existingWalls, WEST)) {
-    replacementWalls &= ~(WALLWESTMASK);  // remove them from the update
-  }
-  existingWalls |= replacementWalls | VISITED;
-  mWalls[cell] = existingWalls;
-  //now do the neighbours in the same order of directions
-  uint16_t nextCell;
-  nextCell = cellNorth(cell);
-  if (!isKnownWall(mWalls[nextCell], SOUTH)) {
-    replacementWalls = ((newWalls << 4) & WALLSOUTHMASK) | CHECKED_SOUTH;
-    mWalls[nextCell] |= replacementWalls;
-  }
-  nextCell = cellSouth(cell);
-  if (!isKnownWall(mWalls[nextCell], NORTH)) {
-    replacementWalls = ((newWalls >> 4) & WALLNORTHMASK) | CHECKED_NORTH;
-    mWalls[nextCell] |= replacementWalls;
-  }
-  nextCell = cellWest(cell);
-  if (!isKnownWall(mWalls[nextCell], EAST)) {
-    replacementWalls = ((newWalls >> 4) & WALLEASTMASK) | CHECKED_EAST;
-    mWalls[nextCell] |= replacementWalls;
-  }
-  nextCell = cellEast(cell);
-  if (!isKnownWall(mWalls[nextCell], WEST)) {
-    replacementWalls = ((newWalls << 4) & WALLWESTMASK) | CHECKED_WEST;
-    mWalls[nextCell] |= replacementWalls;
+  if (wallData & 0x08){
+    setWall(cell,WEST);
+  } else {
+    clearWall(cell,WEST);
   }
 }
 
@@ -647,10 +630,6 @@ bool Maze::isSolved(void) {
 
 bool Maze::isVisited(uint16_t cell) {
   return ((mWalls[cell] & VISITED) == VISITED);
-}
-
-bool Maze::isVisited(uint16_t x, uint16_t y) {
-  return ((mWalls[x * MAZEWIDTH + y] & VISITED) == VISITED);
 }
 
 int16_t Maze::costDifference(void) {

@@ -49,6 +49,7 @@ const uint16_t MAX_COST = UINT16_MAX;
 #define WALLSOUTHMASK (WALL_BITS_MASK << (2*SOUTH))
 #define WALLWESTMASK  (WALL_BITS_MASK << (2*WEST))
 
+#define VISITED (CHECKED_NORTH + CHECKED_EAST + CHECKED_SOUTH + CHECKED_WEST)
 
 
 #define NORTH      0
@@ -83,21 +84,20 @@ typedef uint16_t cost_t;
 
 #define INVALID 4
 /* TODO: hide all these macros by creating functions in maze.c */
-#define WALL       ((walls_t)0x01)
-#define NO_WALLS   ((walls_t)0x00)
-#define NORTH_WALL (WALL << NORTH)
-#define EAST_WALL  (WALL << EAST)
-#define SOUTH_WALL (WALL << SOUTH)
-#define WEST_WALL  (WALL << WEST)
-#define ALL_WALLS (NORTH_WALL + EAST_WALL + SOUTH_WALL + WEST_WALL)
-#define WALL_SEEN  ((walls_t)0x10)
-#define NORTH_SEEN (WALL_SEEN << NORTH)
-#define EAST_SEEN  (WALL_SEEN << EAST)
-#define SOUTH_SEEN (WALL_SEEN << SOUTH)
-
-#define WEST_SEEN  (WALL_SEEN << WEST)
-#define ALL_SEEN (NORTH_SEEN + EAST_SEEN + SOUTH_SEEN + WEST_SEEN)
-
-#define VISITED ALL_SEEN
+//#define WALL       ((walls_t)0x01)
+//#define NO_WALLS   ((walls_t)0x00)
+//#define NORTH_WALL (WALL << NORTH)
+//#define EAST_WALL  (WALL << EAST)
+//#define SOUTH_WALL (WALL << SOUTH)
+//#define WEST_WALL  (WALL << WEST)
+//#define ALL_WALLS (NORTH_WALL + EAST_WALL + SOUTH_WALL + WEST_WALL)
+//#define WALL_SEEN  ((walls_t)0x10)
+//#define NORTH_SEEN (WALL_SEEN << NORTH)
+//#define EAST_SEEN  (WALL_SEEN << EAST)
+//#define SOUTH_SEEN (WALL_SEEN << SOUTH)
+//#define WEST_SEEN  (WALL_SEEN << WEST)
+//#define ALL_SEEN (NORTH_SEEN + EAST_SEEN + SOUTH_SEEN + WEST_SEEN)
+//
+//#define VISITED ALL_SEEN
 
 #endif //MAZE_MAZECONSTANTS_H
