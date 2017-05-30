@@ -36,11 +36,15 @@ Maze::Maze(uint16_t width) {
 
 bool Maze::testForSolution(void) { // takes less than 3ms
   setUnknowns();
-  mPathCostOpen = flood(goal());
-  clearUnknowns();
   mPathCostClosed = flood(goal());
-  mCostDifference = abs(mPathCostClosed - mPathCostOpen);
-  mIsSolved = ((mCostDifference < 1));
+  clearUnknowns();
+  mPathCostOpen = flood(goal());
+  if (mPathCostClosed > mPathCostOpen){
+    mIsSolved = false;
+  } else {
+    mIsSolved = true;
+  }
+
   return mIsSolved;
 };
 
@@ -658,3 +662,12 @@ void Maze::clearVisited(uint16_t cell) {
 void Maze::resetCell(uint16_t cell) {
   mWalls[cell] = 0;
 }
+
+uint16_t Maze::openMazeCost() const {
+  return mPathCostOpen;
+}
+
+uint16_t Maze::closedMazeCost() const {
+  return mPathCostClosed;
+}
+

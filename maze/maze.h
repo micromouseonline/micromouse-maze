@@ -96,13 +96,16 @@ public:
  * numExits
  */
 
-  int16_t costDifference(void);
-  bool isSolved(void);
-  uint16_t flood(uint16_t goal);
-  uint16_t runLengthFlood(uint16_t goal);
+  int16_t costDifference(void); ///
+  uint16_t openMazeCost() const; ///
+  uint16_t closedMazeCost() const; ///
+
+  bool isSolved(void); ///
+  uint16_t flood(uint16_t goal); ///
+  uint16_t runLengthFlood(uint16_t goal); ///
   uint16_t smallestNeighbourDirection(uint16_t cell, uint8_t direction = NORTH);
 
-  bool testForSolution(void);
+  bool testForSolution(void); ///
 
 
 protected:
@@ -113,6 +116,9 @@ protected:
   uint16_t mGoal;
   uint8_t mWalls[1024];
   uint16_t mPathCostOpen;
+public:
+
+protected:
   uint16_t mPathCostClosed;
   uint16_t mCostDifference;
   bool mIsSolved;
