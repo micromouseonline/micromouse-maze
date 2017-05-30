@@ -56,8 +56,13 @@ public:
 
 // adds all walls for a cell
 // mWalls should be a four bit quantity as stored in a .maz file
-// DO NOT USE when updating map from mouse data
+// DO NOT USE when updating map from mouse data - use updateMap()
   void copyCellFromFileData(uint16_t cell, uint8_t wallData);  ///
+
+// Updates the map by adding walls
+// Used when exploring only.
+// Will not remove a wall
+  void updateMap(uint16_t cell, uint8_t wallData);
 
 /*
  * By setting unknown walls as present or absent

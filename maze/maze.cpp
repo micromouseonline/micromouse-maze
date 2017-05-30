@@ -142,7 +142,7 @@ void Maze::clearWall(uint16_t cell, uint8_t direction) {
  * completely visited
  * Note that this will clear any walls that are already set.
  * DO NOT USE THIS WHEN EXPLORING.
- * INSTEAD, USE updateWallsFromSensors()
+ * INSTEAD, USE updateMap()
  */
 void Maze::copyCellFromFileData(uint16_t cell, uint8_t wallData) {
   if (wallData & 0x01){
@@ -164,6 +164,26 @@ void Maze::copyCellFromFileData(uint16_t cell, uint8_t wallData) {
     setWall(cell,WEST);
   } else {
     clearWall(cell,WEST);
+  }
+}
+
+/*
+ * Updates the map by adding walls
+ * Used when exploring only.
+ * Will not remove a wall
+ */
+void Maze::updateMap(uint16_t cell, uint8_t wallData) {
+  if (wallData & 0x01){
+    setWall(cell,NORTH);
+  }
+  if (wallData & 0x02){
+    setWall(cell,EAST);
+  }
+  if (wallData & 0x04){
+    setWall(cell,SOUTH);
+  }
+  if (wallData & 0x08){
+    setWall(cell,WEST);
   }
 }
 

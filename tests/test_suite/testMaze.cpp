@@ -88,6 +88,43 @@ TEST_F(MazeTest, SetClearAndGetWalls) {
   EXPECT_FALSE(maze->hasWall(0x23, SOUTH));
 }
 
+
+/////////////////////
+TEST_F(MazeTest, UpdateMap_OnlyAddsWalls) {
+  maze->resetToEmptyMaze();
+  uint16_t cell = 0x22;
+  maze->updateMap(cell,0x00);
+  EXPECT_FALSE(maze->hasWall(cell,NORTH));
+  EXPECT_FALSE(maze->hasWall(cell,EAST));
+  EXPECT_FALSE(maze->hasWall(cell,SOUTH));
+  EXPECT_FALSE(maze->hasWall(cell,WEST));
+
+  maze->updateMap(cell,1<<NORTH);
+  EXPECT_TRUE(maze->hasWall(cell,NORTH));
+  EXPECT_FALSE(maze->hasWall(cell,EAST));
+  EXPECT_FALSE(maze->hasWall(cell,SOUTH));
+  EXPECT_FALSE(maze->hasWall(cell,WEST));
+
+  maze->updateMap(cell,1<<EAST);
+  EXPECT_TRUE(maze->hasWall(cell,NORTH));
+  EXPECT_TRUE(maze->hasWall(cell,EAST));
+  EXPECT_FALSE(maze->hasWall(cell,SOUTH));
+  EXPECT_FALSE(maze->hasWall(cell,WEST));
+
+  maze->updateMap(cell,1<<SOUTH);
+  EXPECT_TRUE(maze->hasWall(cell,NORTH));
+  EXPECT_TRUE(maze->hasWall(cell,EAST));
+  EXPECT_TRUE(maze->hasWall(cell,SOUTH));
+  EXPECT_FALSE(maze->hasWall(cell,WEST));
+
+  maze->updateMap(cell,1<<WEST);
+  EXPECT_TRUE(maze->hasWall(cell,NORTH));
+  EXPECT_TRUE(maze->hasWall(cell,EAST));
+  EXPECT_TRUE(maze->hasWall(cell,SOUTH));
+  EXPECT_TRUE(maze->hasWall(cell,WEST));
+
+}
+
 /////////////////////
 TEST_F(MazeTest, HasExit) {
   maze->resetToEmptyMaze();
