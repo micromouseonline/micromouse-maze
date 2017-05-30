@@ -192,5 +192,5 @@ TEST_F(MazeTest, NeighbourCellAddresses) {
 
 
 TEST_F(MazeTest, NeighbourInvalidDirection_ReturnsUINT16_MAX) {
-    EXPECT_EQ(UINT16_MAX, maze->neighbour(0,-1));
+    EXPECT_EQ(UNREACHABLE, maze->neighbour(0,-1));
 }

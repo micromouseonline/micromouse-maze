@@ -19,7 +19,7 @@ protected:
 
 TEST_F (CostTest, MazeGetCosts_default_ValuesUINT16_MAX) {
   for (int cell = 0; cell < maze->numCells(); ++cell) {
-    EXPECT_EQ (UINT16_MAX, maze->cost(cell));
+    EXPECT_EQ (MAX_COST, maze->cost(cell));
   }
 }
 
@@ -79,8 +79,8 @@ TEST_F (CostTest, CostDirection_GivesUINT16_MAXIfWall) {
   maze->setWall(cell,EAST);
   maze->setWall(cell,SOUTH);
   maze->setWall(cell,WEST);
-  EXPECT_EQ(UINT16_MAX,maze->costNorth(cell));
-  EXPECT_EQ(UINT16_MAX,maze->costEast(cell));
-  EXPECT_EQ(UINT16_MAX,maze->costSouth(cell));
-  EXPECT_EQ(UINT16_MAX,maze->costWest(cell));
+  EXPECT_EQ(MAX_COST,maze->costNorth(cell));
+  EXPECT_EQ(MAX_COST,maze->costEast(cell));
+  EXPECT_EQ(MAX_COST,maze->costSouth(cell));
+  EXPECT_EQ(MAX_COST,maze->costWest(cell));
 }

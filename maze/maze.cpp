@@ -47,7 +47,7 @@ bool Maze::testForSolution(void) { // takes less than 3ms
 
 void Maze::resetToEmptyMaze() {
   for (int i = 0; i < numCells(); i++) {
-    mCost[i] = UINT16_MAX;
+    mCost[i] = MAX_COST;
     mDirection[i] = NORTH;
     mWalls[i] = 0;
   }
@@ -551,7 +551,7 @@ uint16_t Maze::neighbour(uint16_t cell, uint16_t direction) {
       neighbour = cellWest(cell);
       break;
     default:
-      neighbour = UINT16_MAX;
+      neighbour = UNREACHABLE;
   }
   return neighbour;
 }

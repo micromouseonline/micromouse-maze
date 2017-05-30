@@ -31,6 +31,7 @@ TEST (Direction, MazeSetDirection_ReturnSetValue)
 
 TEST (Direction, DirectionGetLeftFrom)
 {
+
   EXPECT_EQ (WEST, Maze::leftOf(NORTH));
   EXPECT_EQ (SOUTH, Maze::leftOf (WEST));
   EXPECT_EQ (EAST, Maze::leftOf(SOUTH));

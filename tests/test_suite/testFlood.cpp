@@ -24,7 +24,7 @@ protected:
 TEST_F (Flood, FloodMaze_TargetCostIsZero) {
   uint16_t goalCell = 0x34;
   maze->setGoal(goalCell);
-  EXPECT_EQ(UINT16_MAX, maze->cost(0));
+  EXPECT_EQ(MAX_COST, maze->cost(0));
   maze->setGoal(goalCell);
   maze->flood(goalCell);
   EXPECT_EQ(0, maze->cost(goalCell));

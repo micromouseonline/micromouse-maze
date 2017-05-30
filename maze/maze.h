@@ -14,6 +14,9 @@ public:
 
   Maze(uint16_t width);
 
+  uint16_t numCells(); ///
+  uint16_t width(); ///
+
   void resetToEmptyMaze(void); ///
 
   // static functions about headings
@@ -23,12 +26,12 @@ public:
 
 
   // static functions about neighbours
-   uint16_t cellNorth(uint16_t cell); ///
-   uint16_t cellEast(uint16_t cell); ///
-   uint16_t cellSouth(uint16_t cell); ///
-   uint16_t cellWest(uint16_t cell); ///
+  uint16_t cellNorth(uint16_t cell); ///
+  uint16_t cellEast(uint16_t cell); ///
+  uint16_t cellSouth(uint16_t cell); ///
+  uint16_t cellWest(uint16_t cell); ///
 
-   uint16_t neighbour(uint16_t cell, uint16_t direction); ///
+  uint16_t neighbour(uint16_t cell, uint16_t direction); ///
 
   uint16_t home(); ///
   uint16_t goal(); ///
@@ -62,7 +65,7 @@ public:
 // Updates the map by adding walls
 // Used when exploring only.
 // Will not remove a wall
-  void updateMap(uint16_t cell, uint8_t wallData);
+  void updateMap(uint16_t cell, uint8_t wallData); ///
 
 /*
  * By setting unknown walls as present or absent
@@ -74,13 +77,6 @@ public:
   void clearUnknowns(void); ///
 
 
-  int16_t costDifference(void);
-
-  bool isSolved(void);
-
-  uint16_t flood(uint16_t goal);
-  uint16_t runLengthFlood(uint16_t goal);
-
   uint16_t cost(uint16_t cell); ///
   uint16_t cost(uint16_t cell, uint16_t direction); ///
   uint16_t costNorth(uint16_t cell); ///
@@ -89,17 +85,20 @@ public:
   uint16_t costWest(uint16_t cell); ///
   void setCost(uint16_t cell, uint16_t cost); ///
 
+  uint16_t recalculateGoal();
+/*
+ * need
+ * numExits
+ */
 
-
+  int16_t costDifference(void);
+  bool isSolved(void);
+  uint16_t flood(uint16_t goal);
+  uint16_t runLengthFlood(uint16_t goal);
   uint16_t smallestNeighbourDirection(uint16_t cell, uint8_t direction = NORTH);
 
   bool testForSolution(void);
 
-  uint16_t recalculateGoal();
-
-  uint16_t numCells(); ///
-
-  uint16_t width(); ///
 
 protected:
   uint16_t mWidth;
@@ -107,13 +106,11 @@ protected:
   uint8_t mDirection[1024];
   PriorityQueue openList;
   uint16_t mGoal;
-  uint8_t *savedWalls;
   uint8_t mWalls[1024];
   uint16_t mPathCostOpen;
   uint16_t mPathCostClosed;
   uint16_t mCostDifference;
   bool mIsSolved;
-  bool mGoalFound;
 };
 
 #endif //MAZE_D5MAZE_H

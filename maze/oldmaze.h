@@ -33,6 +33,16 @@ const uint16_t MAZE_COLS = 16;
 const uint16_t NUMCELLS = (MAZE_ROWS * MAZE_COLS);
 
 
+const uint8_t DIRECTION_COUNT = 4;
+
+
+
+typedef struct {
+  int8_t row;
+  int8_t col;
+} location_t;
+
+
 
 /* ========== manipulating the maze ==============*/
 
