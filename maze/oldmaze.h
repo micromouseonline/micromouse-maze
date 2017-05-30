@@ -27,6 +27,10 @@
 #include "mazedata.h"
 
 
+const uint16_t MAZEWIDTH = 16;
+const uint16_t MAZE_ROWS = 16;
+const uint16_t MAZE_COLS = 16;
+const uint16_t NUMCELLS = (MAZE_ROWS * MAZE_COLS);
 
 
 

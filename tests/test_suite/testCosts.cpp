@@ -7,7 +7,7 @@ protected:
   Maze *maze;
 
   virtual void SetUp() {
-    maze = new Maze();
+    maze = new Maze(16);
     maze->resetToEmptyMaze();
   }
 
@@ -39,13 +39,13 @@ TEST_F (CostTest, GetNeighbourCosts_GetCostIgnoresWals) {
   for (int cell = 0; cell < maze->numCells(); ++cell) {
     uint32_t neighbour;
     EXPECT_EQ(cell,maze->cost(cell));
-    neighbour = Maze::cellNorth(cell);
+    neighbour = maze->cellNorth(cell);
     EXPECT_EQ(neighbour,maze->cost(neighbour));
-    neighbour = Maze::cellEast(cell);
+    neighbour = maze->cellEast(cell);
     EXPECT_EQ(neighbour,maze->cost(neighbour));
-    neighbour = Maze::cellSouth(cell);
+    neighbour = maze->cellSouth(cell);
     EXPECT_EQ(neighbour,maze->cost(neighbour));
-    neighbour = Maze::cellWest(cell);
+    neighbour = maze->cellWest(cell);
     EXPECT_EQ(neighbour,maze->cost(neighbour));
   }
 }
@@ -58,13 +58,13 @@ TEST_F (CostTest, CostDirection_GivesNeighbourCostIfNoWall) {
   uint32_t neighbour;
   uint32_t cell;
   cell = 0x22;
-  neighbour = Maze::cellNorth(cell);
+  neighbour = maze->cellNorth(cell);
   EXPECT_EQ(neighbour,maze->costNorth(cell));
-  neighbour = Maze::cellEast(cell);
+  neighbour = maze->cellEast(cell);
   EXPECT_EQ(neighbour,maze->costEast(cell));
-  neighbour = Maze::cellSouth(cell);
+  neighbour = maze->cellSouth(cell);
   EXPECT_EQ(neighbour,maze->costSouth(cell));
-  neighbour = Maze::cellWest(cell);
+  neighbour = maze->cellWest(cell);
   EXPECT_EQ(neighbour,maze->costWest(cell));
 }
 

@@ -8,16 +8,16 @@
 
 TEST (Direction, MazeHeading_defaultValue_isNORTH)
 {
-  Maze maze;
+  Maze maze(16);
   maze.resetToEmptyMaze();
-  for(int i = 0; i < NUMCELLS; i++){
+  for(int i = 0; i < maze.numCells(); i++){
     EXPECT_EQ(NORTH, maze.direction(i));
   }
 }
 
 TEST (Direction, MazeSetDirection_ReturnSetValue)
 {
-  Maze maze;
+  Maze maze(16);
   maze.resetToEmptyMaze();
   maze.setDirection(0x33, EAST);
   EXPECT_EQ(EAST, maze.direction(0x33));

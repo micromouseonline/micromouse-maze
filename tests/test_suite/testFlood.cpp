@@ -11,7 +11,7 @@ protected:
   Maze *maze;
 
   virtual void SetUp() {
-    maze = new Maze();
+    maze = new Maze(16);
     maze->resetToEmptyMaze();
   }
 

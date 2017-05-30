@@ -10,7 +10,7 @@ protected:
   Maze *maze;
 
   virtual void SetUp() {
-    maze = new Maze();
+    maze = new Maze(16);
     maze->resetToEmptyMaze();
   }
 
@@ -143,7 +143,7 @@ TEST_F(MazeTest, IsKnownWall_distinguishKnownFromUnknown) {
   EXPECT_TRUE(maze->isKnownWall(0x22, WEST));
   EXPECT_TRUE(maze->isKnownWall(0x00, WEST));
   EXPECT_TRUE(maze->isKnownWall(0x00, NORTH));
-  EXPECT_TRUE(maze->isKnownWall(Maze::cellNorth(0x00), SOUTH));
+  EXPECT_TRUE(maze->isKnownWall(maze->cellNorth(0x00), SOUTH));
 }
 
 TEST_F (MazeTest, CopyCellFromFileData_GetExactCopy) {
@@ -179,18 +179,18 @@ TEST_F(MazeTest, OpenClosedMaze_HasExitWhenOpen) {
 
 TEST_F(MazeTest, NeighbourCellAddresses) {
   for (uint16_t cell = 0; cell < maze->numCells(); cell++) {
-    EXPECT_EQ((cell + 1) % maze->numCells(), Maze::cellNorth(cell));
-    EXPECT_EQ((cell + maze->width()) % maze->numCells(), Maze::cellEast(cell));
-    EXPECT_EQ((cell + maze->numCells() - 1) % maze->numCells(), Maze::cellSouth(cell));
-    EXPECT_EQ((cell + maze->numCells() - maze->width()) % maze->numCells(), Maze::cellWest(cell));
-    EXPECT_EQ(Maze::cellNorth(cell),Maze::neighbour(cell,NORTH));
-    EXPECT_EQ(Maze::cellEast(cell),Maze::neighbour(cell,EAST));
-    EXPECT_EQ(Maze::cellSouth(cell),Maze::neighbour(cell,SOUTH));
-    EXPECT_EQ(Maze::cellWest(cell),Maze::neighbour(cell,WEST));
+    EXPECT_EQ((cell + 1) % maze->numCells(), maze->cellNorth(cell));
+    EXPECT_EQ((cell + maze->width()) % maze->numCells(), maze->cellEast(cell));
+    EXPECT_EQ((cell + maze->numCells() - 1) % maze->numCells(), maze->cellSouth(cell));
+    EXPECT_EQ((cell + maze->numCells() - maze->width()) % maze->numCells(), maze->cellWest(cell));
+    EXPECT_EQ(maze->cellNorth(cell),maze->neighbour(cell,NORTH));
+    EXPECT_EQ(maze->cellEast(cell),maze->neighbour(cell,EAST));
+    EXPECT_EQ(maze->cellSouth(cell),maze->neighbour(cell,SOUTH));
+    EXPECT_EQ(maze->cellWest(cell),maze->neighbour(cell,WEST));
   }
 }
 
 
 TEST_F(MazeTest, NeighbourInvalidDirection_ReturnsUINT16_MAX) {
-    EXPECT_EQ(UINT16_MAX, Maze::neighbour(0,-1));
+    EXPECT_EQ(UINT16_MAX, maze->neighbour(0,-1));
 }
