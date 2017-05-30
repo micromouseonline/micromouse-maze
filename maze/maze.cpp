@@ -646,3 +646,15 @@ uint16_t Maze::numCells() {
 uint16_t Maze::width() {
   return mWidth;
 }
+
+void Maze::setVisited(uint16_t cell) {
+  mWalls[cell] |= VISITED;
+}
+
+void Maze::clearVisited(uint16_t cell) {
+ mWalls[cell] &= ~VISITED;
+}
+
+void Maze::resetCell(uint16_t cell) {
+  mWalls[cell] = 0;
+}

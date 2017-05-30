@@ -88,6 +88,32 @@ TEST_F(MazeTest, SetClearAndGetWalls) {
   EXPECT_FALSE(maze->hasWall(0x23, SOUTH));
 }
 
+TEST_F(MazeTest, ResetCell_clearsAllData) {
+  maze->resetToEmptyMaze();
+  uint16_t cell = 0x22;
+  maze->updateMap(cell, 0x0F);
+  EXPECT_TRUE(maze->isVisited(cell));
+  EXPECT_EQ(0x0f,maze->walls(cell));
+  maze->resetCell(cell);
+  EXPECT_FALSE(maze->isVisited(cell));
+  EXPECT_EQ(0x00,maze->walls(cell));
+}
+
+
+TEST_F(MazeTest, SetClearVisited_clearsVisitFlagsOnly) {
+  maze->resetToEmptyMaze();
+  uint16_t cell = 0x22;
+  maze->updateMap(cell, 0x0F);
+  EXPECT_TRUE(maze->isVisited(cell));
+  EXPECT_EQ(0x0f,maze->walls(cell));
+  maze->clearVisited(cell);
+  EXPECT_FALSE(maze->isVisited(cell));
+  EXPECT_EQ(0x0F,maze->walls(cell));
+  maze->setVisited(cell);
+  EXPECT_TRUE(maze->isVisited(cell));
+  EXPECT_EQ(0x0F,maze->walls(cell));
+
+}
 
 /////////////////////
 TEST_F(MazeTest, UpdateMap_OnlyAddsWalls) {

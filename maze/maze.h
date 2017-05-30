@@ -53,7 +53,9 @@ public:
   void setDirection(uint16_t cell, uint8_t direction); ///
 
   bool isVisited(uint16_t cell); ///
-
+  void setVisited(uint16_t cell); ///
+  void clearVisited(uint16_t cell); ///
+  void resetCell(uint16_t cell); ///
 
 // modify a single wall in a cell. Will not remove existing data
   void setWall(uint16_t cell, uint8_t direction); ///
