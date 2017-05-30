@@ -8,7 +8,10 @@
 #include "mazeconstants.h"
 #include "priorityqueue.h"
 #include <stdint.h>
-
+/*
+ * Functions and methods for which there are
+ * passing tests are marked thus: ///
+ */
 class Maze {
 public:
 
@@ -85,7 +88,7 @@ public:
   uint16_t costWest(uint16_t cell); ///
   void setCost(uint16_t cell, uint16_t cost); ///
 
-  uint16_t recalculateGoal();
+  void recalculateGoal(); ///
 /*
  * need
  * numExits

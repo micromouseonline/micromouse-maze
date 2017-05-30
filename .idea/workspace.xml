@@ -24,7 +24,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="340da844-fb5b-4101-a8f9-54f0cc06849b" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maze/maze.cpp" afterPath="$PROJECT_DIR$/maze/maze.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maze/maze.h" afterPath="$PROJECT_DIR$/maze/maze.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_suite/testFlood.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testFlood.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_suite/testMaze.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testMaze.cpp" />
     </list>
     <ignored path="micromouse-maze.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -44,11 +47,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="testFlood.cpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="testFlood.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tests/test_suite/testFlood.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="26" column="20" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
+            <state relative-caret-position="66">
+              <caret line="8" column="10" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -57,8 +60,8 @@
       <file leaf-file-name="maze.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/maze/maze.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="49" column="23" selection-start-line="49" selection-start-column="23" selection-end-line="49" selection-end-column="23" />
+            <state relative-caret-position="608">
+              <caret line="350" column="19" selection-start-line="350" selection-start-column="19" selection-end-line="350" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -74,11 +77,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="maze.h" pinned="false" current-in-tab="true">
+      <file leaf-file-name="maze.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/maze/maze.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="329">
-              <caret line="87" column="29" selection-start-line="87" selection-start-column="29" selection-end-line="87" selection-end-column="29" />
+            <state relative-caret-position="703">
+              <caret line="97" column="22" selection-start-line="97" selection-start-column="22" selection-end-line="97" selection-end-column="22" />
               <folding>
                 <element signature="e#96#122#0" expanded="true" />
               </folding>
@@ -129,8 +132,8 @@
       <file leaf-file-name="testMaze.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test_suite/testMaze.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1006">
-              <caret line="191" column="0" selection-start-line="191" selection-start-column="0" selection-end-line="191" selection-end-column="0" />
+            <state relative-caret-position="87">
+              <caret line="213" column="32" selection-start-line="213" selection-start-column="32" selection-end-line="213" selection-end-column="32" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
               </folding>
@@ -200,14 +203,14 @@
         <option value="$PROJECT_DIR$/tests/test_suite/testMazePrinter.cpp" />
         <option value="$PROJECT_DIR$/tests/test_suite/testWalls.cpp" />
         <option value="$PROJECT_DIR$/maze/oldmaze.cpp" />
-        <option value="$PROJECT_DIR$/maze/maze.cpp" />
         <option value="$PROJECT_DIR$/tests/test_suite/testCosts.cpp" />
-        <option value="$PROJECT_DIR$/tests/test_suite/testFlood.cpp" />
-        <option value="$PROJECT_DIR$/tests/test_suite/testMaze.cpp" />
         <option value="$PROJECT_DIR$/maze/oldmaze.h" />
         <option value="$PROJECT_DIR$/maze/mazeconstants.h" />
         <option value="$PROJECT_DIR$/tests/test_suite/testDirection.cpp" />
+        <option value="$PROJECT_DIR$/maze/maze.cpp" />
+        <option value="$PROJECT_DIR$/tests/test_suite/testMaze.cpp" />
         <option value="$PROJECT_DIR$/maze/maze.h" />
+        <option value="$PROJECT_DIR$/tests/test_suite/testFlood.cpp" />
       </list>
     </option>
   </component>
@@ -547,44 +550,44 @@
       <workItem from="1476051379542" duration="596000" />
       <workItem from="1476571615288" duration="16000" />
       <workItem from="1495751859707" duration="26495000" />
-      <workItem from="1495982333714" duration="32926000" />
+      <workItem from="1495982333714" duration="35306000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="GoogleTests - 2017.05.30 at 13h 24m 46s.xml">
+    <history-entry file="GoogleTests - 2017.05.30 at 22h 04m 47s.xml">
       <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="GoogleTests - 2017.05.30 at 13h 25m 10s.xml">
+    <history-entry file="GoogleTests - 2017.05.30 at 22h 06m 41s.xml">
       <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="GoogleTests - 2017.05.30 at 13h 26m 18s.xml">
+    <history-entry file="GoogleTests - 2017.05.30 at 22h 07m 01s.xml">
       <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="GoogleTests - 2017.05.30 at 13h 26m 36s.xml">
+    <history-entry file="GoogleTests - 2017.05.30 at 22h 07m 17s.xml">
       <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="GoogleTests - 2017.05.30 at 13h 27m 34s.xml">
+    <history-entry file="GoogleTests - 2017.05.30 at 22h 08m 30s.xml">
       <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="GoogleTests - 2017.05.30 at 13h 28m 18s.xml">
+    <history-entry file="GoogleTests - 2017.05.30 at 22h 09m 07s.xml">
       <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="GoogleTests - 2017.05.30 at 13h 29m 21s.xml">
+    <history-entry file="GoogleTests - 2017.05.30 at 22h 09m 40s.xml">
       <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="GoogleTests - 2017.05.30 at 13h 30m 47s.xml">
+    <history-entry file="GoogleTests - 2017.05.30 at 22h 10m 44s.xml">
       <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="GoogleTests - 2017.05.30 at 13h 31m 41s.xml">
+    <history-entry file="GoogleTests - 2017.05.30 at 22h 13m 29s.xml">
       <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="GoogleTests - 2017.05.30 at 13h 32m 59s.xml">
+    <history-entry file="GoogleTests - 2017.05.30 at 22h 15m 14s.xml">
       <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="60033000" />
+    <option name="totallyTimeSpent" value="62413000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1280" y="23" width="1280" height="1360" extended-state="0" />
@@ -592,12 +595,12 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18739903" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19637224" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19637224" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30678234" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32728708" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32914045" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25630915" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25630915" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16882068" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
@@ -904,37 +907,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/maze/maze.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="49" column="23" selection-start-line="49" selection-start-column="23" selection-end-line="49" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_suite/testCosts.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-99">
           <caret line="21" column="23" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_suite/testFlood.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="26" column="20" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_suite/testMaze.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1006">
-          <caret line="191" column="0" selection-start-line="191" selection-start-column="0" selection-end-line="191" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#24#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -970,13 +947,39 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/maze/maze.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="608">
+          <caret line="350" column="19" selection-start-line="350" selection-start-column="19" selection-end-line="350" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/testMaze.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="87">
+          <caret line="213" column="32" selection-start-line="213" selection-start-column="32" selection-end-line="213" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/maze/maze.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="87" column="29" selection-start-line="87" selection-start-column="29" selection-end-line="87" selection-end-column="29" />
+        <state relative-caret-position="703">
+          <caret line="97" column="22" selection-start-line="97" selection-start-column="22" selection-end-line="97" selection-end-column="22" />
           <folding>
             <element signature="e#96#122#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/testFlood.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="66">
+          <caret line="8" column="10" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
+          <folding />
         </state>
       </provider>
     </entry>

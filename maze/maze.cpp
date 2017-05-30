@@ -289,7 +289,17 @@ void Maze::clearUnknowns(void) {
   }
 }
 
-uint16_t Maze::recalculateGoal() {
+/*
+ *  The default goal while searching a classic maze
+ *  the cell 0x77. This may not be the best finish
+ *  cell on a speed run. Generally, it is best to
+ *  finish on the other side of the goal area to the
+ *  entrance.
+ *  This method tries to work out where that will be.
+ *  It takes no account of the possibil ty of multiple
+ *  entrances but it is better than nothing
+ */
+void Maze::recalculateGoal() {
   uint16_t newGoal = goal();
   // count the entrances
   int entranceCount = 0;
@@ -330,20 +340,15 @@ uint16_t Maze::recalculateGoal() {
     case 0:
       break;
     case 1:
-      setGoal(newGoal);
-      break;
     case 2:
-      setGoal(newGoal);
-      break;
     case 3:
+      setGoal(newGoal);
       setGoal(newGoal);
       break;
     default:
       break;
   }
   setGoal(newGoal);
-
-  return entranceCount;
 }
 
 uint16_t Maze::flood(uint16_t goal) {
