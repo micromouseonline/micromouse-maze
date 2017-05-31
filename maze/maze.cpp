@@ -251,34 +251,28 @@ uint16_t Maze::cost(uint16_t cell, uint16_t direction) {
 }
 
 
-uint16_t Maze::smallestNeighbourDirection(uint16_t cell, uint8_t heading) {
-  uint16_t direction;
-  int16_t distance;
-  int16_t smallest;
+uint8_t Maze::directionToSmallest(uint16_t cell, uint8_t direction) {
+  uint8_t newDirection;
+  uint16_t neighbourCost;
+  uint16_t smallestCost;
+  newDirection = direction;
   // assume it is ahead
-  direction = heading;
-  smallest = cost(cell, direction);
-  // now look right
-  heading = (heading + 1) & 0x03;
-  distance = cost(cell, heading);
-  if (distance < smallest) {
-    smallest = distance;
-    direction = heading;
+  smallestCost = cost(cell, direction);
+  neighbourCost = cost(cell, rightOf(direction));
+  if (neighbourCost < smallestCost) {
+    smallestCost = neighbourCost;
+    newDirection = rightOf(direction);
   }
-  // then look left
-  heading = (heading + 2) & 0x03;
-  distance = cost(cell, heading);
-  if (distance < smallest) {
-    smallest = distance;
-    direction = heading;
+  neighbourCost = cost(cell, leftOf(direction));
+  if (neighbourCost < smallestCost) {
+    smallestCost = neighbourCost;
+    newDirection = leftOf(direction);
   }
-  // it should not be behind but ..
-  heading = (heading + 3) & 0x03;
-  distance = cost(cell, heading);
-  if (distance < smallest) {
-    direction = heading;
+  neighbourCost = cost(cell, behind(direction));
+  if (neighbourCost < smallestCost) {
+    newDirection = behind(direction);
   }
-  return direction;
+  return newDirection;
 }
 
 void Maze::setUnknowns(void) {
@@ -505,9 +499,6 @@ uint16_t Maze::runLengthFlood(uint16_t goal) {
         mCost[nextCell] = nextCost;
       }
     }
-  }
-  for (int i = 0; i < numCells(); i++) {
-    mDirection[i] = (smallestNeighbourDirection(i));
   }
   return mCost[0];
 }
