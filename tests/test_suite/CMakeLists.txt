@@ -17,8 +17,8 @@ add_executable(runTestSuite
         testMazeReader.cpp
         testPathFinder.cpp
         testSearcher.cpp
-        # testRunner.cpp
-        ../../maze/MazeFiler.cpp ../../maze/MazeFiler.h)
+        testQueue.cpp
+        )
 
 target_link_libraries(
         runTestSuite

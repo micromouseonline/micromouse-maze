@@ -18,7 +18,9 @@ set(HEADER_FILES
         mazereader.h
         mazesearcher.h
         priorityqueue.h
-        mazeconstants.h MazeFiler.cpp MazeFiler.h)
+        mazeconstants.h
+        MazeFiler.h
+        Queue.h)
 
 set (SOURCE_FILES
         list.cpp
@@ -31,9 +33,11 @@ set (SOURCE_FILES
         mazereader.cpp
         mazesearcher.cpp
         priorityqueue.cpp
-        MazeFiler.cpp MazeFiler.h)
+        MazeFiler.cpp
+        )
 
 add_library(maze
         STATIC
         ${SOURCE_FILES}
-        ${HEADER_FILES} MazeFiler.cpp MazeFiler.h)
+        ${HEADER_FILES}
+        )
