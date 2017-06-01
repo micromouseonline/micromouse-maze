@@ -32,7 +32,6 @@ set (SOURCE_FILES
         mazeprinter.cpp
         mazereader.cpp
         mazesearcher.cpp
-        priorityqueue.cpp
         MazeFiler.cpp
         )
 
@@ -40,4 +39,4 @@ add_library(maze
         STATIC
         ${SOURCE_FILES}
         ${HEADER_FILES}
-        FloodInfo.cpp FloodInfo.h)
+        FloodInfo.h)

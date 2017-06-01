@@ -106,7 +106,7 @@ int MouseSearchToModifiedFlood (location_t target)
   while (! (MousePosition().row == target.row && MousePosition().col == target.col)) {
     walls_t actualWalls = ReadWallSensors (MousePosition());
     UpdateCellFromWallData (MousePosition(), actualWalls);
-    ModifiedFlood (MousePosition());
+    //ModifiedFlood (MousePosition());
     direction_t direction = Direction (MousePosition());
     MouseSetHeading (direction);
     MouseMove();
@@ -127,7 +127,7 @@ int MouseSearchToModifiedFloodAll (location_t target)
   while (! (MousePosition().row == target.row && MousePosition().col == target.col)) {
     walls_t actualWalls = ReadWallSensors (MousePosition());
     UpdateCellFromWallData (MousePosition(), actualWalls);
-    ModifiedFloodAll (MousePosition());
+    //ModifiedFloodAll (MousePosition());
     direction_t direction = Direction (MousePosition());
     MouseSetHeading (direction);
     MouseMove();

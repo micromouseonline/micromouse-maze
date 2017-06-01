@@ -62,3 +62,49 @@ void PrintMaze (print_options_t option)
   }
   printf ("o\n");
 }
+
+void PrintMaze(Maze *maze, print_options_t option) {
+  printf("\n");
+
+  for (int row = maze->width() - 1; row >= 0; row--) {
+    for (int col = 0; col < maze->width(); col++) {
+      uint16_t cell = row+maze->width()* col;
+      //Do the north walls
+      printf ("o");
+      if (maze->hasWall(cell,NORTH)) {
+        printf ("---");
+      } else {
+        printf ("   ");
+      }
+    }
+    printf ("o\n");
+    /* TODO:  this is all rather messy */
+    for (int col = 0; col < maze->width(); col++) {
+      uint16_t cell = row+maze->width()* col;
+       //Do the west walls
+      if (maze->hasWall(cell,WEST)) {
+        printf ("|");
+      } else {
+        printf (" ");
+      }
+      if (option & COSTS) {
+        cost_t cost = maze->cost(cell);
+        if (cost == MAX_COST) {
+          printf (" x ");
+        } else {
+          printf ("%3d", maze->cost(cell));
+        }
+      } else if (option & DIRS) {
+        printf (" %c ", dirChars[maze->direction(cell)]);
+      } else {
+        printf ("   ");
+      }
+    }
+    printf ("|\n");
+  }
+  for (int col = 0; col < maze->width(); col++) {
+    /* Do the last row of walls on the south edge. They must all be there */
+    printf ("o---");
+  }
+  printf ("o\n");
+}

@@ -113,7 +113,7 @@ protected:
   uint16_t mWidth;
   uint16_t mCost[1024];
   uint8_t mDirection[1024];
-  PriorityQueue openList;
+  PriorityQueue<FloodInfo> openList;
   uint16_t mGoal;
   uint8_t mWalls[1024];
   uint16_t mPathCostOpen;

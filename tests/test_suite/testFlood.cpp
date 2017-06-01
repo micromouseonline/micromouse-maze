@@ -4,7 +4,7 @@
 #include "mazeflooder.h"
 
 #include "maze.h"
-
+#include "mazeprinter.h"
 
 class MazeFlood : public ::testing::Test {
 protected:
@@ -45,7 +45,8 @@ TEST_F (MazeFlood, FloodMaze_BlockedMaze_HomeCostMax) {
 TEST_F (MazeFlood, FloodOpenUnexploredMaze_HomeCost105) {
   maze->clearUnknowns();
   maze->flood(maze->goal());
-  EXPECT_EQ(105, maze->cost(0));
+  EXPECT_EQ(95, maze->cost(0));
+  PrintMaze(maze,COSTS);
 }
 
 

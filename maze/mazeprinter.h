@@ -7,10 +7,7 @@
 
 #ifndef MAZEPRINTER_H
 #define MAZEPRINTER_H
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "maze.h"
 
 
 typedef enum {
@@ -20,11 +17,9 @@ typedef enum {
 } print_options_t;
 
 void PrintMaze (print_options_t option);
+void PrintMaze (Maze * maze,print_options_t option);
 
 
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* MAZEPRINTER_H */
 

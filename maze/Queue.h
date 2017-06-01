@@ -10,6 +10,7 @@
 template<class item_t>
 class Queue {
 public:
+
   explicit Queue(int maxSize = 128);
 
   Queue(const Queue<item_t> &rhs);
@@ -17,20 +18,20 @@ public:
   ~Queue(void);
 
   int size();
-void clear();
+
+  void clear();
+
   void add(item_t item);
 
   item_t fetch();
 
-  item_t *mData;
-
 protected:
+  item_t *mData;
   const int MAX_ITEMS;
   int mHead;
   int mTail;
   int mItemCount;
 };
-
 
 template<class item_t>
 Queue<item_t>::Queue(int maxSize) :
@@ -56,13 +57,13 @@ Queue<item_t>::Queue(const Queue &rhs) :
 }
 
 template<class item_t>
-int Queue<item_t>::size() {
-  return mItemCount;
+Queue<item_t>::~Queue(void) {
+  delete[] mData;
 }
 
 template<class item_t>
-Queue<item_t>::~Queue(void) {
-  delete[] mData;
+int Queue<item_t>::size() {
+  return mItemCount;
 }
 
 template<class item_t>
@@ -78,6 +79,14 @@ void Queue<item_t>::add(item_t item) {
 
 
 template<class item_t>
+void Queue<item_t>::clear() {
+  mHead = 0;
+  mTail = 0;
+  mItemCount = 0;
+};
+
+
+template<class item_t>
 item_t Queue<item_t>::fetch() {
   assert(mItemCount > 0);
   item_t result;
@@ -89,12 +98,5 @@ item_t Queue<item_t>::fetch() {
   --mItemCount;
   return result;
 }
-
-template<class item_t>
-void Queue<item_t>::clear() {
-  mHead = 0;
-  mTail = 0;
-  mItemCount = 0;
-};
 
 #endif //MAZE_QUEUE_H

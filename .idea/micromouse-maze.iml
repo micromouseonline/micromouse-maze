@@ -6,12 +6,12 @@
       <sourceFolder url="file://$MODULE_DIR$/tests/lib/gtest-1.7.0/src/gtest-all.cc" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/lib/gtest-1.7.0/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/lib/gtest-1.7.0/cmake/internal_utils.cmake" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/tests/test_suite/testCosts.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/test_suite/testSearcher.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/test_suite/testMazePrinter.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/test_suite/testMazeReader.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/test_suite/testQueue.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/test_suite/testMaze.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/tests/test_suite/testSearcher.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/test_suite/testCosts.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/test_suite/testFloodInfo.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/test_suite/testFlood.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/test_suite/testPriorityQueue.cpp" isTestSource="false" />
@@ -23,7 +23,6 @@
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/mazereader.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/mazereader.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/FloodInfo.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/priorityqueue.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/mazepathfinder.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/maze.h" isTestSource="false" />
@@ -37,7 +36,6 @@
       <sourceFolder url="file://$MODULE_DIR$/maze/mazepathfinder.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/mazeflooder.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/mazeprinter.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/priorityqueue.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/FloodInfo.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/mazedata.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/MazeFiler.h" isTestSource="false" />

@@ -3,7 +3,7 @@
 
 class QueueTest : public ::testing::Test {
 protected:
-  PriorityQueue *queue;
+  PriorityQueue<FloodInfo> *queue;
 
   FloodInfo itemA;
   FloodInfo itemB;
@@ -14,7 +14,7 @@ protected:
 
 
   virtual void SetUp() {
-    queue = new PriorityQueue();
+    queue = new PriorityQueue<FloodInfo>();
     itemA = FloodInfo(13,2,1,'A');
     itemB = FloodInfo(12,2,1,'B');
     itemC = FloodInfo(1,2,1,'C');
@@ -30,13 +30,27 @@ protected:
 };
 
 TEST_F(QueueTest, Constructor_ProperInitialisation){
-  FloodInfo item;
   EXPECT_EQ(0,queue->size());
-  EXPECT_TRUE(queue->empty());
-  item = queue->smallest();
-  EXPECT_TRUE(item.isNull());
-  item = queue->smallest();
-  EXPECT_TRUE(item.isNull());
+  EXPECT_DEATH(FloodInfo item = queue->fetch(),"");
+}
+
+TEST_F(QueueTest, AddFetch_CorrectOrder){
+  EXPECT_EQ(0,queue->size());
+  queue->add(itemA);
+  queue->add(itemB);
+  queue->add(itemC);
+  queue->add(itemD);
+  queue->add(itemE);
+
+  EXPECT_EQ(5,queue->size());
+//  FloodInfo item;
+//  EXPECT_TRUE(itemD == queue->fetch());
+//  EXPECT_TRUE(itemC == queue->fetch());
+//  EXPECT_TRUE(itemE == queue->fetch());
+//  EXPECT_TRUE(itemB == queue->fetch());
+//  EXPECT_TRUE(itemA == queue->fetch());
+//  EXPECT_EQ(0,queue->size());
+
 }
 
 TEST_F(QueueTest, PushAndRetrieve_Single_Item){
@@ -45,19 +59,18 @@ TEST_F(QueueTest, PushAndRetrieve_Single_Item){
   FloodInfo item;
   queue->add(info);
   EXPECT_EQ(1,queue->size());
-  EXPECT_FALSE(queue->empty());
-  item = queue->smallest();
+  item = queue->fetch();
   EXPECT_TRUE(item == info);
-  EXPECT_TRUE(queue->empty());
+
 }
 
 
-TEST_F(QueueTest, DuplicateItems_FetchGetsMostRecent){
+TEST_F(QueueTest, DuplicateItems_FetchGetsSmallest){
   FloodInfo item;
   queue->add(itemA);
-  queue->add(itemF);
-  queue->add(itemE);
-  item = queue->smallest();
-  EXPECT_TRUE((item == itemF) || (item == itemE));
+  queue->add(itemB);
+  queue->add(itemC);
+  item = queue->fetch();
+  EXPECT_TRUE(item == itemC) << item.cost << "  " << itemC.cost;
 }
 
