@@ -4,11 +4,25 @@
 class QueueTest : public ::testing::Test {
 protected:
   PriorityQueue *queue;
-  FloodInfo * floodInfo;
-  FloodInfo nullInfo = {0};
+
+
+
+  FloodInfo itemA;
+  FloodInfo itemB;
+  FloodInfo itemC;
+  FloodInfo itemD;
+  FloodInfo itemE;
+  FloodInfo itemF;
+
 
   virtual void SetUp() {
     queue = new PriorityQueue();
+    itemA = FloodInfo(13,2,1,'A');
+    itemB = FloodInfo(12,2,1,'B');
+    itemC = FloodInfo(1,2,1,'C');
+    itemD = FloodInfo(0,2,1,'D');
+    itemE = FloodInfo(6,2,1,'D');
+    itemF = FloodInfo(6,2,1,'D');
   }
 
   virtual void TearDown() {
@@ -31,10 +45,10 @@ TEST_F(QueueTest, Constructor_ProperInitialiation){
 }
 
 TEST_F(QueueTest, PushAndRetrieve_Single_Item){
-  FloodInfo info = {'F', 1,2,3};
+  FloodInfo info = {3,2,1,'F'};
   EXPECT_FALSE(info.isNull());
   FloodInfo item;
-  queue->push(info);
+  queue->add(info);
   EXPECT_EQ(1,queue->size());
   EXPECT_FALSE(queue->empty());
   item = queue->last();
@@ -42,22 +56,46 @@ TEST_F(QueueTest, PushAndRetrieve_Single_Item){
   EXPECT_TRUE(queue->empty());
 }
 
-TEST_F(QueueTest, PushAndRetrieve_LargetAndSmallest_Item){
-  FloodInfo infoA = {'F', 1,1,3};
-  FloodInfo infoB = {'F', 1,1,2};
-  FloodInfo infoC = {'F', 1,1,1};
+
+TEST_F(QueueTest, DuplicateItems_FetchGetsMostRecent){
+  FloodInfo itemOne;
+  FloodInfo itemTwo;
+  queue->add(itemE);
+  queue->add(itemF);
+  queue->add(itemD);
+  itemOne = queue->largest();
+  EXPECT_TRUE(itemOne == itemF);
+}
+
+TEST_F(QueueTest, PushAndRetrieve_UsedAsQueue){
+
   FloodInfo item;
-  queue->push(infoA);
-  queue->push(infoB);
-  queue->push(infoC);
-  EXPECT_EQ(3,queue->size());
+  queue->add(itemA);
+  queue->add(itemB);
+  queue->add(itemC);
+  queue->add(itemD);
+  EXPECT_EQ(4,queue->size());
+  EXPECT_FALSE(queue->empty());
+  item = queue->last();
+  EXPECT_TRUE(item == itemD);
+  item = queue->last();
+  EXPECT_TRUE(item == itemC);
+}
+
+TEST_F(QueueTest, PushAndRetrieve_LargetAndSmallest_Item){
+  FloodInfo item;
+  queue->add(itemA);
+  queue->add(itemB);
+  queue->add(itemC);
+  queue->add(FloodInfo(6,1,1,'X'));
+  EXPECT_EQ(4,queue->size());
   EXPECT_FALSE(queue->empty());
   item = queue->smallest();
-  EXPECT_TRUE(item == infoC);
+  EXPECT_TRUE(item == itemC);
   item = queue->largest();
-  EXPECT_TRUE(item == infoA);
+  EXPECT_TRUE(item == itemA);
+  EXPECT_EQ(2,queue->size());
+  item = queue->largest();
+  EXPECT_TRUE(item == itemB);
   EXPECT_EQ(1,queue->size());
-  item = queue->largest();
-  EXPECT_TRUE(item == infoB);
-  EXPECT_EQ(0,queue->size());
 }

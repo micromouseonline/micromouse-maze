@@ -18,7 +18,7 @@ add_executable(runTestSuite
         testPathFinder.cpp
         testSearcher.cpp
         testQueue.cpp
-        )
+        testFloodInfo.cpp)
 
 target_link_libraries(
         runTestSuite

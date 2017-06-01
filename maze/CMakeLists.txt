@@ -40,4 +40,4 @@ add_library(maze
         STATIC
         ${SOURCE_FILES}
         ${HEADER_FILES}
-        )
+        FloodInfo.cpp FloodInfo.h)
