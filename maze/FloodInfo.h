@@ -22,12 +22,14 @@ public:
     //
   }
 
-  FloodInfo(
-      uint16_t _cost,
-      uint16_t _cell ,
-      uint8_t _length,
-      char _turn
-  ) :
+  FloodInfo(const FloodInfo &rhs) {
+    lastTurn = rhs.lastTurn;
+    runLength = rhs.runLength;
+    cell = rhs.cell;
+    cost = rhs.cost;
+  }
+
+  FloodInfo(uint16_t _cost,uint16_t _cell,uint8_t _length,char _turn) :
       lastTurn(_turn),
       runLength(_length),
       cell(_cell),
@@ -45,7 +47,7 @@ public:
       return false;
   }
 
-  inline bool operator !=(FloodInfo & rhs){
+  inline bool operator!=(FloodInfo &rhs) {
     return !(*this == rhs);
   }
 

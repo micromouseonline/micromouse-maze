@@ -9,7 +9,7 @@
 class PriorityQueue
 {
 public:
-  static const int maxSize = 100;
+  static const int maxSize = 256;
   PriorityQueue();
 
   void clear();
@@ -17,15 +17,16 @@ public:
   bool empty();
 
 
-  void push (int cell, int cost, char lastTurn , uint8_t runLength );
-  void push (FloodInfo infoBlock);
-  FloodInfo last();
+  void add(int cell, int cost, char lastTurn, uint8_t runLength);
+  void add(FloodInfo infoBlock);
+
   FloodInfo smallest();
   FloodInfo largest();
 
 private:
   FloodInfo info[maxSize];
   int mHead;
+  int mTail;
 
   bool full();
 };

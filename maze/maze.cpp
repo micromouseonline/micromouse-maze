@@ -392,28 +392,28 @@ uint16_t Maze::runLengthFlood(uint16_t goal) {
   //TODO: Guard against a closed-in goal
   if (hasExit(goal, NORTH)) {
     int nextCell = cellNorth(goal);
-    openList.push(nextCell, 0, 'F', 0);
+    openList.add(nextCell, 0, 'F', 0);
     mDirection[nextCell] = NORTH;
     mCost[nextCell] = costTable[1];
     mDirection[goal] = NORTH;
   }
   if (hasExit(goal, EAST)) {
     int nextCell = cellEast(goal);
-    openList.push(nextCell, 0, 'F', 0);
+    openList.add(nextCell, 0, 'F', 0);
     mDirection[nextCell] = EAST;
     mCost[nextCell] = costTable[1];
     mDirection[goal] = EAST;
   }
   if (hasExit(goal, WEST)) {
     int nextCell = cellWest(goal);
-    openList.push(nextCell, 0, 'F', 0);
+    openList.add(nextCell, 0, 'F', 0);
     mDirection[nextCell] = WEST;
     mCost[nextCell] = costTable[1];
     mDirection[goal] = WEST;
   }
   if (hasExit(goal, SOUTH)) {
     int nextCell = cellSouth(goal);
-    openList.push(nextCell, 0, 'F', 0);
+    openList.add(nextCell, 0, 'F', 0);
     mDirection[nextCell] = SOUTH;
     mCost[nextCell] = costTable[1];
     mDirection[goal] = SOUTH;
@@ -443,7 +443,7 @@ uint16_t Maze::runLengthFlood(uint16_t goal) {
           break;
       }
       if (mCost[nextCell] == UNREACHABLE) {
-        openList.push(nextCell, nextCost, 'F', runLength);
+        openList.add(nextCell, nextCost, 'F', runLength);
         mDirection[nextCell] = nextHeading;
         mCost[nextCell] = nextCost;
       }
@@ -469,7 +469,7 @@ uint16_t Maze::runLengthFlood(uint16_t goal) {
 
       }
       if (mCost[nextCell] == UNREACHABLE) {
-        openList.push(nextCell, nextCost, 'L', runLength);
+        openList.add(nextCell, nextCost, 'L', runLength);
         mDirection[nextCell] = nextHeading;
         mCost[nextCell] = nextCost;
       }
@@ -494,7 +494,7 @@ uint16_t Maze::runLengthFlood(uint16_t goal) {
 
       }
       if (mCost[nextCell] == UNREACHABLE) {
-        openList.push(nextCell, nextCost, 'R', runLength);
+        openList.add(nextCell, nextCost, 'R', runLength);
         mDirection[nextCell] = nextHeading;
         mCost[nextCell] = nextCost;
       }

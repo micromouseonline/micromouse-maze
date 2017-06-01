@@ -8,7 +8,6 @@
 #include "list.h"
 #include "mazeflooder.h"
 
-// TODO: experiment with open maze and closed maze. Needs a maze struct
 
 void FloodMazeClassic (location_t target)
 {
@@ -93,50 +92,6 @@ void AddAllNeighboursToList (location_t here)
   ListAdd (Neighbour (here, EAST));
   ListAdd (Neighbour (here, SOUTH));
   ListAdd (Neighbour (here, WEST));
-}
-
-void ModifiedFlood (location_t here)
-{
-  direction_t direction;
-  cost_t smallestCost;
-  ListReset();
-  ListAdd (here);
-  while (!ListIsEmpty()) {
-    here = ListStackPop();
-    if (Cost (here) == 0) {
-      continue;
-    }
-    direction = SmallestNeighbourDirection (here);
-    smallestCost = Cost (Neighbour (here, direction));
-    SetDirection (here, direction);
-    if (Cost (here) != smallestCost + 1) {
-      SetCost (here, smallestCost + 1);
-      AddOpenNeighboursToList (here);
-    }
-  }
-}
-
-
-void ModifiedFloodAll (location_t here)
-{
-  direction_t direction;
-  cost_t smallestCost;
-  ListReset();
-  ListAdd (here);
-  while (!ListIsEmpty()) {
-    here = ListStackPop();
-    if (Cost (here) == 0) {
-      continue;
-    }
-    direction = SmallestNeighbourDirection (here);
-    smallestCost = Cost (Neighbour (here, direction));
-    SetDirection (here, direction);
-    if (Cost (here) != smallestCost + 1) {
-      SetCost (here, smallestCost + 1);
-      AddOpenNeighboursToList (here);
-      //AddAllNeighboursToList (here);
-    }
-  }
 }
 
 
