@@ -107,7 +107,7 @@ public:
   bool isSolved(void); ///
 
   uint8_t directionToSmallest(uint16_t cell, uint8_t direction = NORTH);//
-
+void updateDirections();
 
 
 protected:

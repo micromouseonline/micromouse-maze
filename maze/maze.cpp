@@ -427,6 +427,13 @@ uint8_t Maze::directionToSmallest(uint16_t cell, uint8_t direction) {
 }
 
 
+void Maze::updateDirections()
+{
+  for (uint16_t i = 0; i < numCells(); i++) {
+    mDirection[i] = directionToSmallest(i, NORTH);
+  }
+}
+
 bool Maze::testForSolution(void) { // takes less than 3ms
   setUnknowns();
   mPathCostClosed = flood(goal());
@@ -668,7 +675,7 @@ uint16_t Maze::runLengthFlood(uint16_t goal) {
       }
     }
   }
-
+  updateDirections();
   return mCost[0];
 }
 
