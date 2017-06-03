@@ -34,7 +34,24 @@ TEST_F(QueueTest, Constructor_ProperInitialisation){
   EXPECT_DEATH(FloodInfo item = queue->fetch(),"");
 }
 
-TEST_F(QueueTest, AddFetch_CorrectOrder){
+TEST_F(QueueTest, AddFetch_CorrectPriorityOrder){
+  EXPECT_EQ(0,queue->size());
+  queue->add(itemA);
+  queue->add(itemB);
+  queue->add(itemC);
+  queue->add(itemD);
+  queue->add(itemE);
+  EXPECT_EQ(5,queue->size());
+
+  EXPECT_TRUE(itemD == queue->fetch());
+  EXPECT_TRUE(itemC == queue->fetch());
+  EXPECT_TRUE(itemE == queue->fetch());
+  EXPECT_TRUE(itemB == queue->fetch());
+  EXPECT_TRUE(itemA == queue->fetch());
+  EXPECT_EQ(0,queue->size());
+
+}
+TEST_F(QueueTest, AddFetch_CorrectLifoOrder){
   EXPECT_EQ(0,queue->size());
   queue->add(itemA);
   queue->add(itemB);
@@ -43,13 +60,12 @@ TEST_F(QueueTest, AddFetch_CorrectOrder){
   queue->add(itemE);
 
   EXPECT_EQ(5,queue->size());
-//  FloodInfo item;
-//  EXPECT_TRUE(itemD == queue->fetch());
-//  EXPECT_TRUE(itemC == queue->fetch());
-//  EXPECT_TRUE(itemE == queue->fetch());
-//  EXPECT_TRUE(itemB == queue->fetch());
-//  EXPECT_TRUE(itemA == queue->fetch());
-//  EXPECT_EQ(0,queue->size());
+  EXPECT_TRUE(itemA == queue->head());
+  EXPECT_TRUE(itemB == queue->head());
+  EXPECT_TRUE(itemC == queue->head());
+  EXPECT_TRUE(itemD == queue->head());
+  EXPECT_TRUE(itemE == queue->head());
+  EXPECT_EQ(0,queue->size());
 
 }
 

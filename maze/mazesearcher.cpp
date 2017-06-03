@@ -61,7 +61,7 @@ void MouseRunTo (location_t target)
   int step = 0;
   while (! (MousePosition().row == target.row && MousePosition().col == target.col)) {
     direction_t direction = Direction (MousePosition());
-    if (direction == INVALID) {
+    if (direction == BAD_DIRECTION) {
       break;
     }
     MouseSetHeading (direction);
@@ -83,11 +83,11 @@ int MouseSearchToFullFlood (location_t target)
 
   int steps = 0;
   while (! (MousePosition().row == target.row && MousePosition().col == target.col)) {
-    walls_t actualWalls = ReadWallSensors (MousePosition());
+    walldata_t actualWalls = ReadWallSensors (MousePosition());
     UpdateCellFromWallData (MousePosition(), actualWalls);
     FloodMazeClassic (target);
     direction_t direction = Direction (MousePosition());
-    if (direction == INVALID) {
+    if (direction == BAD_DIRECTION) {
       break;
     }
     MouseSetHeading (direction);
@@ -104,7 +104,7 @@ int MouseSearchToModifiedFlood (location_t target)
   int steps = 0;
   FloodMazeClassic (target);	/* seed the costs before using modified flood */
   while (! (MousePosition().row == target.row && MousePosition().col == target.col)) {
-    walls_t actualWalls = ReadWallSensors (MousePosition());
+    walldata_t actualWalls = ReadWallSensors (MousePosition());
     UpdateCellFromWallData (MousePosition(), actualWalls);
     //ModifiedFlood (MousePosition());
     direction_t direction = Direction (MousePosition());
@@ -125,7 +125,7 @@ int MouseSearchToModifiedFloodAll (location_t target)
   int steps = 0;
   FloodMazeClassic (target);	/* seed the costs before using modified flood */
   while (! (MousePosition().row == target.row && MousePosition().col == target.col)) {
-    walls_t actualWalls = ReadWallSensors (MousePosition());
+    walldata_t actualWalls = ReadWallSensors (MousePosition());
     UpdateCellFromWallData (MousePosition(), actualWalls);
     //ModifiedFloodAll (MousePosition());
     direction_t direction = Direction (MousePosition());

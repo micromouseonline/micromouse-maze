@@ -13,11 +13,11 @@
 
 
 
-static walls_t _walls[MAZE_COLS][MAZE_ROWS];
+static walldata_t _walls[MAZE_COLS][MAZE_ROWS];
 static cost_t _cost[MAZE_COLS][MAZE_ROWS];
 static direction_t _direction[MAZE_COLS][MAZE_ROWS];
 
-static walls_t mWalls[NUMCELLS];
+static walldata_t mWalls[NUMCELLS];
 static cost_t _mCost[NUMCELLS];
 static direction_t mDirection[NUMCELLS];
 
@@ -108,7 +108,7 @@ void MazeResetDirections (void)
   location_t loc;
   for (loc.row = 0; loc.row < MAZE_ROWS; loc.row++) {
     for (loc.col = 0; loc.col < MAZE_COLS; loc.col++) {
-      SetDirection (loc, INVALID);
+      SetDirection (loc, BAD_DIRECTION);
     }
   }
 }
@@ -199,38 +199,38 @@ direction_t SmallestNeighbourDirection (location_t loc)
 
 bool HasExit (location_t location, direction_t direction)
 {
-  walls_t walls = Walls (location);
+  walldata_t walls = Walls (location);
   return !WallExists (walls, direction);
 }
 
 /* ========== manipulating the walls ==============*/
-bool WallIsSeen (walls_t walls, direction_t direction)
+bool WallIsSeen (walldata_t walls, direction_t direction)
 {
   return false;
 //  return ( (walls & (WALL_SEEN << direction)) != 0);;
 };
 
-bool WallExists (walls_t walls, direction_t direction)
+bool WallExists (walldata_t walls, direction_t direction)
 {
   return false;
  // return ( (walls & (WALL << direction)) != 0);
 };
 
 /* setting and clearing always sets the seen bits */
-void WallSet (walls_t * walls, direction_t direction)
+void WallSet (walldata_t * walls, direction_t direction)
 {
 //  *walls |= (WALL << direction);
 //  *walls |= (WALL_SEEN << direction);
 };
 
-void WallClear (walls_t * walls, direction_t direction)
+void WallClear (walldata_t * walls, direction_t direction)
 {
 //  *walls &= ~ (WALL << direction);
 //  *walls |= (WALL_SEEN << direction);
 };
 
 //return an initialised wall structure
-walls_t WallsNone (void)
+walldata_t WallsNone (void)
 {
 //  walls_t walls = 0;
 //  walls &= ~ALL_WALLS;
@@ -337,7 +337,7 @@ void MazeAddWall (location_t location, direction_t direction)
 
 
 /* set all four walls for a location - updates neighbours - set seen*/
-void UpdateCellFromWallData (location_t location, walls_t wallData)
+void UpdateCellFromWallData (location_t location, walldata_t wallData)
 {
 //  if (wallData & NORTH_WALL) {
 //    MazeAddWall (location, NORTH);
@@ -361,7 +361,7 @@ void UpdateCellFromWallData (location_t location, walls_t wallData)
 //  }
 }
 
-walls_t * wallsPointer(location_t location){
+walldata_t * wallsPointer(location_t location){
 //  return & _walls[location.row][location.col];
   return 0;
 }
@@ -375,7 +375,7 @@ void MazeRemoveWall ( location_t location, direction_t direction)
 }
 
 /* return all the walls for a given location */
-walls_t Walls (location_t location)
+walldata_t Walls (location_t location)
 {
 //  return _walls[location.row][location.col];
   return 0;

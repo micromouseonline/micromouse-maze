@@ -75,7 +75,7 @@ public:
     assert(mItemCount > 0);
     int posSmallest = mHead;
     int index = mHead;
-    while (mTail != index) {
+    while (index != mTail) {
       if (mData[index] < mData[posSmallest]) {
         posSmallest = index;
       }
@@ -86,12 +86,8 @@ public:
     }
     item_t smallest = mData[posSmallest];
     mData[posSmallest] = mData[mHead];
-    ++mHead;
-    if (mHead > MAX_ITEMS) {
-      mHead -= MAX_ITEMS;
-    }
-    --mItemCount;
-    return smallest;
+    mData[mHead] = smallest;
+    return head();
   }
 
 

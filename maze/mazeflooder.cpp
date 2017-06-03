@@ -16,7 +16,7 @@ void FloodMazeClassic (location_t target)
   for (here.row = 0; here.row < MAZE_ROWS; here.row++) {
     for (here.col = 0; here.col < MAZE_COLS; here.col++) {
       SetCost (here, MAX_COST);
-      SetDirection (here, INVALID);
+      SetDirection (here, BAD_DIRECTION);
     }
   }
   SetCost (target, 0);

@@ -8,6 +8,8 @@
 #include "mazeconstants.h"
 #include "priorityqueue.h"
 #include <stdint.h>
+
+
 /*
  * Functions and methods for which there are
  * passing tests are marked thus: ///
@@ -15,14 +17,15 @@
 class Maze {
 public:
 
-  Maze(uint16_t width);
+  explicit Maze(uint16_t width);
 
-  uint16_t numCells(); ///
   uint16_t width(); ///
+  uint16_t numCells(); ///
 
   void resetToEmptyMaze(void); ///
 
   // static functions about headings
+  static uint8_t ahead(uint8_t direction); ///
   static uint8_t rightOf(uint8_t direction); ///
   static uint8_t leftOf(uint8_t direction); ///
   static uint8_t behind(uint8_t direction); ///
@@ -59,7 +62,6 @@ public:
 
 // modify a single wall in a cell. Will not remove existing data
   void setWall(uint16_t cell, uint8_t direction); ///
-
   void clearWall(uint16_t cell, uint8_t direction); ///
 
 // adds all walls for a cell
@@ -91,10 +93,7 @@ public:
   void setCost(uint16_t cell, uint16_t cost); ///
 
   void recalculateGoal(); ///
-/*
- * need
- * numExits
- */
+
 
   int16_t costDifference(void); ///
   uint16_t openMazeCost() const; ///
@@ -111,11 +110,11 @@ public:
 
 protected:
   uint16_t mWidth;
-  uint16_t mCost[1024];
+  uint8_t mWalls[1024];
   uint8_t mDirection[1024];
+  uint16_t mCost[1024];
   PriorityQueue<FloodInfo> openList;
   uint16_t mGoal;
-  uint8_t mWalls[1024];
   uint16_t mPathCostOpen;
   uint16_t mPathCostClosed;
   uint16_t mCostDifference;

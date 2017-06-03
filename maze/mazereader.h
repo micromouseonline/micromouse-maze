@@ -31,7 +31,7 @@ void UpdateEntireMazeFromData(const uint8_t * data);
  * Return wall data for a single cell without updating the working maze.
  * Use this when searching to simulate grabbing wall sensor data.
  */
-walls_t ReadWallSensors (location_t loc);
+walldata_t ReadWallSensors (location_t loc);
 
 
 
