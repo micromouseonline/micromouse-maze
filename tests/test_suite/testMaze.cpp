@@ -20,6 +20,14 @@ protected:
 
 };
 
+TEST_F(MazeTest, CopyMaze) {
+  maze->copyMaze(emptyMaze, 256);
+  for (uint16_t cell = 0; cell < maze->numCells(); cell++) {
+    EXPECT_EQ(emptyMaze[cell], maze->walls(cell));
+  }
+}
+
+
 TEST_F(MazeTest, SetAndGetGoal) {
   EXPECT_EQ(DEFAULT_GOAL, maze->goal());
   maze->setGoal(99);
@@ -93,10 +101,10 @@ TEST_F(MazeTest, ResetCell_clearsAllData) {
   uint16_t cell = 0x22;
   maze->updateMap(cell, 0x0F);
   EXPECT_TRUE(maze->isVisited(cell));
-  EXPECT_EQ(0x0f,maze->walls(cell));
+  EXPECT_EQ(0x0f, maze->walls(cell));
   maze->resetCell(cell);
   EXPECT_FALSE(maze->isVisited(cell));
-  EXPECT_EQ(0x00,maze->walls(cell));
+  EXPECT_EQ(0x00, maze->walls(cell));
 }
 
 
@@ -105,13 +113,13 @@ TEST_F(MazeTest, SetClearVisited_clearsVisitFlagsOnly) {
   uint16_t cell = 0x22;
   maze->updateMap(cell, 0x0F);
   EXPECT_TRUE(maze->isVisited(cell));
-  EXPECT_EQ(0x0f,maze->walls(cell));
+  EXPECT_EQ(0x0f, maze->walls(cell));
   maze->clearVisited(cell);
   EXPECT_FALSE(maze->isVisited(cell));
-  EXPECT_EQ(0x0F,maze->walls(cell));
+  EXPECT_EQ(0x0F, maze->walls(cell));
   maze->setVisited(cell);
   EXPECT_TRUE(maze->isVisited(cell));
-  EXPECT_EQ(0x0F,maze->walls(cell));
+  EXPECT_EQ(0x0F, maze->walls(cell));
 
 }
 
@@ -218,7 +226,7 @@ TEST_F(MazeTest, NeighbourCellAddresses) {
 
 
 TEST_F(MazeTest, NeighbourInvalidDirection_ReturnsUINT16_MAX) {
-  EXPECT_EQ(UNREACHABLE, maze->neighbour(0, -1));
+  EXPECT_EQ(MAX_COST, maze->neighbour(0, -1));
 }
 
 TEST_F(MazeTest, RecalculateGoalOneEntrance_SetToCellOppositeEntrance) {

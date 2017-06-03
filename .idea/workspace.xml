@@ -24,19 +24,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="340da844-fb5b-4101-a8f9-54f0cc06849b" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maze/maze.cpp" afterPath="$PROJECT_DIR$/maze/maze.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maze/maze.h" afterPath="$PROJECT_DIR$/maze/maze.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maze/mazeconstants.h" afterPath="$PROJECT_DIR$/maze/mazeconstants.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maze/mazeflooder.cpp" afterPath="$PROJECT_DIR$/maze/mazeflooder.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maze/mazepathfinder.cpp" afterPath="$PROJECT_DIR$/maze/mazepathfinder.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maze/mazeprinter.cpp" afterPath="$PROJECT_DIR$/maze/mazeprinter.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maze/mazereader.cpp" afterPath="$PROJECT_DIR$/maze/mazereader.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maze/mazereader.h" afterPath="$PROJECT_DIR$/maze/mazereader.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maze/mazesearcher.cpp" afterPath="$PROJECT_DIR$/maze/mazesearcher.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maze/oldmaze.cpp" afterPath="$PROJECT_DIR$/maze/oldmaze.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maze/oldmaze.h" afterPath="$PROJECT_DIR$/maze/oldmaze.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maze/priorityqueue.h" afterPath="$PROJECT_DIR$/maze/priorityqueue.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_suite/testPriorityQueue.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testPriorityQueue.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_suite/testMaze.cpp" afterPath="$PROJECT_DIR$/tests/test_suite/testMaze.cpp" />
     </list>
     <ignored path="micromouse-maze.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -72,9 +64,21 @@
       <file leaf-file-name="mazeconstants.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/maze/mazeconstants.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="594">
-              <caret line="27" column="35" selection-start-line="27" selection-start-column="35" selection-end-line="27" selection-end-column="35" />
+            <state relative-caret-position="330">
+              <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="testMaze.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/test_suite/testMaze.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="24" column="60" selection-start-line="24" selection-start-column="60" selection-end-line="24" selection-end-column="60" />
+              <folding>
+                <element signature="e#0#24#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -94,11 +98,31 @@
       <file leaf-file-name="maze.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/maze/maze.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="391" column="33" selection-start-line="391" selection-start-column="14" selection-end-line="391" selection-end-column="33" />
+            <state relative-caret-position="154">
+              <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
               <folding>
                 <element signature="e#51#77#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mazedata.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/maze/mazedata.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="264">
+              <caret line="12" column="12" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="12" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mazedata.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/maze/mazedata.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="242">
+              <caret line="20" column="18" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -116,43 +140,10 @@
       <file leaf-file-name="maze.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/maze/maze.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="27" column="22" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="22" />
+            <state relative-caret-position="528">
+              <caret line="24" column="18" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
               <folding>
                 <element signature="e#96#122#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="testFlood.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test_suite/testFlood.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="48" column="22" selection-start-line="48" selection-start-column="22" selection-end-line="48" selection-end-column="22" />
-              <folding>
-                <element signature="e#0#24#0" expanded="true" />
-                <marker date="1496311428000" expanded="true" signature="181:534" ph="{...}" />
-                <marker date="1496311428000" expanded="true" signature="232:292" ph="{...}" />
-                <marker date="1496311428000" expanded="true" signature="584:741" ph="{...}" />
-                <marker date="1496311428000" expanded="true" signature="797:897" ph="{...}" />
-                <marker date="1496311428000" expanded="true" signature="955:1069" ph="{...}" />
-                <marker date="1496311428000" expanded="true" signature="1120:1238" ph="{...}" />
-                <marker date="1496311428000" expanded="true" signature="1296:1487" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Queue.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/maze/Queue.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="546">
-              <caret line="92" column="24" selection-start-line="92" selection-start-column="24" selection-end-line="92" selection-end-column="24" />
-              <folding>
-                <element signature="e#962#976#0" expanded="true" />
-                <element signature="e#1242#1256#0" expanded="true" />
-                <marker date="1496353097000" expanded="true" signature="880:902" ph="&lt;item_t&gt;" />
               </folding>
             </state>
           </provider>
@@ -201,7 +192,6 @@
         <option value="$PROJECT_DIR$/tests/test_suite/testPriorityList.cpp" />
         <option value="$PROJECT_DIR$/maze/D5Maze.h" />
         <option value="$PROJECT_DIR$/maze/D5Maze.cpp" />
-        <option value="$PROJECT_DIR$/maze/mazedata.h" />
         <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/maze/mazereader.h" />
         <option value="$PROJECT_DIR$/maze/mazedata.cpp" />
@@ -215,7 +205,6 @@
         <option value="$PROJECT_DIR$/maze/oldmaze.cpp" />
         <option value="$PROJECT_DIR$/maze/oldmaze.h" />
         <option value="$PROJECT_DIR$/tests/test_suite/testDirection.cpp" />
-        <option value="$PROJECT_DIR$/tests/test_suite/testMaze.cpp" />
         <option value="$PROJECT_DIR$/maze/mazeflooder.cpp" />
         <option value="$PROJECT_DIR$/maze/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/tests/test_suite/CMakeLists.txt" />
@@ -234,6 +223,8 @@
         <option value="$PROJECT_DIR$/tests/test_suite/testPriorityQueue.cpp" />
         <option value="$PROJECT_DIR$/maze/priorityqueue.h" />
         <option value="$PROJECT_DIR$/maze/mazeconstants.h" />
+        <option value="$PROJECT_DIR$/maze/mazedata.h" />
+        <option value="$PROJECT_DIR$/tests/test_suite/testMaze.cpp" />
         <option value="$PROJECT_DIR$/maze/maze.h" />
         <option value="$PROJECT_DIR$/maze/maze.cpp" />
       </list>
@@ -578,29 +569,11 @@
       <workItem from="1476571615288" duration="16000" />
       <workItem from="1495751859707" duration="26495000" />
       <workItem from="1495982333714" duration="59925000" />
-      <workItem from="1496280361267" duration="28914000" />
+      <workItem from="1496280361267" duration="30982000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="GoogleTests - 2017.06.02 at 22h 48m 21s.xml">
-      <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
-    </history-entry>
-    <history-entry file="GoogleTests - 2017.06.02 at 23h 13m 56s.xml">
-      <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
-    </history-entry>
-    <history-entry file="GoogleTests - 2017.06.02 at 23h 14m 28s.xml">
-      <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
-    </history-entry>
-    <history-entry file="GoogleTests - 2017.06.02 at 23h 16m 14s.xml">
-      <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
-    </history-entry>
-    <history-entry file="GoogleTests - 2017.06.03 at 00h 12m 16s.xml">
-      <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
-    </history-entry>
-    <history-entry file="GoogleTests - 2017.06.03 at 00h 22m 10s.xml">
-      <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
-    </history-entry>
     <history-entry file="GoogleTests - 2017.06.03 at 00h 22m 20s.xml">
       <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
@@ -613,9 +586,27 @@
     <history-entry file="GoogleTests - 2017.06.03 at 01h 33m 53s.xml">
       <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
+    <history-entry file="GoogleTests - 2017.06.03 at 11h 39m 16s.xml">
+      <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="GoogleTests - 2017.06.03 at 11h 52m 03s.xml">
+      <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="GoogleTests - 2017.06.03 at 11h 56m 07s.xml">
+      <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="GoogleTests - 2017.06.03 at 11h 57m 22s.xml">
+      <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="GoogleTests - 2017.06.03 at 12h 01m 45s.xml">
+      <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="GoogleTests - 2017.06.03 at 12h 02m 03s.xml">
+      <configuration name="GoogleTests" configurationId="CMakeGoogleTestRunConfigurationType" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="115946000" />
+    <option name="totallyTimeSpent" value="118014000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1280" y="23" width="1280" height="1360" extended-state="0" />
@@ -761,25 +752,11 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_suite/testWalls.cpp" />
-    <entry file="file://$PROJECT_DIR$/maze/mazedata.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="20" column="18" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/lib/gtest-1.7.0/include/gtest/gtest.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="325">
           <caret line="1979" column="0" selection-start-line="1979" selection-start-column="0" selection-end-line="1979" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maze/mazedata.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="12" column="32" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="32" />
         </state>
       </provider>
     </entry>
@@ -812,16 +789,6 @@
         <state relative-caret-position="308">
           <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_suite/testMaze.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="681">
-          <caret line="112" column="37" selection-start-line="112" selection-start-column="37" selection-end-line="112" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#24#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -920,13 +887,13 @@
           <caret line="48" column="22" selection-start-line="48" selection-start-column="22" selection-end-line="48" selection-end-column="22" />
           <folding>
             <element signature="e#0#24#0" expanded="true" />
-            <marker date="1496311428000" expanded="true" signature="181:534" ph="{...}" />
-            <marker date="1496311428000" expanded="true" signature="232:292" ph="{...}" />
-            <marker date="1496311428000" expanded="true" signature="584:741" ph="{...}" />
-            <marker date="1496311428000" expanded="true" signature="797:897" ph="{...}" />
-            <marker date="1496311428000" expanded="true" signature="955:1069" ph="{...}" />
-            <marker date="1496311428000" expanded="true" signature="1120:1238" ph="{...}" />
-            <marker date="1496311428000" expanded="true" signature="1296:1487" ph="{...}" />
+            <marker date="1496487542000" expanded="true" signature="181:534" ph="{...}" />
+            <marker date="1496487542000" expanded="true" signature="232:292" ph="{...}" />
+            <marker date="1496487542000" expanded="true" signature="584:741" ph="{...}" />
+            <marker date="1496487542000" expanded="true" signature="797:897" ph="{...}" />
+            <marker date="1496487542000" expanded="true" signature="955:1069" ph="{...}" />
+            <marker date="1496487542000" expanded="true" signature="1120:1238" ph="{...}" />
+            <marker date="1496487542000" expanded="true" signature="1296:1487" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -960,8 +927,8 @@
         <state relative-caret-position="546">
           <caret line="92" column="24" selection-start-line="92" selection-start-column="24" selection-end-line="92" selection-end-column="24" />
           <folding>
-            <element signature="e#962#976#0" expanded="true" />
-            <element signature="e#1242#1256#0" expanded="true" />
+            <element signature="e#962#976#0" expanded="false" />
+            <element signature="e#1242#1256#0" expanded="false" />
             <marker date="1496353097000" expanded="true" signature="880:902" ph="&lt;item_t&gt;" />
           </folding>
         </state>
@@ -1016,16 +983,42 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/maze/mazeconstants.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="27" column="35" selection-start-line="27" selection-start-column="35" selection-end-line="27" selection-end-column="35" />
+        <state relative-caret-position="330">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_suite/testMaze.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="24" column="60" selection-start-line="24" selection-start-column="60" selection-end-line="24" selection-end-column="60" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maze/mazedata.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="12" column="12" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maze/mazedata.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="20" column="18" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/maze/maze.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="27" column="22" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="22" />
+        <state relative-caret-position="528">
+          <caret line="24" column="18" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
           <folding>
             <element signature="e#96#122#0" expanded="true" />
           </folding>
@@ -1034,8 +1027,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/maze/maze.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="391" column="33" selection-start-line="391" selection-start-column="14" selection-end-line="391" selection-end-column="33" />
+        <state relative-caret-position="154">
+          <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
           <folding>
             <element signature="e#51#77#0" expanded="true" />
           </folding>

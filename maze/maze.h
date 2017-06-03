@@ -20,9 +20,11 @@ public:
   explicit Maze(uint16_t width);
 
   uint16_t width(); ///
-  uint16_t numCells(); ///
+  uint16_t numCells(); //
 
+  void clearWallData();
   void resetToEmptyMaze(void); ///
+  void copyMaze(const uint8_t * wallData, uint16_t cellCount);
 
   // static functions about headings
   static uint8_t ahead(uint8_t direction); ///

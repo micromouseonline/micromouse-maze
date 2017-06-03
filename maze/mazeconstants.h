@@ -13,7 +13,6 @@
 
 const uint8_t DEFAULT_GOAL = 0x77;
 const uint16_t MAX_COST = UINT16_MAX;
-const uint16_t UNREACHABLE = UINT16_MAX;
 const uint8_t BAD_DIRECTION = UINT8_MAX;
 
 
