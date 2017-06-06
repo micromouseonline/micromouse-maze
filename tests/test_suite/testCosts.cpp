@@ -101,10 +101,40 @@ TEST_F (CostTest, SmallestNeighbourDirection) {
   maze->setWall(0x22,EAST);
 
   // no accessible neighbours now
-  EXPECT_EQ(NORTH, maze->directionToSmallest(0x22));
-  EXPECT_EQ(NORTH, maze->directionToSmallest(0x22, NORTH));
-  EXPECT_EQ(EAST, maze->directionToSmallest(0x22, EAST));
-  EXPECT_EQ(SOUTH, maze->directionToSmallest(0x22, SOUTH));
-  EXPECT_EQ(WEST, maze->directionToSmallest(0x22, WEST));
+  EXPECT_EQ(INVALID_DIRECTION, maze->directionToSmallest(0x22));
+  EXPECT_EQ(INVALID_DIRECTION, maze->directionToSmallest(0x22, NORTH));
+  EXPECT_EQ(INVALID_DIRECTION, maze->directionToSmallest(0x22, EAST));
+  EXPECT_EQ(INVALID_DIRECTION, maze->directionToSmallest(0x22, SOUTH));
+  EXPECT_EQ(INVALID_DIRECTION, maze->directionToSmallest(0x22, WEST));
 
+}
+
+TEST_F (CostTest, UpdateDirections) {
+  maze->resetToEmptyMaze();
+  for (int cell = 0; cell < maze->numCells(); ++cell) {
+    maze->setCost(cell,cell);
+  }
+
+  maze->updateDirections();
+  EXPECT_EQ(WEST, maze->direction(0x22));
+
+  maze->setWall(0x22,WEST);
+  EXPECT_EQ(WEST, maze->direction(0x22));
+  maze->updateDirections();
+  EXPECT_EQ(SOUTH, maze->direction(0x22));
+
+  maze->setWall(0x22,SOUTH);
+  EXPECT_EQ(SOUTH, maze->direction(0x22));
+  maze->updateDirections();
+  EXPECT_EQ(NORTH, maze->direction(0x22));
+
+  maze->setWall(0x22,NORTH);
+  EXPECT_EQ(NORTH, maze->direction(0x22));
+  maze->updateDirections();
+  EXPECT_EQ(EAST, maze->direction(0x22));
+
+  maze->setWall(0x22,EAST);
+  EXPECT_EQ(EAST, maze->direction(0x22));
+  maze->updateDirections();
+  EXPECT_EQ(INVALID_DIRECTION, maze->direction(0x22));
 }

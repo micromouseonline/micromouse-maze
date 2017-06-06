@@ -193,18 +193,6 @@ TEST_F(MazeTest, HasExit) {
   EXPECT_FALSE(maze->hasExit(0xF0, SOUTH));
 }
 
-TEST_F(MazeTest, IsKnownWall_distinguishKnownFromUnknown) {
-  maze->resetToEmptyMaze();
-  EXPECT_FALSE(maze->isKnownWall(0x22, WEST));
-  maze->setWall(0x22, WEST);
-  EXPECT_TRUE(maze->isKnownWall(0x22, WEST));
-  maze->clearWall(0x22, WEST);
-  EXPECT_TRUE(maze->isKnownWall(0x22, WEST));
-  EXPECT_TRUE(maze->isKnownWall(0x00, WEST));
-  EXPECT_TRUE(maze->isKnownWall(0x00, NORTH));
-  EXPECT_TRUE(maze->isKnownWall(maze->cellNorth(0x00), SOUTH));
-}
-
 TEST_F (MazeTest, CopyCellFromFileData_GetExactCopy) {
   const uint8_t *src = japan2007;
   maze->resetToEmptyMaze();

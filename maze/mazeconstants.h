@@ -24,6 +24,7 @@ typedef uint8_t direction_t;
 #define EAST          (uint8_t)0x01
 #define SOUTH         (uint8_t)0x02
 #define WEST          (uint8_t)0x03
+#define INVALID_DIRECTION (uint8_t)255
 
 
 enum {

@@ -6,7 +6,6 @@
 #define MAZE_D5MAZE_H
 
 #include "mazeconstants.h"
-#include "priorityqueue.h"
 #include <stdint.h>
 
 
@@ -23,15 +22,21 @@ public:
   uint16_t numCells(); //
 
   void clearWallData();
+
   void resetToEmptyMaze(void); ///
-  void copyMaze(const uint8_t * wallData, uint16_t cellCount);
+  void copyMaze(const uint8_t *wallData, uint16_t cellCount);
+
+
+  uint16_t col(uint16_t cell);
+  uint16_t row(uint16_t cell);
 
   // static functions about headings
-  static uint8_t ahead(uint8_t direction); ///
+  static uint8_t ahead(uint8_t direction);
   static uint8_t rightOf(uint8_t direction); ///
   static uint8_t leftOf(uint8_t direction); ///
   static uint8_t behind(uint8_t direction); ///
-  uint8_t opposite(uint8_t direction); ///
+  static uint8_t opposite(uint8_t direction); ///
+  static uint8_t differenceBetween(uint8_t oldDirection, uint8_t newDirection);
 
 
   // static functions about neighbours
@@ -50,7 +55,6 @@ public:
 // return the state of the walls at a given cell.
 // in the form used by the maze file format
   uint8_t walls(uint16_t cell); ///
-  bool isKnownWall(uint16_t cell, uint8_t direction); ///
   bool hasExit(uint16_t cell, uint8_t direction); ///
   bool hasWall(uint16_t cell, uint8_t direction); ///
 
@@ -108,7 +112,7 @@ public:
   bool isSolved(void); ///
 
   uint8_t directionToSmallest(uint16_t cell, uint8_t direction = NORTH);//
-void updateDirections();
+  void updateDirections();
 
 
 protected:
@@ -116,12 +120,11 @@ protected:
   uint8_t mWalls[1024];
   uint8_t mDirection[1024];
   uint16_t mCost[1024];
-  PriorityQueue<FloodInfo> openList;
   uint16_t mGoal;
   uint16_t mPathCostOpen;
   uint16_t mPathCostClosed;
-  uint16_t mCostDifference;
   bool mIsSolved;
+
 };
 
 #endif //MAZE_D5MAZE_H

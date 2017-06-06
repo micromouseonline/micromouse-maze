@@ -3,13 +3,8 @@
 //
 
 #include "mazeconstants.h"
-#include "mazedata.h"
-
 #include "maze.h"
 #include "priorityqueue.h"
-
-
-#include <stdio.h>
 
 
 
@@ -87,6 +82,16 @@ void Maze::copyMaze(const uint8_t *wallData, uint16_t cellCount) {
 }
 
 
+uint16_t Maze::col(uint16_t cell) {
+  return cell / mWidth;
+}
+
+uint16_t Maze::row(uint16_t cell) {
+  return cell % mWidth;
+}
+
+
+
 uint8_t Maze::ahead(uint8_t direction) {
   return direction;
 }
@@ -103,6 +108,13 @@ uint8_t Maze::behind(uint8_t direction) {
   return (uint8_t) ((direction + 2) % 4);
 }
 
+uint8_t Maze::opposite(uint8_t direction) {
+  return behind(direction);
+}
+
+uint8_t Maze::differenceBetween(uint8_t oldDirection, uint8_t newDirection) {
+  return (newDirection - oldDirection) % 4;
+}
 
 uint16_t Maze::cellNorth(uint16_t cell) {
   uint16_t nextCell = (cell + uint16_t(1)) % numCells();
@@ -161,13 +173,15 @@ void Maze::setGoal(uint16_t goal) {
 
 uint8_t Maze::walls(uint16_t cell) {
   uint8_t wallData = mWalls[cell];
-  return (uint8_t) ((wallData & 1) + ((wallData >> 1) & 2) + ((wallData >> 2) & 4) + ((wallData >> 3) & 8));;
+  uint8_t result = 0;
+  result |= (wallData >> 0) & 1;
+  result |= (wallData >> 1) & 2;
+  result |= (wallData >> 2) & 4;
+  result |= (wallData >> 3) & 8;;
+  return result;
 }
 
 
-bool Maze::isKnownWall(uint16_t cell, uint8_t direction) {
-  return (mWalls[cell] & (WALL_KNOWN << (2 * direction))) != 0;
-}
 
 bool Maze::hasExit(uint16_t cell, uint8_t direction) {
   return (walls(cell) & (1 << direction)) == 0;
@@ -418,22 +432,26 @@ uint8_t Maze::directionToSmallest(uint16_t cell, uint8_t direction) {
   uint8_t newDirection;
   uint16_t neighbourCost;
   uint16_t smallestCost;
-  newDirection = direction;
-  // assume it is ahead
-  smallestCost = cost(cell, direction);
-  neighbourCost = cost(cell, rightOf(direction));
+  newDirection = INVALID_DIRECTION;
+  smallestCost = MAX_COST;
+  neighbourCost = cost(cell, NORTH);
   if (neighbourCost < smallestCost) {
     smallestCost = neighbourCost;
-    newDirection = rightOf(direction);
+    newDirection = NORTH;
   }
-  neighbourCost = cost(cell, leftOf(direction));
+  neighbourCost = cost(cell, EAST);
   if (neighbourCost < smallestCost) {
     smallestCost = neighbourCost;
-    newDirection = leftOf(direction);
+    newDirection = EAST;
   }
-  neighbourCost = cost(cell, behind(direction));
+  neighbourCost = cost(cell, SOUTH);
   if (neighbourCost < smallestCost) {
-    newDirection = behind(direction);
+    smallestCost = neighbourCost;
+    newDirection = SOUTH;
+  }
+  neighbourCost = cost(cell, WEST);
+  if (neighbourCost < smallestCost) {
+    newDirection = WEST;
   }
   return newDirection;
 }
@@ -518,10 +536,9 @@ void Maze::recalculateGoal() {
   setGoal(newGoal);
 }
 
-
 int16_t Maze::costDifference(void) {
-  return mCostDifference;
-}
+    return int(mPathCostOpen) - int(mPathCostClosed);
+  }
 
 
 uint16_t Maze::openMazeCost() const {
@@ -621,8 +638,4 @@ uint16_t Maze::runLengthFlood(uint16_t goal) {
 
 bool Maze::isSolved(void) {
   return mIsSolved;
-}
-
-uint8_t Maze::opposite(uint8_t direction) {
-  return behind(direction);
 }
