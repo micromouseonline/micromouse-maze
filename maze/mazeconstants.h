@@ -27,6 +27,18 @@ typedef uint8_t direction_t;
 #define SOUTH         (uint8_t)0x02
 #define WEST          (uint8_t)0x03
 
+
+enum {
+  DIR_N = 0,
+  DIR_NE = 1,
+  DIR_E = 2,
+  DIR_SE = 3,
+  DIR_S = 4,
+  DIR_SW = 5,
+  DIR_W = 6,
+  DIR_NW = 7,
+};
+
 #define WALL_PRESENT    1
 #define WALL_KNOWN      2
 

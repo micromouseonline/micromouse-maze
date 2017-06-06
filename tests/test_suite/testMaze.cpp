@@ -20,13 +20,38 @@ protected:
 
 };
 
+
 TEST_F(MazeTest, CopyMaze) {
   maze->copyMaze(emptyMaze, 256);
   for (uint16_t cell = 0; cell < maze->numCells(); cell++) {
     EXPECT_EQ(emptyMaze[cell], maze->walls(cell));
+    EXPECT_TRUE(maze->isVisited(cell));
   }
 }
 
+TEST_F(MazeTest, SetClearUnknowns_NoChangeInExploredMaze) {
+  maze->copyMaze(emptyMaze, 256);
+  Maze setMaze(16);
+  Maze clearMaze(16);
+  setMaze.copyMaze(emptyMaze,256);
+  setMaze.setUnknowns();
+  clearMaze.copyMaze(emptyMaze,256);
+  clearMaze.clearUnknowns();
+  for (uint16_t cell = 0; cell < maze->numCells(); cell++) {
+    EXPECT_EQ(setMaze.walls(cell), clearMaze.walls(cell));
+  }
+}
+
+TEST_F(MazeTest, SetClearUnknowns_AllDifferentInUnExploredMaze) {
+  Maze setMaze(16);
+  Maze clearMaze(16);
+  setMaze.setUnknowns();
+  clearMaze.clearUnknowns();
+  EXPECT_EQ(setMaze.walls(0), clearMaze.walls(0));
+  for (uint16_t cell = 1; cell < maze->numCells(); cell++) {
+    EXPECT_NE(setMaze.walls(cell), clearMaze.walls(cell));
+  }
+}
 
 TEST_F(MazeTest, SetAndGetGoal) {
   EXPECT_EQ(DEFAULT_GOAL, maze->goal());

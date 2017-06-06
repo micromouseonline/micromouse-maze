@@ -31,6 +31,7 @@ public:
   static uint8_t rightOf(uint8_t direction); ///
   static uint8_t leftOf(uint8_t direction); ///
   static uint8_t behind(uint8_t direction); ///
+  uint8_t opposite(uint8_t direction); ///
 
 
   // static functions about neighbours

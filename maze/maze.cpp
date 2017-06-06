@@ -12,15 +12,27 @@
 #include <stdio.h>
 
 
+
 /*
  * The runlength flood calculates costs based on the length of straights
  */
-const uint16_t costTable[] =
-    //                      {100, 22, 16, 12, 10, 9, 8, 7,
-    //                         6, 6, 5, 5, 5, 5, 4, 4,
-    //                         4, 4, 4, 4, 3, 3, 3, 3
-    //                        };
-    { 100, 13, 11, 9, 8, 7, 6, 6, 5, 5, 5, 5, 5, 4, 4, 4, 4 };
+const uint16_t orthoCostTable[] =
+    // low speed costs ( vturn = 1.5m/s/s, acc = 13000 mm/s/s)
+    {0, 98, 75, 63, 55, 50, 46, 43, 40, 38, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36,};
+
+const uint16_t diagCostTable[] =
+    // low speed costs ( vturn = 1.5m/s/s, acc = 13000 mm/s/s)
+    {0, 73, 58, 50, 44, 40, 37, 35, 33, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31};
+
+// high speed costs (vturn = 2000 mm/s, acc = 16667 mm/s/s)
+//{0,56,47,41,37,34,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31};
+
+uint16_t turnCostTable[] = {
+    75,  // 45 degree
+    149,  // 90 degree
+    225,  // 135 degree
+    318,  // 180 degree
+};
 
 
 Maze::Maze(uint16_t width) {
@@ -439,7 +451,7 @@ bool Maze::testForSolution(void) { // takes less than 3ms
   mPathCostClosed = flood(goal());
   clearUnknowns();
   mPathCostOpen = flood(goal());
-  mIsSolved = mPathCostClosed <= mPathCostOpen;
+  mIsSolved = mPathCostClosed == mPathCostOpen;
   return mIsSolved;
 };
 
@@ -524,27 +536,8 @@ uint16_t Maze::flood(uint16_t goal) {
   return runLengthFlood(goal);
 }
 
-/*
-      when each cell is added to the queue, we should store the direction
-      to the cell we came from.
-      when flooding using directions, I need to take into account my currnt
-      heading so that I don't have to stop to turn around unless absolutely necessary.
-      On the other hand, suppose the route found that way is much longer?
-      This should not matter when exploring and should not happen when fast running?
-      Ideally, the solver will produce a vector field telling me which way to LEAVE
-      each cell to get to my goal.
-      Generally, flooding out from the goal allows me to walk downhill but the
-      starting direction is arbitrary.
-      Flooding out from the start should let me get started sooner but my
-      algorithm will have to be able to backtrack to makesure I have the best route.
-      This starts to make it look more like an A* algorithm.
-      Perhaps this is fine if I only need to go back one step. The queue based flooder
-      here can store a direction in each cell that tells me how to find its predecessor
-      then I can update the predecesor with a different cost and direction if necessary.
-      Looks like it would be best if the flags, direction and distance for each cell
-      was stored in a structure for neatness.
- */
 
+static uint8_t getExitDirection[] = {255, 3, 4, 5, 7, 255, 5, 6, 0, 1, 255, 7, 1, 2, 3, 255};
 /*
  *  TODO: Initialising the queue needs to be more clever.
  * For each exit from the goal cell, seed the queue with the corresponding neighbour
@@ -552,134 +545,84 @@ uint16_t Maze::flood(uint16_t goal) {
  * classic contest will also have a number of possible exits
  * */
 uint16_t Maze::runLengthFlood(uint16_t goal) {
-  openList.clear();
+  PriorityQueue<FloodInfo> queue ;
   // set every cell as unexamined
   for (uint16_t i = 0; i < numCells(); i++) {
     mCost[i] = MAX_COST;
   }
   // except the goal
   mCost[goal] = 0;
-  mDirection[goal] = NORTH;
-  //TODO: Guard against a closed-in goal
+  // Add all the neighbours of teh goal to the queue
+  uint16_t cost = orthoCostTable[1];
   if (hasExit(goal, NORTH)) {
     uint16_t nextCell = cellNorth(goal);
-    openList.add(FloodInfo(0, nextCell, 0, 'F'));
-    mDirection[nextCell] = NORTH;
-    mCost[nextCell] = costTable[1];
-    mDirection[goal] = NORTH;
+    queue.add(FloodInfo(cost, nextCell, 1, DIR_N, SOUTH));
+    mCost[nextCell] = cost;
   }
   if (hasExit(goal, EAST)) {
     uint16_t nextCell = cellEast(goal);
-    openList.add(FloodInfo(0, nextCell, 0, 'F'));
-    mDirection[nextCell] = EAST;
-    mCost[nextCell] = costTable[1];
-    mDirection[goal] = EAST;
-  }
-  if (hasExit(goal, WEST)) {
-    uint16_t nextCell = cellWest(goal);
-    openList.add(FloodInfo(0, nextCell, 0, 'F'));
-    mDirection[nextCell] = WEST;
-    mCost[nextCell] = costTable[1];
-    mDirection[goal] = WEST;
+    queue.add(FloodInfo(cost, nextCell, 1,  DIR_E, WEST));
+    mCost[nextCell] = cost;
   }
   if (hasExit(goal, SOUTH)) {
     uint16_t nextCell = cellSouth(goal);
-    openList.add(FloodInfo(0, nextCell, 0, 'F'));
-    mDirection[nextCell] = SOUTH;
-    mCost[nextCell] = costTable[1];
-    mDirection[goal] = SOUTH;
+    queue.add(FloodInfo(cost, nextCell, 1,  DIR_S, NORTH));
+    mCost[nextCell] = cost;
   }
+  if (hasExit(goal, WEST)) {
+    uint16_t nextCell = cellWest(goal);
+    queue.add(FloodInfo(cost, nextCell, 1,  DIR_W, EAST));
+    mCost[nextCell] = cost;
+  }
+  //
   // each (accessible) cell will be processed only once
-  uint16_t nextCost = 0;
-  while ((openList.size() > 0)) {
-    FloodInfo info = openList.fetch();
+  while ((queue.size() > 0)) {
+    FloodInfo info = queue.fetch();
     uint16_t here = info.cell;
-    uint8_t headingHere = mDirection[here];
-    uint8_t nextHeading = headingHere;
-    uint8_t runLength = info.runLength;
-
-    char lastTurn = info.lastTurn;
-    uint16_t nextCell = neighbour(here, nextHeading);
-
-    // moving forwards
-    if (hasExit(here, nextHeading)) {
-      switch (lastTurn) {
-        case 'R': // left turn into possible diagonal
-        case 'L': // right turn into possible diagonal
-          runLength += 1;
-          nextCost = mCost[here] + (costTable[runLength] * 3) / 2;
-          break;
-        case 'F':
-        default: // on a straight
-          runLength += 1;
-          nextCost = mCost[here] + costTable[runLength];
-          break;
+    uint8_t entryDir = info.entryDir;
+    uint8_t entryWall = info.entryWall;
+    /*
+     * test each wall for an exit. Skip any blocked, or already used exits
+     */
+    for (uint8_t exitWall = 0; exitWall < 4; exitWall++) {
+      if (exitWall == entryWall) {
+        continue;
       }
-      if (mCost[nextCell] == MAX_COST) {
-        openList.add(FloodInfo(nextCost, nextCell, runLength, 'F'));
-        mDirection[nextCell] = nextHeading;
-        mCost[nextCell] = nextCost;
+      if (hasWall(here, exitWall)) {
+        continue;
       }
-    };
-
-    //---------------try left
-    nextHeading = leftOf(headingHere);
-    nextCell = neighbour(here, nextHeading);
-    if (hasExit(here, nextHeading)) {
-      switch (lastTurn) {
-        case 'R': // on a diagonal
-          runLength += 1;
-          nextCost = mCost[here] + (costTable[runLength] * 7) / 10;
-          break;
-        case 'L': // 180 turn?
-          runLength = 1;
-          nextCost = mCost[here] + (costTable[runLength] * 3) / 2;
-          break;
-        case 'F':
-        default :  // left turn into possible diagonal
-          runLength = 1;
-          nextCost = mCost[here] + (costTable[runLength] * 3) / 4;
-          break;
-
+      uint16_t nextCell = neighbour(here, exitWall);
+      if (mCost[nextCell] < MAX_COST) {
+        continue;
       }
-      if (mCost[nextCell] == MAX_COST) {
-        openList.add(FloodInfo(nextCost, nextCell, runLength, 'L'));
-        mDirection[nextCell] = nextHeading;
-        mCost[nextCell] = nextCost;
+      uint8_t exitDir = getExitDirection[entryWall * 4 + exitWall];
+      uint8_t newRunLength = info.runLength;
+      uint16_t turnSize = abs(int(entryDir) - int(exitDir));
+      if (turnSize > 4) {
+        turnSize = 7 - turnSize;
       }
-    }
-    //---------------try right
-    nextHeading = rightOf(headingHere);
-    nextCell = neighbour(here, nextHeading);
-    if (hasExit(here, nextHeading)) {
-      switch (lastTurn) {
-        case 'R': // 180 turn?
-          runLength = 1;
-          nextCost = mCost[here] + (costTable[runLength] * 3) / 2;
-          break;
-        case 'L': // on a diagonal
-          runLength += 1;
-          nextCost = mCost[here] + (costTable[runLength] * 7) / 10;
-          break;
-        case 'F':
-        default :  // left turn into possible diagonal
-          runLength = 1;
-          nextCost = mCost[here] + (costTable[runLength] * 3) / 4;
-          break;
-
+      uint16_t turnCost = 0; ;
+      if (entryDir == exitDir) {
+        newRunLength ++;
+      } else {
+        newRunLength = 1;
+        turnCost = turnSize * 90 + 45;
       }
-      if (mCost[nextCell] == MAX_COST) {
-        openList.add(FloodInfo(nextCost, nextCell, runLength, 'R'));
-        mDirection[nextCell] = nextHeading;
-        mCost[nextCell] = nextCost;
-      }
+      uint16_t newCost = ((exitDir & 1) == 0) ? orthoCostTable[newRunLength] : diagCostTable[newRunLength];
+      newCost += turnCost + mCost[here];
+      mCost[nextCell] = newCost;
+      queue.add(FloodInfo(newCost, nextCell, newRunLength,  exitDir, opposite(exitWall)));
     }
   }
-  updateDirections();
   return mCost[0];
 }
 
 
+
 bool Maze::isSolved(void) {
   return mIsSolved;
+}
+
+uint8_t Maze::opposite(uint8_t direction) {
+  return behind(direction);
 }

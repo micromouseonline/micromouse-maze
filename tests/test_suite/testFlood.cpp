@@ -25,7 +25,6 @@ protected:
     }
   }
 
-
 };
 
 TEST_F (MazeFlood, FloodMaze_TargetCostIsZero) {
@@ -42,10 +41,10 @@ TEST_F (MazeFlood, FloodMaze_BlockedMaze_HomeCostMax) {
   EXPECT_EQ(MAX_COST, maze->cost(0));
 }
 
-TEST_F (MazeFlood, FloodOpenUnexploredMaze_HomeCost105) {
+TEST_F (MazeFlood, FloodOpenUnexploredMaze_HomeCostNotMax) {
   maze->clearUnknowns();
   maze->flood(maze->goal());
-  EXPECT_EQ(95, maze->cost(0));
+  EXPECT_NE(MAX_COST, maze->cost(0));
   PrintMaze(maze,COSTS);
 }
 
@@ -59,12 +58,12 @@ TEST_F (MazeFlood, FloodClosedMaze_HomeCostMax) {
 
 
 TEST_F (MazeFlood, FloodKnownMaze_OpenClosedCostsSame) {
-  copyMaze(japan2007);
+  maze->copyMaze(japan2007,256);
   maze->setUnknowns();
-  maze->flood(maze->goal());
+  uint16_t closedCost = maze->flood(maze->goal());
   maze->clearUnknowns();
-  maze->flood(maze->goal());
-  EXPECT_EQ(maze->closedMazeCost(), maze->openMazeCost());
+  uint16_t openCost = maze->flood(maze->goal());
+ EXPECT_EQ(closedCost,openCost);
 }
 
 
@@ -82,7 +81,7 @@ TEST_F (MazeFlood, ExploredMazeSolution) {
 
 TEST_F (MazeFlood, FloodPartialMaze_SolutionTestFails) {
   maze->resetToEmptyMaze();
-  copyMaze(japan2007);
+  maze->copyMaze(japan2007,256);
   maze->testForSolution();
 
   EXPECT_TRUE(maze->isSolved());
