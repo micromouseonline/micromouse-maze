@@ -8,8 +8,6 @@
 #include <stdint.h>
 
 
-#define NOINIT
-
 
 const uint8_t DEFAULT_GOAL = 0x77;
 const uint16_t MAX_COST = UINT16_MAX;
