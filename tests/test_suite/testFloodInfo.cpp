@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "floodinfo.h"
+#include "FloodInfo.h"
 
 TEST(FloodInfoTest, Instantiation) {
 
