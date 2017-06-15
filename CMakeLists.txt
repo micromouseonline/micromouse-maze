@@ -1,25 +1,45 @@
 cmake_minimum_required(VERSION 2.8)
-project(micromouse-maze)
-set(CMAKE_LEGACY_CYGWIN_WIN32 0)
 
+set(CMAKE_LEGACY_CYGWIN_WIN32 0)
+#set(CMAKE_CXX_FLAGS " -std=gnu++0x")
 #add_definitions(-std=gnu++0x)
 
-set(SOURCE_FILES
-        main.cpp
+
+project(maze)
+
+set(HEADER_FILES
+        list.h
+        maze.h
+        mazeconstants.h
+        oldmaze.h
+        mazedata.h
+        mazeflooder.h
+        mazepathfinder.h
+        mazeprinter.h
+        mazereader.h
+        mazesearcher.h
+        priorityqueue.h
+        mazeconstants.h
+        MazeFiler.h
+        Queue.h
+        floodinfo.h
         )
-add_executable(libmaze_run
+
+set (SOURCE_FILES
+        list.cpp
+        maze.cpp
+        oldmaze.cpp
+        mazedata.cpp
+        mazeflooder.cpp
+        mazepathfinder.cpp
+        mazeprinter.cpp
+        mazereader.cpp
+        mazesearcher.cpp
+        MazeFiler.cpp
+        )
+
+add_library(maze
+        STATIC
         ${SOURCE_FILES}
+        ${HEADER_FILES}
         )
-add_executable(libmaze_runX
-        ${SOURCE_FILES}
-        )
-
-# places to look for include files
-include_directories(maze)
-
-# adds in the CMakeLists files from these directories
-add_subdirectory(maze)
-add_subdirectory(tests)
-
-# list the libraries needed by the target named
-target_link_libraries(libmaze_run maze)
