@@ -7,7 +7,7 @@
 
 #ifndef MAZEREADER_H
 #define MAZEREADER_H
-
+#include "oldmaze.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
