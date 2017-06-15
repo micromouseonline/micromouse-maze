@@ -1,10 +1,7 @@
 #include "gtest/gtest.h"
-#include "oldmaze.h"
-#include "mazereader.h"
-#include "mazeflooder.h"
-
 #include "maze.h"
-#include "mazeprinter.h"
+#include "mazedata.h"
+
 
 class MazeFlood : public ::testing::Test {
 protected:
@@ -19,7 +16,7 @@ protected:
     delete maze;
   }
 
-  virtual void copyMaze(const uint8_t *mazeData) const {
+  virtual void copyClassicMaze(const uint8_t *mazeData) const {
     for (int cell = 0; cell < this->maze->numCells(); ++cell) {
       maze->copyCellFromFileData(cell, mazeData[cell]);
     }
@@ -45,7 +42,6 @@ TEST_F (MazeFlood, FloodOpenUnexploredMaze_HomeCostNotMax) {
   maze->clearUnknowns();
   maze->flood(maze->goal());
   EXPECT_NE(MAX_COST, maze->cost(0));
-  PrintMaze(maze,COSTS);
 }
 
 
@@ -58,7 +54,7 @@ TEST_F (MazeFlood, FloodClosedMaze_HomeCostMax) {
 
 
 TEST_F (MazeFlood, FloodKnownMaze_OpenClosedCostsSame) {
-  maze->copyMaze(japan2007,256);
+  copyClassicMaze(japan2007);
   maze->setUnknowns();
   uint16_t closedCost = maze->flood(maze->goal());
   maze->clearUnknowns();
@@ -70,7 +66,7 @@ TEST_F (MazeFlood, FloodKnownMaze_OpenClosedCostsSame) {
 
 TEST_F (MazeFlood, ExploredMazeSolution) {
   maze->resetToEmptyMaze();
-  copyMaze(japan2007);
+  copyClassicMaze(japan2007);
   maze->testForSolution();
   EXPECT_GE(maze->closedMazeCost(), maze->openMazeCost());
   EXPECT_EQ(0,maze->costDifference());
@@ -81,7 +77,7 @@ TEST_F (MazeFlood, ExploredMazeSolution) {
 
 TEST_F (MazeFlood, FloodPartialMaze_SolutionTestFails) {
   maze->resetToEmptyMaze();
-  maze->copyMaze(japan2007,256);
+  copyClassicMaze(japan2007);
   maze->testForSolution();
 
   EXPECT_TRUE(maze->isSolved());
