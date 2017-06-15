@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <stdint.h>
 
-#include "FloodInfo.h"
+#include "floodinfo.h"
 
 
 template<class item_t>

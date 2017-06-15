@@ -10,6 +10,7 @@ project(maze)
 set(HEADER_FILES
         list.h
         maze.h
+        mazeconstants.h
         oldmaze.h
         mazedata.h
         mazeflooder.h
@@ -20,7 +21,9 @@ set(HEADER_FILES
         priorityqueue.h
         mazeconstants.h
         MazeFiler.h
-        Queue.h)
+        Queue.h
+        floodinfo.h
+        )
 
 set (SOURCE_FILES
         list.cpp
@@ -39,4 +42,4 @@ add_library(maze
         STATIC
         ${SOURCE_FILES}
         ${HEADER_FILES}
-        FloodInfo.h)
+        )

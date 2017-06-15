@@ -88,7 +88,7 @@ TEST_F (CostTest, CostDirection_GivesUINT16_MAXIfWall) {
 TEST_F (CostTest, SmallestNeighbourDirection) {
   maze->resetToEmptyMaze();
   for (int cell = 0; cell < maze->numCells(); ++cell) {
-    maze->setCost(cell,cell);
+    maze->setCost(cell,(uint16_t)cell);
   }
 
   EXPECT_EQ(WEST, maze->directionToSmallest(0x22));
@@ -102,10 +102,7 @@ TEST_F (CostTest, SmallestNeighbourDirection) {
 
   // no accessible neighbours now
   EXPECT_EQ(INVALID_DIRECTION, maze->directionToSmallest(0x22));
-  EXPECT_EQ(INVALID_DIRECTION, maze->directionToSmallest(0x22, NORTH));
-  EXPECT_EQ(INVALID_DIRECTION, maze->directionToSmallest(0x22, EAST));
-  EXPECT_EQ(INVALID_DIRECTION, maze->directionToSmallest(0x22, SOUTH));
-  EXPECT_EQ(INVALID_DIRECTION, maze->directionToSmallest(0x22, WEST));
+
 
 }
 
