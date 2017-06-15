@@ -1,10 +1,17 @@
+/**
+ *  \file maze.h
+ *  \brief The Maze class stores wall and flooding data
+ * *
+ *  \version
+ *  \date 15 Apr 2017
+ *  \author peterharrison
+ *  \bug No known bugs.
+ */
+
 #ifndef _maze_h
 #define _maze_h
-/*
-        maze.h
-        common functions for manipulating the maze map
-        and for creating the flooded route
- */
+
+
 #include <stdint.h>
 #include <stdbool.h>
 #include "mazeconstants.h"

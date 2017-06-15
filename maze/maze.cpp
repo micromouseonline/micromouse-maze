@@ -1,8 +1,13 @@
-/*
-  maze.c
-  common functions for manipulating the maze map
-  and for creating the flooded route
+/**
+ *  \file maze.h
+ *  \brief The Maze class stores wall and flooding data
+ * *
+ *  \version
+ *  \date 15 Apr 2017
+ *  \author peterharrison
+ *  \bug No known bugs.
  */
+
 
 #include <floodinfo.h>
 #include <maze.h>
