@@ -158,16 +158,6 @@ class Maze {
   /// load the wall data, including visited flags from the target array. Not checked for overflow.
   void load(uint8_t *data);
 
-  /// descriptions of the different methds for printing the maze
-  enum PrintStyle {
-    PRINT_AS_CDECL,
-    PRINT_WITH_DIRS,
-    PRINT_WALLS_ONLY
-  };
-
-
-  /// DEPRECATED. use separate Maze Printer class
-  void print(PrintStyle style);
 
  protected:
   /// the width of the maze in cells. Assume mazes are always square

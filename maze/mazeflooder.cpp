@@ -6,8 +6,8 @@
  */
 #include "oldmaze.h"
 #include "list.h"
-#include "mazeflooder.h"
-
+//#include "mazeflooder.h"
+#if 0
 
 void FloodMazeClassic (location_t target)
 {
@@ -95,3 +95,4 @@ void AddAllNeighboursToList (location_t here)
 }
 
 
+#endif

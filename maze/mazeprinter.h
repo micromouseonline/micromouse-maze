@@ -7,19 +7,20 @@
 
 #ifndef MAZEPRINTER_H
 #define MAZEPRINTER_H
+
 #include "maze.h"
 
-
-typedef enum {
-  WALLS = 0,
-  COSTS = 1,
-  DIRS = 2
-} print_options_t;
-
-void PrintMaze (print_options_t option);
-void PrintMaze (Maze * maze,print_options_t option);
-
-
+class MazePrinter {
+ public:
+  static void printCDecl(Maze * maze, const char * name) ;
+  static void printPlain(Maze * maze) ;
+  static void printDirs(Maze * maze) ;
+ private:
+  MazePrinter() {}                             // Private constructor
+  ~MazePrinter() {}
+  MazePrinter(const MazePrinter&);             // Prevent copy-construction
+  MazePrinter& operator=(const MazePrinter&);  // Prevent assignment
+};
 
 #endif /* MAZEPRINTER_H */
 
