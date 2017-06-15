@@ -6,7 +6,6 @@
  */
 #include <assert.h>
 #include "oldmaze.h"
-#include "mazereader.h"
 #include "mazeflooder.h"
 #include "mazesearcher.h"
 
@@ -83,8 +82,8 @@ int MouseSearchToFullFlood (location_t target)
 
   int steps = 0;
   while (! (MousePosition().row == target.row && MousePosition().col == target.col)) {
-    walldata_t actualWalls = ReadWallSensors (MousePosition());
-    UpdateCellFromWallData (MousePosition(), actualWalls);
+//    walldata_t actualWalls = ReadWallSensors (MousePosition());
+//    UpdateCellFromWallData (MousePosition(), actualWalls);
     FloodMazeClassic (target);
     direction_t direction = Direction (MousePosition());
     if (direction == BAD_DIRECTION) {
@@ -104,8 +103,8 @@ int MouseSearchToModifiedFlood (location_t target)
   int steps = 0;
   FloodMazeClassic (target);	/* seed the costs before using modified flood */
   while (! (MousePosition().row == target.row && MousePosition().col == target.col)) {
-    walldata_t actualWalls = ReadWallSensors (MousePosition());
-    UpdateCellFromWallData (MousePosition(), actualWalls);
+//    walldata_t actualWalls = ReadWallSensors (MousePosition());
+//    UpdateCellFromWallData (MousePosition(), actualWalls);
     //ModifiedFlood (MousePosition());
     direction_t direction = Direction (MousePosition());
     MouseSetHeading (direction);
@@ -125,8 +124,8 @@ int MouseSearchToModifiedFloodAll (location_t target)
   int steps = 0;
   FloodMazeClassic (target);	/* seed the costs before using modified flood */
   while (! (MousePosition().row == target.row && MousePosition().col == target.col)) {
-    walldata_t actualWalls = ReadWallSensors (MousePosition());
-    UpdateCellFromWallData (MousePosition(), actualWalls);
+//    walldata_t actualWalls = ReadWallSensors (MousePosition());
+//    UpdateCellFromWallData (MousePosition(), actualWalls);
     //ModifiedFloodAll (MousePosition());
     direction_t direction = Direction (MousePosition());
     MouseSetHeading (direction);
