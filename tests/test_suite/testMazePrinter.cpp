@@ -27,13 +27,18 @@ class TestMazePrinter : public ::testing::Test {
   }
 };
 
+/*
+ * It is not clear how best to test the results of the maze printing
+ * except by visual inspection.
+ */
 TEST_F (TestMazePrinter, PrintForCoverageTesting)
 {
+  MazePrinter::printVisitedDirs(maze);
   copyClassicMaze(japan2007);
   maze->flood(maze->goal());
   maze->updateDirections();
-  MazePrinter::printCDecl(maze,"julian");
   MazePrinter::printDirs(maze);
   MazePrinter::printPlain(maze);
+  MazePrinter::printCDecl(maze,"julian");
 }
 

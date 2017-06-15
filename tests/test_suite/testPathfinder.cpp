@@ -1,10 +1,5 @@
 #include <iostream>
 #include "gtest/gtest.h"
-#include "oldmaze.h"
-#include "mazereader.h"
-#include "mazeflooder.h"
-#include "mazepathfinder.h"
-#include "mazeprinter.h"
 
 #include "maze.h"
 
