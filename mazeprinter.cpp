@@ -11,7 +11,7 @@
 //#include "mazesearcher.h"
 
 
-static char dirChars[] = "^>v< ";
+static char dirChars[] = "^>v<  ";
 
 void printNorthWalls(Maze *maze, int row) {
   for (int col = 0; col < maze->width(); col++) {
@@ -41,19 +41,42 @@ void printSouthWalls(Maze *maze, int row) {
 
 void MazePrinter::printDirs(Maze *maze)  {
   printf("\n");
-
   for (int row = maze->width() - 1; row >= 0; row--) {
     printNorthWalls(maze, row);
-    /* TODO:  this is all rather messy */
     for (int col = 0; col < maze->width(); col++) {
       uint16_t cell = row+maze->width()* col;
-      //Do the west walls
       if (maze->hasWall(cell,WEST)) {
         printf ("|");
       } else {
         printf (" ");
       }
-        printf (" %c ", dirChars[maze->direction(cell)]);
+      uint8_t direction  = maze->direction(cell);
+      if (direction > WEST){
+        direction = NONE;
+      }
+      printf (" %c ", dirChars[direction]);
+    }
+    printf ("|\n");
+  }
+  printSouthWalls(maze, 0);
+}
+
+void MazePrinter::printVisitedDirs(Maze *maze) {
+  printf("\n");
+  for (int row = maze->width() - 1; row >= 0; row--) {
+    printNorthWalls(maze, row);
+    for (int col = 0; col < maze->width(); col++) {
+      uint16_t cell = row+maze->width()* col;
+      if (maze->hasWall(cell,WEST)) {
+        printf ("|");
+      } else {
+        printf (" ");
+      }
+      uint8_t direction  = maze->direction(cell);
+      if (!maze->isVisited(cell)){
+        direction = UNSEEN;
+      }
+      printf (" %c ", dirChars[direction]);
     }
     printf ("|\n");
   }
@@ -93,3 +116,4 @@ void MazePrinter::printCDecl(Maze *maze, const char * name)  {
   printf("   };\n\n");
   return;
 }
+

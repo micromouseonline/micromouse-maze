@@ -15,6 +15,7 @@ class MazePrinter {
   static void printCDecl(Maze * maze, const char * name) ;
   static void printPlain(Maze * maze) ;
   static void printDirs(Maze * maze) ;
+  static void printVisitedDirs(Maze * maze) ;
  private:
   MazePrinter() {}                             // Private constructor
   ~MazePrinter() {}
