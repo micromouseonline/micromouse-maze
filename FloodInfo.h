@@ -1,8 +1,19 @@
+/**
+ *  \file floodinfo.h
+ *  \brief Stores the data needed by the flooding algorithm(s)
+ * *
+ *  \version
+ *  \date 15 Apr 2017
+ *  \author peterharrison
+ *  \bug No known bugs.
+ */
+
+
 #pragma once
 
 #include <stdint.h>
 
-class floodinfo {
+class FloodInfo {
 public:
   uint16_t cost;
   uint16_t cell;
@@ -10,7 +21,7 @@ public:
   uint8_t entryDir;
   uint8_t entryWall;
 
-  floodinfo() :
+  FloodInfo() :
       cost(0),
       cell(0),
       runLength(),
@@ -19,7 +30,7 @@ public:
     //
   }
 
-  floodinfo(uint16_t _cell) :
+  FloodInfo(uint16_t _cell) :
       cost(0),
       cell(_cell),
       runLength(),
@@ -27,13 +38,13 @@ public:
     //
   }
 
-  floodinfo(uint16_t _cost, uint16_t _cell, uint8_t _length) :
+  FloodInfo(uint16_t _cost, uint16_t _cell, uint8_t _length) :
       cost(_cost),
       cell(_cell),
       runLength(_length) {
     //
   }
-  floodinfo(uint16_t _cost, uint16_t _cell, uint8_t _length, uint8_t inDir) :
+  FloodInfo(uint16_t _cost, uint16_t _cell, uint8_t _length, uint8_t inDir) :
       cost(_cost),
       cell(_cell),
       runLength(_length),
@@ -41,7 +52,7 @@ public:
     //
   }
 
-  floodinfo(uint16_t _cost, uint16_t _cell, uint8_t _length,  uint8_t inDir, uint8_t inWall) :
+  FloodInfo(uint16_t _cost, uint16_t _cell, uint8_t _length,  uint8_t inDir, uint8_t inWall) :
       cost(_cost),
       cell(_cell),
       runLength(_length),
@@ -50,7 +61,7 @@ public:
     //
   }
 
-  inline bool operator==(floodinfo a) {
+  inline bool operator==(FloodInfo a) {
     if (a.runLength == runLength
         && a.cell == cell
         && a.cost == cost
@@ -61,23 +72,23 @@ public:
     }
   }
 
-  inline bool operator!=(floodinfo &rhs) {
+  inline bool operator!=(FloodInfo &rhs) {
     return !(*this == rhs);
   }
 
-  inline bool operator>(floodinfo a) {
+  inline bool operator>(FloodInfo a) {
     return cost > a.cost;
   }
 
-  inline bool operator<(floodinfo a) {
+  inline bool operator<(FloodInfo a) {
     return cost < a.cost;
   }
 
-  inline bool operator>=(floodinfo a) {
+  inline bool operator>=(FloodInfo a) {
     return cost >= a.cost;
   }
 
-  inline bool operator<=(floodinfo a) {
+  inline bool operator<=(FloodInfo a) {
     return cost <= a.cost;
   }
 
