@@ -1,27 +1,16 @@
-/*
- * File:   mazeflooder.h
- * Author: peterharrison
- *
- * Created on 13 February 2016, 21:48
+/**
+ *  \file mazeflooder
+ *  \brief floods a maze with costs ready for use by pathfinder
+ * *
+ *  \version
+ *  \date 15 Apr 2017
+ *  \author peterharrison
+ *  \bug No known bugs.
  */
 
-#ifndef MAZEFLOODER_H
-#define MAZEFLOODER_H
+#pragma once
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
+#include "maze.h"
 
 void FloodMazeClassic (location_t target);
-void ModifiedFlood (location_t here);
-void ModifiedFloodAll (location_t here);
-
-
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* MAZEFLOODER_H */
 

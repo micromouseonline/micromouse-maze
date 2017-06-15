@@ -575,7 +575,7 @@ static uint8_t getExitDirection[] = {255, 3, 4, 5, 7, 255, 5, 6, 0, 1, 255, 7, 1
  * classic contest will also have a number of possible exits
  * */
 uint16_t Maze::runLengthFlood(uint16_t goal) {
-  PriorityQueue<floodinfo> queue ;
+  PriorityQueue<FloodInfo> queue ;
   // set every cell as unexamined
   for (uint16_t i = 0; i < numCells(); i++) {
     mCost[i] = MAX_COST;
@@ -586,28 +586,28 @@ uint16_t Maze::runLengthFlood(uint16_t goal) {
   uint16_t cost = orthoCostTable[1];
   if (hasExit(goal, NORTH)) {
     uint16_t nextCell = cellNorth(goal);
-    queue.add(floodinfo(cost, nextCell, 1, DIR_N, SOUTH));
+    queue.add(FloodInfo(cost, nextCell, 1, DIR_N, SOUTH));
     mCost[nextCell] = cost;
   }
   if (hasExit(goal, EAST)) {
     uint16_t nextCell = cellEast(goal);
-    queue.add(floodinfo(cost, nextCell, 1,  DIR_E, WEST));
+    queue.add(FloodInfo(cost, nextCell, 1,  DIR_E, WEST));
     mCost[nextCell] = cost;
   }
   if (hasExit(goal, SOUTH)) {
     uint16_t nextCell = cellSouth(goal);
-    queue.add(floodinfo(cost, nextCell, 1,  DIR_S, NORTH));
+    queue.add(FloodInfo(cost, nextCell, 1,  DIR_S, NORTH));
     mCost[nextCell] = cost;
   }
   if (hasExit(goal, WEST)) {
     uint16_t nextCell = cellWest(goal);
-    queue.add(floodinfo(cost, nextCell, 1,  DIR_W, EAST));
+    queue.add(FloodInfo(cost, nextCell, 1,  DIR_W, EAST));
     mCost[nextCell] = cost;
   }
   //
   // each (accessible) cell will be processed only once
   while ((queue.size() > 0)) {
-    floodinfo info = queue.fetch();
+    FloodInfo info = queue.fetch();
     uint16_t here = info.cell;
     uint8_t entryDir = info.entryDir;
     uint8_t entryWall = info.entryWall;
@@ -641,7 +641,7 @@ uint16_t Maze::runLengthFlood(uint16_t goal) {
       uint16_t newCost = ((exitDir & 1) == 0) ? orthoCostTable[newRunLength] : diagCostTable[newRunLength];
       newCost += turnCost + mCost[here];
       mCost[nextCell] = newCost;
-      queue.add(floodinfo(newCost, nextCell, newRunLength,  exitDir, opposite(exitWall)));
+      queue.add(FloodInfo(newCost, nextCell, newRunLength,  exitDir, opposite(exitWall)));
     }
   }
   return mCost[0];
