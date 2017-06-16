@@ -6,7 +6,7 @@
  */
 #include <assert.h>
 #include "oldmaze.h"
-#include "mazeflooder.h"
+
 #include "mazesearcher.h"
 
 static location_t mousePosition;

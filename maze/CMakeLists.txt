@@ -13,7 +13,6 @@ set(HEADER_FILES
         mazeconstants.h
         oldmaze.h
         mazedata.h
-        mazeflooder.h
         mazepathfinder.h
         mazeprinter.h
         mazesearcher.h
@@ -28,7 +27,6 @@ set (SOURCE_FILES
         maze.cpp
         oldmaze.cpp
         mazedata.cpp
-        mazeflooder.cpp
         mazepathfinder.cpp
         mazeprinter.cpp
         mazesearcher.cpp
