@@ -179,7 +179,10 @@ class Maze {
   uint16_t mPathCostClosed;
   /// flag set when maze has been solved
   bool mIsSolved;
+  /// used to set up the queue before running the more complex floods
   void seedQueue(PriorityQueue<FloodInfo> &queue, uint16_t goal, uint16_t cost);
+  /// set all the cell costs to their maxumum value, except the target
+  void initialiseFloodCosts(uint16_t target);
 };
 
 extern Maze theMaze;
