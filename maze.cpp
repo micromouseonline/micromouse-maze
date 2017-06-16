@@ -535,15 +535,8 @@ static uint8_t getExitDirection[4][4] = {
  * */
 uint16_t Maze::runLengthFlood(uint16_t target) {
   PriorityQueue<FloodInfo> queue;
-  // set every cell as unexamined
-  for (uint16_t i = 0; i < numCells(); i++) {
-    mCost[i] = MAX_COST;
-  }
-  // except the target
-  mCost[target] = 0;
-  // Add all the neighbours of the target to the queue
+  initialiseFloodCosts(target);
   seedQueue(queue, target, orthoCostTable[1]);
-  //
   // each (accessible) cell will be processed only once
   while ((queue.size() > 0)) {
     FloodInfo info = queue.fetchSmallest();
@@ -585,12 +578,7 @@ uint16_t Maze::runLengthFlood(uint16_t target) {
 
 uint16_t Maze::manhattanFlood(uint16_t target) {
   PriorityQueue<uint16_t> queue;
-  // set every cell as unexamined
-  for (uint16_t i = 0; i < numCells(); i++) {
-    mCost[i] = MAX_COST;
-  }
-  // except the target
-  mCost[target] = 0;
+  initialiseFloodCosts(target);
   queue.add(target);
   while (queue.size() > 0) {
     uint16_t cell = queue.head();
@@ -649,6 +637,15 @@ void Maze::load(uint8_t *data) {
   for (int i = 0; i < numCells(); i++) {
     mWalls[i] = data[i];
   }
+}
+
+void Maze::initialiseFloodCosts(uint16_t target) {
+  // set every cell as unexamined
+  for (uint16_t i = 0; i < numCells(); i++) {
+    mCost[i] = MAX_COST;
+  }
+  // except the target
+  mCost[target] = 0;
 }
 
 
