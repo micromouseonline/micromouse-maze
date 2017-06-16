@@ -15,6 +15,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "mazeconstants.h"
+#include "priorityqueue.h"
 
 class Maze {
 
@@ -142,7 +143,7 @@ class Maze {
   /// flood the maze for the give goal
   uint16_t flood(uint16_t goal);
   /// RunLengthFlood is a specific kind of flood sed in this mouse
-  uint16_t runLengthFlood(uint16_t goal);
+  uint16_t runLengthFlood(uint16_t target);
   /// Flood the maze both open and closed and then test the cost difference
   bool testForSolution(void);
   /// returns the result of the most recent test for a solution
@@ -176,6 +177,7 @@ class Maze {
   uint16_t mPathCostClosed;
   /// flag set when maze has been solved
   bool mIsSolved;
+  void seedQueue(PriorityQueue<FloodInfo> &queue, uint16_t goal, uint16_t cost);
 };
 
 extern Maze theMaze;
