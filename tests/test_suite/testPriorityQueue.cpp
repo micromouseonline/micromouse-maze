@@ -31,7 +31,7 @@ protected:
 
 TEST_F(QueueTest, Constructor_ProperInitialisation){
   EXPECT_EQ(0,queue->size());
-  EXPECT_DEATH(FloodInfo item = queue->fetch(),"");
+  EXPECT_DEATH(FloodInfo item = queue->fetchSmallest(),"");
 }
 
 TEST_F(QueueTest, AddFetch_CorrectPriorityOrder){
@@ -43,11 +43,11 @@ TEST_F(QueueTest, AddFetch_CorrectPriorityOrder){
   queue->add(itemE);
   EXPECT_EQ(5,queue->size());
 
-  EXPECT_TRUE(itemD == queue->fetch());
-  EXPECT_TRUE(itemC == queue->fetch());
-  EXPECT_TRUE(itemE == queue->fetch());
-  EXPECT_TRUE(itemB == queue->fetch());
-  EXPECT_TRUE(itemA == queue->fetch());
+  EXPECT_TRUE(itemD == queue->fetchSmallest());
+  EXPECT_TRUE(itemC == queue->fetchSmallest());
+  EXPECT_TRUE(itemE == queue->fetchSmallest());
+  EXPECT_TRUE(itemB == queue->fetchSmallest());
+  EXPECT_TRUE(itemA == queue->fetchSmallest());
   EXPECT_EQ(0,queue->size());
 
 }
@@ -75,7 +75,7 @@ TEST_F(QueueTest, PushAndRetrieve_Single_Item){
   FloodInfo item;
   queue->add(info);
   EXPECT_EQ(1,queue->size());
-  item = queue->fetch();
+  item = queue->fetchSmallest();
   EXPECT_TRUE(item == info);
 
 }
@@ -86,7 +86,7 @@ TEST_F(QueueTest, DuplicateItems_FetchGetsSmallest){
   queue->add(itemA);
   queue->add(itemB);
   queue->add(itemC);
-  item = queue->fetch();
+  item = queue->fetchSmallest();
   EXPECT_TRUE(item == itemC) << item.cost << "  " << itemC.cost;
 }
 
