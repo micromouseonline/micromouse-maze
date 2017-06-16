@@ -6,14 +6,16 @@
 #include "mazeprinter.h"
 
 
+
 class TestMazePrinter : public ::testing::Test {
  protected:
   Maze *maze;
-  MazePrinter* printer;
+
 
   virtual void SetUp() {
     maze = new Maze(16);
     maze->resetToEmptyMaze();
+
   }
 
   virtual void TearDown() {
@@ -33,11 +35,14 @@ class TestMazePrinter : public ::testing::Test {
  */
 TEST_F (TestMazePrinter, PrintForCoverageTesting)
 {
+
   MazePrinter::printVisitedDirs(maze);
   copyClassicMaze(japan2007);
+
   maze->flood(maze->goal());
   maze->updateDirections();
   MazePrinter::printDirs(maze);
+
   MazePrinter::printPlain(maze);
   MazePrinter::printCDecl(maze,"julian");
 }
