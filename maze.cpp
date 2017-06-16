@@ -568,22 +568,64 @@ uint16_t Maze::flood(uint16_t goal) {
 
 
 static uint8_t getExitDirection[] = {255, 3, 4, 5, 7, 255, 5, 6, 0, 1, 255, 7, 1, 2, 3, 255};
+
 /*
  *  TODO: Initialising the queue needs to be more clever.
  * For each exit from the goal cell, seed the queue with the corresponding neighbour
  * Note that single-cell goals may have multiple exits and the centre region in the
  * classic contest will also have a number of possible exits
  * */
-uint16_t Maze::runLengthFlood(uint16_t goal) {
+uint16_t Maze::runLengthFlood(uint16_t target) {
   PriorityQueue<FloodInfo> queue ;
   // set every cell as unexamined
   for (uint16_t i = 0; i < numCells(); i++) {
     mCost[i] = MAX_COST;
   }
-  // except the goal
-  mCost[goal] = 0;
-  // Add all the neighbours of teh goal to the queue
-  uint16_t cost = orthoCostTable[1];
+  // except the target
+  mCost[target] = 0;
+  // Add all the neighbours of the target to the queue
+  seedQueue(queue, target, orthoCostTable[1]);
+  //
+  // each (accessible) cell will be processed only once
+  while ((queue.size() > 0)) {
+    FloodInfo info = queue.fetchSmallest();
+    /*
+     * test each wall for an exit. Skip any blocked, or already used exits
+     */
+    for (uint8_t exitWall = 0; exitWall < 4; exitWall++) {
+      if (exitWall == info.entryWall) {
+        continue;
+      }
+      if (hasWall(info.cell, exitWall)) {
+        continue;
+      }
+      uint16_t nextCell = neighbour(info.cell, exitWall);
+      if (mCost[nextCell] < MAX_COST) {
+        continue;
+      }
+      uint8_t exitDir = getExitDirection[info.entryWall * 4 + exitWall];
+      uint8_t newRunLength = info.runLength;
+      uint16_t turnSize = abs(int(info.entryDir) - int(exitDir));
+      if (turnSize > 4) {
+        turnSize = 7 - turnSize;
+      }
+      uint16_t turnCost = 0; ;
+      if (info.entryDir == exitDir) {
+        newRunLength ++;
+      } else {
+        newRunLength = 1;
+        turnCost = turnSize * 90 + 45;
+      }
+      uint16_t newCost = ((exitDir & 1) == 0) ? orthoCostTable[newRunLength] : diagCostTable[newRunLength];
+      newCost += turnCost + mCost[info.cell];
+      mCost[nextCell] = newCost;
+      queue.add(FloodInfo(newCost, nextCell, newRunLength,  exitDir, opposite(exitWall)));
+    }
+  }
+  return mCost[0];
+}
+
+void Maze::seedQueue(PriorityQueue<FloodInfo> &queue, uint16_t goal, uint16_t cost) {
   if (hasExit(goal, NORTH)) {
     uint16_t nextCell = cellNorth(goal);
     queue.add(FloodInfo(cost, nextCell, 1, DIR_N, SOUTH));
@@ -604,50 +646,7 @@ uint16_t Maze::runLengthFlood(uint16_t goal) {
     queue.add(FloodInfo(cost, nextCell, 1,  DIR_W, EAST));
     mCost[nextCell] = cost;
   }
-  //
-  // each (accessible) cell will be processed only once
-  while ((queue.size() > 0)) {
-    FloodInfo info = queue.fetch();
-    uint16_t here = info.cell;
-    uint8_t entryDir = info.entryDir;
-    uint8_t entryWall = info.entryWall;
-    /*
-     * test each wall for an exit. Skip any blocked, or already used exits
-     */
-    for (uint8_t exitWall = 0; exitWall < 4; exitWall++) {
-      if (exitWall == entryWall) {
-        continue;
-      }
-      if (hasWall(here, exitWall)) {
-        continue;
-      }
-      uint16_t nextCell = neighbour(here, exitWall);
-      if (mCost[nextCell] < MAX_COST) {
-        continue;
-      }
-      uint8_t exitDir = getExitDirection[entryWall * 4 + exitWall];
-      uint8_t newRunLength = info.runLength;
-      uint16_t turnSize = abs(int(entryDir) - int(exitDir));
-      if (turnSize > 4) {
-        turnSize = 7 - turnSize;
-      }
-      uint16_t turnCost = 0; ;
-      if (entryDir == exitDir) {
-        newRunLength ++;
-      } else {
-        newRunLength = 1;
-        turnCost = turnSize * 90 + 45;
-      }
-      uint16_t newCost = ((exitDir & 1) == 0) ? orthoCostTable[newRunLength] : diagCostTable[newRunLength];
-      newCost += turnCost + mCost[here];
-      mCost[nextCell] = newCost;
-      queue.add(FloodInfo(newCost, nextCell, newRunLength,  exitDir, opposite(exitWall)));
-    }
-  }
-  return mCost[0];
 }
-
-
 
 bool Maze::isSolved(void) {
   return mIsSolved;

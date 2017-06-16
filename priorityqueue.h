@@ -45,6 +45,9 @@ public:
     mItemCount = 0;
   }
 
+  /*
+   * Adds an item to the tail of the queue
+   */
   void add(item_t item) {
     assert(mItemCount < MAX_ITEMS);
     mData[mTail] = item;
@@ -55,6 +58,10 @@ public:
     }
   }
 
+  /*
+   * fetch the item at the head of the queue. Using only this method
+   * allows use of the queue as a simple LIFO structure
+   */
   item_t head() {
     item_t result = mData[mHead];
     ++mHead;
@@ -70,8 +77,10 @@ public:
  * return the smallest item in the queue
  * If two items are equally small, return the one that
  * was in the queue the longest. That is, the first one found.
+ * Operation is performed by swapping the smallest item into the head
+ * position. Thus, the natural order of the queue is corrupted
  */
-  item_t fetch() {
+  item_t fetchSmallest() {
     assert(mItemCount > 0);
     int posSmallest = mHead;
     int index = mHead;
