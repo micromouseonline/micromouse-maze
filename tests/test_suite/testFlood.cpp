@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 #include "maze.h"
 #include "mazedata.h"
+#include <mazeprinter.h>
 
 
 class MazeFlood : public ::testing::Test {
@@ -95,3 +96,20 @@ TEST_F (MazeFlood, FloodPartialMaze_SolutionTestFails) {
   EXPECT_GT(maze->closedMazeCost(),maze->openMazeCost());
 }
 
+// full maze floods are not so easily tested.
+// here we just look for the cost left in cell 0
+TEST_F(MazeFlood, ManhattanFlood_EmptyMaze_cost_14){
+  maze->resetToEmptyMaze();
+  uint16_t cost = maze->manhattanFlood(0x77);
+  EXPECT_EQ(14,cost);
+  // top left cell
+  EXPECT_EQ(15,maze->cost(maze->width()-1));
+}
+
+TEST_F(MazeFlood, ManhattanFlood_Japan2007_costx){
+  maze->copyMaze(japan2007,256);
+  uint16_t cost = maze->manhattanFlood(0x77);
+  EXPECT_EQ(72,cost);
+  // top left cell
+  EXPECT_EQ(43,maze->cost(maze->width()-1));
+}
