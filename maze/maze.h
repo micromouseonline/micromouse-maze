@@ -142,8 +142,10 @@ class Maze {
   int16_t costDifference(void);
   /// flood the maze for the give goal
   uint16_t flood(uint16_t goal);
-  /// RunLengthFlood is a specific kind of flood sed in this mouse
+  /// RunLengthFlood is a specific kind of flood used in this mouse
   uint16_t runLengthFlood(uint16_t target);
+  /// manhattanFlood is a the simplest kind of flood used in this mouse
+  uint16_t manhattanFlood(uint16_t target);
   /// Flood the maze both open and closed and then test the cost difference
   bool testForSolution(void);
   /// returns the result of the most recent test for a solution
