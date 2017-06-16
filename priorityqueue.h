@@ -6,10 +6,9 @@
 
 #include "floodinfo.h"
 
-
 template<class item_t>
 class PriorityQueue {
-public:
+ public:
 
   explicit PriorityQueue(int maxSize = 128) :
       MAX_ITEMS(maxSize) {
@@ -65,7 +64,7 @@ public:
   item_t head() {
     item_t result = mData[mHead];
     ++mHead;
-    if (mHead > MAX_ITEMS){
+    if (mHead > MAX_ITEMS) {
       mHead -= MAX_ITEMS;
     }
     --mItemCount;
@@ -99,14 +98,12 @@ public:
     return head();
   }
 
-
-protected:
+ protected:
   item_t *mData;
   const int MAX_ITEMS;
   int mHead;
   int mTail;
   int mItemCount;
 };
-
 
 #endif // PRIORITYQUEUE_H
