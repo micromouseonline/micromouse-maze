@@ -574,6 +574,7 @@ uint16_t Maze::runLengthFlood(uint16_t target) {
       queue.add(FloodInfo(newCost, nextCell, newRunLength, exitDir, opposite(exitWall)));
     }
   }
+  updateDirections();
   return mCost[0];
 }
 
@@ -595,6 +596,7 @@ uint16_t Maze::manhattanFlood(uint16_t target) {
       }
     }
   }
+  updateDirections();
   return mCost[0];
 };
 
@@ -678,6 +680,7 @@ uint16_t Maze::weightedFlood(uint16_t target, uint16_t turnCost) {
       }
     }
   }
+  updateDirections();
   return mCost[0];
 }
 
