@@ -517,6 +517,7 @@ uint16_t Maze::closedMazeCost() const {
 }
 
 uint16_t Maze::flood(uint16_t goal) {
+  /// here it may be good to select the type of flood to be used
   return runLengthFlood(goal);
 }
 
@@ -644,9 +645,40 @@ void Maze::initialiseFloodCosts(uint16_t target) {
   // set every cell as unexamined
   for (uint16_t i = 0; i < numCells(); i++) {
     mCost[i] = MAX_COST;
+    mDirection[i] = NORTH;
   }
   // except the target
   mCost[target] = 0;
+}
+
+uint16_t Maze::weightedFlood(uint16_t target, uint16_t turnCost) {
+  PriorityQueue<int> queue;
+  const uint16_t aheadCost = 2;
+  const uint16_t cornerCost = turnCost;
+  initialiseFloodCosts(target);
+  queue.add(target);
+  while (queue.size() > 0) {
+    uint16_t newCost;
+    uint16_t here = queue.head();
+    uint16_t costHere = mCost[here];
+    uint8_t thisDirection = mDirection[here];
+    for (uint8_t exitDirection = 0; exitDirection < 4; exitDirection++) {
+      if (hasExit(here, exitDirection)) {
+        uint16_t nextCell = neighbour(here, exitDirection);
+        if (thisDirection == exitDirection) {
+          newCost = costHere + aheadCost;
+        } else {
+          newCost = costHere + cornerCost;
+        }
+        if (mCost[nextCell] > newCost) {
+          mCost[nextCell] = newCost;
+          mDirection[nextCell] = exitDirection;
+          queue.add(nextCell);
+        }
+      }
+    }
+  }
+  return mCost[0];
 }
 
 
