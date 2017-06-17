@@ -42,9 +42,10 @@ uint16_t turnCostTable[] = {
     318,  // 180 degree
 };
 
-Maze::Maze(uint16_t width) {
-  mWidth = width;
-  mIsSolved = false;
+Maze::Maze(uint16_t width) :
+    mWidth(width),
+    mIsSolved(false),
+    mFloodType(RUNLENGTH_FLOOD) {
   resetToEmptyMaze();
   setGoal(DEFAULT_GOAL);
 };
@@ -516,9 +517,22 @@ uint16_t Maze::closedMazeCost() const {
   return mPathCostClosed;
 }
 
-uint16_t Maze::flood(uint16_t goal) {
-  /// here it may be good to select the type of flood to be used
-  return runLengthFlood(goal);
+uint16_t Maze::flood(uint16_t target) {
+  uint16_t cost;
+  switch (mFloodType) {
+    case MANHATTAN_FLOOD:
+      cost = manhattanFlood(target);
+      break;
+    case WEIGHTED_FLOOD:
+      cost = weightedFlood(target);
+      break;
+    case RUNLENGTH_FLOOD:
+      cost = runLengthFlood(target);
+      break;
+    case DIRECTION_FLOOD:
+      break;
+  }
+  return cost;
 }
 
 static uint8_t getExitDirection[4][4] = {
@@ -647,10 +661,11 @@ void Maze::initialiseFloodCosts(uint16_t target) {
   // set every cell as unexamined
   for (uint16_t i = 0; i < numCells(); i++) {
     mCost[i] = MAX_COST;
-    mDirection[i] = NORTH;
+    mDirection[i] = INVALID_DIRECTION;
   }
   // except the target
   mCost[target] = 0;
+  mDirection[target] = NORTH;
 }
 
 uint16_t Maze::weightedFlood(uint16_t target, uint16_t turnCost) {
@@ -712,8 +727,13 @@ uint16_t Maze::directionFlood(uint16_t target) {
   return mCost[0];
 }
 
+Maze::FloodType Maze::getFloodType() const {
+  return mFloodType;
+}
 
-
+void Maze::setFloodType(Maze::FloodType mFloodType) {
+  Maze::mFloodType = mFloodType;
+}
 
 
 // OLD STUFF BELOW HERE

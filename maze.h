@@ -21,6 +21,12 @@ class Maze {
 
  public:
   explicit Maze(uint16_t width);
+  enum FloodType {
+    MANHATTAN_FLOOD,
+    WEIGHTED_FLOOD,
+    RUNLENGTH_FLOOD,
+    DIRECTION_FLOOD
+  };
 
   /// the maze is assumed to be square
   uint16_t width(); ///
@@ -141,7 +147,7 @@ class Maze {
   /// return the difference between the open and closed cost. Zero when the best route is found.
   int16_t costDifference(void);
   /// flood the maze for the give goal
-  uint16_t flood(uint16_t goal);
+  uint16_t flood(uint16_t target);
   /// RunLengthFlood is a specific kind of flood used in this mouse
   uint16_t runLengthFlood(uint16_t target);
   /// manhattanFlood is a the simplest kind of flood used in this mouse
@@ -167,6 +173,11 @@ class Maze {
   /// load the wall data, including visited flags from the target array. Not checked for overflow.
   void load(uint8_t *data);
 
+  ///  Return the Flood Type in use
+  FloodType getFloodType() const;
+  /// set the Flood Type to use
+  void setFloodType(FloodType mFloodType);
+
 
  protected:
   /// the width of the maze in cells. Assume mazes are always square
@@ -185,6 +196,8 @@ class Maze {
   uint16_t mPathCostClosed;
   /// flag set when maze has been solved
   bool mIsSolved;
+  /// Remember which type of flood is to be used
+  FloodType mFloodType;
   /// used to set up the queue before running the more complex floods
   void seedQueue(PriorityQueue<FloodInfo> &queue, uint16_t goal, uint16_t cost);
   /// set all the cell costs to their maxumum value, except the target
