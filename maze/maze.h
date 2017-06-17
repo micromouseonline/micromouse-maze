@@ -146,6 +146,9 @@ class Maze {
   uint16_t runLengthFlood(uint16_t target);
   /// manhattanFlood is a the simplest kind of flood used in this mouse
   uint16_t manhattanFlood(uint16_t target);
+  /// weightedFlood assigns a penalty to turns vs straights
+  uint16_t weightedFlood(uint16_t target, uint16_t turnCost = 3);
+
   /// Flood the maze both open and closed and then test the cost difference
   bool testForSolution(void);
   /// returns the result of the most recent test for a solution
