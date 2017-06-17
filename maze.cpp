@@ -718,8 +718,10 @@ uint16_t Maze::directionFlood(uint16_t target) {
 
 // allocate the maze to a known position in memory so that we can avoid
 // resetting the contents at reset.
-static uint8_t backupWalls[1024];//__attribute__((section(".non_init")));
-
-
+#ifdef STM32F4xx
+static uint8_t backupWalls[1024] NOINIT;
+#else
+static uint8_t backupWalls[1024];
+#endif
 
 
