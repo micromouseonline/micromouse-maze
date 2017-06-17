@@ -694,8 +694,6 @@ uint16_t Maze::weightedFlood(uint16_t target, uint16_t turnCost) {
 // resetting the contents at reset.
 static uint8_t backupWalls[1024];//__attribute__((section(".non_init")));
 
-char directionChar[] = "^>v<?";
 
-Maze theMaze(16);
 
 

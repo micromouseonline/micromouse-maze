@@ -188,7 +188,6 @@ class Maze {
   void initialiseFloodCosts(uint16_t target);
 };
 
-extern Maze theMaze;
 
 #endif
 
