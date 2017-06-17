@@ -148,6 +148,9 @@ class Maze {
   uint16_t manhattanFlood(uint16_t target);
   /// weightedFlood assigns a penalty to turns vs straights
   uint16_t weightedFlood(uint16_t target, uint16_t turnCost = 3);
+  /// directionFlood does not care about costs, only using direction pointers
+  uint16_t directionFlood(uint16_t target);
+
 
   /// Flood the maze both open and closed and then test the cost difference
   bool testForSolution(void);

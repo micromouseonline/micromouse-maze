@@ -681,7 +681,33 @@ uint16_t Maze::weightedFlood(uint16_t target, uint16_t turnCost) {
   return mCost[0];
 }
 
+/** Although the direction flood uses only directions
+ * it updates the manhattan distance for the costing
+ * so that  atest for a solution can be made
+ * @param target
+ * @return
+ */
 
+uint16_t Maze::directionFlood(uint16_t target) {
+  PriorityQueue<int> queue;
+  initialiseFloodCosts(target);
+  queue.add(target);
+  while(queue.size() > 0){
+    uint16_t here = queue.head();
+    uint16_t nextCost = mCost[here] + 1;
+    for(uint8_t exit = 0; exit < 4; exit++){
+      if(hasExit(here,exit)){
+        uint16_t next = neighbour(here,exit);
+        if (mDirection[next] == INVALID_DIRECTION){
+          mDirection[next] = behind(exit);
+          mCost[next] = nextCost;
+          queue.add(next);
+        }
+      }
+    }
+  }
+  return mCost[0];
+}
 
 
 
