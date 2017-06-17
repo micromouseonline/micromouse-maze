@@ -565,7 +565,7 @@ uint16_t Maze::runLengthFlood(uint16_t target) {
         newRunLength++;
       } else {
         newRunLength = 1;
-        turnCost = turnSize * 90 + 45;
+        turnCost = turnSize * 22; // MAGIC: empirical value for best-looking routes
       }
       uint16_t newCost = ((exitDir & 1) == 0) ? orthoCostTable[newRunLength] : diagCostTable[newRunLength];
       newCost += turnCost + mCost[info.cell];
@@ -582,10 +582,11 @@ uint16_t Maze::manhattanFlood(uint16_t target) {
   queue.add(target);
   while (queue.size() > 0) {
     uint16_t cell = queue.head();
+    uint16_t newCost = mCost[cell];
+    newCost++;
     for (uint8_t direction = 0; direction < 4; direction++) {
       if (hasExit(cell, direction)) {
         uint16_t nextCell = neighbour(cell, direction);
-        uint16_t newCost = mCost[cell] + 1;
         if (mCost[nextCell] > newCost) {
           mCost[nextCell] = newCost;
           queue.add(nextCell);
