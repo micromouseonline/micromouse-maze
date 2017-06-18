@@ -78,7 +78,48 @@ void Maze::resetToEmptyMaze() {
   clearWall(0, NORTH);
 }
 
-void Maze::copyMaze(const uint8_t *wallData, uint16_t cellCount) {
+
+
+/*
+ * This will take a full set of wall data for a cell
+ * in the format used in .maz files and update that cell
+ * as well as its neighbors with data for all four walls
+ * whether or not they are present
+ * Effectively, it will also mark the current cell as
+ * completely visited
+ * Note that this will clear any walls that are already set.
+ * DO NOT USE THIS WHEN EXPLORING.
+ * INSTEAD, USE updateMap()
+ */
+void Maze::copyCellFromFileData(uint16_t cell, uint8_t wallData) {
+  if (wallData & 0x01) {
+    setWall(cell, NORTH);
+  } else {
+    clearWall(cell, NORTH);
+  }
+  if (wallData & 0x02) {
+    setWall(cell, EAST);
+  } else {
+    clearWall(cell, EAST);
+  }
+  if (wallData & 0x04) {
+    setWall(cell, SOUTH);
+  } else {
+    clearWall(cell, SOUTH);
+  }
+  if (wallData & 0x08) {
+    setWall(cell, WEST);
+  } else {
+    clearWall(cell, WEST);
+  }
+}
+
+/**
+ * by laboriously seeting each wall in each cell, the maze will always
+ * be left in a legal state where there can be no walls that are present
+ * in a cell and absent when lookd at from the other side in the next cell.
+ */
+void Maze::copyMazeFromFileData(const uint8_t *wallData, uint16_t cellCount) {
   clearData();
   if (cellCount > numCells()) {
     return; // ERROR here
@@ -275,39 +316,6 @@ void Maze::clearWall(uint16_t cell, uint8_t direction) {
   }
 }
 
-/*
- * This will take a full set of wall data for a cell
- * in the format used in .maz files and update that cell
- * as well as its neighbors with data for all four walls
- * whether or not they are present
- * Effectively, it will also mark the current cell as
- * completely visited
- * Note that this will clear any walls that are already set.
- * DO NOT USE THIS WHEN EXPLORING.
- * INSTEAD, USE updateMap()
- */
-void Maze::copyCellFromFileData(uint16_t cell, uint8_t wallData) {
-  if (wallData & 0x01) {
-    setWall(cell, NORTH);
-  } else {
-    clearWall(cell, NORTH);
-  }
-  if (wallData & 0x02) {
-    setWall(cell, EAST);
-  } else {
-    clearWall(cell, EAST);
-  }
-  if (wallData & 0x04) {
-    setWall(cell, SOUTH);
-  } else {
-    clearWall(cell, SOUTH);
-  }
-  if (wallData & 0x08) {
-    setWall(cell, WEST);
-  } else {
-    clearWall(cell, WEST);
-  }
-}
 
 /*
  * Updates the map by adding walls

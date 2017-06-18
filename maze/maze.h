@@ -38,7 +38,7 @@ class Maze {
   void resetToEmptyMaze(void); ///
 
   /// Clear the costs and directions and then copy the walls from an array
-  void copyMaze(const uint8_t *wallData, uint16_t cellCount);
+  void copyMazeFromFileData(const uint8_t *wallData, uint16_t cellCount);
 
   /// return the column number of  given cell
   uint16_t col(uint16_t cell);
