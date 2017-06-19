@@ -19,7 +19,7 @@
 
 class Maze {
 
- public:
+public:
   explicit Maze(uint16_t width);
   enum FloodType {
     MANHATTAN_FLOOD,
@@ -29,7 +29,7 @@ class Maze {
   };
 
   /// the maze is assumed to be square
-  uint16_t width(); ///
+  uint16_t width() const; ///
   uint16_t numCells(); ///
 
   ///  reset the wall, cost and direction data to defaults
@@ -179,7 +179,7 @@ class Maze {
   void setFloodType(FloodType mFloodType);
 
 
- protected:
+protected:
   /// the width of the maze in cells. Assume mazes are always square
   uint16_t mWidth;
   /// stores the wall and visited flags. Allows for 32x32 maze but wastes space
