@@ -40,7 +40,6 @@ TEST_F (TestMazePrinter, PrintForCoverageTesting)
   copyClassicMaze(japan2007);
 
   maze->flood(maze->goal());
-  maze->updateDirections();
   MazePrinter::printDirs(maze);
 
   MazePrinter::printPlain(maze);

@@ -22,7 +22,7 @@ protected:
 
 
 TEST_F(MazeTest, CopyMaze) {
-  maze->copyMaze(emptyMaze, 256);
+  maze->copyMazeFromFileData(emptyMaze, 256);
   for (uint16_t cell = 0; cell < maze->numCells(); cell++) {
     EXPECT_EQ(emptyMaze[cell], maze->walls(cell));
     EXPECT_TRUE(maze->isVisited(cell));
@@ -30,12 +30,12 @@ TEST_F(MazeTest, CopyMaze) {
 }
 
 TEST_F(MazeTest, SetClearUnknowns_NoChangeInExploredMaze) {
-  maze->copyMaze(emptyMaze, 256);
+  maze->copyMazeFromFileData(emptyMaze, 256);
   Maze setMaze(16);
   Maze clearMaze(16);
-  setMaze.copyMaze(emptyMaze,256);
+  setMaze.copyMazeFromFileData(emptyMaze, 256);
   setMaze.setUnknowns();
-  clearMaze.copyMaze(emptyMaze,256);
+  clearMaze.copyMazeFromFileData(emptyMaze, 256);
   clearMaze.clearUnknowns();
   for (uint16_t cell = 0; cell < maze->numCells(); cell++) {
     EXPECT_EQ(setMaze.walls(cell), clearMaze.walls(cell));

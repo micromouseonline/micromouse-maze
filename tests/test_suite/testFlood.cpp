@@ -43,6 +43,7 @@ TEST_F (MazeFlood, FloodOpenUnexploredMaze_HomeCostNotMax) {
   maze->clearUnknowns();
   maze->flood(maze->goal());
   EXPECT_NE(MAX_COST, maze->cost(0));
+  EXPECT_EQ(NORTH,maze->direction(0));
 }
 
 
@@ -50,7 +51,9 @@ TEST_F (MazeFlood, FloodClosedMaze_HomeCostMax) {
   maze->setUnknowns();
   maze->flood(maze->goal());
   EXPECT_EQ(MAX_COST, maze->cost(0));
+  EXPECT_EQ(INVALID_DIRECTION,maze->direction(0));
   maze->clearUnknowns();
+
 }
 
 
@@ -61,6 +64,7 @@ TEST_F (MazeFlood, FloodKnownMaze_OpenClosedCostsSame) {
   maze->clearUnknowns();
   uint16_t openCost = maze->flood(maze->goal());
  EXPECT_EQ(closedCost,openCost);
+  EXPECT_EQ(NORTH,maze->direction(0));
 }
 
 
@@ -104,12 +108,32 @@ TEST_F(MazeFlood, ManhattanFlood_EmptyMaze_cost_14){
   EXPECT_EQ(14,cost);
   // top left cell
   EXPECT_EQ(15,maze->cost(maze->width()-1));
+  EXPECT_EQ(NORTH,maze->direction(0));
 }
 
 TEST_F(MazeFlood, ManhattanFlood_Japan2007_costx){
-  maze->copyMaze(japan2007,256);
+  maze->copyMazeFromFileData(japan2007, 256);
   uint16_t cost = maze->manhattanFlood(0x77);
   EXPECT_EQ(72,cost);
   // top left cell
   EXPECT_EQ(43,maze->cost(maze->width()-1));
+  EXPECT_EQ(NORTH,maze->direction(0));
+}
+
+TEST_F(MazeFlood, WeightedFlood_EmptyMaze_cost_31){
+  maze->resetToEmptyMaze();
+  uint16_t cost = maze->weightedFlood(0x77);
+  EXPECT_EQ(31,cost);
+  // top left cell
+  EXPECT_EQ(31,maze->cost(maze->width()-1));
+  EXPECT_EQ(NORTH,maze->direction(0));
+}
+
+TEST_F(MazeFlood, directionFlood_EmptyMaze_cost_31){
+  maze->resetToEmptyMaze();
+  uint16_t cost = maze->directionFlood(0x77);
+  EXPECT_EQ(14,cost);
+  // top left cell
+  EXPECT_EQ(15,maze->cost(maze->width()-1));
+  EXPECT_EQ(NORTH,maze->direction(0));
 }
