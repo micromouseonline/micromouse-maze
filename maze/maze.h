@@ -153,7 +153,7 @@ public:
   /// manhattanFlood is a the simplest kind of flood used in this mouse
   uint16_t manhattanFlood(uint16_t target);
   /// weightedFlood assigns a penalty to turns vs straights
-  uint16_t weightedFlood(uint16_t target, uint16_t turnCost = 3);
+  uint16_t weightedFlood(uint16_t target);
   /// directionFlood does not care about costs, only using direction pointers
   uint16_t directionFlood(uint16_t target);
 
@@ -198,6 +198,12 @@ protected:
   bool mIsSolved;
   /// Remember which type of flood is to be used
   FloodType mFloodType;
+  /// the weighted flood needs a cost for corners
+  uint16_t mCornerWeight;
+ public:
+  uint16_t getCornerWeight() const;
+  void setCornerWeight(uint16_t cornerWeight);
+ protected:
   /// used to set up the queue before running the more complex floods
   void seedQueue(PriorityQueue<FloodInfo> &queue, uint16_t goal, uint16_t cost);
   /// set all the cell costs to their maxumum value, except the target
