@@ -1,60 +1,66 @@
-/*
-  maze.c
-  common functions for manipulating the maze map
-  and for creating the flooded route
+/**
+ *  \file maze.h
+ *  \brief The Maze class stores wall and flooding data
+ * *
+ *  \version
+ *  \date 15 Apr 2017
+ *  \author peterharrison
+ *  \bug No known bugs.
  */
 
-#include <floodinfo.h>
-#include <maze.h>
-#include <mazeconstants.h>
 
-#include <priorityqueue.h>
+#include "floodinfo.h"
+#include "maze.h"
+#include "mazeconstants.h"
+
+#include "priorityqueue.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <assert.h>
 
-
-
-
 /*
  * The runlength flood calculates costs based on the length of straights
  */
 const uint16_t orthoCostTable[] =
-    // low speed costs ( vturn = 1.5m/s/s, acc = 13000 mm/s/s)
-    {0, 98, 75, 63, 55, 50, 46, 43, 40, 38, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36,};
+  // low speed costs ( vturn = 1.5m/s/s, acc = 13000 mm/s/s)
+{
+  0, 98, 75, 63, 55, 50, 46, 43, 40, 38, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
+  36, 36,
+};
 
 const uint16_t diagCostTable[] =
-    // low speed costs ( vturn = 1.5m/s/s, acc = 13000 mm/s/s)
-    {0, 73, 58, 50, 44, 40, 37, 35, 33, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31};
+  // low speed costs ( vturn = 1.5m/s/s, acc = 13000 mm/s/s)
+{
+  0, 73, 58, 50, 44, 40, 37, 35, 33, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31,
+  31, 31
+};
 
 // high speed costs (vturn = 2000 mm/s, acc = 16667 mm/s/s)
 //{0,56,47,41,37,34,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31};
 
 uint16_t turnCostTable[] = {
-    75,  // 45 degree
-    149,  // 90 degree
-    225,  // 135 degree
-    318,  // 180 degree
+  75,  // 45 degree
+  149,  // 90 degree
+  225,  // 135 degree
+  318,  // 180 degree
 };
 
-
-Maze::Maze(uint16_t width) {
-  mWidth = width;
-  mIsSolved = false;
+Maze::Maze(uint16_t width) :
+  mWidth(width),
+  mIsSolved(false),
+  mFloodType(RUNLENGTH_FLOOD) {
   resetToEmptyMaze();
   setGoal(DEFAULT_GOAL);
 };
 
-
-uint16_t Maze::width() {
+uint16_t Maze::width() const {
   return mWidth;
 }
 
 uint16_t Maze::numCells() {
   return mWidth * mWidth;
 }
-
 
 void Maze::clearData() {
   for (uint16_t i = 0; i < numCells(); i++) {
@@ -63,7 +69,6 @@ void Maze::clearData() {
     mWalls[i] = 0;
   }
 }
-
 
 void Maze::resetToEmptyMaze() {
   clearData();
@@ -77,7 +82,6 @@ void Maze::resetToEmptyMaze() {
   clearWall(0, NORTH);
 }
 
-
 void Maze::copyMaze(const uint8_t *wallData, uint16_t cellCount) {
   clearData();
   if (cellCount > numCells()) {
@@ -90,7 +94,6 @@ void Maze::copyMaze(const uint8_t *wallData, uint16_t cellCount) {
   }
 }
 
-
 uint16_t Maze::col(uint16_t cell) {
   return cell / mWidth;
 }
@@ -98,7 +101,6 @@ uint16_t Maze::col(uint16_t cell) {
 uint16_t Maze::row(uint16_t cell) {
   return cell % mWidth;
 }
-
 
 uint8_t Maze::ahead(uint8_t direction) {
   return direction;
@@ -136,7 +138,6 @@ uint16_t Maze::cellWest(uint16_t cell) {
   return nextCell;
 }
 
-
 uint16_t Maze::neighbour(uint16_t cell, uint16_t direction) {
   uint16_t neighbour;
   switch (direction) {
@@ -157,7 +158,6 @@ uint16_t Maze::neighbour(uint16_t cell, uint16_t direction) {
   }
   return neighbour;
 }
-
 
 uint16_t Maze::home() {
   return 0;
@@ -181,11 +181,9 @@ uint8_t Maze::walls(uint16_t cell) {
   return result;
 }
 
-
 bool Maze::isSeen(uint16_t cell, uint8_t direction) {
   return (walls(cell) & (0x10 << direction)) != 0;
 }
-
 
 bool Maze::hasExit(uint16_t cell, uint8_t direction) {
   return (walls(cell) & (0x01 << direction)) == 0;
@@ -203,7 +201,6 @@ bool Maze::hasRealWall(uint16_t cell, uint8_t direction) {
   return isSeen(cell, direction) && hasWall(cell, direction);
 }
 
-
 uint8_t Maze::direction(uint16_t cell) {
   return mDirection[cell];
 }
@@ -212,7 +209,6 @@ void Maze::setDirection(uint16_t cell, uint8_t direction) {
   assert(direction == NORTH || direction == EAST || direction == SOUTH || direction == WEST);
   mDirection[cell] = direction;
 }
-
 
 bool Maze::isVisited(uint16_t cell) {
   return ((mWalls[cell] & VISITED) == VISITED);
@@ -257,7 +253,6 @@ void Maze::setWall(uint16_t cell, uint8_t direction) {
   }
 }
 
-
 /*
  * unconditionally clears a wall in the map.
  * over-writes whatever is there.
@@ -296,7 +291,6 @@ void Maze::clearWall(uint16_t cell, uint8_t direction) {
       break;
   }
 }
-
 
 /*
  * This will take a full set of wall data for a cell
@@ -352,7 +346,6 @@ void Maze::updateMap(uint16_t cell, uint8_t wallData) {
   }
 }
 
-
 void Maze::setUnknowns(void) {
   for (uint16_t i = 0; i < numCells(); i++) {
     mWalls[i] |= (((~mWalls[i]) & VISITED) >> 1);
@@ -368,7 +361,6 @@ void Maze::clearUnknowns(void) {
 uint16_t Maze::cost(uint16_t cell) {
   return mCost[cell];
 }
-
 
 /*
  * Distance is returned based upon the setting of the wall flag.
@@ -406,7 +398,6 @@ uint16_t Maze::costWest(uint16_t cell) {
   return mCost[cell];
 }
 
-
 uint16_t Maze::cost(uint16_t cell, uint16_t direction) {
   uint16_t result;
   switch (direction) {
@@ -428,11 +419,9 @@ uint16_t Maze::cost(uint16_t cell, uint16_t direction) {
   return result;
 }
 
-
 void Maze::setCost(uint16_t cell, uint16_t cost) {
   mCost[cell] = cost;
 }
-
 
 uint8_t Maze::directionToSmallest(uint16_t cell) {
   uint8_t smallestDirection;
@@ -458,12 +447,11 @@ uint8_t Maze::directionToSmallest(uint16_t cell) {
     smallestCost = neighbourCost;
     smallestDirection = WEST;
   };
-  if (smallestCost == MAX_COST){
+  if (smallestCost == MAX_COST) {
     smallestDirection = INVALID_DIRECTION;
   }
   return smallestDirection;
 }
-
 
 void Maze::updateDirections() {
   for (uint16_t i = 0; i < numCells(); i++) {
@@ -479,7 +467,6 @@ bool Maze::testForSolution(void) { // takes less than 3ms
   mIsSolved = mPathCostClosed == mPathCostOpen;
   return mIsSolved;
 };
-
 
 /*
  *  The default goal while searching a classic maze
@@ -543,11 +530,9 @@ void Maze::recalculateGoal() {
   setGoal(newGoal);
 }
 
-
 int16_t Maze::costDifference(void) {
-  return int(mPathCostOpen) - int(mPathCostClosed);
+  return int16_t(mPathCostOpen) - int16_t(mPathCostClosed);
 }
-
 
 uint16_t Maze::openMazeCost() const {
   return mPathCostOpen;
@@ -557,92 +542,125 @@ uint16_t Maze::closedMazeCost() const {
   return mPathCostClosed;
 }
 
-uint16_t Maze::flood(uint16_t goal) {
-  return runLengthFlood(goal);
+uint16_t Maze::flood(uint16_t target) {
+  uint16_t cost;
+  switch (mFloodType) {
+    case MANHATTAN_FLOOD:
+      cost = manhattanFlood(target);
+      break;
+    case WEIGHTED_FLOOD:
+      cost = weightedFlood(target);
+      break;
+    case RUNLENGTH_FLOOD:
+      cost = runLengthFlood(target);
+      break;
+    case DIRECTION_FLOOD:
+      break;
+  }
+  return cost;
 }
 
+static uint8_t getExitDirection[4][4] = {
+  {255, 3, 4, 5,},
+  {7, 255, 5, 6,},
+  {0, 1, 255, 7,},
+  {1, 2, 3, 255},
+};
 
-static uint8_t getExitDirection[] = {255, 3, 4, 5, 7, 255, 5, 6, 0, 1, 255, 7, 1, 2, 3, 255};
 /*
  *  TODO: Initialising the queue needs to be more clever.
  * For each exit from the goal cell, seed the queue with the corresponding neighbour
  * Note that single-cell goals may have multiple exits and the centre region in the
  * classic contest will also have a number of possible exits
  * */
-uint16_t Maze::runLengthFlood(uint16_t goal) {
-  PriorityQueue<floodinfo> queue ;
-  // set every cell as unexamined
-  for (uint16_t i = 0; i < numCells(); i++) {
-    mCost[i] = MAX_COST;
-  }
-  // except the goal
-  mCost[goal] = 0;
-  // Add all the neighbours of teh goal to the queue
-  uint16_t cost = orthoCostTable[1];
-  if (hasExit(goal, NORTH)) {
-    uint16_t nextCell = cellNorth(goal);
-    queue.add(floodinfo(cost, nextCell, 1, DIR_N, SOUTH));
-    mCost[nextCell] = cost;
-  }
-  if (hasExit(goal, EAST)) {
-    uint16_t nextCell = cellEast(goal);
-    queue.add(floodinfo(cost, nextCell, 1,  DIR_E, WEST));
-    mCost[nextCell] = cost;
-  }
-  if (hasExit(goal, SOUTH)) {
-    uint16_t nextCell = cellSouth(goal);
-    queue.add(floodinfo(cost, nextCell, 1,  DIR_S, NORTH));
-    mCost[nextCell] = cost;
-  }
-  if (hasExit(goal, WEST)) {
-    uint16_t nextCell = cellWest(goal);
-    queue.add(floodinfo(cost, nextCell, 1,  DIR_W, EAST));
-    mCost[nextCell] = cost;
-  }
-  //
+uint16_t Maze::runLengthFlood(uint16_t target) {
+  PriorityQueue<FloodInfo> queue;
+  initialiseFloodCosts(target);
+  seedQueue(queue, target, orthoCostTable[1]);
   // each (accessible) cell will be processed only once
   while ((queue.size() > 0)) {
-    floodinfo info = queue.fetch();
-    uint16_t here = info.cell;
-    uint8_t entryDir = info.entryDir;
-    uint8_t entryWall = info.entryWall;
+    FloodInfo info = queue.fetchSmallest();
     /*
      * test each wall for an exit. Skip any blocked, or already used exits
      */
     for (uint8_t exitWall = 0; exitWall < 4; exitWall++) {
-      if (exitWall == entryWall) {
+      if (exitWall == info.entryWall) {
         continue;
       }
-      if (hasWall(here, exitWall)) {
+      if (hasWall(info.cell, exitWall)) {
         continue;
       }
-      uint16_t nextCell = neighbour(here, exitWall);
+      uint16_t nextCell = neighbour(info.cell, exitWall);
       if (mCost[nextCell] < MAX_COST) {
         continue;
       }
-      uint8_t exitDir = getExitDirection[entryWall * 4 + exitWall];
+      uint8_t exitDir = getExitDirection[info.entryWall][exitWall];
       uint8_t newRunLength = info.runLength;
-      uint16_t turnSize = abs(int(entryDir) - int(exitDir));
+      uint16_t turnSize = abs(int(info.entryDir) - int(exitDir));
       if (turnSize > 4) {
         turnSize = 7 - turnSize;
       }
-      uint16_t turnCost = 0; ;
-      if (entryDir == exitDir) {
-        newRunLength ++;
+      uint16_t turnCost = 0;;
+      if (info.entryDir == exitDir) {
+        newRunLength++;
       } else {
         newRunLength = 1;
-        turnCost = turnSize * 90 + 45;
+        turnCost = turnSize * 22; // MAGIC: empirical value for best-looking routes
       }
       uint16_t newCost = ((exitDir & 1) == 0) ? orthoCostTable[newRunLength] : diagCostTable[newRunLength];
-      newCost += turnCost + mCost[here];
+      newCost += turnCost + mCost[info.cell];
       mCost[nextCell] = newCost;
-      queue.add(floodinfo(newCost, nextCell, newRunLength,  exitDir, opposite(exitWall)));
+      queue.add(FloodInfo(newCost, nextCell, newRunLength, exitDir, opposite(exitWall)));
     }
   }
+  updateDirections();
   return mCost[0];
 }
 
+uint16_t Maze::manhattanFlood(uint16_t target) {
+  PriorityQueue<uint16_t> queue;
+  initialiseFloodCosts(target);
+  queue.add(target);
+  while (queue.size() > 0) {
+    uint16_t cell = queue.head();
+    uint16_t newCost = mCost[cell];
+    newCost++;
+    for (uint8_t direction = 0; direction < 4; direction++) {
+      if (hasExit(cell, direction)) {
+        uint16_t nextCell = neighbour(cell, direction);
+        if (mCost[nextCell] > newCost) {
+          mCost[nextCell] = newCost;
+          queue.add(nextCell);
+        }
+      }
+    }
+  }
+  updateDirections();
+  return mCost[0];
+};
 
+void Maze::seedQueue(PriorityQueue<FloodInfo> &queue, uint16_t goal, uint16_t cost) {
+  if (hasExit(goal, NORTH)) {
+    uint16_t nextCell = cellNorth(goal);
+    queue.add(FloodInfo(cost, nextCell, 1, DIR_N, SOUTH));
+    mCost[nextCell] = cost;
+  }
+  if (hasExit(goal, EAST)) {
+    uint16_t nextCell = cellEast(goal);
+    queue.add(FloodInfo(cost, nextCell, 1, DIR_E, WEST));
+    mCost[nextCell] = cost;
+  }
+  if (hasExit(goal, SOUTH)) {
+    uint16_t nextCell = cellSouth(goal);
+    queue.add(FloodInfo(cost, nextCell, 1, DIR_S, NORTH));
+    mCost[nextCell] = cost;
+  }
+  if (hasExit(goal, WEST)) {
+    uint16_t nextCell = cellWest(goal);
+    queue.add(FloodInfo(cost, nextCell, 1, DIR_W, EAST));
+    mCost[nextCell] = cost;
+  }
+}
 
 bool Maze::isSolved(void) {
   return mIsSolved;
@@ -652,31 +670,95 @@ uint8_t Maze::opposite(uint8_t direction) {
   return behind(direction);
 }
 
-
-
-
-
-
-
-void Maze::save(uint8_t * data) {
+void Maze::save(uint8_t *data) {
   for (int i = 0; i < numCells(); i++) {
     data[i] = mWalls[i];
   }
 };
 
-void Maze::load(uint8_t * data) {
+void Maze::load(uint8_t *data) {
   for (int i = 0; i < numCells(); i++) {
     mWalls[i] = data[i];
   }
-  testForSolution();
-};
+}
 
+void Maze::initialiseFloodCosts(uint16_t target) {
+  // set every cell as unexamined
+  for (uint16_t i = 0; i < numCells(); i++) {
+    mCost[i] = MAX_COST;
+    mDirection[i] = INVALID_DIRECTION;
+  }
+  // except the target
+  mCost[target] = 0;
+  mDirection[target] = NORTH;
+}
 
+uint16_t Maze::weightedFlood(uint16_t target, uint16_t turnCost) {
+  PriorityQueue<int> queue;
+  const uint16_t aheadCost = 2;
+  const uint16_t cornerCost = turnCost;
+  initialiseFloodCosts(target);
+  queue.add(target);
+  while (queue.size() > 0) {
+    uint16_t newCost;
+    uint16_t here = queue.head();
+    uint16_t costHere = mCost[here];
+    uint8_t thisDirection = mDirection[here];
+    for (uint8_t exitDirection = 0; exitDirection < 4; exitDirection++) {
+      if (hasExit(here, exitDirection)) {
+        uint16_t nextCell = neighbour(here, exitDirection);
+        if (thisDirection == exitDirection) {
+          newCost = costHere + aheadCost;
+        } else {
+          newCost = costHere + cornerCost;
+        }
+        if (mCost[nextCell] > newCost) {
+          mCost[nextCell] = newCost;
+          mDirection[nextCell] = exitDirection;
+          queue.add(nextCell);
+        }
+      }
+    }
+  }
+  updateDirections();
+  return mCost[0];
+}
 
+/** Although the direction flood uses only directions
+ * it updates the manhattan distance for the costing
+ * so that  atest for a solution can be made
+ * @param target
+ * @return
+ */
 
+uint16_t Maze::directionFlood(uint16_t target) {
+  PriorityQueue<int> queue;
+  initialiseFloodCosts(target);
+  queue.add(target);
+  while (queue.size() > 0) {
+    uint16_t here = queue.head();
+    uint16_t nextCost = mCost[here] + 1;
+    for (uint8_t exit = 0; exit < 4; exit++) {
+      if (hasExit(here, exit)) {
+        uint16_t next = neighbour(here, exit);
+        if (mDirection[next] == INVALID_DIRECTION) {
+          mDirection[next] = behind(exit);
+          mCost[next] = nextCost;
+          queue.add(next);
+        }
+      }
+    }
+  }
+  return mCost[0];
+}
 
+Maze::FloodType Maze::getFloodType() const {
+  return mFloodType;
+}
 
-
+void Maze::setFloodType(Maze::FloodType mFloodType) {
+  Maze::mFloodType = mFloodType;
+}
 
 
 // OLD STUFF BELOW HERE
@@ -684,74 +766,10 @@ void Maze::load(uint8_t * data) {
 
 // allocate the maze to a known position in memory so that we can avoid
 // resetting the contents at reset.
-static uint8_t backupWalls[1024] ;//__attribute__((section(".non_init")));
-
-char directionChar[] = "^>v<?";
-
-
-
-Maze theMaze(16);
-
-
-void Maze::print(Maze::PrintStyle style) {
-  int y, x;
-  if (style == PRINT_AS_CDECL) {
-    printf("const uint8_t _maze[] = {\n");
-    for (x = 0; x < width(); x++) {
-      printf("   ");
-      for (y = 0; y < width(); y++) {
-        uint16_t cell = x * width() + y;
-        printf("0x%02X, ", walls(cell));
-      }
-      printf("\n");
-    }
-    printf("   };\n\n");
-    return;
-  }
-  for (y = width() - 1; y >= 0; y--) {
-    for (x = 0; x < width(); x++) {
-      uint16_t cell = x * width() + y;
-      if (hasWall(cell, NORTH)) {
-        printf("o---");
-      } else {
-        printf("o   ");
-      }
-    }
-    printf("o\n");
-    for (x = 0; x < width(); x++) {
-      uint16_t cell = x * width() + y;
-      if (hasWall(cell, WEST)) {
-        printf("|");
-      } else {
-        printf(" ");
-      }
-      // contents
-      switch (style) {
-        case PRINT_WITH_DIRS:
-          printf(" %c ", isVisited(cell) ? directionChar[direction(cell) ] : ' ');
-          break;
-        default:
-          printf("   ");
-          break;
-      }
-    }
-    uint16_t cell = (width() - 1) * width() + y;
-    if (hasWall(cell, EAST)) {
-      printf("|\n");
-    } else {
-      printf(" \n\n");
-    }
-  }
-  // all the south walls
-  for (x = 0; x < width(); x++) {
-    uint16_t cell = x * width() + 0;
-    if (hasWall(cell, SOUTH)) {
-      printf("o---");
-    } else {
-      printf("o   ");
-    }
-  }
-  printf("o\n");
-}
+#ifdef STM32F4xx
+static uint8_t backupWalls[1024] NOINIT;
+#else
+static uint8_t backupWalls[1024];
+#endif
 
 

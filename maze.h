@@ -1,21 +1,35 @@
+/**
+ *  \file maze.h
+ *  \brief The Maze class stores wall and flooding data
+ * *
+ *  \version
+ *  \date 15 Apr 2017
+ *  \author peterharrison
+ *  \bug No known bugs.
+ */
+
 #ifndef _maze_h
 #define _maze_h
-/*
-        maze.h
-        common functions for manipulating the maze map
-        and for creating the flooded route
- */
+
+
 #include <stdint.h>
 #include <stdbool.h>
 #include "mazeconstants.h"
+#include "priorityqueue.h"
 
 class Maze {
 
- public:
+public:
   explicit Maze(uint16_t width);
+  enum FloodType {
+    MANHATTAN_FLOOD,
+    WEIGHTED_FLOOD,
+    RUNLENGTH_FLOOD,
+    DIRECTION_FLOOD
+  };
 
   /// the maze is assumed to be square
-  uint16_t width(); ///
+  uint16_t width() const; ///
   uint16_t numCells(); ///
 
   ///  reset the wall, cost and direction data to defaults
@@ -133,9 +147,17 @@ class Maze {
   /// return the difference between the open and closed cost. Zero when the best route is found.
   int16_t costDifference(void);
   /// flood the maze for the give goal
-  uint16_t flood(uint16_t goal);
-  /// RunLengthFlood is a specific kind of flood sed in this mouse
-  uint16_t runLengthFlood(uint16_t goal);
+  uint16_t flood(uint16_t target);
+  /// RunLengthFlood is a specific kind of flood used in this mouse
+  uint16_t runLengthFlood(uint16_t target);
+  /// manhattanFlood is a the simplest kind of flood used in this mouse
+  uint16_t manhattanFlood(uint16_t target);
+  /// weightedFlood assigns a penalty to turns vs straights
+  uint16_t weightedFlood(uint16_t target, uint16_t turnCost = 3);
+  /// directionFlood does not care about costs, only using direction pointers
+  uint16_t directionFlood(uint16_t target);
+
+
   /// Flood the maze both open and closed and then test the cost difference
   bool testForSolution(void);
   /// returns the result of the most recent test for a solution
@@ -151,18 +173,13 @@ class Maze {
   /// load the wall data, including visited flags from the target array. Not checked for overflow.
   void load(uint8_t *data);
 
-  /// descriptions of the different methds for printing the maze
-  enum PrintStyle {
-    PRINT_AS_CDECL,
-    PRINT_WITH_DIRS,
-    PRINT_WALLS_ONLY
-  };
+  ///  Return the Flood Type in use
+  FloodType getFloodType() const;
+  /// set the Flood Type to use
+  void setFloodType(FloodType mFloodType);
 
 
-  /// DEPRECATED. use separate Maze Printer class
-  void print(PrintStyle style);
-
- protected:
+protected:
   /// the width of the maze in cells. Assume mazes are always square
   uint16_t mWidth;
   /// stores the wall and visited flags. Allows for 32x32 maze but wastes space
@@ -179,9 +196,14 @@ class Maze {
   uint16_t mPathCostClosed;
   /// flag set when maze has been solved
   bool mIsSolved;
+  /// Remember which type of flood is to be used
+  FloodType mFloodType;
+  /// used to set up the queue before running the more complex floods
+  void seedQueue(PriorityQueue<FloodInfo> &queue, uint16_t goal, uint16_t cost);
+  /// set all the cell costs to their maxumum value, except the target
+  void initialiseFloodCosts(uint16_t target);
 };
 
-extern Maze theMaze;
 
 #endif
 

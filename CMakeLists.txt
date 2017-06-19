@@ -13,15 +13,12 @@ set(HEADER_FILES
         mazeconstants.h
         oldmaze.h
         mazedata.h
-        mazeflooder.h
         mazepathfinder.h
         mazeprinter.h
-        mazereader.h
         mazesearcher.h
         priorityqueue.h
         mazeconstants.h
-        MazeFiler.h
-        Queue.h
+        queue.h
         floodinfo.h
         )
 
@@ -30,12 +27,9 @@ set (SOURCE_FILES
         maze.cpp
         oldmaze.cpp
         mazedata.cpp
-        mazeflooder.cpp
         mazepathfinder.cpp
         mazeprinter.cpp
-        mazereader.cpp
         mazesearcher.cpp
-        MazeFiler.cpp
         )
 
 add_library(maze

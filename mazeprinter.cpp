@@ -6,105 +6,139 @@
  * Created on 13 February 2016, 19:53
  */
 #include <stdio.h>
-#include "oldmaze.h"
+//#include "oldmaze.h"
 #include "mazeprinter.h"
-#include "mazesearcher.h"
+//#include "mazesearcher.h"
 
 
-static char dirChars[] = "^>v< ";
+static char dirChars[] = "^>v<  ";
 
-void PrintMaze (print_options_t option)
-{
-  location_t loc;
-  walldata_t walls;
-  printf("\n");
-  for (loc.row = MazeHeight() - 1; loc.row >= 0; loc.row--) {
-    for (loc.col = 0; loc.col < MazeWidth(); loc.col++) {
-      walls = Walls (loc);
-      //Do the north walls
-      printf ("o");
-      if (WallExists (walls, NORTH)) {
-        printf ("---");
-      } else {
-        printf ("   ");
-      }
+void printNorthWalls(Maze *maze, int row) {
+  for (int col = 0; col < maze->width(); col++) {
+    uint16_t cell = row + maze->width() * col;
+    printf("o");
+    if (maze->hasWall(cell, NORTH)) {
+      printf("---");
+    } else {
+      printf("   ");
     }
-    printf ("o\n");
-    /* TODO:  this is all rather messy */
-    for (loc.col = 0; loc.col < MazeWidth(); loc.col++) {
-      walls = Walls (loc);
-      //Do the west walls
-      if (WallExists (walls, WEST)) {
-        printf ("|");
-      } else {
-        printf (" ");
-      }
-      if (MousePosition().row == loc.row && MousePosition().col == loc.col) {
-        printf ("[M]");
-      } else if (option & COSTS) {
-        cost_t cost = Cost (loc);
-        if (cost == MAX_COST) {
-          printf (" x ");
-        } else {
-          printf ("%3d", Cost (loc));
-        }
-      } else if (option & DIRS) {
-        printf (" %c ", dirChars[Direction (loc)]);
-      } else {
-        printf ("   ");
-      }
-    }
-    printf ("|\n");
   }
-  for (loc.col = 0; loc.col < MazeWidth(); loc.col++) {
-    /* Do the last row of walls on the south edge. They must all be there */
-    printf ("o---");
-  }
-  printf ("o\n");
+  printf("o\n");
 }
 
-void PrintMaze(Maze *maze, print_options_t option) {
+void printSouthWalls(Maze *maze, int row) {
+  for (int col = 0; col < maze->width(); col++) {
+    uint16_t cell = row + maze->width() * col;
+    printf("o");
+    if (maze->hasWall(cell, SOUTH)) {
+      printf("---");
+    } else {
+      printf("   ");
+    }
+  }
+  printf("o\n");
+}
+
+void MazePrinter::printDirs(Maze *maze) {
+  printf("\n");
+  for (int row = maze->width() - 1; row >= 0; row--) {
+    printNorthWalls(maze, row);
+    for (int col = 0; col < maze->width(); col++) {
+      uint16_t cell = row + maze->width() * col;
+      if (maze->hasWall(cell, WEST)) {
+        printf("|");
+      } else {
+        printf(" ");
+      }
+      uint8_t direction = maze->direction(cell);
+      if (direction > WEST) {
+        direction = NONE;
+      }
+      printf(" %c ", dirChars[direction]);
+    }
+    printf("|\n");
+  }
+  printSouthWalls(maze, 0);
+}
+
+void MazePrinter::printVisitedDirs(Maze *maze) {
+  printf("\n");
+  for (int row = maze->width() - 1; row >= 0; row--) {
+    printNorthWalls(maze, row);
+    for (int col = 0; col < maze->width(); col++) {
+      uint16_t cell = row + maze->width() * col;
+      if (maze->hasWall(cell, WEST)) {
+        printf("|");
+      } else {
+        printf(" ");
+      }
+      uint8_t direction = maze->direction(cell);
+      if (!maze->isVisited(cell)) {
+        direction = UNSEEN;
+      }
+      printf(" %c ", dirChars[direction]);
+    }
+    printf("|\n");
+  }
+  printSouthWalls(maze, 0);
+}
+
+void MazePrinter::printPlain(Maze *maze) {
   printf("\n");
 
   for (int row = maze->width() - 1; row >= 0; row--) {
-    for (int col = 0; col < maze->width(); col++) {
-      uint16_t cell = row+maze->width()* col;
-      //Do the north walls
-      printf ("o");
-      if (maze->hasWall(cell,NORTH)) {
-        printf ("---");
-      } else {
-        printf ("   ");
-      }
-    }
-    printf ("o\n");
+    printNorthWalls(maze, row);
     /* TODO:  this is all rather messy */
     for (int col = 0; col < maze->width(); col++) {
-      uint16_t cell = row+maze->width()* col;
-       //Do the west walls
-      if (maze->hasWall(cell,WEST)) {
-        printf ("|");
+      uint16_t cell = row + maze->width() * col;
+      if (maze->hasWall(cell, WEST)) {
+        printf("|");
       } else {
-        printf (" ");
+        printf(" ");
       }
-      if (option & COSTS) {
-        cost_t cost = maze->cost(cell);
-        if (cost == MAX_COST) {
-          printf (" x ");
-        } else {
-          printf ("%3d", maze->cost(cell));
-        }
-      } else if (option & DIRS) {
-        printf (" %c ", dirChars[maze->direction(cell)]);
+      printf("   ");
+    }
+    printf("|\n");
+  }
+  printSouthWalls(maze, 0);
+}
+
+void MazePrinter::printCDecl(Maze *maze, const char *name) {
+  printf("\n\nconst uint8_t %s[] = {\n", name);
+  for (int x = 0; x < maze->width(); x++) {
+    printf("   ");
+    for (int y = 0; y < maze->width(); y++) {
+      uint16_t cell = x * maze->width() + y;
+      printf("0x%02X, ", maze->walls(cell));
+    }
+    printf("\n");
+  }
+  printf("   };\n\n");
+  return;
+}
+
+void MazePrinter::printCosts(Maze *maze) {
+  printf("\n");
+
+  for (int row = maze->width() - 1; row >= 0; row--) {
+    printNorthWalls(maze, row);
+    /* TODO:  this is all rather messy */
+    for (int col = 0; col < maze->width(); col++) {
+      uint16_t cell = row + maze->width() * col;
+      if (maze->hasWall(cell, WEST)) {
+        printf("|");
       } else {
-        printf ("   ");
+        printf(" ");
+      }
+      uint16_t cost = maze->cost(cell);
+      if (cost < MAX_COST) {
+        printf("%3d", cost);
+      } else {
+        printf(" - ");
       }
     }
-    printf ("|\n");
+    printf("|\n");
   }
-  for (int col = 0; col < maze->width(); col++) {
-    /* Do the last row of walls on the south edge. They must all be there */
-    printf ("o---");
-  }
-  printf ("o\n");
+  printSouthWalls(maze, 0);
 }
+
