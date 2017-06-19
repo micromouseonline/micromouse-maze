@@ -155,6 +155,11 @@ uint8_t Maze::behind(uint8_t direction) {
   return (uint8_t) ((direction + 2) % 4);
 }
 
+uint8_t Maze::opposite(uint8_t direction) {
+  return behind(direction);
+}
+
+
 uint16_t Maze::cellNorth(uint16_t cell) {
   uint16_t nextCell = (cell + uint16_t(1)) % numCells();
   return nextCell;
@@ -647,10 +652,6 @@ void Maze::seedQueue(PriorityQueue<FloodInfo> &queue, uint16_t goal, uint16_t co
 
 bool Maze::isSolved(void) {
   return mIsSolved;
-}
-
-uint8_t Maze::opposite(uint8_t direction) {
-  return behind(direction);
 }
 
 void Maze::save(uint8_t *data) {
