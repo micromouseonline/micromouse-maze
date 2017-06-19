@@ -9,11 +9,11 @@
  */
 
 
-#include <floodinfo.h>
-#include <maze.h>
-#include <mazeconstants.h>
+#include "floodinfo.h"
+#include "maze.h"
+#include "mazeconstants.h"
+#include "priorityqueue.h"
 
-#include <priorityqueue.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -50,7 +50,7 @@ Maze::Maze(uint16_t width) :
   setGoal(DEFAULT_GOAL);
 };
 
-uint16_t Maze::width() {
+uint16_t Maze::width() const {
   return mWidth;
 }
 
