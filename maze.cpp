@@ -45,7 +45,8 @@ uint16_t turnCostTable[] = {
 Maze::Maze(uint16_t width) :
     mWidth(width),
     mIsSolved(false),
-    mFloodType(RUNLENGTH_FLOOD) {
+    mFloodType(RUNLENGTH_FLOOD),
+    mCornerWeight(3) {
   resetToEmptyMaze();
   setGoal(DEFAULT_GOAL);
 };
@@ -77,8 +78,6 @@ void Maze::resetToEmptyMaze() {
   setWall(0, EAST);
   clearWall(0, NORTH);
 }
-
-
 
 /*
  * This will take a full set of wall data for a cell
@@ -158,7 +157,6 @@ uint8_t Maze::behind(uint8_t direction) {
 uint8_t Maze::opposite(uint8_t direction) {
   return behind(direction);
 }
-
 
 uint16_t Maze::cellNorth(uint16_t cell) {
   uint16_t nextCell = (cell + uint16_t(1)) % numCells();
@@ -320,7 +318,6 @@ void Maze::clearWall(uint16_t cell, uint8_t direction) {
       break;
   }
 }
-
 
 /*
  * Updates the map by adding walls
@@ -533,17 +530,13 @@ uint16_t Maze::closedMazeCost() const {
 uint16_t Maze::flood(uint16_t target) {
   uint16_t cost;
   switch (mFloodType) {
-    case MANHATTAN_FLOOD:
-      cost = manhattanFlood(target);
+    case MANHATTAN_FLOOD:cost = manhattanFlood(target);
       break;
-    case WEIGHTED_FLOOD:
-      cost = weightedFlood(target);
+    case WEIGHTED_FLOOD:cost = weightedFlood(target);
       break;
-    case RUNLENGTH_FLOOD:
-      cost = runLengthFlood(target);
+    case RUNLENGTH_FLOOD:cost = runLengthFlood(target);
       break;
-    case DIRECTION_FLOOD:
-      break;
+    case DIRECTION_FLOOD:break;
   }
   return cost;
 }
@@ -677,10 +670,10 @@ void Maze::initialiseFloodCosts(uint16_t target) {
   mDirection[target] = NORTH;
 }
 
-uint16_t Maze::weightedFlood(uint16_t target, uint16_t turnCost) {
+uint16_t Maze::weightedFlood(uint16_t target) {
   PriorityQueue<int> queue;
   const uint16_t aheadCost = 2;
-  const uint16_t cornerCost = turnCost;
+
   initialiseFloodCosts(target);
   queue.add(target);
   while (queue.size() > 0) {
@@ -694,7 +687,7 @@ uint16_t Maze::weightedFlood(uint16_t target, uint16_t turnCost) {
         if (thisDirection == exitDirection) {
           newCost = costHere + aheadCost;
         } else {
-          newCost = costHere + cornerCost;
+          newCost = costHere + mCornerWeight;
         }
         if (mCost[nextCell] > newCost) {
           mCost[nextCell] = newCost;
@@ -719,13 +712,13 @@ uint16_t Maze::directionFlood(uint16_t target) {
   PriorityQueue<int> queue;
   initialiseFloodCosts(target);
   queue.add(target);
-  while(queue.size() > 0){
+  while (queue.size() > 0) {
     uint16_t here = queue.head();
     uint16_t nextCost = mCost[here] + 1;
-    for(uint8_t exit = 0; exit < 4; exit++){
-      if(hasExit(here,exit)){
-        uint16_t next = neighbour(here,exit);
-        if (mDirection[next] == INVALID_DIRECTION){
+    for (uint8_t exit = 0; exit < 4; exit++) {
+      if (hasExit(here, exit)) {
+        uint16_t next = neighbour(here, exit);
+        if (mDirection[next] == INVALID_DIRECTION) {
           mDirection[next] = behind(exit);
           mCost[next] = nextCost;
           queue.add(next);
@@ -742,6 +735,14 @@ Maze::FloodType Maze::getFloodType() const {
 
 void Maze::setFloodType(Maze::FloodType mFloodType) {
   Maze::mFloodType = mFloodType;
+}
+
+uint16_t Maze::getCornerWeight() const {
+  return mCornerWeight;
+}
+
+void Maze::setCornerWeight(uint16_t cornerWeight) {
+  Maze::mCornerWeight = cornerWeight;
 }
 
 
