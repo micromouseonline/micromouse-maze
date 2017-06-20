@@ -8,7 +8,6 @@ set(CMAKE_LEGACY_CYGWIN_WIN32 0)
 project(maze)
 
 set(HEADER_FILES
-        list.h
         maze.h
         mazeconstants.h
         oldmaze.h
@@ -23,7 +22,6 @@ set(HEADER_FILES
         )
 
 set (SOURCE_FILES
-        list.cpp
         maze.cpp
         oldmaze.cpp
         mazedata.cpp
