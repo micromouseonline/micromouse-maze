@@ -8,9 +8,6 @@
 #ifndef MAZESEARCHER_H
 #define MAZESEARCHER_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 /*
  * The mazeSearcher is the mouse. The robot that explores and runs the maze.
@@ -53,10 +50,6 @@ int MouseSearchToModifiedFlood (location_t target);
 int MouseSearchToModifiedFloodAll (location_t target);
 
 
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* MAZESEARCHER_H */
 

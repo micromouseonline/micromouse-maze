@@ -158,6 +158,12 @@ uint8_t Maze::opposite(uint8_t direction) {
   return behind(direction);
 }
 
+uint8_t Maze::differenceBetween(uint8_t oldDirection, uint8_t newDirection) {
+  return (newDirection - oldDirection) % 4;
+}
+
+
+
 uint16_t Maze::cellNorth(uint16_t cell) {
   uint16_t nextCell = (cell + uint16_t(1)) % numCells();
   return nextCell;
@@ -749,12 +755,10 @@ void Maze::setCornerWeight(uint16_t cornerWeight) {
 // OLD STUFF BELOW HERE
 ////////////////////////////////////////////////////
 
-// allocate the maze to a known position in memory so that we can avoid
-// resetting the contents at reset.
 #ifdef STM32F4xx
-static uint8_t backupWalls[1024] NOINIT;
+ uint8_t backupWalls[1024] NOINIT;
 #else
-static uint8_t backupWalls[1024];
+ uint8_t backupWalls[1024];
 #endif
 
 

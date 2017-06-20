@@ -8,9 +8,7 @@
 #ifndef MAZEPATHFINDER_H
 #define MAZEPATHFINDER_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+
 
 /*
  * clear all the direction arrows except those along the least-cost path
@@ -25,9 +23,7 @@ extern "C" {
 int IsolatePath (location_t start, location_t target);
 
 
-#ifdef __cplusplus
-}
-#endif
+
 
 #endif /* MAZEPATHFINDER_H */
 
