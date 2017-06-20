@@ -212,7 +212,7 @@ void Maze::setGoal(uint16_t goal) {
   mGoal = goal;
 }
 
-uint8_t Maze::walls(uint16_t cell) {
+uint8_t Maze::walls(uint16_t cell) const {
   uint8_t wallData = mWalls[cell];
   uint8_t result = 0;
   result |= (wallData >> 0) & 1;

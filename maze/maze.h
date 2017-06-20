@@ -81,7 +81,7 @@ public:
 
 
   /// return the state of the four walls surrounding a given cell
-  uint8_t walls(uint16_t cell);
+  uint8_t walls(uint16_t cell) const ;
   /// test whether a wall in a given direction has been observed
   bool isSeen(uint16_t cell, uint8_t direction);
   ///  test for the absence of a wall. Don't care if it is seen or not
