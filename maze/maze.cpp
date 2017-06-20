@@ -343,6 +343,7 @@ void Maze::updateMap(uint16_t cell, uint8_t wallData) {
   if (wallData & 0x08) {
     setWall(cell, WEST);
   }
+  mWalls[cell] |= VISITED;
 }
 
 void Maze::setUnknowns(void) {
