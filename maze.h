@@ -17,6 +17,7 @@
 #include "mazeconstants.h"
 #include "priorityqueue.h"
 
+extern uint8_t backupWalls[1024];
 class Maze {
 
 public:
@@ -55,6 +56,8 @@ public:
   static uint8_t behind(uint8_t direction);
   /// return the address of the cell opposite the given wall
   static uint8_t opposite(uint8_t direction);
+  static uint8_t differenceBetween(uint8_t oldDirection, uint8_t newDirection);
+
 
   // static functions about neighbours
   /// return the address of the cell in the indicated direction
@@ -169,9 +172,11 @@ public:
   void updateDirections();
 
   /// save the wall data, including visited flags in the target array. Not checked for overflow.
-  void save(uint8_t *data);
+  void save(uint8_t *data = backupWalls);
+
   /// load the wall data, including visited flags from the target array. Not checked for overflow.
-  void load(uint8_t *data);
+  void load(uint8_t *data = backupWalls);
+
 
   ///  Return the Flood Type in use
   FloodType getFloodType() const;
@@ -208,8 +213,10 @@ protected:
   void seedQueue(PriorityQueue<FloodInfo> &queue, uint16_t goal, uint16_t cost);
   /// set all the cell costs to their maxumum value, except the target
   void initialiseFloodCosts(uint16_t target);
-};
+  // allocate the maze to a known position in memory so that we can avoid
+// resetting the contents at reset.
 
+};
 
 #endif
 

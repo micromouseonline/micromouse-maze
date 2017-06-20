@@ -8,9 +8,7 @@
 #ifndef LIST_H
 #define LIST_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -42,9 +40,6 @@ int ListMaxSize (void);
 
 
 
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* LIST_H */
 

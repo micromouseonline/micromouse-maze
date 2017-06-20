@@ -18,7 +18,7 @@ set(HEADER_FILES
         mazesearcher.h
         priorityqueue.h
         mazeconstants.h
-        queue.h
+
         floodinfo.h
         )
 
