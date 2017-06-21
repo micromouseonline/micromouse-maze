@@ -148,7 +148,7 @@ public:
   /// return the cost of the current best path assuming unknowns are present
   uint16_t closedMazeCost() const;
   /// return the difference between the open and closed cost. Zero when the best route is found.
-  int16_t costDifference(void);
+  int32_t costDifference(void);
   /// flood the maze for the give goal
   uint16_t flood(uint16_t target);
   /// RunLengthFlood is a specific kind of flood used in this mouse

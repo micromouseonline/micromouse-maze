@@ -522,8 +522,8 @@ void Maze::recalculateGoal() {
   setGoal(newGoal);
 }
 
-int16_t Maze::costDifference(void) {
-  return int16_t(mPathCostOpen) - int16_t(mPathCostClosed);
+int32_t Maze::costDifference(void) {
+  return int32_t(mPathCostClosed) - int32_t(mPathCostOpen);
 }
 
 uint16_t Maze::openMazeCost() const {
