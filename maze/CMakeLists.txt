@@ -10,7 +10,6 @@ project(maze)
 set(HEADER_FILES
         maze.h
         mazeconstants.h
-        oldmaze.h
         mazedata.h
         mazepathfinder.h
         mazeprinter.h
@@ -23,7 +22,6 @@ set(HEADER_FILES
 
 set (SOURCE_FILES
         maze.cpp
-        oldmaze.cpp
         mazedata.cpp
         mazepathfinder.cpp
         mazeprinter.cpp

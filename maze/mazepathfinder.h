@@ -20,7 +20,7 @@
  */
 
 /* TODO: make this follow a path until there is no smaller neighbour */
-int IsolatePath (location_t start, location_t target);
+//int IsolatePath (location_t start, location_t target);
 
 
 
