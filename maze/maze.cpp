@@ -159,7 +159,8 @@ uint8_t Maze::opposite(uint8_t direction) {
 }
 
 uint8_t Maze::differenceBetween(uint8_t oldDirection, uint8_t newDirection) {
-  return (newDirection - oldDirection) % 4;
+  return (newDirection - oldDirection) & 0x03;
+
 }
 
 
