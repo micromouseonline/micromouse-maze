@@ -8,7 +8,7 @@
 #include "maze.h"
 #include "mazesearcher.h"
 #include "mazeprinter.h"
-
+#include "stddef.h"
 
 
 
