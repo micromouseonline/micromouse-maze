@@ -5,7 +5,6 @@
  * Created on 16 February 2016, 14:55
  */
 
-#include "oldmaze.h"
 #include "mazepathfinder.h"
 
 
@@ -22,28 +21,28 @@
 
 //TODO:  add another 'direction' that is STOP.
 // assumes the maze to have been flooded
-int IsolatePath (location_t start, location_t target)
-{
-  int pathLength = 0;
-  location_t here = start;
-  if (Cost (here) == MAX_COST) {
-    SetDirection (here, BAD_DIRECTION);
-    return -1;  // this is an error condition. Not well handled.
-  }
-  if (Cost (here) == 0) {
-    SetDirection (here, BAD_DIRECTION);
-    return 0;  // this is an error condition. Not well handled.
-  }
-  MazeResetDirections();
-  while (! (here.row == target.row && here.col == target.col)) {
-    direction_t direction;
-    direction = SmallestNeighbourDirection (here);
-    SetDirection (here, direction);
-    here = Neighbour (here, direction);
-    pathLength++;
-    if (pathLength >= 250) {
-      break;
-    }
-  }
-  return pathLength;
-}
+//int IsolatePath (location_t start, location_t target)
+//{
+//  int pathLength = 0;
+//  location_t here = start;
+//  if (Cost (here) == MAX_COST) {
+//    SetDirection (here, BAD_DIRECTION);
+//    return -1;  // this is an error condition. Not well handled.
+//  }
+//  if (Cost (here) == 0) {
+//    SetDirection (here, BAD_DIRECTION);
+//    return 0;  // this is an error condition. Not well handled.
+//  }
+//  MazeResetDirections();
+//  while (! (here.row == target.row && here.col == target.col)) {
+//    direction_t direction;
+//    direction = SmallestNeighbourDirection (here);
+//    SetDirection (here, direction);
+//    here = Neighbour (here, direction);
+//    pathLength++;
+//    if (pathLength >= 250) {
+//      break;
+//    }
+//  }
+//  return pathLength;
+//}

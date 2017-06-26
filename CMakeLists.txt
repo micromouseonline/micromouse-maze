@@ -8,24 +8,20 @@ set(CMAKE_LEGACY_CYGWIN_WIN32 0)
 project(maze)
 
 set(HEADER_FILES
-        list.h
         maze.h
         mazeconstants.h
-        oldmaze.h
         mazedata.h
         mazepathfinder.h
         mazeprinter.h
         mazesearcher.h
         priorityqueue.h
         mazeconstants.h
-        queue.h
+
         floodinfo.h
         )
 
 set (SOURCE_FILES
-        list.cpp
         maze.cpp
-        oldmaze.cpp
         mazedata.cpp
         mazepathfinder.cpp
         mazeprinter.cpp

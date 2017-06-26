@@ -17,6 +17,7 @@
 #include "mazeconstants.h"
 #include "priorityqueue.h"
 
+extern uint8_t backupWalls[1024];
 class Maze {
 
 public:
@@ -38,7 +39,7 @@ public:
   void resetToEmptyMaze(void); ///
 
   /// Clear the costs and directions and then copy the walls from an array
-  void copyMaze(const uint8_t *wallData, uint16_t cellCount);
+  void copyMazeFromFileData(const uint8_t *wallData, uint16_t cellCount);
 
   /// return the column number of  given cell
   uint16_t col(uint16_t cell);
@@ -55,6 +56,8 @@ public:
   static uint8_t behind(uint8_t direction);
   /// return the address of the cell opposite the given wall
   static uint8_t opposite(uint8_t direction);
+  static uint8_t differenceBetween(uint8_t oldDirection, uint8_t newDirection);
+
 
   // static functions about neighbours
   /// return the address of the cell in the indicated direction
@@ -78,7 +81,7 @@ public:
 
 
   /// return the state of the four walls surrounding a given cell
-  uint8_t walls(uint16_t cell);
+  uint8_t walls(uint16_t cell) const ;
   /// test whether a wall in a given direction has been observed
   bool isSeen(uint16_t cell, uint8_t direction);
   ///  test for the absence of a wall. Don't care if it is seen or not
@@ -145,7 +148,7 @@ public:
   /// return the cost of the current best path assuming unknowns are present
   uint16_t closedMazeCost() const;
   /// return the difference between the open and closed cost. Zero when the best route is found.
-  int16_t costDifference(void);
+  int32_t costDifference(void);
   /// flood the maze for the give goal
   uint16_t flood(uint16_t target);
   /// RunLengthFlood is a specific kind of flood used in this mouse
@@ -153,7 +156,7 @@ public:
   /// manhattanFlood is a the simplest kind of flood used in this mouse
   uint16_t manhattanFlood(uint16_t target);
   /// weightedFlood assigns a penalty to turns vs straights
-  uint16_t weightedFlood(uint16_t target, uint16_t turnCost = 3);
+  uint16_t weightedFlood(uint16_t target);
   /// directionFlood does not care about costs, only using direction pointers
   uint16_t directionFlood(uint16_t target);
 
@@ -169,9 +172,11 @@ public:
   void updateDirections();
 
   /// save the wall data, including visited flags in the target array. Not checked for overflow.
-  void save(uint8_t *data);
+  void save(uint8_t *data = backupWalls);
+
   /// load the wall data, including visited flags from the target array. Not checked for overflow.
-  void load(uint8_t *data);
+  void load(uint8_t *data = backupWalls);
+
 
   ///  Return the Flood Type in use
   FloodType getFloodType() const;
@@ -198,12 +203,20 @@ protected:
   bool mIsSolved;
   /// Remember which type of flood is to be used
   FloodType mFloodType;
+  /// the weighted flood needs a cost for corners
+  uint16_t mCornerWeight;
+ public:
+  uint16_t getCornerWeight() const;
+  void setCornerWeight(uint16_t cornerWeight);
+ protected:
   /// used to set up the queue before running the more complex floods
   void seedQueue(PriorityQueue<FloodInfo> &queue, uint16_t goal, uint16_t cost);
   /// set all the cell costs to their maxumum value, except the target
   void initialiseFloodCosts(uint16_t target);
-};
+  // allocate the maze to a known position in memory so that we can avoid
+// resetting the contents at reset.
 
+};
 
 #endif
 
