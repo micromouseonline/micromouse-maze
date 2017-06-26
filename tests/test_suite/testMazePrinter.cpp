@@ -36,7 +36,7 @@ class TestMazePrinter : public ::testing::Test {
 TEST_F (TestMazePrinter, PrintForCoverageTesting)
 {
 
-  MazePrinter::printVisitedDirs(maze);
+//  MazePrinter::printVisitedDirs(maze);
   copyClassicMaze(japan2007);
 
   maze->flood(maze->goal());

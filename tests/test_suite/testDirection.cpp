@@ -57,4 +57,13 @@ TEST (Direction, Behind)
 }
 
 
+TEST (Direction, DifferenceBetween){
+  for(uint8_t fromDir = 0; fromDir < 4; fromDir++){
+    for(uint8_t toDir = 0; toDir <  4; toDir++){
+      uint8_t newDir = Maze::differenceBetween(fromDir,toDir);
+      EXPECT_EQ(newDir,(toDir-fromDir)&3);
+    }
+  }
+}
+
 

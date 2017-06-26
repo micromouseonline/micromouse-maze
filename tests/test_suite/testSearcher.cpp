@@ -158,11 +158,11 @@ TEST_F (SearcherTest, MouseRunTo_RunToGoal_TargetClosedIn_Error) {
  * Tests mouse getting lost because path is too long
  * Simulate by setting target outside maze
  */
-TEST_F (SearcherTest, MouseRunTo_RunToGoal_TargetTooFar_Error) {
-  barney->setMazeWalls(taiwan2015, 256);
-  int steps = barney->runTo(0x200);
-  EXPECT_EQ(int(MazeSearcher::E_ROUTE_TOO_LONG),steps);
-}
+//TEST_F (SearcherTest, MouseRunTo_RunToGoal_TargetTooFar_Error) {
+//  barney->setMazeWalls(taiwan2015, 256);
+//  int steps = barney->runTo(0x200);
+//  EXPECT_EQ(int(MazeSearcher::E_ROUTE_TOO_LONG),steps);
+//}
 
 /*
  * Tests mouse search
@@ -198,7 +198,7 @@ TEST_F (SearcherTest, MouseRunTo_SearchToTarget_ManhattanFlood) {
   barney->maze()->setFloodType(Maze::MANHATTAN_FLOOD);
   int steps = barney->searchTo(0x77);
   EXPECT_EQ(130,steps);
-  MazePrinter::printVisitedDirs(barney->maze());
+//  MazePrinter::printVisitedDirs(barney->maze());
 }
 
 
@@ -219,7 +219,7 @@ TEST_F (SearcherTest, MouseSearchToTarget_RunLengthFlood) {
  */
 TEST_F (SearcherTest, MouseSearchToTarget_LeftWall_Fail) {
   maze->copyMazeFromFileData(emptyMaze,256);
-  barney->setVerbose(true);
+  barney->setVerbose(false);
   barney->setRealMaze(maze);
   barney->maze()->setFloodType(Maze::RUNLENGTH_FLOOD);
   barney->setSearchMethod(MazeSearcher::SEARCH_LEFT_WALL);
