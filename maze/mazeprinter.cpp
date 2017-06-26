@@ -117,6 +117,21 @@ void MazePrinter::printCDecl(Maze *maze, const char *name) {
   return;
 }
 
+
+void MazePrinter::printRawDecl(Maze *maze, const char *name) {
+  printf("\n\nconst uint8_t %s[] = {\n", name);
+  for (int x = 0; x < maze->width(); x++) {
+    printf("   ");
+    for (int y = 0; y < maze->width(); y++) {
+      uint16_t cell = x * maze->width() + y;
+      printf("0x%02X, ", maze->internalWalls(cell));
+    }
+    printf("\n");
+  }
+  printf("   };\n\n");
+  return;
+}
+
 void MazePrinter::printCosts(Maze *maze) {
   printf("\n");
 

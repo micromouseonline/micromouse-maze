@@ -13,6 +13,7 @@
 class MazePrinter {
  public:
   static void printCDecl(Maze * maze, const char * name) ;
+  static void printRawDecl(Maze * maze, const char * name) ;
   static void printPlain(Maze * maze) ;
   static void printCosts(Maze * maze) ;
   static void printDirs(Maze * maze) ;
