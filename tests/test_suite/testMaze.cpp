@@ -1,5 +1,4 @@
 #include "gtest/gtest.h"
-#include "oldmaze.h"
 //#include "mazeprinter.h"
 #include "mazedata.h"
 #include "maze.h"

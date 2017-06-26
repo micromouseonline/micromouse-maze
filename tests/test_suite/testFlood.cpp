@@ -69,6 +69,27 @@ TEST_F (MazeFlood, FloodKnownMaze_OpenClosedCostsSame) {
 
 
 
+TEST_F (MazeFlood, UnExploredMazeSolution) {
+  maze->resetToEmptyMaze();
+  maze->testForSolution();
+  EXPECT_GE(maze->closedMazeCost(), maze->openMazeCost());
+  EXPECT_EQ(64601,maze->costDifference());
+  EXPECT_FALSE(maze->isSolved());
+}
+
+
+
+TEST_F (MazeFlood, UnExploredMazeSolution_Manhattan) {
+  maze->resetToEmptyMaze();
+  maze->setFloodType(Maze::MANHATTAN_FLOOD);
+  maze->testForSolution();
+  EXPECT_GE(maze->closedMazeCost(), maze->openMazeCost());
+  EXPECT_EQ(65521,maze->costDifference());
+  EXPECT_FALSE(maze->isSolved());
+}
+
+
+
 TEST_F (MazeFlood, ExploredMazeSolution) {
   maze->resetToEmptyMaze();
   copyClassicMaze(japan2007);

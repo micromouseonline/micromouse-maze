@@ -1,18 +1,20 @@
 #include "gtest/gtest.h"
-#include "oldmaze.h"
 
 #include "mazeprinter.h"
 #include "mazesearcher.h"
-
+#include "mazedata.h"
 #include "maze.h"
 
-
-class SearcherTest : public ::testing::Test
-{
+class SearcherTest : public ::testing::Test {
 
   /* This gets run before each test */
-  virtual void SetUp()
-  {
+  virtual void SetUp() {
+    maze = new Maze(16);
+    maze->copyMazeFromFileData(japan2007, 256);
+
+    barney = new MazeSearcher;
+
+//    MazePrinter::printPlain(&testMaze);
 //    char testMazeName[] = "../mazefiles/minos03f.maz";
 //    MazeResetWalls();
 //    SetGoal (DefaultGoal());
@@ -27,172 +29,266 @@ class SearcherTest : public ::testing::Test
 //    MouseInit();
   }
 
-  virtual void TearDown() { }
+  virtual void TearDown() {
+    delete barney;
+    delete maze;
+  }
+
+ protected:
+  MazeSearcher *barney;
+  Maze *maze;
 };
 
-TEST_F (SearcherTest, Mouse_Initialised)
-{
-//  MouseInit();
-//  EXPECT_EQ (NORTH, MouseHeading());
-//  EXPECT_EQ (0, MousePosition().row);
-//  EXPECT_EQ (0, MousePosition().col);
+TEST_F (SearcherTest, Constructor) {
+  EXPECT_EQ(0, barney->location());
+  EXPECT_EQ(NORTH, barney->heading());
+  EXPECT_EQ(NULL, barney->realMaze());
 }
 
-TEST_F (SearcherTest, MouseSetPosition_PositionAsSet)
-{
-//  MouseSetPosition (Location (3, 9));
-//  EXPECT_EQ (3, MousePosition().row);
-//  EXPECT_EQ (9, MousePosition().col);
+TEST_F (SearcherTest, MouseSetPosition_PositionAsSet) {
+  barney->setLocation(0x99);
+  EXPECT_EQ(0x99, barney->location());
 }
 
-TEST_F (SearcherTest, MouseSetHeading_HeadingAsSet)
-{
-//  MouseSetHeading (WEST);
-//  EXPECT_EQ (WEST, MouseHeading());
+TEST_F (SearcherTest, MouseSetHeading_HeadingAsSet) {
+  barney->setHeading(EAST);
+  EXPECT_EQ(EAST, barney->heading());
 }
 
 
-TEST_F (SearcherTest, MouseMove_NewPosition_IsNeighbourFromHeading)
-{
-//
-//  MouseSetPosition (Location (9, 12));
-//  MouseSetHeading (EAST);
-//  MouseMove();
-//  EXPECT_EQ (9, MousePosition().row);
-//  EXPECT_EQ (13, MousePosition().col);
-//
-//  MouseSetHeading (SOUTH);
-//  MouseMove();
-//  EXPECT_EQ (8, MousePosition().row);
-//  EXPECT_EQ (13, MousePosition().col);
-//
-//  MouseSetHeading (WEST);
-//  MouseMove();
-//  EXPECT_EQ (8, MousePosition().row);
-//  EXPECT_EQ (12, MousePosition().col);
-//
-//  MouseSetHeading (NORTH);
-//  MouseMove();
-//  EXPECT_EQ (9, MousePosition().row);
-//  EXPECT_EQ (12, MousePosition().col);
-
+TEST_F (SearcherTest, moveWithMaze_ChangeLocationOnly) {
+  barney->setMazeWalls(japan2007, 256);
+  barney->setLocation(0x00);
+  barney->setHeading(NORTH);
+  barney->move();
+  EXPECT_EQ(0x01, barney->location());
+  EXPECT_EQ(NORTH,barney->heading());
 }
+
+TEST_F (SearcherTest, moveWithMaze_smallCircuitReturnToStart) {
+  barney->setMazeWalls(japan2007, 256);
+  barney->setLocation(0x39);
+  barney->move();
+  barney->setHeading(EAST);
+  barney->move();
+  barney->setHeading(SOUTH);
+  barney->move();
+  barney->setHeading(WEST);
+  barney->move();
+  barney->setHeading(NORTH);
+  EXPECT_EQ(0x39, barney->location());
+  EXPECT_EQ(NORTH,barney->heading());
+}
+
+
+
 /*
  * Tests whether the mouse can successfully follow a correctly setup
- * direction array and stop at the appropriate location
+ * direction array and stop at the appropriate mLocation
  */
-TEST_F (SearcherTest, MouseRunTo_StartToGoal_MouseAtGoal)
-{
-//  MouseInit();
-//  SetGoal (DefaultGoal());
-//  MouseRunTo (Goal());
-//  EXPECT_TRUE (Goal().row == MousePosition().row) << "{" << MousePosition().row << ", " << MousePosition().col << "}";
-//  EXPECT_TRUE (Goal().col == MousePosition().col) << "{" << MousePosition().row << ", " << MousePosition().col << "}";
+TEST_F (SearcherTest, MouseRunTo_EmptyMaze_StartToGoal_MouseAtGoal) {
+  barney->setMazeWalls(emptyMaze, 256);
+  int steps = barney->runTo(0x77);
+  EXPECT_EQ(14,steps);
+  EXPECT_EQ(0x77,barney->location()) << "{" << barney->location() << ", " << +barney->heading() << "}";
+}
+
+/*
+ * Tests whether the mouse can successfully follow a correctly setup
+ * direction array and stop at the appropriate mLocation
+ */
+TEST_F (SearcherTest, MouseRunTo_EmptyMaze_ToGoalFromAnywhere) {
+  barney->setMazeWalls(japan2007, 256);
+  maze->copyMazeFromFileData(japan2007,256);
+  maze->flood(0x77);
+  int steps = barney->runTo(0x77);
+  EXPECT_EQ(72,steps);
+  for(uint16_t loc = 0; loc < maze->numCells(); loc++) {
+    barney->setLocation(loc);
+    barney->setHeading(WEST);
+    barney->runTo(0x77);
+    EXPECT_EQ(0x77, barney->location()) << "{" << barney->location() << ", " << +barney->heading() << "}";
+  }
+}
+
+/*
+ * Tests whether the mouse can successfully follow a correctly setup
+ * direction array and stop at the appropriate mLocation
+ */
+TEST_F (SearcherTest, MouseRunTo_EmptyMaze_ToStartFromAnywhere) {
+  barney->setMazeWalls(japan2007, 256);
+  maze->copyMazeFromFileData(japan2007,256);
+  maze->flood(maze->home());
+  barney->setLocation(0x01);
+  int steps = barney->runTo(maze->home());
+  EXPECT_EQ(1,steps);
+  for(uint16_t loc = 1; loc < maze->numCells(); loc++) {
+    barney->setLocation(loc);
+    barney->setHeading(WEST);
+    int steps = barney->runTo(maze->home());
+    EXPECT_EQ(maze->home(), barney->location()) << "{" << barney->location() << ", " << +barney->heading() << "}";
+    EXPECT_GT(steps,0);
+  }
 }
 
 /*
  * Tests mouse getting lost in a cell with invalid direction
+ * Taiwan2015 maze has closed in cells at 0x5C and 0x5D
  */
-TEST_F (SearcherTest, MouseRunTo_StartToGoal_LostAt10)
-{
-//  MouseInit();
-//  SetGoal (DefaultGoal());
-//  SetDirection (Location (1, 0), INVALID);
-//  MouseRunTo (Goal());
-//  EXPECT_TRUE (1 == MousePosition().row) ;
-//  EXPECT_TRUE (0 == MousePosition().col) ;
+TEST_F (SearcherTest, MouseRunTo_RunToGoal_StartClosedIn_Error) {
+  barney->setMazeWalls(taiwan2015, 256);
+  barney->setLocation(0x5D);
+  int steps = barney->runTo(maze->goal());
+  EXPECT_EQ(int(MazeSearcher::E_NO_ROUTE),steps);
 }
 
 /*
- * Tests mouse getting lost when direction array corrupt
+ * Tests mouse getting lost in a cell with invalid direction
+ * Taiwan2015 maze has closed in cells at 0x5C and 0x5D
  */
-TEST_F (SearcherTest, MouseRunTo_StartToGoal_LostWithNoDirection)
-{
-//  MouseInit();
-//  SetGoal (DefaultGoal());
-//  SetDirection (Location (1, 0), -1);
-//  MouseRunTo (Goal());
-//  EXPECT_TRUE (1 == MousePosition().row) ;
-//  EXPECT_TRUE (0 == MousePosition().col) ;
+TEST_F (SearcherTest, MouseRunTo_RunToGoal_TargetClosedIn_Error) {
+  barney->setMazeWalls(taiwan2015, 256);
+  int steps = barney->runTo(0x5C);
+  EXPECT_EQ(int(MazeSearcher::E_NO_ROUTE),steps);
 }
 
 
 
 /*
- * Tests mouse search using full flood
+ * Tests mouse getting lost because path is too long
+ * Simulate by setting target outside maze
  */
-TEST_F (SearcherTest, MouseSearchTo_FullFlood_StartToGoal_Success)
-{
-//  char fileName[] = "../mazefiles/minos03f.maz";
-//  int stepsTaken = 0;
-//  ReadRealWallsFromFile (fileName);
-//  MazeInit();
-//  FloodMazeClassic (DefaultGoal());	/* seed the costs and directions */
-//  MouseInit();
-//  SetGoal (DefaultGoal());
-//  stepsTaken = MouseSearchToFullFlood (DefaultGoal());
-//  EXPECT_GT (500, stepsTaken);
-//  EXPECT_TRUE (DefaultGoal().row == MousePosition().row) ;
-//  EXPECT_TRUE (DefaultGoal().col == MousePosition().col) ;
+TEST_F (SearcherTest, MouseRunTo_RunToGoal_TargetTooFar_Error) {
+  barney->setMazeWalls(taiwan2015, 256);
+  int steps = barney->runTo(0x200);
+  EXPECT_EQ(int(MazeSearcher::E_ROUTE_TOO_LONG),steps);
+}
+
+/*
+ * Tests mouse search
+ */
+TEST_F (SearcherTest, MouseSearchTo_EmptyMaze_Success) {
+  Maze * testMaze = new Maze(16);
+  testMaze->setWall(0x07,EAST);
+  barney->setRealMaze(testMaze);
+  maze->setFloodType(Maze::MANHATTAN_FLOOD);
+  int steps = barney->searchTo(0x77);
+  EXPECT_EQ(16,steps);
 }
 
 
 /*
- * Tests mouse search using Modified flood
+ * verbose mode prints out the maze after each step.
  */
-TEST_F (SearcherTest, MouseSearchTo_ModifiedFlood_StartToGoal_Success)
-{
-//  char fileName[] = "../mazefiles/minos03f.maz";
-//  int stepsTaken = 0;
-//  ReadRealWallsFromFile (fileName);
-//  MazeInit();
-//  FloodMazeClassic (DefaultGoal());	/* seed the costs and directions */
-//  MouseInit();
-//  SetGoal (DefaultGoal());
-//  stepsTaken = MouseSearchToModifiedFlood (DefaultGoal());
-//  EXPECT_GT (500, stepsTaken);
-//  EXPECT_TRUE (DefaultGoal().row == MousePosition().row) ;
-//  EXPECT_TRUE (DefaultGoal().col == MousePosition().col) ;
+TEST_F (SearcherTest, MouseRunTo_SearchToTarget_VerboseMode) {
+  Maze * testMaze = new Maze(16);
+  barney->setRealMaze(testMaze);
+  //barney->setVerbose(true);
+  barney->maze()->setFloodType(Maze::MANHATTAN_FLOOD);
+  int steps = barney->searchTo(0x7);
+  EXPECT_EQ(7,steps);
+}
+
+
+/*
+ *
+ */
+TEST_F (SearcherTest, MouseRunTo_SearchToTarget_ManhattanFlood) {
+  barney->setRealMaze(maze);
+  barney->maze()->setFloodType(Maze::MANHATTAN_FLOOD);
+  int steps = barney->searchTo(0x77);
+  EXPECT_EQ(130,steps);
+  MazePrinter::printVisitedDirs(barney->maze());
+}
+
+
+/*
+ *
+ */
+TEST_F (SearcherTest, MouseSearchToTarget_RunLengthFlood) {
+  barney->setRealMaze(maze);
+  barney->maze()->setFloodType(Maze::RUNLENGTH_FLOOD);
+  int steps = barney->searchTo(0x77);
+  EXPECT_EQ(142,steps);
+//  MazePrinter::printVisitedDirs(barney->maze());
+}
+
+
+/*
+ *
+ */
+TEST_F (SearcherTest, MouseSearchToTarget_LeftWall_Fail) {
+  maze->copyMazeFromFileData(emptyMaze,256);
+  barney->setVerbose(true);
+  barney->setRealMaze(maze);
+  barney->maze()->setFloodType(Maze::RUNLENGTH_FLOOD);
+  barney->setSearchMethod(MazeSearcher::SEARCH_LEFT_WALL);
+  int steps = barney->searchTo(0x77);
+  EXPECT_EQ(MazeSearcher::E_ROUTE_TOO_LONG,steps);
 }
 
 /*
- * Tests mouse search using Modified flood with no route
- * The test maze has only two open cells at the start
+ *
  */
-TEST_F (SearcherTest, MouseSearchTo_ModifiedFlood_StartToGoal_NORoute)
-{
-//  char fileName[] = "../mazefiles/map-y7.maz";
-//  int stepsTaken = 0;
-//  ReadRealWallsFromFile (fileName);
-//  MazeInit();
-//  FloodMazeClassic (DefaultGoal());	/* seed the costs and directions */
-//  MouseInit();
-//  SetGoal (DefaultGoal());
-//  stepsTaken = MouseSearchToModifiedFlood (DefaultGoal());
-//  EXPECT_LT (500, stepsTaken);
-//  EXPECT_EQ (1, MousePosition().row) ;
-//  EXPECT_EQ (0, MousePosition().col) ;
+TEST_F (SearcherTest, MouseSearchToTarget_LeftWall_Succeed) {
+  maze->copyMazeFromFileData(japan2007,256);
+  barney->setRealMaze(maze);
+  barney->maze()->setFloodType(Maze::RUNLENGTH_FLOOD);
+  barney->setSearchMethod(MazeSearcher::SEARCH_LEFT_WALL);
+  int steps = barney->searchTo(0x77);
+  EXPECT_EQ(84,steps);
 }
+
+
+
 
 /*
- * Tests mouse search using Modified flood with no route
- * The test maze has only two open cells at the start
+ *
  */
-TEST_F (SearcherTest, MouseSearchTo_FullFlood_StartToGoal_NORoute)
-{
-//  char fileName[] = "../mazefiles/map-y7.maz";
-//  int stepsTaken = 0;
-//  ReadRealWallsFromFile (fileName);
-//  MazeInit();
-//  FloodMazeClassic (DefaultGoal());	/* seed the costs and directions */
-//  MouseInit();
-//  SetGoal (DefaultGoal());
-//  stepsTaken = MouseSearchToFullFlood (DefaultGoal());
-//  EXPECT_EQ (1, stepsTaken);
-//  EXPECT_EQ (1, MousePosition().row) ;
-//  EXPECT_EQ (0, MousePosition().col) ;
+TEST_F (SearcherTest, MouseRunTo_SearchOutAndIn_RunLengthFlood) {
+  barney->setRealMaze(maze);
+  int steps = 0;
+  std::cout << "\n\nRunlength pass 0: ";
+  barney->maze()->testForSolution();
+  std::cout << barney->maze()->costDifference() << "  " << steps << " steps" << std::endl;
+  barney->maze()->setFloodType(Maze::RUNLENGTH_FLOOD);
+  steps += barney->searchTo(0x77);
+  steps += barney->searchTo(0x00);
+  EXPECT_EQ(228,steps);
+  barney->maze()->testForSolution();
+  std::cout << "Runlength pass 1: ";
+  std::cout << barney->maze()->costDifference() << "  " << steps << " steps" << std::endl;
+  steps += barney->searchTo(0x77);
+  steps += barney->searchTo(0x00);
+  barney->maze()->testForSolution();
+  std::cout << "Runlength pass 2: ";
+  std::cout << barney->maze()->costDifference() << "  " << steps << " steps" << std::endl;
 }
 
+
+/*
+ *
+ */
+TEST_F (SearcherTest, MouseRunTo_SearchOutAndIn_ManhattanFlood) {
+  barney->setRealMaze(maze);
+  barney->maze()->setFloodType(Maze::MANHATTAN_FLOOD);
+  int steps=0;
+  std::cout << "\n\nManhattan pass 0: ";
+  barney->maze()->testForSolution();
+  std::cout << barney->maze()->costDifference() << "  " << steps << " steps" << std::endl;
+  steps += barney->searchTo(0x77);
+  steps += barney->searchTo(0x00);
+  EXPECT_EQ(208,steps);
+  //MazePrinter::printVisitedDirs(barney->maze());
+  barney->maze()->testForSolution();
+  std::cout << "Manhattan pass 1: ";
+  std::cout << barney->maze()->costDifference() << "  " << steps << " steps" << std::endl;
+  steps += barney->searchTo(0x77);
+  steps += barney->searchTo(0x00);
+  barney->maze()->testForSolution();
+  std::cout << "Manhattan pass 2: ";
+  std::cout << barney->maze()->costDifference() << "  " << steps << " steps" << std::endl;
+}
 
 
 

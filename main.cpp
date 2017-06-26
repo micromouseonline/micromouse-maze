@@ -17,7 +17,7 @@
 #include "maze.h"
 #include "mazeprinter.h"
 //#include "mazepathfinder.h"
-//#include "mazesearcher.h"
+#include "mazesearcher.h"
 #include <glob.h>
 
 uint8_t wallData[1024];
@@ -57,25 +57,45 @@ int main(int argc, char **argv) {
 //  MazeResetWalls();
 //  MouseInit();
 //  location_t target = DefaultGoal();
+  MazeSearcher barney;
   glob_t glob_result;
   glob("./mazefiles/*", GLOB_TILDE, NULL, &glob_result);
   if (argc > 1) {
     Maze maze(16);
-    int totalMazes = 0;
-    int fullCount = 0;
-    int fullfullCount = 0;
-    int modAllCount = 0;
-    int modOpenCount = 0;
+    int onePassCount = 0;
+    int chancerCount = 0;
     printf("   FULL  MODOPEN   MODALL\n");
+    barney.setSearchMethod(MazeSearcher::SEARCH_LEFT_WALL);
     for (unsigned int i = 0; i < glob_result.gl_pathc; ++i) {
-      std::cout << "\n\n\n";
-      std::cout << glob_result.gl_pathv[i] << std::endl;
+     std::cout << "\n\n\n";
+      std::cout << glob_result.gl_pathv[i] << " : ";
       ReadRealWallsFromFile(glob_result.gl_pathv[i]);
       maze.resetToEmptyMaze();
       maze.load(wallData);
       maze.copyMazeFromFileData(wallData, 256);
       maze.flood(0x77);
-      MazePrinter::printDirs(&maze);
+      barney.setRealMaze(&maze);
+      barney.maze()->resetToEmptyMaze();
+      barney.setLocation(0x00);
+      int steps = barney.searchTo(0x77);
+      //steps += barney.searchTo(0x00);
+      std::cout << steps << " steps   ";
+      barney.maze()->testForSolution();
+      int costDifference = barney.maze()->costDifference();
+      int openCost = barney.maze()->openMazeCost();
+      int residual = (100*costDifference)/openCost;
+      std::cout << costDifference << " [" << residual<< "] ";
+
+      if (costDifference == 0){
+        onePassCount ++;
+        std::cout << "             <-----";
+      }
+      if (residual < 5 && residual >= 0){
+        chancerCount++;
+        std::cout << " ** ";
+      }
+      std::cout << std::endl;
+      MazePrinter::printVisitedDirs(barney.maze());
 
 //    for (int i = 1; i < argc; i++) {
 //      ReadRealWallsFromFile(argv[i]);
@@ -113,12 +133,11 @@ int main(int argc, char **argv) {
 //      printf("%7d%c  %9d%c  %9d%c  steps for %s\n", stepsFull, x, stepsModOpen, y, stepsModAll, z, argv[i]);
 //      //printf ("%4d : %3d %c %3d steps for %s\n", stepsFull - stepsModAll, stepsFull, (stepsFull > stepsModAll) ? '>' : '<', stepsModAll,  argv[i]);
     }
-    printf("\n%d mazes:\n", totalMazes);
-    printf("                Full FULL Flood %3d mazes\n", fullfullCount);
-    printf("                     Full Flood %3d mazes\n", fullCount);
-    printf(" Modified Open Neighbours Flood %3d mazes\n", modOpenCount);
-    printf("  Modified All Neighbours Flood %3d mazes\n", modAllCount);
-    printf("\n%3d mazes in total\n", fullfullCount + fullCount + modOpenCount + modAllCount);
+
+    printf("\n%d mazes:\n", glob_result.gl_pathc);
+    printf(" one Pass mazes: %3d\n", onePassCount);
+    printf(" Possible chancer  mazes: %3d\n", chancerCount);
+
   } else {
 //    char fileName[] = "mazefiles/minos03f.maz";
 //    ReadRealWallsFromFile(fileName);
