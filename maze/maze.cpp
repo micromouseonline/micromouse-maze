@@ -757,13 +757,5 @@ uint8_t Maze::internalWalls(uint16_t cell) const {
 }
 
 
-// OLD STUFF BELOW HERE
-////////////////////////////////////////////////////
-
-#ifdef STM32F4xx
- uint8_t backupWalls[1024] NOINIT;
-#else
- uint8_t backupWalls[1024];
-#endif
 
 

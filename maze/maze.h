@@ -17,7 +17,7 @@
 #include "mazeconstants.h"
 #include "priorityqueue.h"
 
-extern uint8_t backupWalls[1024];
+
 class Maze {
 
 public:
@@ -173,10 +173,10 @@ public:
   void updateDirections();
 
   /// save the wall data, including visited flags in the target array. Not checked for overflow.
-  void save(uint8_t *data = backupWalls);
+  void save(uint8_t *data );
 
   /// load the wall data, including visited flags from the target array. Not checked for overflow.
-  void load(uint8_t *data = backupWalls);
+  void load(uint8_t *data);
 
 
   ///  Return the Flood Type in use
