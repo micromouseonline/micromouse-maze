@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-//#include "mazeprinter.h"
+#include "mazeprinter.h"
 #include "mazedata.h"
 #include "maze.h"
 /////////////////////
@@ -26,6 +26,18 @@ TEST_F(MazeTest, CopyMaze) {
     EXPECT_EQ(emptyMaze[cell], maze->walls(cell));
     EXPECT_TRUE(maze->isVisited(cell));
   }
+}
+
+TEST_F(MazeTest, SetClearUnknowns_TestoneCell) {
+ maze->resetToEmptyMaze();
+  maze->setUnknowns();
+  EXPECT_EQ(0x0F,maze->walls(0x22));
+  EXPECT_EQ(0x0E,maze->walls(0x00));
+  EXPECT_EQ(0x0B,maze->walls(0x01));
+  maze->clearUnknowns();
+  EXPECT_EQ(0x00,maze->walls(0x22));
+  EXPECT_EQ(0x0E,maze->walls(0x00));
+  EXPECT_EQ(0x08,maze->walls(0x01));
 }
 
 TEST_F(MazeTest, SetClearUnknowns_NoChangeInExploredMaze) {
@@ -229,6 +241,23 @@ TEST_F(MazeTest, NeighbourCellAddresses) {
 
 TEST_F(MazeTest, NeighbourInvalidDirection_ReturnsUINT16_MAX) {
   EXPECT_EQ(MAX_COST, maze->neighbour(0, -1));
+}
+
+
+TEST_F(MazeTest, LoadAndSave_MazeKeptSafe) {
+  uint8_t backupWalls[1024] = {};
+  maze->copyMazeFromFileData(japan2007,256);
+  maze->save(backupWalls);
+  maze->resetToEmptyMaze();
+  for (int i = 0; i < maze->numCells(); i++){
+    EXPECT_EQ(maze->walls(i),emptyMaze[i]);
+  }
+  maze->load(backupWalls);
+  for (int i = 0; i < maze->numCells(); i++){
+    EXPECT_EQ(maze->walls(i),japan2007[i]);
+  }
+
+
 }
 
 TEST_F(MazeTest, RecalculateGoalOneEntrance_SetToCellOppositeEntrance) {
