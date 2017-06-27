@@ -50,12 +50,15 @@ enum {
   void setLocation(uint16_t location);
   uint8_t heading() const;
   void setHeading(uint8_t heading);
-  void setMazeWalls(const uint8_t *mazeWalls, uint16_t cellCount);
-  Maze * maze();
+  void setMapFromFileData(const uint8_t *mazeWalls, uint16_t cellCount);
+  Maze * map();
   /// move the mouse 1 cell in in the current Heading
   const Maze *realMaze() const;
   void setRealMaze(const Maze *mRealMaze);
   void move();
+  void turnRight();
+  void turnLeft();
+  void turnAround();
   /// follow direction data in the maze to get to the given target cell
   /// return the number of steps needed
   int runTo(uint16_t target);
@@ -63,25 +66,22 @@ enum {
   /// return the number of steps needed
   int searchTo(uint16_t target);
 
+  int searchMethod() const;
+  void setSearchMethod(int mSearchMethod);
+  bool isVerbose() const;
+  void setVerbose(bool mVerbose);
 
 
  private:
   uint16_t mLocation;
   uint8_t mHeading;
-  Maze * mMaze;
+  Maze * mMap;
   const Maze * mRealMaze;
   bool mVerbose;
   int mSearchMethod;
- public:
-  int searchMethod() const;
-  void setSearchMethod(int mSearchMethod);
- public:
-  bool isVerbose() const;
-  void setVerbose(bool mVerbose);
- private:
-  // display maze as we search or run
   MazeSearcher & operator=(const MazeSearcher& rhs) ;
   MazeSearcher(const MazeSearcher & orig);
+  uint8_t followLeftWall() const;
 };
 
 //void MouseInit (void);

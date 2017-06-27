@@ -91,12 +91,14 @@ MazeSearcher::MazeSearcher() :
     mHeading(NORTH),
     mLocation(0),
     mRealMaze(NULL),
-    mVerbose(false) {
-  mMaze = new Maze(16);
+    mVerbose(false),
+    mSearchMethod(SEARCH_NORMAL) {
+  mMap = new Maze(16);
+  mMap->setFloodType(Maze::MANHATTAN_FLOOD);
 }
 
 MazeSearcher::~MazeSearcher() {
-  delete mMaze;
+  delete mMap;
 }
 
 bool MazeSearcher::isVerbose() const {
@@ -124,15 +126,15 @@ void MazeSearcher::setHeading(uint8_t heading) {
 }
 
 void MazeSearcher::move() {
-  mLocation = mMaze->neighbour(mLocation, mHeading);
+  mLocation = mMap->neighbour(mLocation, mHeading);
 }
 
-void MazeSearcher::setMazeWalls(const uint8_t *mazeWalls, uint16_t cellCount) {
-  mMaze->copyMazeFromFileData(mazeWalls, cellCount);
+void MazeSearcher::setMapFromFileData(const uint8_t *mazeWalls, uint16_t cellCount) {
+  mMap->copyMazeFromFileData(mazeWalls, cellCount);
 }
 
-Maze *MazeSearcher::maze() {
-  return mMaze;
+Maze *MazeSearcher::map() {
+  return mMap;
 }
 
 const Maze *MazeSearcher::realMaze() const {
@@ -145,9 +147,9 @@ void MazeSearcher::setRealMaze(const Maze *maze) {
 
 int MazeSearcher::runTo(uint16_t target) {
   int steps = 0;
-  mMaze->flood(target);
+  mMap->flood(target);
   while (mLocation != target) {
-    uint8_t heading = mMaze->direction(mLocation);
+    uint8_t heading = mMap->direction(mLocation);
     if (heading == INVALID_DIRECTION) {
       steps = -1;
       break;
@@ -161,7 +163,7 @@ int MazeSearcher::runTo(uint16_t target) {
       break;
     }
     if (isVerbose()) {
-      MazePrinter::printVisitedDirs(mMaze);
+      MazePrinter::printVisitedDirs(mMap);
     }
   }
   return steps;
@@ -169,51 +171,56 @@ int MazeSearcher::runTo(uint16_t target) {
 
 //TODO: this needs looking at. the returned number of steps is inconsistent
 int MazeSearcher::searchTo(uint16_t target) {
-  int result = 0;
+  int stepCount = 0;
   while (mLocation != target) {
-    mMaze->updateMap(mLocation, mRealMaze->walls(mLocation));
-    mMaze->flood(target);
-    uint8_t newHeading = mMaze->direction(mLocation);
-    if (newHeading == INVALID_DIRECTION) {
-      result = E_NO_ROUTE;
-      break;
-    }
-    result++;
-    if (result > mMaze->numCells()) {
-      result = E_ROUTE_TOO_LONG;
-      break;
-    }
-
-    switch (searchMethod()) {
+    mMap->updateMap(mLocation, mRealMaze->walls(mLocation));
+    uint8_t newHeading;
+    switch (mSearchMethod) {
       case SEARCH_LEFT_WALL:
-
-        if (mMaze->hasExit(mLocation, Maze::leftOf(mHeading))) {
-          newHeading = Maze::leftOf(mHeading);
-        } else if (mMaze->hasExit(mLocation, Maze::ahead(mHeading))) {
-          newHeading = Maze::ahead(mHeading);
-        } else if (mMaze->hasExit(mLocation, Maze::rightOf(mHeading))) {
-          newHeading = Maze::rightOf(mHeading);
-        } else {
-          newHeading = Maze::behind(mHeading);
-        }
-        setHeading(newHeading);
+        newHeading = followLeftWall();
         break;
       case SEARCH_RIGHT_WALL:
         break;
       case SEARCH_RANDOM:
         break;
       case SEARCH_NORMAL:
-      default:
-
-        setHeading(newHeading);
+        mMap->flood(target);
+        newHeading = mMap->direction(mLocation);
         break;
+      default:
+        newHeading = INVALID_DIRECTION;
+        break;
+    }
+    if (newHeading == INVALID_DIRECTION) {
+      stepCount = E_NO_ROUTE;
+      break;
+    }
+    setHeading(newHeading);
+    stepCount++;
+    if (stepCount > mMap->numCells()) {
+      stepCount = E_ROUTE_TOO_LONG;
+      break;
     }
     move();
     if (isVerbose()) {
-      MazePrinter::printVisitedDirs(mMaze);
+      MazePrinter::printVisitedDirs(mMap);
     }
   }
-  return result;
+  return stepCount;
+}
+
+uint8_t MazeSearcher::followLeftWall() const {
+  uint8_t newHeading;
+  if (mMap->hasExit(mLocation, Maze::leftOf(mHeading))) {
+    newHeading = Maze::leftOf(mHeading);
+  } else if (mMap->hasExit(mLocation, Maze::ahead(mHeading))) {
+    newHeading = Maze::ahead(mHeading);
+  } else if (mMap->hasExit(mLocation, Maze::rightOf(mHeading))) {
+    newHeading = Maze::rightOf(mHeading);
+  } else {
+    newHeading = Maze::behind(mHeading);
+  }
+  return newHeading;
 }
 
 int MazeSearcher::searchMethod() const {
@@ -222,4 +229,16 @@ int MazeSearcher::searchMethod() const {
 
 void MazeSearcher::setSearchMethod(int mSearchMethod) {
   MazeSearcher::mSearchMethod = mSearchMethod;
+}
+
+void MazeSearcher::turnRight() {
+  mHeading = Maze::rightOf(mHeading);
+}
+
+void MazeSearcher::turnLeft() {
+  mHeading = Maze::leftOf(mHeading);
+}
+
+void MazeSearcher::turnAround() {
+  mHeading = Maze::behind(mHeading);
 }
