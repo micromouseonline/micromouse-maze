@@ -87,6 +87,15 @@ TEST_F (MazeTest, ResetData_OnlyHomeCellVisited) {
   }
 }
 
+TEST_F (MazeTest, RealExitAndWalls) {
+  maze->resetToEmptyMaze();
+  EXPECT_TRUE(maze->hasExit(0x01,SOUTH));
+  EXPECT_TRUE(maze->hasExit(0x01,EAST));
+  EXPECT_FALSE(maze->hasRealExit(0x01,EAST));
+  EXPECT_TRUE(maze->hasWall(0x01,WEST));
+  EXPECT_TRUE(maze->hasRealWall(0x01,WEST));
+  EXPECT_TRUE(maze->isSeen(0x01,WEST));
+}
 
 TEST_F(MazeTest, SetClearAndGetWalls) {
   maze->resetToEmptyMaze();

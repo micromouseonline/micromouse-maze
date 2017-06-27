@@ -247,6 +247,7 @@ TEST_F (SearcherTest, MouseSearchToTarget_LeftWall_Succeed) {
  */
 TEST_F (SearcherTest, MouseRunTo_SearchOutAndIn_RunLengthFlood) {
   barney->setRealMaze(maze);
+  maze->copyMazeFromFileData(japan2007,256);
   int steps = 0;
   std::cout << "\n\nRunlength pass 0: ";
   barney->maze()->testForSolution();
@@ -254,7 +255,7 @@ TEST_F (SearcherTest, MouseRunTo_SearchOutAndIn_RunLengthFlood) {
   barney->maze()->setFloodType(Maze::RUNLENGTH_FLOOD);
   steps += barney->searchTo(0x77);
   steps += barney->searchTo(0x00);
-  EXPECT_EQ(228,steps);
+  EXPECT_EQ(228,steps) << "The solution is not always correct. This is not right";
   barney->maze()->testForSolution();
   std::cout << "Runlength pass 1: ";
   std::cout << barney->maze()->costDifference() << "  " << steps << " steps" << std::endl;
@@ -278,7 +279,7 @@ TEST_F (SearcherTest, MouseRunTo_SearchOutAndIn_ManhattanFlood) {
   std::cout << barney->maze()->costDifference() << "  " << steps << " steps" << std::endl;
   steps += barney->searchTo(0x77);
   steps += barney->searchTo(0x00);
-  EXPECT_EQ(208,steps);
+  EXPECT_EQ(208,steps) << "The solution is not always correct. This is not right";
   //MazePrinter::printVisitedDirs(barney->maze());
   barney->maze()->testForSolution();
   std::cout << "Manhattan pass 1: ";
