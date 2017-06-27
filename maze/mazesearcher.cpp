@@ -167,6 +167,7 @@ int MazeSearcher::runTo(uint16_t target) {
   return steps;
 }
 
+//TODO: this needs looking at. the returned number of steps is inconsistent
 int MazeSearcher::searchTo(uint16_t target) {
   int result = 0;
   while (mLocation != target) {
