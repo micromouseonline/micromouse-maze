@@ -8,7 +8,6 @@
 #ifndef MAZESEARCHER_H
 #define MAZESEARCHER_H
 
-
 /*
  * The mazeSearcher is the mouse. The robot that explores and runs the maze.
  * It gets its sensor data from the worldview and uses it to update a maze
@@ -32,12 +31,12 @@
 class MazeSearcher {
  public:
 
-enum {
-  SEARCH_NORMAL,
-  SEARCH_RANDOM,
-  SEARCH_LEFT_WALL,
-  SEARCH_RIGHT_WALL,
-};
+  enum {
+    SEARCH_NORMAL,
+    SEARCH_ALTERNATE,
+    SEARCH_LEFT_WALL,
+    SEARCH_RIGHT_WALL,
+  };
 
   enum {
     E_NO_ROUTE = -1,
@@ -51,7 +50,7 @@ enum {
   uint8_t heading() const;
   void setHeading(uint8_t heading);
   void setMapFromFileData(const uint8_t *mazeWalls, uint16_t cellCount);
-  Maze * map();
+  Maze *map();
   /// move the mouse 1 cell in in the current Heading
   const Maze *realMaze() const;
   void setRealMaze(const Maze *mRealMaze);
@@ -66,36 +65,24 @@ enum {
   /// return the number of steps needed
   int searchTo(uint16_t target);
 
-  int searchMethod() const;
   void setSearchMethod(int mSearchMethod);
   bool isVerbose() const;
   void setVerbose(bool mVerbose);
 
+  uint8_t followLeftWall() const;
+  uint8_t followRightWall() const;
+  uint8_t followAlternateWall() const;
 
  private:
   uint16_t mLocation;
   uint8_t mHeading;
-  Maze * mMap;
-  const Maze * mRealMaze;
+  Maze *mMap;
+  const Maze *mRealMaze;
   bool mVerbose;
   int mSearchMethod;
-  MazeSearcher & operator=(const MazeSearcher& rhs) ;
-  MazeSearcher(const MazeSearcher & orig);
-  uint8_t followLeftWall() const;
+  MazeSearcher &operator=(const MazeSearcher &rhs);
+  MazeSearcher(const MazeSearcher &orig);
 };
-
-//void MouseInit (void);
-//location_t MousePosition (void);
-//direction_t MouseHeading (void);
-//void MouseSetPosition (location_t mLocation);
-//void MouseSetHeading (direction_t direction);
-//void MouseMove (void);
-//void MouseRunTo (location_t target);
-//int MouseSearchToFullFlood (location_t target);
-//int MouseSearchToModifiedFlood (location_t target);
-//int MouseSearchToModifiedFloodAll (location_t target);
-
-
 
 #endif /* MAZESEARCHER_H */
 

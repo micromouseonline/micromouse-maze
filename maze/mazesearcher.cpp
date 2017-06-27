@@ -180,8 +180,10 @@ int MazeSearcher::searchTo(uint16_t target) {
         newHeading = followLeftWall();
         break;
       case SEARCH_RIGHT_WALL:
+        newHeading = followRightWall();
         break;
-      case SEARCH_RANDOM:
+      case SEARCH_ALTERNATE:
+        newHeading = followAlternateWall();
         break;
       case SEARCH_NORMAL:
         mMap->flood(target);
@@ -223,8 +225,26 @@ uint8_t MazeSearcher::followLeftWall() const {
   return newHeading;
 }
 
-int MazeSearcher::searchMethod() const {
-  return mSearchMethod;
+uint8_t MazeSearcher::followRightWall() const {
+  uint8_t newHeading;
+  if (mMap->hasExit(mLocation, Maze::rightOf(mHeading))) {
+    newHeading = Maze::rightOf(mHeading);
+  } else if (mMap->hasExit(mLocation, Maze::ahead(mHeading))) {
+    newHeading = Maze::ahead(mHeading);
+  } else if (mMap->hasExit(mLocation, Maze::leftOf(mHeading))) {
+    newHeading = Maze::leftOf(mHeading);
+  } else {
+    newHeading = Maze::behind(mHeading);
+  }
+  return newHeading;
+}
+
+uint8_t MazeSearcher::followAlternateWall() const {
+  static bool useLeft = true;
+  uint8_t newHeading;
+  newHeading = useLeft ? followLeftWall() : followRightWall();
+  useLeft = !useLeft;
+  return newHeading;
 }
 
 void MazeSearcher::setSearchMethod(int mSearchMethod) {
