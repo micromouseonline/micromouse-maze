@@ -75,14 +75,14 @@ int main(int argc, char **argv) {
       maze.copyMazeFromFileData(wallData, 256);
       maze.flood(0x77);
       barney.setRealMaze(&maze);
-      barney.maze()->resetToEmptyMaze();
+      barney.map()->resetToEmptyMaze();
       barney.setLocation(0x00);
       int steps = barney.searchTo(0x77);
       //steps += barney.searchTo(0x00);
       std::cout << steps << " steps   ";
-      barney.maze()->testForSolution();
-      int costDifference = barney.maze()->costDifference();
-      int openCost = barney.maze()->openMazeCost();
+      barney.map()->testForSolution();
+      int costDifference = barney.map()->costDifference();
+      int openCost = barney.map()->openMazeCost();
       int residual = (100*costDifference)/openCost;
       std::cout << costDifference << " [" << residual<< "] ";
 
@@ -95,7 +95,7 @@ int main(int argc, char **argv) {
         std::cout << " ** ";
       }
       std::cout << std::endl;
-      MazePrinter::printVisitedDirs(barney.maze());
+      MazePrinter::printVisitedDirs(barney.map());
 
 //    for (int i = 1; i < argc; i++) {
 //      ReadRealWallsFromFile(argv[i]);
