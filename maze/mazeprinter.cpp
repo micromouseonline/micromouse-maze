@@ -117,7 +117,6 @@ void MazePrinter::printCDecl(Maze *maze, const char *name) {
   return;
 }
 
-
 void MazePrinter::printRawDecl(Maze *maze, const char *name) {
   printf("\n\nconst uint8_t %s[] = {\n", name);
   for (int x = 0; x < maze->width(); x++) {

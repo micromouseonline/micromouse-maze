@@ -90,6 +90,7 @@
 MazeSearcher::MazeSearcher() :
     mHeading(NORTH),
     mLocation(0),
+    mMap(NULL),
     mRealMaze(NULL),
     mVerbose(false),
     mSearchMethod(SEARCH_NORMAL) {

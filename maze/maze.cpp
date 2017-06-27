@@ -44,11 +44,13 @@ uint16_t turnCostTable[] = {
 
 Maze::Maze(uint16_t width) :
     mWidth(width),
+    mGoal(DEFAULT_GOAL),
+    mPathCostClosed(MAX_COST),
+    mPathCostOpen(MAX_COST),
     mIsSolved(false),
     mFloodType(RUNLENGTH_FLOOD),
     mCornerWeight(3) {
   resetToEmptyMaze();
-  setGoal(DEFAULT_GOAL);
 };
 
 uint16_t Maze::width() const {
@@ -163,8 +165,6 @@ uint8_t Maze::differenceBetween(uint8_t oldDirection, uint8_t newDirection) {
 
 }
 
-
-
 uint16_t Maze::cellNorth(uint16_t cell) {
   uint16_t nextCell = (cell + uint16_t(1)) % numCells();
   return nextCell;
@@ -188,15 +188,20 @@ uint16_t Maze::cellWest(uint16_t cell) {
 uint16_t Maze::neighbour(uint16_t cell, uint16_t direction) {
   uint16_t neighbour;
   switch (direction) {
-    case NORTH:neighbour = cellNorth(cell);
+    case NORTH:
+      neighbour = cellNorth(cell);
       break;
-    case EAST:neighbour = cellEast(cell);
+    case EAST:
+      neighbour = cellEast(cell);
       break;
-    case SOUTH:neighbour = cellSouth(cell);
+    case SOUTH:
+      neighbour = cellSouth(cell);
       break;
-    case WEST:neighbour = cellWest(cell);
+    case WEST:
+      neighbour = cellWest(cell);
       break;
-    default:neighbour = MAX_COST;
+    default:
+      neighbour = MAX_COST;
   }
   return neighbour;
 }
@@ -268,19 +273,23 @@ void Maze::clearVisited(uint16_t cell) {
  */
 void Maze::setWall(uint16_t cell, uint8_t direction) {
   switch (direction) {
-    case NORTH:mWalls[cell] |= CHECKED_NORTH + WALL_NORTH;
+    case NORTH:
+      mWalls[cell] |= CHECKED_NORTH + WALL_NORTH;
       cell = cellNorth(cell);
       mWalls[cell] |= CHECKED_SOUTH + WALL_SOUTH;
       break;
-    case EAST:mWalls[cell] |= CHECKED_EAST + WALL_EAST;
+    case EAST:
+      mWalls[cell] |= CHECKED_EAST + WALL_EAST;
       cell = cellEast(cell);
       mWalls[cell] |= CHECKED_WEST + WALL_WEST;
       break;
-    case SOUTH:mWalls[cell] |= CHECKED_SOUTH + WALL_SOUTH;
+    case SOUTH:
+      mWalls[cell] |= CHECKED_SOUTH + WALL_SOUTH;
       cell = cellSouth(cell);
       mWalls[cell] |= CHECKED_NORTH + WALL_NORTH;
       break;
-    case WEST:mWalls[cell] |= CHECKED_WEST + WALL_WEST;
+    case WEST:
+      mWalls[cell] |= CHECKED_WEST + WALL_WEST;
       cell = cellWest(cell);
       mWalls[cell] |= CHECKED_EAST + WALL_EAST;
       break;
@@ -295,25 +304,29 @@ void Maze::setWall(uint16_t cell, uint8_t direction) {
  */
 void Maze::clearWall(uint16_t cell, uint8_t direction) {
   switch (direction) {
-    case NORTH:mWalls[cell] &= ~WALL_NORTH;
+    case NORTH:
+      mWalls[cell] &= ~WALL_NORTH;
       mWalls[cell] |= CHECKED_NORTH;
       cell = cellNorth(cell);
       mWalls[cell] &= ~WALL_SOUTH;
       mWalls[cell] |= CHECKED_SOUTH;
       break;
-    case EAST:mWalls[cell] &= ~WALL_EAST;
+    case EAST:
+      mWalls[cell] &= ~WALL_EAST;
       mWalls[cell] |= CHECKED_EAST;
       cell = cellEast(cell);
       mWalls[cell] &= ~WALL_WEST;
       mWalls[cell] |= CHECKED_WEST;
       break;
-    case SOUTH:mWalls[cell] &= ~WALL_SOUTH;
+    case SOUTH:
+      mWalls[cell] &= ~WALL_SOUTH;
       mWalls[cell] |= CHECKED_SOUTH;
       cell = cellSouth(cell);
       mWalls[cell] &= ~WALL_NORTH;
       mWalls[cell] |= CHECKED_NORTH;
       break;
-    case WEST:mWalls[cell] &= ~WALL_WEST;
+    case WEST:
+      mWalls[cell] &= ~WALL_WEST;
       mWalls[cell] |= CHECKED_WEST;
       cell = cellWest(cell);
       mWalls[cell] &= ~WALL_EAST;
@@ -400,15 +413,20 @@ uint16_t Maze::costWest(uint16_t cell) {
 uint16_t Maze::cost(uint16_t cell, uint16_t direction) {
   uint16_t result;
   switch (direction) {
-    case NORTH:result = costNorth(cell);
+    case NORTH:
+      result = costNorth(cell);
       break;
-    case EAST:result = costEast(cell);
+    case EAST:
+      result = costEast(cell);
       break;
-    case SOUTH:result = costSouth(cell);
+    case SOUTH:
+      result = costSouth(cell);
       break;
-    case WEST:result = costWest(cell);
+    case WEST:
+      result = costWest(cell);
       break;
-    default:result = MAX_COST;
+    default:
+      result = MAX_COST;
   }
   return result;
 }
@@ -510,13 +528,16 @@ void Maze::recalculateGoal() {
     newGoal = 0x88;
   };
   switch (entranceCount) {
-    case 0:break;
+    case 0:
+      break;
     case 1:
     case 2:
-    case 3:setGoal(newGoal);
+    case 3:
+      setGoal(newGoal);
       setGoal(newGoal);
       break;
-    default:break;
+    default:
+      break;
   }
   setGoal(newGoal);
 }
@@ -536,13 +557,17 @@ uint16_t Maze::closedMazeCost() const {
 uint16_t Maze::flood(uint16_t target) {
   uint16_t cost;
   switch (mFloodType) {
-    case MANHATTAN_FLOOD:cost = manhattanFlood(target);
+    case MANHATTAN_FLOOD:
+      cost = manhattanFlood(target);
       break;
-    case WEIGHTED_FLOOD:cost = weightedFlood(target);
+    case WEIGHTED_FLOOD:
+      cost = weightedFlood(target);
       break;
-    case RUNLENGTH_FLOOD:cost = runLengthFlood(target);
+    case RUNLENGTH_FLOOD:
+      cost = runLengthFlood(target);
       break;
-    case DIRECTION_FLOOD:break;
+    case DIRECTION_FLOOD:
+      break;
   }
   return cost;
 }

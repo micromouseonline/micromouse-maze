@@ -12,17 +12,18 @@
 
 class MazePrinter {
  public:
-  static void printCDecl(Maze * maze, const char * name) ;
-  static void printRawDecl(Maze * maze, const char * name) ;
-  static void printPlain(Maze * maze) ;
-  static void printCosts(Maze * maze) ;
-  static void printDirs(Maze * maze) ;
-  static void printVisitedDirs(Maze * maze) ;
+  static void printCDecl(Maze *maze, const char *name);
+  static void printRawDecl(Maze *maze, const char *name);
+  static void printPlain(Maze *maze);
+  static void printCosts(Maze *maze);
+  static void printDirs(Maze *maze);
+  static void printVisitedDirs(Maze *maze);
  private:
   MazePrinter() {}                             // Private constructor
   ~MazePrinter() {}
-  MazePrinter(const MazePrinter&);             // Prevent copy-construction
-  MazePrinter& operator=(const MazePrinter&);  // Prevent assignment
+
+  MazePrinter(const MazePrinter &);             // Prevent copy-construction
+  MazePrinter &operator=(const MazePrinter &);  // Prevent assignment
 };
 
 #endif /* MAZEPRINTER_H */

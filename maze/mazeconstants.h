@@ -7,11 +7,8 @@
 
 #include <stdint.h>
 
-
-
 const uint8_t DEFAULT_GOAL = 0x77;
 const uint16_t MAX_COST = UINT16_MAX;
-
 
 #define NORTH         (uint8_t)0x00
 #define EAST          (uint8_t)0x01
@@ -20,7 +17,6 @@ const uint16_t MAX_COST = UINT16_MAX;
 #define NONE          (uint8_t)0x04
 #define UNSEEN        (uint8_t)0x05
 #define INVALID_DIRECTION (uint8_t)255
-
 
 enum {
   DIR_N = 0,
