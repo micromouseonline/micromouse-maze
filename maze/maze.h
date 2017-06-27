@@ -87,10 +87,12 @@ public:
   bool isSeen(uint16_t cell, uint8_t direction);
   ///  test for the absence of a wall. Don't care if it is seen or not
   bool hasExit(uint16_t cell, uint8_t direction);
-  ///  test for the definite, observed absence of a wall.
-  bool hasRealExit(uint16_t cell, uint8_t direction);
   ///  test for the presence of a wall. Don't care if it is seen or not
   bool hasWall(uint16_t cell, uint8_t direction);
+
+  ///  it is not clear that these two mthods have any actual use
+  ///  test for the definite, observed absence of a wall.
+  bool hasRealExit(uint16_t cell, uint8_t direction);
   ///  test for the definite, observed presence of a wall.
   bool hasRealWall(uint16_t cell, uint8_t direction);
 

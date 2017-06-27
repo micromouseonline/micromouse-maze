@@ -214,29 +214,25 @@ void Maze::setGoal(uint16_t goal) {
 }
 
 uint8_t Maze::walls(uint16_t cell) const {
-  uint8_t wallData = mWalls[cell];
   uint8_t result = 0;
-  result |= (wallData >> 0) & 1;
-  result |= (wallData >> 1) & 2;
-  result |= (wallData >> 2) & 4;
-  result |= (wallData >> 3) & 8;;
+  result = mWalls[cell] & 0x0F;
   return result;
 }
 
 bool Maze::isSeen(uint16_t cell, uint8_t direction) {
-  return (walls(cell) & (0x10 << direction)) != 0;
+  return (mWalls[cell] & (0x10 << direction)) != 0;
 }
 
 bool Maze::hasExit(uint16_t cell, uint8_t direction) {
-  return (walls(cell) & (0x01 << direction)) == 0;
+  return (mWalls[cell] & (0x01 << direction)) == 0;
+}
+
+bool Maze::hasWall(uint16_t cell, uint8_t direction) {
+  return (mWalls[cell] & (0x01 << direction)) != 0;
 }
 
 bool Maze::hasRealExit(uint16_t cell, uint8_t direction) {
   return isSeen(cell, direction) && hasExit(cell, direction);
-}
-
-bool Maze::hasWall(uint16_t cell, uint8_t direction) {
-  return (walls(cell) & (0x01 << direction)) != 0;
 }
 
 bool Maze::hasRealWall(uint16_t cell, uint8_t direction) {
@@ -349,13 +345,15 @@ void Maze::updateMap(uint16_t cell, uint8_t wallData) {
 
 void Maze::setUnknowns(void) {
   for (uint16_t i = 0; i < numCells(); i++) {
-    mWalls[i] |= (((~mWalls[i]) & VISITED) >> 1);
+    uint8_t mask = ~(mWalls[i] & 0xF0);
+    mWalls[i] |= mask >> 4;
   }
 }
 
 void Maze::clearUnknowns(void) {
   for (uint16_t i = 0; i < numCells(); i++) {
-    mWalls[i] &= ~(((~mWalls[i]) & VISITED) >> 1);
+    uint8_t mask = ~(mWalls[i] & 0xF0);
+    mWalls[i] &= ~(mask >> 4);
   }
 }
 
