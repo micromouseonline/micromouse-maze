@@ -11,13 +11,6 @@
 
 const uint8_t DEFAULT_GOAL = 0x77;
 const uint16_t MAX_COST = UINT16_MAX;
-const uint8_t BAD_DIRECTION = UINT8_MAX;
-
-
-typedef uint16_t cellref_t;
-typedef uint16_t cost_t;
-typedef uint8_t walldata_t;
-typedef uint8_t direction_t;
 
 
 #define NORTH         (uint8_t)0x00
