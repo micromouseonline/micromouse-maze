@@ -10,86 +10,9 @@
 #include "mazeprinter.h"
 #include "stddef.h"
 
-
-
-/* move the mouse by one cell in the direction given by heading */
-/* no error checking is done for walls or borders */
-//void MouseMove (void)
-//{
-////  MouseSetPosition (Neighbour (mousePosition, mouseHeading));
-//}
-
-
-/*
- * Perform a search from the mouse current mLocation to the target mLocation
- * uses a full flood after each step
- * Returns the number of steps needed to get to the target
- */
-//int MouseSearchToFullFlood (location_t target)
-//{
-//
-//  int steps = 0;
-//  while (! (MousePosition().row == target.row && MousePosition().col == target.col)) {
-////    walldata_t actualWalls = ReadWallSensors (MousePosition());
-////    UpdateCellFromWallData (MousePosition(), actualWalls);
-////    FloodMazeClassic (target);
-//    direction_t direction = Direction (MousePosition());
-//    if (direction == BAD_DIRECTION) {
-//      break;
-//    }
-//    MouseSetHeading (direction);
-//    MouseMove();
-//    steps++;
-//  }
-//  return steps;
-//}
-
-
-//int MouseSearchToModifiedFlood (location_t target)
-//{
-//
-//  int steps = 0;
-////  FloodMazeClassic (target);	/* seed the costs before using modified flood */
-//  while (! (MousePosition().row == target.row && MousePosition().col == target.col)) {
-////    walldata_t actualWalls = ReadWallSensors (MousePosition());
-////    UpdateCellFromWallData (MousePosition(), actualWalls);
-//    //ModifiedFlood (MousePosition());
-//    direction_t direction = Direction (MousePosition());
-//    MouseSetHeading (direction);
-//    MouseMove();
-//    steps++;
-//    if (steps > 500) {
-//      break;
-//    }
-//  }
-//  return steps;
-//}
-
-
-//int MouseSearchToModifiedFloodAll (location_t target)
-//{
-//
-//  int steps = 0;
-////  FloodMazeClassic (target);	/* seed the costs before using modified flood */
-//  while (! (MousePosition().row == target.row && MousePosition().col == target.col)) {
-////    walldata_t actualWalls = ReadWallSensors (MousePosition());
-////    UpdateCellFromWallData (MousePosition(), actualWalls);
-//    //ModifiedFloodAll (MousePosition());
-//    direction_t direction = Direction (MousePosition());
-//    MouseSetHeading (direction);
-//    MouseMove();
-//    steps++;
-//    if (steps > 500) {
-//      break;
-//    }
-//  }
-//  return steps;
-//}
-
-
 MazeSearcher::MazeSearcher() :
-    mHeading(NORTH),
     mLocation(0),
+    mHeading(NORTH),
     mMap(NULL),
     mRealMaze(NULL),
     mVerbose(false),
@@ -170,7 +93,8 @@ int MazeSearcher::runTo(uint16_t target) {
   return steps;
 }
 
-//TODO: this needs looking at. the returned number of steps is inconsistent
+// TODO: this needs looking at.
+// the returned number of steps may be inconsistent
 int MazeSearcher::searchTo(uint16_t target) {
   int stepCount = 0;
   while (mLocation != target) {

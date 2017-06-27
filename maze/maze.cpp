@@ -45,8 +45,8 @@ uint16_t turnCostTable[] = {
 Maze::Maze(uint16_t width) :
     mWidth(width),
     mGoal(DEFAULT_GOAL),
-    mPathCostClosed(MAX_COST),
     mPathCostOpen(MAX_COST),
+    mPathCostClosed(MAX_COST),
     mIsSolved(false),
     mFloodType(RUNLENGTH_FLOOD),
     mCornerWeight(3) {
@@ -567,6 +567,7 @@ uint16_t Maze::flood(uint16_t target) {
       cost = runLengthFlood(target);
       break;
     case DIRECTION_FLOOD:
+      cost = directionFlood(target);
       break;
   }
   return cost;
@@ -734,9 +735,7 @@ uint16_t Maze::weightedFlood(uint16_t target) {
 
 /** Although the direction flood uses only directions
  * it updates the manhattan distance for the costing
- * so that  atest for a solution can be made
- * @param target
- * @return
+ * so that  a test for a solution can be made
  */
 
 uint16_t Maze::directionFlood(uint16_t target) {
