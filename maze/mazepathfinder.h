@@ -8,7 +8,8 @@
 #ifndef MAZEPATHFINDER_H
 #define MAZEPATHFINDER_H
 
-
+#include <stdint.h>
+#include "maze.h"
 /*
  * The PathFinder class examines a properly flooded maze and uses its data
  * to construct a path for the mouse to follow.
@@ -62,6 +63,7 @@
  *
  *  TODO: protection needs to stop PathFinder from overrunning callers memory.
  *
+ *
  */
 
 
@@ -77,11 +79,31 @@
 /* TODO: make this follow a path until there is no smaller neighbour */
 //int IsolatePath (location_t start, location_t target);
 
+#include "maze.h"
+
 class PathFinder {
  public:
-  PathFinder();
+  PathFinder(Maze * maze);
   ~PathFinder();
+  char * data();
+  char * toString();
+  void generate(Maze * maze, uint16_t start, uint16_t finish);
+  uint16_t length();
+
  private:
+  Maze * mMaze;
+  char mBuffer[1024];
+  uint16_t mCellCount;
+  uint8_t mStartHeading;
+  uint8_t mEndHeading;
+ public:
+  uint8_t startHeading() const;
+  uint8_t endHeading() const;
+  uint16_t endCell() const;
+  bool reachesTarget() const;
+ private:
+  uint16_t mEndCell;
+  bool mReachesTarget;
 };
 
 
