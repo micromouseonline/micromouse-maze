@@ -135,6 +135,13 @@ void PathFinder::makeDiagonalPath(uint8_t *pCommands, const char *src) {
 void PathFinder::makeSmoothPath(uint8_t *pCommands, const char *src) {
   *pCommands++ = CMD_BEGIN;
   *pCommands++ = CMD_END;
-*pCommands = CMD_STOP;
+  *pCommands = CMD_STOP;
+}
+
+void PathFinder::makeInPlacePath(uint8_t *pCommands, const char *src) {
+  *pCommands++ = CMD_BEGIN;
+  *pCommands++ = CMD_END;
+  *pCommands = CMD_STOP;
+
 }
 
