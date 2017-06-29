@@ -65,7 +65,12 @@ const char *smoothTurnNames[] = {
 // note that the input string is expecting  to see an 'F' after every turn
 
 
-void parseCommandString(const char *s, uint8_t *commands) {
+void parseCommandString(uint8_t *commands, const char *s) {
+  enum {
+    RUNNING = 0,
+    TURNING = 1,
+    STOPPING
+  };
   int p;
   int state;
   int done;
@@ -73,40 +78,44 @@ void parseCommandString(const char *s, uint8_t *commands) {
   cmd = FWD0;
   p = 0;
   done = 0;
-  state = 0; // all sequences must start with a forward move
+  state = RUNNING; // all sequences must start with a forward move
   do {
-    unsigned char c = *s++;
-    if (c == 'F') {
-      if (state == 0) {
+    char c = *s++;
+    if (c == 'B') {
+      commands[p++] = CMD_BEGIN;
+    } else if (c == 'F') {
+      if (state == RUNNING) {
         cmd++;
       } else {
         cmd = FWD1;
-        state = 0;
+        state = RUNNING;
       }
     } else if (c == 'L') {
-      if (state == 0) {
+      if (state == RUNNING) {
         commands[p++] = cmd;
       }
       commands[p++] = IP90L;
-      state = 1;
+      cmd = FWD1;
+      state = RUNNING;
     } else if (c == 'R') {
-      if (state == 0) {
+      if (state == RUNNING) {
         commands[p++] = cmd;
       }
       commands[p++] = IP90R;
-      state = 1;
+      cmd = FWD1;
+      state = RUNNING;
     } else if (c == 'S') {
-      if (state == 0) {
+      if (state == RUNNING) {
         commands[p++] = cmd;
       }
       commands[p++] = STOP;
-      state = 1;
+      state = TURNING;
     } else if (c == 'X') {
-      if (state == 0) {
+      if (state == RUNNING) {
         commands[p++] = cmd;
       }
       commands[p++] = CMD_END;
-      state = 1;
+      state = TURNING;
       done = 1;
     }
     if (p > 255) {
@@ -117,9 +126,6 @@ void parseCommandString(const char *s, uint8_t *commands) {
     }
   } while (!done);
 }
-
-
-
 
 void listCommands(unsigned char *commandList) {
   char done = 0;
@@ -143,7 +149,7 @@ void listCommands(unsigned char *commandList) {
       printf("%s, ", inPlaceTurnNames[command - INPLACE]);
     } else if (command <= SS90EL) {
       printf("%s, ", smoothTurnNames[command - SMOOTH]);
-     } else {
+    } else {
       printf("OTHER - %02x\n", command);
     }
   }
@@ -206,13 +212,11 @@ typedef enum {
   PathError
 } pathgen_state_t;
 
-
-
-void makeDiagonalPath(const char * src, unsigned char * pCommands) {
+void makeDiagonalPath(const char *src, unsigned char *pCommands) {
   int cellCount = 0;
   pathgen_state_t state = PathStart;
   while (state != PathFinish) {
-    char c = *src++ ;
+    char c = *src++;
     switch (state) {
       case PathStart:
         if (c == 'F') {
@@ -431,8 +435,7 @@ void makeDiagonalPath(const char * src, unsigned char * pCommands) {
   }
 }
 
-
-void makeSmoothPath(const char * src, unsigned char * pCommands) {
+void makeSmoothPath(const char *src, unsigned char *pCommands) {
   int x = 0; // a counter for the number of cells to be crossed
   pathgen_state_t state = PathStart;
   while (state != PathFinish) {
@@ -639,13 +642,15 @@ void diagonals(uint8_t *input, uint8_t *output) {
       output[tptr++] = c1;
       cptr = cptr + 1;
       // ========== the right lane modification ========== *
-    } else if ((c0 > FWD1) && (c0 < FWD16) && (c1 == IP90R) && (c2 == FWD1) && (c3 == IP90L) && (c4 > FWD1) && (c4 < FWD16)) {
+    } else if ((c0 > FWD1) && (c0 < FWD16) && (c1 == IP90R) && (c2 == FWD1) && (c3 == IP90L) && (c4 > FWD1)
+        && (c4 < FWD16)) {
       output[tptr++] = SD45R;
       output[tptr++] = DIA2;
       output[tptr++] = DS45L;
       cptr = cptr + 3;
       // ========== the left lane modification ========== *
-    } else if ((c0 > FWD1) && (c0 < FWD16) && (c1 == IP90L) && (c2 == FWD1) && (c3 == IP90R) && (c4 > FWD1) && (c4 < FWD16)) {
+    } else if ((c0 > FWD1) && (c0 < FWD16) && (c1 == IP90L) && (c2 == FWD1) && (c3 == IP90R) && (c4 > FWD1)
+        && (c4 < FWD16)) {
       output[tptr++] = SD45L;
       output[tptr++] = DIA2;
       output[tptr++] = DS45R;
@@ -683,25 +688,29 @@ void diagonals(uint8_t *input, uint8_t *output) {
       output[tptr++] = DS45L;
       cptr = cptr + 2;
       // ===== tilt -> the right 135 -> straight advancing ===== *
-    } else if ((c0 == IP90L) && (c1 == FWD1) && (c2 == IP90R) && (c3 == FWD1) && (c4 == IP90R) && (c5 > FWD1) && (c5 < FWD16)) {
+    } else if ((c0 == IP90L) && (c1 == FWD1) && (c2 == IP90R) && (c3 == FWD1) && (c4 == IP90R) && (c5 > FWD1)
+        && (c5 < FWD16)) {
       x = x + 1;
       output[tptr++] = x;
       output[tptr++] = DS135R;
       cptr = cptr + 4;
       // ===== tilt -> the left 135 -> straight advancing ===== *
-    } else if ((c0 == IP90R) && (c1 == FWD1) && (c2 == IP90L) && (c3 == FWD1) && (c4 == IP90L) && (c5 > FWD1) && (c5 < FWD16)) {
+    } else if ((c0 == IP90R) && (c1 == FWD1) && (c2 == IP90L) && (c3 == FWD1) && (c4 == IP90L) && (c5 > FWD1)
+        && (c5 < FWD16)) {
       x = x + 1;
       output[tptr++] = x;
       output[tptr++] = DS135L;
       cptr = cptr + 4;
       // ===== tilt -> the right 90 -> tilt ===== *
-    } else if ((c0 == IP90L) && (c1 == FWD1) && (c2 == IP90R) && (c3 == FWD1) && (c4 == IP90R) && (c5 == FWD1) && (c6 == IP90L)) {
+    } else if ((c0 == IP90L) && (c1 == FWD1) && (c2 == IP90R) && (c3 == FWD1) && (c4 == IP90R) && (c5 == FWD1)
+        && (c6 == IP90L)) {
       output[tptr++] = x + 1;
       output[tptr++] = DD90R;
       x = DIA1;
       cptr = cptr + 4;
       // ===== tilt -> the left 90 -> tilt ===== *
-    } else if ((c0 == IP90R) && (c1 == FWD1) && (c2 == IP90L) && (c3 == FWD1) && (c4 == IP90L) && (c5 == FWD1) && (c6 == IP90R)) {
+    } else if ((c0 == IP90R) && (c1 == FWD1) && (c2 == IP90L) && (c3 == FWD1) && (c4 == IP90L) && (c5 == FWD1)
+        && (c6 == IP90R)) {
       output[tptr++] = x + 1;
       output[tptr++] = DD90L;
       x = DIA1;
@@ -720,13 +729,15 @@ void diagonals(uint8_t *input, uint8_t *output) {
       output[tptr++] = DS45L;
       cptr = cptr + 2;
       // ===== tilt -> the right 135 -> straight advancing (goal) ===== *
-    } else if ((c0 == IP90L) && (c1 == FWD1) && (c2 == IP90R) && (c3 == FWD1) && (c4 == IP90R) && (c5 == FWD1) && (c6 == STOP)) {
+    } else if ((c0 == IP90L) && (c1 == FWD1) && (c2 == IP90R) && (c3 == FWD1) && (c4 == IP90R) && (c5 == FWD1)
+        && (c6 == STOP)) {
       x = x + 1;
       output[tptr++] = x;
       output[tptr++] = DS135R;
       cptr = cptr + 4;
       // ===== tilt -> the left 135 -> straight advancing (goal) ===== *
-    } else if ((c0 == IP90R) && (c1 == FWD1) && (c2 == IP90L) && (c3 == FWD1) && (c4 == IP90L) && (c5 == FWD1) && (c6 == STOP)) {
+    } else if ((c0 == IP90R) && (c1 == FWD1) && (c2 == IP90L) && (c3 == FWD1) && (c4 == IP90L) && (c5 == FWD1)
+        && (c6 == STOP)) {
       x = x + 1;
       output[tptr++] = x;
       output[tptr++] = DS135L;
@@ -780,11 +791,13 @@ void fastTurns(uint8_t *input, uint8_t *output) {
       // simple straights
       output[tp++] = c1; // the subsequent straight
       cp = cp + 1;
-    } else if ((c0 >= FWD1) && (c0 < FWD16) && (c1 == SS90ER) && (c2 == FWD1) && (c3 == SS90ER) && (c4 >= FWD1) && (c4 < FWD16)) {
+    } else if ((c0 >= FWD1) && (c0 < FWD16) && (c1 == SS90ER) && (c2 == FWD1) && (c3 == SS90ER) && (c4 >= FWD1)
+        && (c4 < FWD16)) {
       // 2 or more straights each side of two rights
       output[tp++] = SS180R; // all in one 180 degree turn
       cp = cp + 3;
-    } else if ((c0 >= FWD1) && (c0 < FWD16) && (c1 == SS90EL) && (c2 == FWD1) && (c3 == SS90EL) && (c4 >= FWD1) && (c4 < FWD16)) {
+    } else if ((c0 >= FWD1) && (c0 < FWD16) && (c1 == SS90EL) && (c2 == FWD1) && (c3 == SS90EL) && (c4 >= FWD1)
+        && (c4 < FWD16)) {
       // 2 or more straights each side of two lefts
       output[tp++] = SS180L; // all in one 180 degree turn
       cp = cp + 3;
@@ -826,16 +839,19 @@ void fastTurns(uint8_t *input, uint8_t *output) {
 
 }
 
-void smoothTurns(uint8_t *commands) {
-  uint8_t *cp = commands;
-  while (*cp) {
-    if (*cp == IP90R) {
-      *cp = SS90ER;
+void smoothTurns(uint8_t *input, uint8_t *output) {
+  uint8_t *inp = input;
+  uint8_t *outp = output;
+  while (*inp) {
+    if (*inp == IP90R) {
+      *outp = SS90ER;
+    } else if (*inp == IP90L) {
+      *outp = SS90EL;
+    } else {
+      *outp = *inp;
     }
-    if (*cp == IP90L) {
-      *cp = SS90EL;
-    }
-    cp++;
+    inp++;
+    outp++;
   }
 }
 

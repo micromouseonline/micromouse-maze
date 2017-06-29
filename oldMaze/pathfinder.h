@@ -28,13 +28,13 @@ THE SOFTWARE.
 
 extern unsigned char commandList[];
 
-void parseCommandString(const char *s, uint8_t *commands);
+void parseCommandString(uint8_t *commands, const char *s);
 void listCommands(unsigned char * commandList);
 void makeDiagonalPath(const char * src, unsigned char * pCommands);
 void makeSmoothPath(const char * src, unsigned char * pCommands);
 
 
-void smoothTurns(uint8_t *commands);
+void smoothTurns(uint8_t *input, uint8_t *output);
 void fastTurns(uint8_t *input, uint8_t *output);
 void diagonals(uint8_t *input, uint8_t *output);
 

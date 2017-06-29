@@ -171,18 +171,23 @@ TEST_F(PathFinderTest,DiagonalPath){
 
 
 TEST_F(PathFinderTest,testPath){
-  uint8_t commands[132];
+  uint8_t ipCommands[132];
+  uint8_t smoothCommands[132];
   uint8_t fastCommands[132];
   uint8_t diagCommands[132];
   maze->setFloodType(Maze::MANHATTAN_FLOOD);
   maze->copyMazeFromFileData(testMaze8x8,256);
   maze->flood(0x77);
   path->generate(maze,0,0x77);
-  parseCommandString(path->path(),commands);
-  smoothTurns(commands);
-  fastTurns(commands,fastCommands);
-  diagonals(commands,fastCommands);
-  listCommands(commands);
+  MazePrinter::printPlain(maze);
+  printf("testpath\n%s\n",path->path());
+  parseCommandString(ipCommands, path->path());
+  smoothTurns(ipCommands, smoothCommands);
+  fastTurns(smoothCommands,fastCommands);
+  diagonals(fastCommands,diagCommands);
+  listCommands(ipCommands);
+  listCommands(smoothCommands);
   listCommands(fastCommands);
   listCommands(diagCommands);
+  EXPECT_STREQ((char *)fastCommands,(char *)diagCommands);
 }
