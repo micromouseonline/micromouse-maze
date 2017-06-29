@@ -80,28 +80,36 @@
 //int IsolatePath (location_t start, location_t target);
 
 #include "maze.h"
+#include "commands.h"
+
+#define MAX_PATH_LENGTH 1022
 
 class PathFinder {
  public:
-  PathFinder(Maze * maze);
+
+  PathFinder();
   ~PathFinder();
-  char * data();
+  char * path();
   char * toString();
   void generate(Maze * maze, uint16_t start, uint16_t finish);
-  uint16_t length();
 
- private:
-  Maze * mMaze;
-  char mBuffer[1024];
-  uint16_t mCellCount;
-  uint8_t mStartHeading;
-  uint8_t mEndHeading;
- public:
+  void makeDiagonalPath(uint8_t *pCommands, const char *src);
+  void makeSmoothPath(uint8_t *pCommands, const char *src);
+
+
+  uint16_t length();
   uint8_t startHeading() const;
   uint8_t endHeading() const;
+  uint16_t startCell() const;
   uint16_t endCell() const;
   bool reachesTarget() const;
+
  private:
+  char mBuffer[MAX_PATH_LENGTH+2];
+  uint8_t mStartHeading;
+  uint8_t mEndHeading;
+  uint16_t mCellCount;
+  uint16_t mStartCell;
   uint16_t mEndCell;
   bool mReachesTarget;
 };

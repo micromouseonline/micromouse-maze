@@ -5,9 +5,8 @@
  * Created on 16 February 2016, 14:55
  */
 
-#include <cstring>
 #include "mazepathfinder.h"
-
+#include <cstring>
 
 /*
  * Generate a path from cost data following a flood;
@@ -20,38 +19,11 @@
  */
 
 
-//TODO:  add another 'direction' that is STOP.
-// assumes the maze to have been flooded
-//int IsolatePath (location_t start, location_t target)
-//{
-//  int pathLength = 0;
-//  location_t here = start;
-//  if (Cost (here) == MAX_COST) {
-//    SetDirection (here, BAD_DIRECTION);
-//    return -1;  // this is an error condition. Not well handled.
-//  }
-//  if (Cost (here) == 0) {
-//    SetDirection (here, BAD_DIRECTION);
-//    return 0;  // this is an error condition. Not well handled.
-//  }
-//  MazeResetDirections();
-//  while (! (here.row == target.row && here.col == target.col)) {
-//    direction_t direction;
-//    direction = SmallestNeighbourDirection (here);
-//    SetDirection (here, direction);
-//    here = Neighbour (here, direction);
-//    pathLength++;
-//    if (pathLength >= 250) {
-//      break;
-//    }
-//  }
-//  return pathLength;
-//}
-PathFinder::PathFinder(Maze *maze) :
-    mMaze(maze),
+PathFinder::PathFinder() :
     mCellCount(0),
     mStartHeading(INVALID_DIRECTION),
     mEndHeading(INVALID_DIRECTION),
+    mStartCell(0),
     mEndCell(0),
     mReachesTarget(false) {
   memset(mBuffer, 0, 1024);
@@ -61,7 +33,7 @@ PathFinder::~PathFinder() {
 
 }
 
-char *PathFinder::data() {
+char *PathFinder::path() {
   return mBuffer;
 }
 
@@ -94,6 +66,9 @@ void PathFinder::generate(Maze *maze, uint16_t start, uint16_t target) {
     if (!maze->isVisited(here)) {
       break;
     }
+    if (mCellCount >= MAX_PATH_LENGTH) {
+      break;
+    }
     uint8_t headingLast = headingHere;
     headingHere = maze->direction(here);
     char command = pathOptions[headingLast * 4 + headingHere];
@@ -115,6 +90,7 @@ void PathFinder::generate(Maze *maze, uint16_t start, uint16_t target) {
     *pPath++ = 'X';
     mReachesTarget = false;
   }
+  // this is a string to be sure it gets terminated properly
   mCellCount++;
   *pPath = 0;
 }
@@ -143,5 +119,22 @@ uint16_t PathFinder::endCell() const {
 
 bool PathFinder::reachesTarget() const {
   return mReachesTarget;
+}
+
+uint16_t PathFinder::startCell() const {
+  return mStartCell;
+}
+
+void PathFinder::makeDiagonalPath(uint8_t *pCommands, const char *src) {
+  *pCommands++ = CMD_BEGIN;
+  *pCommands++ = CMD_END;
+  *pCommands = CMD_STOP;
+
+}
+
+void PathFinder::makeSmoothPath(uint8_t *pCommands, const char *src) {
+  *pCommands++ = CMD_BEGIN;
+  *pCommands++ = CMD_END;
+*pCommands = CMD_STOP;
 }
 
