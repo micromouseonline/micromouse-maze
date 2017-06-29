@@ -12,7 +12,7 @@
 #define MAZEDATA_H
 
 #include <stdint.h>
-
+extern const uint8_t testMaze8x8[];
 extern const uint8_t testMaze5x5[];    // small pathfinder test maze
 extern const uint8_t testMaze1[];      // simple single short route
 extern const uint8_t testmaze2[];      // two routes - favours runlength flood
