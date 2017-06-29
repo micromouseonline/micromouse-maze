@@ -204,7 +204,7 @@ TEST_F(MazeTest, HasExit) {
 }
 
 TEST_F (MazeTest, CopyCellFromFileData_GetExactCopy) {
-  const uint8_t *src = japan2007;
+  const uint8_t *src = japan2007ef;
   maze->resetToEmptyMaze();
   for (int i = 0; i < maze->numCells(); i++) {
     maze->copyCellFromFileData(i, src[i]);
@@ -255,7 +255,7 @@ TEST_F(MazeTest, NeighbourInvalidDirection_ReturnsUINT16_MAX) {
 
 TEST_F(MazeTest, LoadAndSave_MazeKeptSafe) {
   uint8_t backupWalls[1024] = {};
-  maze->copyMazeFromFileData(japan2007,256);
+  maze->copyMazeFromFileData(japan2007ef,256);
   maze->save(backupWalls);
   maze->resetToEmptyMaze();
   for (int i = 0; i < maze->numCells(); i++){
@@ -263,7 +263,7 @@ TEST_F(MazeTest, LoadAndSave_MazeKeptSafe) {
   }
   maze->load(backupWalls);
   for (int i = 0; i < maze->numCells(); i++){
-    EXPECT_EQ(maze->walls(i),japan2007[i]);
+    EXPECT_EQ(maze->walls(i),japan2007ef[i]);
   }
 
 

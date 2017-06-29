@@ -58,7 +58,7 @@ TEST_F (MazeFlood, FloodClosedMaze_HomeCostMax) {
 
 
 TEST_F (MazeFlood, FloodKnownMaze_OpenClosedCostsSame) {
-  copyClassicMaze(japan2007);
+  copyClassicMaze(japan2007ef);
   maze->setUnknowns();
   uint16_t closedCost = maze->flood(maze->goal());
   maze->clearUnknowns();
@@ -92,7 +92,7 @@ TEST_F (MazeFlood, UnExploredMazeSolution_Manhattan) {
 
 TEST_F (MazeFlood, ExploredMazeSolution) {
   maze->resetToEmptyMaze();
-  copyClassicMaze(japan2007);
+  copyClassicMaze(japan2007ef);
   maze->testForSolution();
   EXPECT_GE(maze->closedMazeCost(), maze->openMazeCost());
   EXPECT_EQ(0,maze->costDifference());
@@ -103,7 +103,7 @@ TEST_F (MazeFlood, ExploredMazeSolution) {
 
 TEST_F (MazeFlood, FloodPartialMaze_SolutionTestFails) {
   maze->resetToEmptyMaze();
-  copyClassicMaze(japan2007);
+  copyClassicMaze(japan2007ef);
   maze->testForSolution();
 
   EXPECT_TRUE(maze->isSolved());
@@ -133,7 +133,7 @@ TEST_F(MazeFlood, ManhattanFlood_EmptyMaze_cost_14){
 }
 
 TEST_F(MazeFlood, ManhattanFlood_Japan2007_costx){
-  maze->copyMazeFromFileData(japan2007, 256);
+  maze->copyMazeFromFileData(japan2007ef, 256);
   uint16_t cost = maze->manhattanFlood(0x77);
   EXPECT_EQ(72,cost);
   // top left cell
