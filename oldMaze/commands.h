@@ -42,7 +42,7 @@ void logCommands(unsigned char * commandList);
 #define CMD_ERROR_07   (0xF7)
 #define CMD_ERROR_08   (0xF8)
 #define CMD_ERROR_09   (0xF9)
-#define CMD_ERROR_10   (0xFA)
+#define CMD_ERR_BEGIN   (0xFA)
 #define CMD_ERROR_11   (0xFB)
 #define CMD_ERROR_12   (0xFC)
 #define CMD_ERROR_13   (0xFD)

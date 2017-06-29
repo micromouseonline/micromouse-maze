@@ -34,9 +34,10 @@ void makeDiagonalPath(const char * src, unsigned char * pCommands);
 void makeSmoothPath(const char * src, unsigned char * pCommands);
 
 
-void smoothTurns(uint8_t *input, uint8_t *output);
-void fastTurns(uint8_t *input, uint8_t *output);
-void diagonals(uint8_t *input, uint8_t *output);
+void smoothTurns(void);
+void fastTurns(void);
+void diagonals(void);
+
 
 
 #endif	/* MAKEPATH_H */

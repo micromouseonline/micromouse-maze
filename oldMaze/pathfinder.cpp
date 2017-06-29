@@ -28,10 +28,10 @@ unsigned char commandList[500];
 unsigned char tempList[500];
 
 const char *inPlaceTurnNames[] = {
-    "IP45R ",
-    "IP45L ",
-    "IP90R ",
-    "IP90L ",
+    "IP45R",
+    "IP45L",
+    "IP90R",
+    "IP90L",
     "IP135R",
     "IP135L",
     "IP180R",
@@ -45,16 +45,16 @@ const char *smoothTurnNames[] = {
     "SS90FL",
     "SS180R",
     "SS180L",
-    "SD45R ",
-    "SD45L ",
+    "SD45R",
+    "SD45L",
     "SD135R",
     "SD135L",
-    "DS45R ",
-    "DS45L ",
+    "DS45R",
+    "DS45L",
     "DS135R",
     "DS135L",
-    "DD90R ",
-    "DD90L ",
+    "DD90R",
+    "DD90L",
     "SS90ER",
     "SS90EL"
 };
@@ -78,44 +78,28 @@ void parseCommandString(uint8_t *commands, const char *s) {
   cmd = FWD0;
   p = 0;
   done = 0;
-  state = RUNNING; // all sequences must start with a forward move
+
   do {
     char c = *s++;
     if (c == 'B') {
       commands[p++] = CMD_BEGIN;
+      cmd = FWD0;
     } else if (c == 'F') {
-      if (state == RUNNING) {
-        cmd++;
-      } else {
-        cmd = FWD1;
-        state = RUNNING;
-      }
+      cmd++;
     } else if (c == 'L') {
-      if (state == RUNNING) {
-        commands[p++] = cmd;
-      }
+      commands[p++] = cmd;
       commands[p++] = IP90L;
       cmd = FWD1;
-      state = RUNNING;
     } else if (c == 'R') {
-      if (state == RUNNING) {
-        commands[p++] = cmd;
-      }
+      commands[p++] = cmd;
       commands[p++] = IP90R;
       cmd = FWD1;
-      state = RUNNING;
     } else if (c == 'S') {
-      if (state == RUNNING) {
-        commands[p++] = cmd;
-      }
+      commands[p++] = cmd;
       commands[p++] = STOP;
-      state = TURNING;
     } else if (c == 'X') {
-      if (state == RUNNING) {
-        commands[p++] = cmd;
-      }
+      commands[p++] = cmd;
       commands[p++] = CMD_END;
-      state = TURNING;
       done = 1;
     }
     if (p > 255) {
@@ -129,7 +113,6 @@ void parseCommandString(uint8_t *commands, const char *s) {
 
 void listCommands(unsigned char *commandList) {
   char done = 0;
-  printf("\nCommand List...\n");
   while (!done) {
     unsigned char command = *commandList++;
     if (command == CMD_END) {
@@ -196,6 +179,7 @@ void listCommands(unsigned char *commandList) {
  */
 
 typedef enum {
+  PathInit,
   PathStart,
   PathOrtho_F,
   PathOrtho_R,
@@ -214,10 +198,19 @@ typedef enum {
 
 void makeDiagonalPath(const char *src, unsigned char *pCommands) {
   int cellCount = 0;
-  pathgen_state_t state = PathStart;
+  pathgen_state_t state = PathInit;
   while (state != PathFinish) {
     char c = *src++;
     switch (state) {
+      case PathInit:
+        if (c == 'B'){
+          *pCommands++ = (CMD_BEGIN);
+          state = PathStart;
+        } else {
+          *pCommands++ = (CMD_ERR_BEGIN);
+          state = PathStop;
+        }
+        break;
       case PathStart:
         if (c == 'F') {
           cellCount = 1;
@@ -254,7 +247,7 @@ void makeDiagonalPath(const char *src, unsigned char *pCommands) {
         break;
       case PathOrtho_R:
         if (c == 'F') {
-          *pCommands++ = (SS90SR);
+          *pCommands++ = (SS90FR);
           cellCount = 2;
           state = PathOrtho_F;
         } else if (c == 'R') {
@@ -274,7 +267,7 @@ void makeDiagonalPath(const char *src, unsigned char *pCommands) {
         break;
       case PathOrtho_L:
         if (c == 'F') {
-          *pCommands++ = (SS90SL);
+          *pCommands++ = (SS90FL);
           cellCount = 2;
           state = PathOrtho_F;
         } else if (c == 'R') {
@@ -425,11 +418,16 @@ void makeDiagonalPath(const char *src, unsigned char *pCommands) {
         break;
       case PathStop:
         *pCommands++ = (CMD_STOP);  // make sure the command list gets terminated
-        state = PathExit;
+        state = PathFinish;
+        break;
+      case PathExit:
+        *pCommands++ = (CMD_EXPLORE);
+        *pCommands++ = (CMD_STOP);  // make sure the command list gets terminated
+        state = PathFinish;
         break;
       default:
         *pCommands++ = (CMD_ERROR_15);
-        state = PathExit;
+        state = PathFinish;
         break;
     }
   }
@@ -437,10 +435,20 @@ void makeDiagonalPath(const char *src, unsigned char *pCommands) {
 
 void makeSmoothPath(const char *src, unsigned char *pCommands) {
   int x = 0; // a counter for the number of cells to be crossed
-  pathgen_state_t state = PathStart;
+  pathgen_state_t state = PathInit;
   while (state != PathFinish) {
     char c = *src++;
+//    printf("%c",c);
     switch (state) {
+      case PathInit:
+        if (c=='B'){
+          *pCommands++ = (CMD_BEGIN);
+          state = PathStart;
+        } else {
+          *pCommands++ = (CMD_ERR_BEGIN);
+          state = PathStop;
+        }
+        break;
       case PathStart:
         if (c == 'F') {
           x = 1;
@@ -582,165 +590,130 @@ void makeSmoothPath(const char *src, unsigned char *pCommands) {
 
 // TODO: move the path generators out to another module
 
-// =======================================================================
-// make a command list starting at currentCell heading shead to targetCell
-// =======================================================================
-/***
-  This is given the starting cell, the finishing cell and the start heading
-  of the mouse and will fill commandList with a series of instructions to
-  get the mouse to the target.
-
-  The return value is the heading that the mouse will have when the move
-  finishes. That is used to orient the mouse after the run because command
-  following does not bother to keep track of heading. If the mouse is lost,
-  it returns a value of -1.
-
-  As a side-effect, the mouse will update the value of the global variable
-  solved to a zero if the maze is unsolved or 1 if it is solved
-
-  While generating the path, a check is made to see if a cell on that
-  path is unvisited. Should the path go through such a cell, the maze is
-  marked as unsolved and a record of that cell is kept for use by the
-  searcher in the global firstUnvisitedCell.
-
- **/
-
-// this version will not go through unexplored cells
-
-
-
 
 // =======================================================================
 // compilation of slanted travelling command list
 // =======================================================================
 
-void diagonals(uint8_t *input, uint8_t *output) {
+void diagonals(void) {
   unsigned char x = 0;
   int cptr = 0;
   int tptr = 0;
-  unsigned char cmd = input[cptr];
+  unsigned char cmd = commandList[cptr];
   // always copy the first command over.
-  output[tptr++] = cmd;
+  tempList[tptr++] = cmd;
   // if it is a turn, copy it and skip past it. That is, always start the
   // sequence translation with a straight.
   if ((cmd == IP90R) || (cmd == IP90L)) {
     cptr++;
-    cmd = input[cptr];
-    output[tptr++] = cmd;
+    cmd = commandList[cptr];
+    tempList[tptr++] = cmd;
   }
   while (1) {
     unsigned char c0, c1, c2, c3, c4, c5, c6;
     // ========== command input ==========
-    c0 = input[cptr + 0];
-    c1 = input[cptr + 1];
-    c2 = input[cptr + 2];
-    c3 = input[cptr + 3];
-    c4 = input[cptr + 4];
-    c5 = input[cptr + 5];
-    c6 = input[cptr + 6];
+    c0 = commandList[cptr + 0];
+    c1 = commandList[cptr + 1];
+    c2 = commandList[cptr + 2];
+    c3 = commandList[cptr + 3];
+    c4 = commandList[cptr + 4];
+    c5 = commandList[cptr + 5];
+    c6 = commandList[cptr + 6];
     if ((c1 > FWD1) && (c1 < FWD16)) {
-      output[tptr++] = c1;
+      tempList[tptr++] = c1;
       cptr = cptr + 1;
       // ========== the right lane modification ========== *
-    } else if ((c0 > FWD1) && (c0 < FWD16) && (c1 == IP90R) && (c2 == FWD1) && (c3 == IP90L) && (c4 > FWD1)
-        && (c4 < FWD16)) {
-      output[tptr++] = SD45R;
-      output[tptr++] = DIA2;
-      output[tptr++] = DS45L;
+    } else if ((c0 > FWD1) && (c0 < FWD16) && (c1 == IP90R) && (c2 == FWD1) && (c3 == IP90L) && (c4 > FWD1) && (c4 < FWD16)) {
+      tempList[tptr++] = SD45R;
+      tempList[tptr++] = DIA2;
+      tempList[tptr++] = DS45L;
       cptr = cptr + 3;
       // ========== the left lane modification ========== *
-    } else if ((c0 > FWD1) && (c0 < FWD16) && (c1 == IP90L) && (c2 == FWD1) && (c3 == IP90R) && (c4 > FWD1)
-        && (c4 < FWD16)) {
-      output[tptr++] = SD45L;
-      output[tptr++] = DIA2;
-      output[tptr++] = DS45R;
+    } else if ((c0 > FWD1) && (c0 < FWD16) && (c1 == IP90L) && (c2 == FWD1) && (c3 == IP90R) && (c4 > FWD1) && (c4 < FWD16)) {
+      tempList[tptr++] = SD45L;
+      tempList[tptr++] = DIA2;
+      tempList[tptr++] = DS45R;
       cptr = cptr + 3;
       // ===== straight advancing -> the right 45 -> tilt ===== *
     } else if ((c0 < FWD16) && (c1 == IP90R) && (c2 == FWD1) && (c3 == IP90L)) {
-      output[tptr++] = SD45R;
+      tempList[tptr++] = SD45R;
       x = DIA1;
       cptr = cptr + 1;
       // ===== straight advancing -> the left 45 -> tilt ===== *
     } else if ((c0 < FWD16) && (c1 == IP90L) && (c2 == FWD1) && (c3 == IP90R)) {
-      output[tptr++] = SD45L;
+      tempList[tptr++] = SD45L;
       x = DIA1;
       cptr = cptr + 1;
       // ===== straight advancing -> the right 135 -> tilt ===== *
     } else if ((c0 < FWD16) && (c1 == IP90R) && (c2 == FWD1) && (c3 == IP90R) && (c4 == FWD1) && (c5 == IP90L)) {
-      output[tptr++] = SD135R;
+      tempList[tptr++] = SD135R;
       x = DIA1;
       cptr = cptr + 3;
       // ===== straight advancing -> the left 135 -> tilt ===== *
     } else if ((c0 < FWD16) && (c1 == IP90L) && (c2 == FWD1) && (c3 == IP90L) && (c4 == FWD1) && (c5 == IP90R)) {
-      output[tptr++] = SD135L;
+      tempList[tptr++] = SD135L;
       x = DIA1;
       cptr = cptr + 3;
       // ===== tilt -> the right 45 -> straight advancing ===== *
     } else if ((c0 == IP90L) && (c1 == FWD1) && (c2 == IP90R) && (c3 > FWD1) && (c3 < FWD16)) {
       x = x + 1;
-      output[tptr++] = x;
-      output[tptr++] = DS45R;
+      tempList[tptr++] = x;
+      tempList[tptr++] = DS45R;
       cptr = cptr + 2;
       // ===== tilt -> the left 45 -> straight advancing ===== *
     } else if ((c0 == IP90R) && (c1 == FWD1) && (c2 == IP90L) && (c3 > FWD1) && (c3 < FWD16)) {
       x = x + 1;
-      output[tptr++] = x;
-      output[tptr++] = DS45L;
+      tempList[tptr++] = x;
+      tempList[tptr++] = DS45L;
       cptr = cptr + 2;
       // ===== tilt -> the right 135 -> straight advancing ===== *
-    } else if ((c0 == IP90L) && (c1 == FWD1) && (c2 == IP90R) && (c3 == FWD1) && (c4 == IP90R) && (c5 > FWD1)
-        && (c5 < FWD16)) {
+    } else if ((c0 == IP90L) && (c1 == FWD1) && (c2 == IP90R) && (c3 == FWD1) && (c4 == IP90R) && (c5 > FWD1) && (c5 < FWD16)) {
       x = x + 1;
-      output[tptr++] = x;
-      output[tptr++] = DS135R;
+      tempList[tptr++] = x;
+      tempList[tptr++] = DS135R;
       cptr = cptr + 4;
       // ===== tilt -> the left 135 -> straight advancing ===== *
-    } else if ((c0 == IP90R) && (c1 == FWD1) && (c2 == IP90L) && (c3 == FWD1) && (c4 == IP90L) && (c5 > FWD1)
-        && (c5 < FWD16)) {
+    } else if ((c0 == IP90R) && (c1 == FWD1) && (c2 == IP90L) && (c3 == FWD1) && (c4 == IP90L) && (c5 > FWD1) && (c5 < FWD16)) {
       x = x + 1;
-      output[tptr++] = x;
-      output[tptr++] = DS135L;
+      tempList[tptr++] = x;
+      tempList[tptr++] = DS135L;
       cptr = cptr + 4;
       // ===== tilt -> the right 90 -> tilt ===== *
-    } else if ((c0 == IP90L) && (c1 == FWD1) && (c2 == IP90R) && (c3 == FWD1) && (c4 == IP90R) && (c5 == FWD1)
-        && (c6 == IP90L)) {
-      output[tptr++] = x + 1;
-      output[tptr++] = DD90R;
+    } else if ((c0 == IP90L) && (c1 == FWD1) && (c2 == IP90R) && (c3 == FWD1) && (c4 == IP90R) && (c5 == FWD1) && (c6 == IP90L)) {
+      tempList[tptr++] = x + 1;
+      tempList[tptr++] = DD90R;
       x = DIA1;
       cptr = cptr + 4;
       // ===== tilt -> the left 90 -> tilt ===== *
-    } else if ((c0 == IP90R) && (c1 == FWD1) && (c2 == IP90L) && (c3 == FWD1) && (c4 == IP90L) && (c5 == FWD1)
-        && (c6 == IP90R)) {
-      output[tptr++] = x + 1;
-      output[tptr++] = DD90L;
+    } else if ((c0 == IP90R) && (c1 == FWD1) && (c2 == IP90L) && (c3 == FWD1) && (c4 == IP90L) && (c5 == FWD1) && (c6 == IP90R)) {
+      tempList[tptr++] = x + 1;
+      tempList[tptr++] = DD90L;
       x = DIA1;
       cptr = cptr + 4;
       // ===== tilt -> the right 45 -> straight advancing (goal) ===== *
     } else if ((c0 == IP90L) && (c1 == FWD1) && (c2 == IP90R) && (c3 == FWD1) && (c4 == STOP)) {
       // TODO BUG here: turn exits too far into final cell and the mouse has to go backwards!!!
       x = x + 1;
-      output[tptr++] = x;
-      output[tptr++] = DS45R;
+      tempList[tptr++] = x;
+      tempList[tptr++] = DS45R;
       cptr = cptr + 2;
       // ===== tilt -> the left 45 -> straight advancing (goal) ===== *
     } else if ((c0 == IP90R) && (c1 == FWD1) && (c2 == IP90L) && (c3 == FWD1) && (c4 == STOP)) {
       x = x + 1;
-      output[tptr++] = x;
-      output[tptr++] = DS45L;
+      tempList[tptr++] = x;
+      tempList[tptr++] = DS45L;
       cptr = cptr + 2;
       // ===== tilt -> the right 135 -> straight advancing (goal) ===== *
-    } else if ((c0 == IP90L) && (c1 == FWD1) && (c2 == IP90R) && (c3 == FWD1) && (c4 == IP90R) && (c5 == FWD1)
-        && (c6 == STOP)) {
+    } else if ((c0 == IP90L) && (c1 == FWD1) && (c2 == IP90R) && (c3 == FWD1) && (c4 == IP90R) && (c5 == FWD1) && (c6 == STOP)) {
       x = x + 1;
-      output[tptr++] = x;
-      output[tptr++] = DS135R;
+      tempList[tptr++] = x;
+      tempList[tptr++] = DS135R;
       cptr = cptr + 4;
       // ===== tilt -> the left 135 -> straight advancing (goal) ===== *
-    } else if ((c0 == IP90R) && (c1 == FWD1) && (c2 == IP90L) && (c3 == FWD1) && (c4 == IP90L) && (c5 == FWD1)
-        && (c6 == STOP)) {
+    } else if ((c0 == IP90R) && (c1 == FWD1) && (c2 == IP90L) && (c3 == FWD1) && (c4 == IP90L) && (c5 == FWD1) && (c6 == STOP)) {
       x = x + 1;
-      output[tptr++] = x;
-      output[tptr++] = DS135L;
+      tempList[tptr++] = x;
+      tempList[tptr++] = DS135L;
       cptr = cptr + 4;
       // ========== tilt ========== *
     } else if ((c0 == IP90R) && (c1 == FWD1) && (c2 == IP90L) && (c3 == FWD1) && (c4 == IP90R)) {
@@ -751,18 +724,21 @@ void diagonals(uint8_t *input, uint8_t *output) {
       x = x + 1;
       cptr = cptr + 2;
     } else {
-      output[tptr++] = c1;
+      tempList[tptr++] = c1;
       cptr++;
     }
     if (c1 == (uint8_t) CMD_STOP) {
       break;
     }
   }
-  output[tptr++] = CMD_STOP;
-  output[tptr] = CMD_END;
+  tempList[tptr++] = CMD_STOP;
+  tempList[tptr++] = CMD_END;
+  for (int i = 0; i < 255; i++) {
+    commandList[i] = tempList[i];
+  }
 }
 
-void fastTurns(uint8_t *input, uint8_t *output) {
+void fastTurns(void) {
   unsigned char cmd;
   int cp = 0;
   int tp = 0;
@@ -772,86 +748,67 @@ void fastTurns(uint8_t *input, uint8_t *output) {
   // entering the start square.
   // in the center block - what happens if we search for
   // other center block cells? need to be sure we have been in all four really.
-  cmd = input[cp];
-  output[tp++] = cmd; // just copy the first command
+  cmd = commandList[cp];
+  tempList[tp++] = cmd; // just copy the first command
   if ((cmd == IP90R) || (cmd == IP90L)) {  // if it was a turn-in-place
     cp = cp + 1; // copy the next one too
-    cmd = input[cp];
-    output[tp++] = cmd;
+    cmd = commandList[cp];
+    tempList[tp++] = cmd;
   }
   while (1) {
     unsigned char c0, c1, c2, c3, c4;
     // make a look-ahead list
-    c0 = input[cp + 0];
-    c1 = input[cp + 1];
-    c2 = input[cp + 2];
-    c3 = input[cp + 3];
-    c4 = input[cp + 4];
+    c0 = commandList[cp + 0];
+    c1 = commandList[cp + 1];
+    c2 = commandList[cp + 2];
+    c3 = commandList[cp + 3];
+    c4 = commandList[cp + 4];
     if ((c1 > FWD1) && (c1 < FWD16)) {  // we already have c0 - if it was a turn, copy
       // simple straights
-      output[tp++] = c1; // the subsequent straight
+      tempList[tp++] = c1; // the subsequent straight
       cp = cp + 1;
-    } else if ((c0 >= FWD1) && (c0 < FWD16) && (c1 == SS90ER) && (c2 == FWD1) && (c3 == SS90ER) && (c4 >= FWD1)
-        && (c4 < FWD16)) {
+    } else if ((c0 >= FWD1) && (c0 < FWD16) && (c1 == SS90ER) && (c2 == FWD1) && (c3 == SS90ER) && (c4 >= FWD1) && (c4 < FWD16)) {
       // 2 or more straights each side of two rights
-      output[tp++] = SS180R; // all in one 180 degree turn
+      tempList[tp++] = SS180R; // all in one 180 degree turn
       cp = cp + 3;
-    } else if ((c0 >= FWD1) && (c0 < FWD16) && (c1 == SS90EL) && (c2 == FWD1) && (c3 == SS90EL) && (c4 >= FWD1)
-        && (c4 < FWD16)) {
+    } else if ((c0 >= FWD1) && (c0 < FWD16) && (c1 == SS90EL) && (c2 == FWD1) && (c3 == SS90EL) && (c4 >= FWD1) && (c4 < FWD16)) {
       // 2 or more straights each side of two lefts
-      output[tp++] = SS180L; // all in one 180 degree turn
+      tempList[tp++] = SS180L; // all in one 180 degree turn
       cp = cp + 3;
-    } else if ((c0 >= FWD2) && (c0 < FWD16) && (c1 == SS90ER) && (c2 >= FWD2) && (c2 < FWD16)) {
+    } else if ((c0 >= FWD1) && (c0 < FWD16) && (c1 == SS90ER) && (c2 >= FWD2) && (c2 < FWD16)) {
       // a right turn with 3 or more straights either side
-      output[tp++] = SS90FR; // corner cutting turn
+      tempList[tp++] = SS90FR; // corner cutting turn
       cp = cp + 1;
-    } else if ((c0 >= FWD2) && (c0 < FWD16) && (c1 == SS90EL) && (c2 >= FWD2) && (c2 < FWD16)) {
+    } else if ((c0 >= FWD1) && (c0 < FWD16) && (c1 == SS90EL) && (c2 >= FWD2) && (c2 < FWD16)) {
       // a left turn with 3 or more straights either side
-      output[tp++] = SS90FL; // corner cutting turn
-      cp = cp + 1;
-    } else if ((c0 >= FWD2) && (c0 < FWD16) && (c1 == SS90ER) && (c2 >= FWD2) && (c2 < FWD16)) {
-      // everything else
-      output[tp++] = SS90SR; // corner cutting turn
-      cp = cp + 1;
-    } else if ((c0 >= FWD2) && (c0 < FWD16) && (c1 == SS90EL) && (c2 >= FWD2) && (c2 < FWD16)) {
-      // a left turn with 2 or more straights either side
-      output[tp++] = SS90SL; // corner cutting turn
-      cp = cp + 1;
-    } else if ((c0 == FWD1) && (c1 == SS90ER) && (c2 >= FWD2) && (c2 < FWD16)) {
-      // immediate right
-      output[tp++] = SS90SR; // corner cutting turn
-      cp = cp + 1;
-    } else if ((c0 == FWD1) && (c1 == SS90EL) && (c2 >= FWD2) && (c2 < FWD16)) {
-      // immediate left
-      output[tp++] = SS90SL; // corner cutting turn
+      tempList[tp++] = SS90FL; // corner cutting turn
       cp = cp + 1;
     } else {
       // everything else
-      output[tp++] = c1; // just copy it
+      tempList[tp++] = c1; // just copy it
       cp++;
     };
     if (c1 == CMD_STOP) {
       break; // there had better be a CMD_STOP in there soewhere
     }
   }
-  output[tp++] = CMD_STOP; // dont forget to put it in the new list
-  output[tp++] = CMD_END; // dont forget to put it in the new list
-
+  tempList[tp++] = CMD_STOP; // dont forget to put it in the new list
+  tempList[tp++] = CMD_END; // dont forget to put it in the new list
+  for (int i = 0; i < 255; i++) { // put these back in the commandList
+    commandList[i] = tempList[i]; // this can actually be done in-place
+  }
 }
 
-void smoothTurns(uint8_t *input, uint8_t *output) {
-  uint8_t *inp = input;
-  uint8_t *outp = output;
-  while (*inp) {
-    if (*inp == IP90R) {
-      *outp = SS90ER;
-    } else if (*inp == IP90L) {
-      *outp = SS90EL;
-    } else {
-      *outp = *inp;
+void smoothTurns(void) {
+  uint8_t *cp = commandList;
+  while (*cp) {
+    if (*cp == IP90R) {
+      *cp = SS90ER;
     }
-    inp++;
-    outp++;
+    if (*cp == IP90L) {
+      *cp = SS90EL;
+    }
+    cp++;
   }
 }
 
