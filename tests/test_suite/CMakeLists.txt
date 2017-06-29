@@ -17,13 +17,15 @@ add_executable(runTestSuite
         testMazeReader.cpp
         testPathFinder.cpp
         testSearcher.cpp
-        testFloodInfo.cpp)
+        testFloodInfo.cpp
+        )
 
 target_link_libraries(
         runTestSuite
         gtest
         gtest_main
         maze
+        oldmaze
         )
 #target_link_libraries(
 #        runTestSuite

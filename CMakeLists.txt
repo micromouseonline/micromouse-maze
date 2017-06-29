@@ -15,11 +15,15 @@ add_executable(libmaze_runX
         )
 
 # places to look for include files
-include_directories(maze)
+include_directories(
+        maze
+        oldMaze
+)
 
 # adds in the CMakeLists files from these directories
 add_subdirectory(maze)
+add_subdirectory(oldMaze)
 add_subdirectory(tests)
 
 # list the libraries needed by the target named
-target_link_libraries(libmaze_run maze)
+target_link_libraries(libmaze_run maze oldmaze)
