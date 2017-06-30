@@ -93,7 +93,7 @@ class PathFinder {
   char * toString();
   void generate(Maze * maze, uint16_t start, uint16_t finish);
 
-  void makeInPlacePath(uint8_t *pCommands, const char *src);
+  void makeInPlacePath(uint8_t *commands, const char *src);
   void makeDiagonalPath(uint8_t *pCommands, const char *src);
   void makeSmoothPath(uint8_t *pCommands, const char *src);
 

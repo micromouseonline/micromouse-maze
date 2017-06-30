@@ -138,10 +138,57 @@ void PathFinder::makeSmoothPath(uint8_t *pCommands, const char *src) {
   *pCommands = CMD_STOP;
 }
 
-void PathFinder::makeInPlacePath(uint8_t *pCommands, const char *src) {
-  *pCommands++ = CMD_BEGIN;
-  *pCommands++ = CMD_END;
-  *pCommands = CMD_STOP;
-
+/*
+ * TODO: The pathstring must always end in a null (CMD_STOP) so that it can be treated as a string
+ * TODO: protection is needed against over-running the command buffer.
+ * TODO: CMD_STOP should not be how 'S' makes it end probably.
+ * TODO: could this usefully return a value like the path length or negative for an error
+ *
+ */
+void PathFinder::makeInPlacePath(uint8_t *commands, const char *src) {
+  int p = 0;
+  unsigned char cmd;
+  bool finished = false;
+  while (!finished) {
+    if (p > 250) {
+      break;
+    }
+    char c = *src++;
+    switch (c) {
+      case 'B':
+        commands[p++] = CMD_BEGIN;
+        cmd = FWD0;
+        break;
+      case 'F':
+        cmd++;
+        break;
+      case 'L':
+        commands[p++] = cmd;
+        commands[p++] = IP90L;
+        cmd = FWD1;
+        break;
+      case 'R':
+        commands[p++] = cmd;
+        commands[p++] = IP90R;
+        cmd = FWD1;
+        break;
+      case 'S':
+        commands[p++] = cmd;
+        commands[p++] = CMD_STOP;
+        finished = true;
+        break;
+      case 'X':
+        commands[p++] = cmd;
+        commands[p++] = CMD_EXPLORE;
+        commands[p] = CMD_STOP;
+        finished = true;
+        break;
+      default:
+        commands[p++] = CMD_ERROR;
+        commands[p] = CMD_STOP;
+        finished = true;
+        break;
+    }
+  };
 }
 
