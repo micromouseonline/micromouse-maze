@@ -85,6 +85,8 @@ class PathFinder {
   void makeInPlaceCommands(const char *src, uint8_t *commands);
   void makeDiagonalCommands(const char *src, uint8_t *pCommands);
   void makeSmoothCommands(const char *src, uint8_t *pCommands);
+  // this is not well suited here but it makes migration easier
+  void listCommands(uint8_t * commands);
 
 
   uint16_t length();

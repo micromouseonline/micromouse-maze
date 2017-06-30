@@ -6,6 +6,7 @@
  */
 
 #include "mazepathfinder.h"
+#include "printf.h"
 #include <cstring>
 
 
@@ -589,5 +590,33 @@ void PathFinder::makeInPlaceCommands(const char *src, uint8_t *commands) {
         break;
     }
   };
+}
+
+void PathFinder::listCommands(uint8_t *commands) {
+  char done = 0;
+  printf("\n");
+  while (!done) {
+    unsigned char command = *commands++;
+    if (command == CMD_END) {
+      printf("CMD_END\n");
+    } else if (command == CMD_EXPLORE) {
+      printf("CMD_EXPLORE\n");
+    } else if (command == CMD_STOP) {
+      printf("CMD_STOP\n");
+      done = 1;
+    } else if (command == CMD_BEGIN) {
+      printf("%s, ", "CMD_BEGIN");
+    } else if (command < FWD16) {
+      printf("FWD%d, ", command - FWD0);
+    } else if (command < DIA31) {
+      printf("DIA%d, ", command - DIA0);
+    } else if (command <= IP180L) {
+      printf("%s, ", inPlaceTurnNames[command - INPLACE]);
+    } else if (command <= SS90EL) {
+      printf("%s, ", smoothTurnNames[command - SMOOTH]);
+    } else {
+      printf("OTHER - %02x\n", command);
+    }
+  }
 }
 
