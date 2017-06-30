@@ -66,13 +66,8 @@ const char *smoothTurnNames[] = {
 
 
 void parseCommandString(uint8_t *commands, const char *s) {
-  enum {
-    RUNNING = 0,
-    TURNING = 1,
-    STOPPING
-  };
+
   int p;
-  int state;
   int done;
   unsigned char cmd;
   cmd = FWD0;
@@ -99,7 +94,7 @@ void parseCommandString(uint8_t *commands, const char *s) {
       commands[p++] = STOP;
     } else if (c == 'X') {
       commands[p++] = cmd;
-      commands[p++] = CMD_END;
+      commands[p++] = CMD_EXPLORE;
       done = 1;
     }
     if (p > 255) {
@@ -113,6 +108,7 @@ void parseCommandString(uint8_t *commands, const char *s) {
 
 void listCommands(unsigned char *commandList) {
   char done = 0;
+  printf("\n");
   while (!done) {
     unsigned char command = *commandList++;
     if (command == CMD_END) {
