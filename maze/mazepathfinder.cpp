@@ -8,6 +8,57 @@
 #include "mazepathfinder.h"
 #include <cstring>
 
+
+static const char *inPlaceTurnNames[] = {
+    "IP45R",
+    "IP45L",
+    "IP90R",
+    "IP90L",
+    "IP135R",
+    "IP135L",
+    "IP180R",
+    "IP180L",
+};
+
+static const char *smoothTurnNames[] = {
+    "SS90SR",
+    "SS90SL",
+    "SS90FR",
+    "SS90FL",
+    "SS180R",
+    "SS180L",
+    "SD45R",
+    "SD45L",
+    "SD135R",
+    "SD135L",
+    "DS45R",
+    "DS45L",
+    "DS135R",
+    "DS135L",
+    "DD90R",
+    "DD90L",
+    "SS90ER",
+    "SS90EL"
+};
+
+
+typedef enum {
+  PathInit,
+  PathStart,
+  PathOrtho_F,
+  PathOrtho_R,
+  PathOrtho_L,
+  PathOrtho_RR,
+  PathOrtho_LL,
+  PathDiag_RL,
+  PathDiag_LR,
+  PathDiag_RR,
+  PathDiag_LL,
+  PathStop,
+  PathExit,
+  PathFinish,
+  PathError
+} pathgen_state_t;
 /*
  * Generate a path from cost data following a flood;
  * The method simply walks downhill from start to target marking the
@@ -37,10 +88,6 @@ char *PathFinder::path() {
   return mBuffer;
 }
 
-char *PathFinder::toString() {
-  return (char *) mBuffer;
-}
-
 static char pathOptions[16] = {
     'F', 'R', 'A', 'L',
     'L', 'F', 'R', 'A',
@@ -48,7 +95,7 @@ static char pathOptions[16] = {
     'R', 'A', 'L', 'F'
 };
 
-void PathFinder::generate(Maze *maze, uint16_t start, uint16_t target) {
+void PathFinder::generatePath(const uint16_t start, const uint16_t target, Maze *maze) {
 
   char *pPath = mBuffer;
   uint16_t here = start;
@@ -125,17 +172,369 @@ uint16_t PathFinder::startCell() const {
   return mStartCell;
 }
 
-void PathFinder::makeDiagonalPath(uint8_t *pCommands, const char *src) {
-  *pCommands++ = CMD_BEGIN;
-  *pCommands++ = CMD_END;
-  *pCommands = CMD_STOP;
-
+void PathFinder::makeDiagonalCommands(const char *src, uint8_t *pCommands) {
+  int cellCount = 0;
+  pathgen_state_t state = PathInit;
+  while (state != PathFinish) {
+    char c = *src++;
+    switch (state) {
+      case PathInit:
+        if (c == 'B'){
+          *pCommands++ = (CMD_BEGIN);
+          state = PathStart;
+        } else {
+          *pCommands++ = (CMD_ERR_BEGIN);
+          state = PathStop;
+        }
+        break;
+      case PathStart:
+        if (c == 'F') {
+          cellCount = 1;
+          state = PathOrtho_F;
+        } else if (c == 'R') {
+          *pCommands++ = (CMD_ERROR_00);
+          state = PathStop;
+        } else if (c == 'L') {
+          *pCommands++ = (CMD_ERROR_00);
+          state = PathStop;
+        } else if (c == 'S') {
+          state = PathStop;
+        } else {
+          *pCommands++ = (CMD_ERROR_00);
+          state = PathStop;
+        }
+        break;
+      case PathOrtho_F:
+        if (c == 'F') {
+          cellCount++;
+        } else if (c == 'R') {
+          *pCommands++ = (FWD0 + cellCount);
+          state = PathOrtho_R;
+        } else if (c == 'L') {
+          *pCommands++ = (FWD0 + cellCount);
+          state = PathOrtho_L;
+        } else if (c == 'S') {
+          *pCommands++ = (FWD0 + cellCount);
+          state = PathStop;
+        } else {
+          *pCommands++ = (CMD_ERROR_01);
+          state = PathStop;
+        }
+        break;
+      case PathOrtho_R:
+        if (c == 'F') {
+          *pCommands++ = (SS90FR);
+          cellCount = 2;
+          state = PathOrtho_F;
+        } else if (c == 'R') {
+          state = PathOrtho_RR;
+        } else if (c == 'L') {
+          *pCommands++ = (SD45R);
+          cellCount = 2;
+          state = PathDiag_RL;
+        } else if (c == 'S') {
+          *pCommands++ = (SS90ER);
+          *pCommands++ = (FWD1);
+          state = PathStop;
+        } else {
+          *pCommands++ = (CMD_ERROR_02);
+          state = PathStop;
+        }
+        break;
+      case PathOrtho_L:
+        if (c == 'F') {
+          *pCommands++ = (SS90FL);
+          cellCount = 2;
+          state = PathOrtho_F;
+        } else if (c == 'R') {
+          *pCommands++ = (SD45L);
+          cellCount = 2;
+          state = PathDiag_LR;
+        } else if (c == 'L') {
+          state = PathOrtho_LL;
+        } else if (c == 'S') {
+          *pCommands++ = (SS90EL);
+          *pCommands++ = (FWD1);
+          state = PathStop;
+        } else {
+          *pCommands++ = (CMD_ERROR_03);
+          state = PathStop;
+        }
+        break;
+      case PathOrtho_RR:
+        if (c == 'F') {
+          *pCommands++ = (SS180R);
+          cellCount = 2;
+          state = PathOrtho_F;
+        } else if (c == 'R') {
+          *pCommands++ = (CMD_ERROR_04);
+          state = PathStop;
+        } else if (c == 'L') {
+          *pCommands++ = (SD135R);
+          cellCount = 2;
+          state = PathDiag_RL;
+        } else if (c == 'S') {
+          *pCommands++ = (SS180R);
+          *pCommands++ = (FWD1);
+          state = PathStop;
+        } else {
+          *pCommands++ = (CMD_ERROR_04);
+          state = PathStop;
+        }
+        break;
+      case PathDiag_RL:
+        if (c == 'F') {
+          *pCommands++ = (DIA0 + cellCount);
+          *pCommands++ = (DS45L);
+          cellCount = 2;
+          state = PathOrtho_F;
+        } else if (c == 'R') {
+          cellCount += 1;
+          state = PathDiag_LR;
+        } else if (c == 'L') {
+          state = PathDiag_LL;
+        } else if (c == 'S') {
+          *pCommands++ = (DIA0 + cellCount);
+          *pCommands++ = (DS45L);
+          *pCommands++ = (FWD1);
+          state = PathStop;
+        } else {
+          *pCommands++ = (CMD_ERROR_05);
+          state = PathStop;
+        }
+        break;
+      case PathDiag_LR:
+        if (c == 'F') {
+          *pCommands++ = (DIA0 + cellCount);
+          *pCommands++ = (DS45R);
+          cellCount = 2;
+          state = PathOrtho_F;
+        } else if (c == 'R') {
+          state = PathDiag_RR;
+        } else if (c == 'L') {
+          cellCount += 1;
+          state = PathDiag_RL;
+        } else if (c == 'S') {
+          *pCommands++ = (DIA0 + cellCount);
+          *pCommands++ = (DS45R);
+          *pCommands++ = (FWD1);
+          state = PathStop;
+        } else {
+          *pCommands++ = (CMD_ERROR_06);
+          state = PathStop;
+        }
+        break;
+      case PathOrtho_LL:
+        if (c == 'F') {
+          *pCommands++ = (SS180L);
+          cellCount = 2;
+          state = PathOrtho_F;
+        } else if (c == 'R') {
+          *pCommands++ = (SD135L);
+          cellCount = 2;
+          state = PathDiag_LR;
+        } else if (c == 'L') {
+          *pCommands++ = (CMD_ERROR_07);
+          state = PathStop;
+        } else if (c == 'S') {
+          *pCommands++ = (SS180L);
+          *pCommands++ = (FWD1);
+          state = PathStop;
+        } else {
+          *pCommands++ = (CMD_ERROR_07);
+          state = PathStop;
+        }
+        break;
+      case PathDiag_LL:
+        if (c == 'F') {
+          *pCommands++ = (DIA0 + cellCount);
+          *pCommands++ = (DS135L);
+          cellCount = 2;
+          state = PathOrtho_F;
+        } else if (c == 'R') {
+          *pCommands++ = (DIA0 + cellCount);
+          *pCommands++ = (DD90L);
+          cellCount = 2;
+          state = PathDiag_LR;
+        } else if (c == 'L') {
+          *pCommands++ = (CMD_ERROR_08);
+          state = PathStop;
+        } else if (c == 'S') {
+          *pCommands++ = (DIA0 + cellCount);
+          *pCommands++ = (DS135L);
+          *pCommands++ = (FWD1);
+          state = PathStop;
+        } else {
+          *pCommands++ = (CMD_ERROR_08);
+          state = PathStop;
+        }
+        break;
+      case PathDiag_RR:
+        if (c == 'F') {
+          *pCommands++ = (DIA0 + cellCount);
+          *pCommands++ = (DS135R);
+          cellCount = 2;
+          state = PathOrtho_F;
+        } else if (c == 'R') {
+          state = PathDiag_RR;
+        } else if (c == 'L') {
+          *pCommands++ = (DIA0 + cellCount);
+          *pCommands++ = (DD90R);
+          cellCount = 2;
+          state = PathDiag_RL;
+        } else if (c == 'S') {
+          *pCommands++ = (DIA0 + cellCount);
+          *pCommands++ = (DS135R);
+          *pCommands++ = (FWD1);
+          state = PathStop;
+        } else {
+          *pCommands++ = (CMD_ERROR_09);
+          state = PathStop;
+        }
+        break;
+      case PathStop:
+        *pCommands++ = (CMD_STOP);  // make sure the command list gets terminated
+        state = PathFinish;
+        break;
+      case PathExit:
+        *pCommands++ = (CMD_EXPLORE);
+        *pCommands++ = (CMD_STOP);  // make sure the command list gets terminated
+        state = PathFinish;
+        break;
+      default:
+        *pCommands++ = (CMD_ERROR_15);
+        state = PathFinish;
+        break;
+    }
+  }
 }
 
-void PathFinder::makeSmoothPath(uint8_t *pCommands, const char *src) {
-  *pCommands++ = CMD_BEGIN;
-  *pCommands++ = CMD_END;
-  *pCommands = CMD_STOP;
+/*
+ * The smooth command list uses only orthogonal moves and 90 degree
+ * explore turns. It should be very safe but continuous.
+ * It is suitable for moving the mouse more rapidly in the maze while
+ * exploring but where it is not felt safe to use diagonals
+ */
+void PathFinder::makeSmoothCommands(const char *src, uint8_t *pCommands) {
+  int x = 0; // a counter for the number of cells to be crossed
+  pathgen_state_t state = PathInit;
+  while (state != PathFinish) {
+    char c = *src++;
+    switch (state) {
+      case PathInit:
+        if (c=='B'){
+          *pCommands++ = (CMD_BEGIN);
+          state = PathStart;
+        } else {
+          *pCommands++ = (CMD_ERR_BEGIN);
+          state = PathStop;
+        }
+        break;
+      case PathStart:
+        if (c == 'F') {
+          x = 1;
+          state = PathOrtho_F;
+        } else if (c == 'R') {
+          *pCommands++ = (CMD_ERROR_00);
+          state = PathStop;
+        } else if (c == 'L') {
+          *pCommands++ = (CMD_ERROR_00);
+          state = PathStop;
+        } else if (c == 'X') {
+          state = PathExit;
+        } else if (c == 'S') {
+          state = PathStop;
+        } else {
+          *pCommands++ = (CMD_ERROR_00);
+          state = PathStop;
+        }
+        break;
+      case PathOrtho_F:
+        if (c == 'F') {
+          x++;
+        } else if (c == 'R') {
+          *pCommands++ = (FWD0 + x);
+          state = PathOrtho_R;
+        } else if (c == 'L') {
+          *pCommands++ = (FWD0 + x);
+          state = PathOrtho_L;
+        } else if (c == 'X') {
+          state = PathExit;
+        } else if (c == 'S') {
+          *pCommands++ = (FWD0 + x);
+          state = PathStop;
+        } else {
+          *pCommands++ = (CMD_ERROR_01);
+          state = PathStop;
+        }
+        break;
+      case PathOrtho_R:
+        if (c == 'F') {
+          *pCommands++ = (SS90ER);
+          x = 2;
+          state = PathOrtho_F;
+        } else if (c == 'R') {
+          *pCommands++ = (SS90ER);
+          *pCommands++ = (FWD1);
+          state = PathOrtho_R;
+        } else if (c == 'L') {
+          *pCommands++ = (SS90ER);
+          *pCommands++ = (FWD1);
+          state = PathOrtho_L;
+        } else if (c == 'X') {
+          *pCommands++ = (SS90ER);
+          *pCommands++ = (FWD1);
+          state = PathExit;
+        } else if (c == 'S') {
+          *pCommands++ = (SS90ER);
+          *pCommands++ = (FWD1);
+          state = PathStop;
+        } else {
+          *pCommands++ = (CMD_ERROR_02);
+          state = PathStop;
+        }
+        break;
+      case PathOrtho_L:
+        if (c == 'F') {
+          *pCommands++ = (SS90EL);
+          x = 2;
+          state = PathOrtho_F;
+        } else if (c == 'R') {
+          *pCommands++ = (SS90EL);
+          *pCommands++ = (FWD1);
+          state = PathOrtho_R;
+        } else if (c == 'L') {
+          *pCommands++ = (SS90EL);
+          *pCommands++ = (FWD1);
+          state = PathOrtho_L;
+        } else if (c == 'X') {
+          *pCommands++ = (SS90EL);
+          *pCommands++ = (FWD1);
+          state = PathExit;
+        } else if (c == 'S') {
+          *pCommands++ = (SS90EL);
+          *pCommands++ = (FWD1);
+          state = PathStop;
+        } else {
+          *pCommands++ = (CMD_ERROR_03);
+          state = PathStop;
+        }
+        break;
+      case PathStop:
+        *pCommands++ = (CMD_STOP);  // make sure the command list gets terminated
+        state = PathFinish;
+        break;
+      case PathExit:
+        *pCommands++ = (CMD_EXPLORE);
+        *pCommands++ = (CMD_STOP);  // make sure the command list gets terminated
+        state = PathFinish;
+        break;
+      default:
+        *pCommands++ = (CMD_ERROR_15);
+        state = PathFinish;
+        break;
+    }
+  }
 }
 
 /*
@@ -145,7 +544,7 @@ void PathFinder::makeSmoothPath(uint8_t *pCommands, const char *src) {
  * TODO: could this usefully return a value like the path length or negative for an error
  *
  */
-void PathFinder::makeInPlacePath(uint8_t *commands, const char *src) {
+void PathFinder::makeInPlaceCommands(const char *src, uint8_t *commands) {
   int p = 0;
   unsigned char cmd;
   bool finished = false;

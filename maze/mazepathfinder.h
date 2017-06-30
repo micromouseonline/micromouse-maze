@@ -67,15 +67,6 @@
  */
 
 
-/*
- * clear all the direction arrows except those along the least-cost path
- * from start to target.
- * Expects a flooded maze.
- * Returns without any action if the start cost is MAX_COST, indicating
- * there is no route to the goal
- * An unflooded maze will have undefined results - the function may not return.
- */
-
 /* TODO: make this follow a path until there is no smaller neighbour */
 //int IsolatePath (location_t start, location_t target);
 
@@ -90,12 +81,10 @@ class PathFinder {
   PathFinder();
   ~PathFinder();
   char * path();
-  char * toString();
-  void generate(Maze * maze, uint16_t start, uint16_t finish);
-
-  void makeInPlacePath(uint8_t *commands, const char *src);
-  void makeDiagonalPath(uint8_t *pCommands, const char *src);
-  void makeSmoothPath(uint8_t *pCommands, const char *src);
+  void generatePath(const uint16_t start, const uint16_t finish, Maze *maze);
+  void makeInPlaceCommands(const char *src, uint8_t *commands);
+  void makeDiagonalCommands(const char *src, uint8_t *pCommands);
+  void makeSmoothCommands(const char *src, uint8_t *pCommands);
 
 
   uint16_t length();
