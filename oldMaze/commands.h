@@ -13,7 +13,7 @@ extern const char *turnNames[];
 
 
 
-void parseCommandString(uint8_t *commands, const char *s);
+void makeInPlaceCommands(uint8_t *commands, const char *s);
 void executeCommandString(const char *s);
 void executeCommands(void);
 void listCommands(unsigned char * commandList);

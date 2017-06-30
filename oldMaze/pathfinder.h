@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 extern unsigned char commandList[];
 
-void parseCommandString(uint8_t *commands, const char *s);
+void makeInPlaceCommands(uint8_t *commands, const char *s);
 void listCommands(unsigned char * commandList);
 void makeDiagonalPath(const char * src, unsigned char * pCommands);
 void makeSmoothPath(const char * src, unsigned char * pCommands);

@@ -65,7 +65,7 @@ const char *smoothTurnNames[] = {
 // note that the input string is expecting  to see an 'F' after every turn
 
 
-void parseCommandString(uint8_t *commands, const char *s) {
+void makeInPlaceCommands(uint8_t *commands, const char *s) {
 
   int p;
   int done;
