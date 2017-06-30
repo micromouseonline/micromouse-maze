@@ -164,6 +164,44 @@ TEST_F(PathFinderTest, DiagonalPath) {
   listCommands(commands);
 }
 
+TEST_F(PathFinderTest, CompareOldvsNewWithExplore) {
+  /*
+   *
+   */
+  uint8_t  cmd[20];
+  char src[] = "BFFFFX";
+  parseCommandString(commandList,src);
+  path->makeInPlacePath(cmd,src);
+  listCommands(commandList);
+  listCommands(cmd);
+  ASSERT_STREQ((char *) commandList, (char *) cmd);
+
+}
+
+
+TEST_F(PathFinderTest, CompareOldvsNewIPCommands) {
+  /*
+   * exhastive test of path generation for simple smooth, orthogonal paths
+   */
+  uint8_t ipCommands[132] = {0};
+  maze->copyMazeFromFileData(japan2007ef, 256);
+  maze->setFloodType(Maze::MANHATTAN_FLOOD);
+  for (uint16_t goal = 1; goal < maze->numCells(); goal++) {
+    maze->flood(goal);
+    path->generate(maze, 0, goal);
+    parseCommandString(commandList, path->path());
+    path->makeInPlacePath(ipCommands,path->path());
+    ASSERT_STREQ((char *) commandList, (char *) ipCommands);
+  }
+  maze->setFloodType(Maze::RUNLENGTH_FLOOD);
+  for (uint16_t goal = 1; goal < maze->numCells(); goal++) {
+    maze->flood(goal);
+    path->generate(maze, 0, goal);
+    parseCommandString(commandList, path->path());
+    path->makeInPlacePath(ipCommands,path->path());
+    ASSERT_STREQ((char *) commandList, (char *) ipCommands);
+  }
+}
 TEST_F(PathFinderTest, CompareOldvsNewSmoothCommands) {
   /*
    * exhastive test of path generation for simple smooth, orthogonal paths
