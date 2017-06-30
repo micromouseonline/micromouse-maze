@@ -22,8 +22,7 @@ include_directories(
 
 # adds in the CMakeLists files from these directories
 add_subdirectory(maze)
-add_subdirectory(oldMaze)
 add_subdirectory(tests)
 
 # list the libraries needed by the target named
-target_link_libraries(libmaze_run maze oldmaze)
+target_link_libraries(libmaze_run maze)

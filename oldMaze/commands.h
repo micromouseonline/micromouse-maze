@@ -12,12 +12,12 @@ extern const char *turnNames[];
 
 
 
-
-void makeInPlaceCommands(uint8_t *commands, const char *s);
-void executeCommandString(const char *s);
-void executeCommands(void);
-void listCommands(unsigned char * commandList);
-void logCommands(unsigned char * commandList);
+//
+//void makeInPlaceCommands(uint8_t *commands, const char *s);
+//void executeCommandString(const char *s);
+//void executeCommands(void);
+//void listCommands(unsigned char * commandList);
+//void logCommands(unsigned char * commandList);
 
 
 

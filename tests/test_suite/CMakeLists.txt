@@ -25,7 +25,6 @@ target_link_libraries(
         gtest
         gtest_main
         maze
-        oldmaze
         )
 #target_link_libraries(
 #        runTestSuite
