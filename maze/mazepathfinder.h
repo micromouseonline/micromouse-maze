@@ -90,6 +90,7 @@ class PathFinder {
 
 
   uint16_t length();
+  uint16_t distance();
   uint8_t startHeading() const;
   uint8_t endHeading() const;
   uint16_t startCell() const;
@@ -103,6 +104,7 @@ class PathFinder {
   uint16_t mCellCount;
   uint16_t mStartCell;
   uint16_t mEndCell;
+  uint16_t mDistance;
   bool mReachesTarget;
 };
 

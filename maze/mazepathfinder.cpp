@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <cstring>
 
-
 static const char *inPlaceTurnNames[] = {
     "IP45R",
     "IP45L",
@@ -42,7 +41,6 @@ static const char *smoothTurnNames[] = {
     "SS90EL"
 };
 
-
 typedef enum {
   PathInit,
   PathStart,
@@ -60,6 +58,7 @@ typedef enum {
   PathFinish,
   PathError
 } pathgen_state_t;
+
 /*
  * Generate a path from cost data following a flood;
  * The method simply walks downhill from start to target marking the
@@ -77,6 +76,7 @@ PathFinder::PathFinder() :
     mEndHeading(INVALID_DIRECTION),
     mStartCell(0),
     mEndCell(0),
+    mDistance(0),
     mReachesTarget(false) {
   memset(mBuffer, 0, 1024);
 }
@@ -99,6 +99,7 @@ static char pathOptions[16] = {
 void PathFinder::generatePath(const uint16_t start, const uint16_t target, Maze *maze) {
 
   char *pPath = mBuffer;
+  uint16_t distance = 180;
   uint16_t here = start;
   uint8_t headingHere = maze->direction(here);
   mStartCell = start;
@@ -124,9 +125,14 @@ void PathFinder::generatePath(const uint16_t start, const uint16_t target, Maze 
     char command = pathOptions[headingLast * 4 + headingHere];
     if (command == 'R') {
       mEndHeading = Maze::rightOf(mEndHeading);
+      distance += 127;
     }
     if (command == 'L') {
       mEndHeading = Maze::leftOf(mEndHeading);
+      distance += 127;
+    }
+    if (command == 'F') {
+      distance += 180;
     }
     *pPath++ = command;
     mCellCount++;
@@ -181,7 +187,7 @@ void PathFinder::makeDiagonalCommands(const char *src, const uint16_t maxLength,
   pathgen_state_t state = PathInit;
   assert(maxLength > 2);
   while (state != PathFinish) {
-    if (runLength > 31){ // MAGIC: maximum for hald-size maze
+    if (runLength > 31) { // MAGIC: maximum for hald-size maze
       commands[0] = CMD_ERROR;
       commands[1] = CMD_STOP;
       break;
@@ -194,7 +200,7 @@ void PathFinder::makeDiagonalCommands(const char *src, const uint16_t maxLength,
     char c = *src++;
     switch (state) {
       case PathInit:
-        if (c == 'B'){
+        if (c == 'B') {
           commands[p++] = (CMD_BEGIN);
           state = PathStart;
         } else {
@@ -450,7 +456,7 @@ void PathFinder::makeSmoothCommands(const char *src, const uint16_t maxLength, u
   int p = 0;
   pathgen_state_t state = PathInit;
   while (state != PathFinish) {
-    if (runLength >= 31){ // MAGIC: maximum for hald-size maze
+    if (runLength >= 31) { // MAGIC: maximum for hald-size maze
       commands[p++] = CMD_ERROR;
       commands[p] = CMD_STOP;
       break;
@@ -464,11 +470,11 @@ void PathFinder::makeSmoothCommands(const char *src, const uint16_t maxLength, u
     char c = *src++;
     switch (state) {
       case PathInit:
-        if (c=='B'){
-         commands[p++] = (CMD_BEGIN);
+        if (c == 'B') {
+          commands[p++] = (CMD_BEGIN);
           state = PathStart;
         } else {
-         commands[p++] = (CMD_ERR_BEGIN);
+          commands[p++] = (CMD_ERR_BEGIN);
           state = PathStop;
         }
         break;
@@ -477,17 +483,17 @@ void PathFinder::makeSmoothCommands(const char *src, const uint16_t maxLength, u
           runLength = 1;
           state = PathOrtho_F;
         } else if (c == 'R') {
-         commands[p++] = (CMD_ERROR_NOF);
+          commands[p++] = (CMD_ERROR_NOF);
           state = PathStop;
         } else if (c == 'L') {
-         commands[p++] = (CMD_ERROR_NOF);
+          commands[p++] = (CMD_ERROR_NOF);
           state = PathStop;
         } else if (c == 'X') {
           state = PathExit;
         } else if (c == 'S') {
           state = PathStop;
         } else {
-         commands[p++] = (CMD_ERROR_END);
+          commands[p++] = (CMD_ERROR_END);
           state = PathStop;
         }
         break;
@@ -495,84 +501,84 @@ void PathFinder::makeSmoothCommands(const char *src, const uint16_t maxLength, u
         if (c == 'F') {
           runLength++;
         } else if (c == 'R') {
-         commands[p++] = (FWD0 + runLength);
+          commands[p++] = (FWD0 + runLength);
           state = PathOrtho_R;
         } else if (c == 'L') {
-         commands[p++] = (FWD0 + runLength);
+          commands[p++] = (FWD0 + runLength);
           state = PathOrtho_L;
         } else if (c == 'X') {
           state = PathExit;
         } else if (c == 'S') {
-         commands[p++] = (FWD0 + runLength);
+          commands[p++] = (FWD0 + runLength);
           state = PathStop;
         } else {
-         commands[p++] = (CMD_ERROR_END);
+          commands[p++] = (CMD_ERROR_END);
           state = PathStop;
         }
         break;
       case PathOrtho_R:
         if (c == 'F') {
-         commands[p++] = (SS90ER);
+          commands[p++] = (SS90ER);
           runLength = 2;
           state = PathOrtho_F;
         } else if (c == 'R') {
-         commands[p++] = (SS90ER);
-         commands[p++] = (FWD1);
+          commands[p++] = (SS90ER);
+          commands[p++] = (FWD1);
           state = PathOrtho_R;
         } else if (c == 'L') {
-         commands[p++] = (SS90ER);
-         commands[p++] = (FWD1);
+          commands[p++] = (SS90ER);
+          commands[p++] = (FWD1);
           state = PathOrtho_L;
         } else if (c == 'X') {
-         commands[p++] = (SS90ER);
-         commands[p++] = (FWD1);
+          commands[p++] = (SS90ER);
+          commands[p++] = (FWD1);
           state = PathExit;
         } else if (c == 'S') {
-         commands[p++] = (SS90ER);
-         commands[p++] = (FWD1);
+          commands[p++] = (SS90ER);
+          commands[p++] = (FWD1);
           state = PathStop;
         } else {
-         commands[p++] = (CMD_ERROR_END);
+          commands[p++] = (CMD_ERROR_END);
           state = PathStop;
         }
         break;
       case PathOrtho_L:
         if (c == 'F') {
-         commands[p++] = (SS90EL);
+          commands[p++] = (SS90EL);
           runLength = 2;
           state = PathOrtho_F;
         } else if (c == 'R') {
-         commands[p++] = (SS90EL);
-         commands[p++] = (FWD1);
+          commands[p++] = (SS90EL);
+          commands[p++] = (FWD1);
           state = PathOrtho_R;
         } else if (c == 'L') {
-         commands[p++] = (SS90EL);
-         commands[p++] = (FWD1);
+          commands[p++] = (SS90EL);
+          commands[p++] = (FWD1);
           state = PathOrtho_L;
         } else if (c == 'X') {
-         commands[p++] = (SS90EL);
-         commands[p++] = (FWD1);
+          commands[p++] = (SS90EL);
+          commands[p++] = (FWD1);
           state = PathExit;
         } else if (c == 'S') {
-         commands[p++] = (SS90EL);
-         commands[p++] = (FWD1);
+          commands[p++] = (SS90EL);
+          commands[p++] = (FWD1);
           state = PathStop;
         } else {
-         commands[p++] = (CMD_ERROR_END);
+          commands[p++] = (CMD_ERROR_END);
           state = PathStop;
         }
         break;
       case PathStop:
-       commands[p++] = (CMD_STOP);  // make sure the command list gets terminated
+        commands[p++] = (CMD_STOP);  // make sure the command list gets terminated
         state = PathFinish;
         break;
       case PathExit:
-       commands[p++] = (CMD_EXPLORE);
-       commands[p++] = (CMD_STOP);  // make sure the command list gets terminated
+        commands[p++] = (CMD_EXPLORE);
+        commands[p++] = (CMD_STOP);  // make sure the command list gets terminated
         state = PathFinish;
         break;
       default:
-       commands[p++] = (CMD_ERROR);
+        commands[p++] = (CMD_ERROR);
         state = PathFinish;
         break;
     }
@@ -605,7 +611,7 @@ void PathFinder::makeInPlaceCommands(const char *src, const uint16_t maxLength, 
       case 'F':
         cmd++;
         runLength++;
-        if (runLength >= 31){ // MAGIC: maximum for hald-size maze
+        if (runLength >= 31) { // MAGIC: maximum for hald-size maze
           commands[p++] = CMD_ERROR;
           commands[p] = CMD_STOP;
           finished = true;
@@ -671,5 +677,9 @@ void PathFinder::listCommands(uint8_t *commands) {
       printf("OTHER - %02x\n", command);
     }
   }
+}
+
+uint16_t PathFinder::distance() {
+  return mDistance;
 }
 
