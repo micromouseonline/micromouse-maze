@@ -32,18 +32,18 @@ extern const char *turnNames[];
 #define CMD_BEGIN      (0x7D)
 #define CMD_EXPLORE    (0x7E)
 #define CMD_END        (0x7F)
-#define CMD_ERROR_00   (0xF0)
+#define CMD_ERROR_NOF   (0xF0)
 #define CMD_ERROR_01   (0xF1)
 #define CMD_ERROR_02   (0xF2)
 #define CMD_ERROR_03   (0xF3)
-#define CMD_ERROR_04   (0xF4)
+#define CMD_ERROR_RRR  (0xF4)
 #define CMD_ERROR_05   (0xF5)
 #define CMD_ERROR_06   (0xF6)
-#define CMD_ERROR_07   (0xF7)
+#define CMD_ERROR_LLL   (0xF7)
 #define CMD_ERROR_08   (0xF8)
 #define CMD_ERROR_09   (0xF9)
 #define CMD_ERR_BEGIN   (0xFA)
-#define CMD_ERROR_11   (0xFB)
+#define CMD_ERROR_END   (0xFB)
 #define CMD_ERROR_12   (0xFC)
 #define CMD_ERROR_13   (0xFD)
 #define CMD_ERROR_14   (0xFE)
@@ -68,7 +68,22 @@ extern const char *turnNames[];
 #define FWD13   (CMD_STRAIGHT+ 13)  //13
 #define FWD14   (CMD_STRAIGHT+ 14)  //14
 #define FWD15   (CMD_STRAIGHT+ 15)  //15
-#define FWD16   (CMD_STRAIGHT+ 16)  //17
+#define FWD16   (CMD_STRAIGHT+ 16)  //16
+#define FWD17   (CMD_STRAIGHT+ 17)  //17
+#define FWD18   (CMD_STRAIGHT+ 18)  //18
+#define FWD19   (CMD_STRAIGHT+ 19)  //19
+#define FWD20   (CMD_STRAIGHT+ 20)  //20
+#define FWD21   (CMD_STRAIGHT+ 21)  //21
+#define FWD22   (CMD_STRAIGHT+ 22)  //22
+#define FWD23   (CMD_STRAIGHT+ 23)  //23
+#define FWD24   (CMD_STRAIGHT+ 24)  //24
+#define FWD25   (CMD_STRAIGHT+ 25)  //25
+#define FWD26   (CMD_STRAIGHT+ 26)  //26
+#define FWD27   (CMD_STRAIGHT+ 27)  //27
+#define FWD28   (CMD_STRAIGHT+ 28)  //28
+#define FWD29   (CMD_STRAIGHT+ 29)  //29
+#define FWD30   (CMD_STRAIGHT+ 30)  //30
+#define FWD31   (CMD_STRAIGHT+ 31)  //31
 
 #define DIA0    (CMD_DIAGONAL +  0) //32
 #define DIA1    (CMD_DIAGONAL +  1) //33
