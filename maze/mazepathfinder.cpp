@@ -149,6 +149,7 @@ void PathFinder::generatePath(const uint16_t start, const uint16_t target, Maze 
   // this is a string to be sure it gets terminated properly
   mCellCount++;
   *pPath = 0;
+  mDistance = distance;
 }
 
 /**
