@@ -27,10 +27,30 @@
 #include "floodinfo.h"
 
 TEST(FloodInfoTest, Instantiation) {
-
-
+  FloodInfo info;
+  EXPECT_EQ(0,info.cost);
+  EXPECT_EQ(0,info.cell);
+  EXPECT_EQ(0,info.entryDir);
+  EXPECT_EQ(0,info.entryWall);
+  EXPECT_EQ(0,info.runLength);
+  EXPECT_TRUE(info.isNull());
 }
 
 TEST(FloodInfoTest, Operators){
-
+  FloodInfo infoA;
+  FloodInfo infoB;
+  EXPECT_TRUE(infoA == infoB);
+  EXPECT_FALSE(infoA != infoB);
+  EXPECT_FALSE(infoA > infoB);
+  EXPECT_FALSE(infoA < infoB);
+  EXPECT_TRUE(infoA >= infoB);
+  EXPECT_TRUE(infoA <= infoB);
+  infoA.cost = 99;
+  infoB.cost = 11;
+  EXPECT_FALSE(infoA == infoB);
+  EXPECT_TRUE(infoA != infoB);
+  EXPECT_TRUE(infoA > infoB);
+  EXPECT_FALSE(infoA < infoB);
+  EXPECT_TRUE(infoA >= infoB);
+  EXPECT_FALSE(infoA <= infoB);
 }

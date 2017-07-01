@@ -37,7 +37,6 @@ class QueueTest : public ::testing::Test {
   FloodInfo itemC;
   FloodInfo itemD;
   FloodInfo itemE;
-  FloodInfo itemF;
 
   virtual void SetUp() {
     queue = new PriorityQueue<FloodInfo>();
@@ -46,7 +45,6 @@ class QueueTest : public ::testing::Test {
     itemC = FloodInfo(1, 2, 1, 'C');
     itemD = FloodInfo(0, 2, 1, 'D');
     itemE = FloodInfo(6, 2, 1, 'D');
-    itemF = FloodInfo(6, 2, 1, 'D');
   }
 
   virtual void TearDown() {
