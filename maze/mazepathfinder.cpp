@@ -1,9 +1,27 @@
-/*
- * File:   mazepathfinder.c
- * Author: peterharrison
- *
- * Created on 16 February 2016, 14:55
- */
+/************************************************************************
+*
+* Copyright (C) 2017 by Peter Harrison. www.micromouseonline.com
+*
+* Permission is hereby granted, free of charge, to any person obtaining a
+* copy of this software and associated documentation files (the
+* "Software"), to deal in the Software without restriction, including
+* without l> imitation the rights to use, copy, modify, merge, publish,
+* distribute, sublicense, and/or sell copies of the Software, and to
+* permit persons to whom the Software is furnished to do so, subject to
+* the following conditions:
+*
+* The above copyright notice and this permission notice shall be included
+* in all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+* OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*
+************************************************************************/
 
 #include "mazepathfinder.h"
 #include <stdio.h>
@@ -99,7 +117,7 @@ static char pathOptions[16] = {
 void PathFinder::generatePath(const uint16_t start, const uint16_t target, Maze *maze) {
 
   char *pPath = mBuffer;
-  uint16_t distance = 180;
+  uint16_t distance = 0;
   uint16_t here = start;
   uint8_t headingHere = maze->direction(here);
   mStartCell = start;
@@ -158,7 +176,7 @@ void PathFinder::generatePath(const uint16_t start, const uint16_t target, Maze 
  * The start marker ('B') is not counted
  *
  */
-uint16_t PathFinder::length() {
+uint16_t PathFinder::cellCount() {
   return mCellCount;
 }
 
@@ -508,6 +526,7 @@ void PathFinder::makeSmoothCommands(const char *src, const uint16_t maxLength, u
           commands[p++] = (FWD0 + runLength);
           state = PathOrtho_L;
         } else if (c == 'X') {
+          commands[p++] = (FWD0 + runLength);
           state = PathExit;
         } else if (c == 'S') {
           commands[p++] = (FWD0 + runLength);
@@ -570,12 +589,12 @@ void PathFinder::makeSmoothCommands(const char *src, const uint16_t maxLength, u
         }
         break;
       case PathStop:
-        commands[p++] = (CMD_STOP);  // make sure the command list gets terminated
+        commands[p] = (CMD_STOP);  // make sure the command list gets terminated
         state = PathFinish;
         break;
       case PathExit:
         commands[p++] = (CMD_EXPLORE);
-        commands[p++] = (CMD_STOP);  // make sure the command list gets terminated
+        commands[p] = (CMD_STOP);  // make sure the command list gets terminated
         state = PathFinish;
         break;
       default:

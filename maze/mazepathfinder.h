@@ -1,9 +1,32 @@
-/*
+ /************************************************************************
  * File:   mazepathfinder.h
  * Author: peterharrison
  *
  * Created on 16 February 2016, 14:55
- */
+ *
+ * Copyright (C) 2017 by Peter Harrison. www.micromouseonline.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without l> imitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ ************************************************************************/
+
 
 #ifndef MAZEPATHFINDER_H
 #define MAZEPATHFINDER_H
@@ -55,20 +78,24 @@
  *         \--------------------------------------------------/
  *
  *
- *  The strings or command lists are created in buffers provided by the caller.
+ *  The basic PathString is stored in a buffer held by the PathFinder class so
+ *  that it is available to generate command lists of different kinds.
+ *
+ *  The command lists are created in buffers provided by the caller.
+ *
  *  Thus, the caller is responsible for managing the storage allocation and
  *  de-allocation. The Pathfinder will not create any objects that it does not
  *  then destroy.
  *
+ *  The Pathfinder assumes it may be used on a half size maze so the maximum path
+ *  length is large.
  *
- *  TODO: protection needs to stop PathFinder from overrunning callers memory.
- *
+ *  In the unlikely event it became necessary to save memory or accommodate
+ *  different size mazes/paths, it may be appropriate to subclass a simpler
+ *  version intended only for the classic contest
  *
  */
 
-
-/* TODO: make this follow a path until there is no smaller neighbour */
-//int IsolatePath (location_t start, location_t target);
 
 #include "maze.h"
 #include "commands.h"
@@ -81,20 +108,30 @@ class PathFinder {
   PathFinder();
   ~PathFinder();
   char * path();
+  ///  Create a simple pathstring representing the route from start to finsh in the maze
   void generatePath(const uint16_t start, const uint16_t finish, Maze *maze);
   void makeInPlaceCommands(const char *src, const uint16_t maxLength, uint8_t *commands);
+  /// Convert the path to a set of commands using only 90 degree explore turns
   void makeDiagonalCommands(const char *src, const uint16_t maxLength, uint8_t *commands);
+  /// Convert the path to a set of commands using the full range of turns and moves
   void makeSmoothCommands(const char *src, const uint16_t maxLength, uint8_t *commands);
-  // this is not well suited here but it makes migration easier
+  /// this is not well suited here but it makes migration easier
   void listCommands(uint8_t * commands);
 
 
-  uint16_t length();
+  /// return the number of cells traversed by the path
+  uint16_t cellCount();
+  /// return a maesure of the distance (in mm) covered by the path
   uint16_t distance();
+  /// the heading recorded in the maze at the start cell.
   uint8_t startHeading() const;
+  /// the heading recorded in the maze at the finish cell.
   uint8_t endHeading() const;
+  /// The cell where the path starts (in case the caller cannot remember?)
   uint16_t startCell() const;
+  /// The cell where the path finishes. Not necessarily the requested finish cell.
   uint16_t endCell() const;
+  /// The path may not reach the target and so more exploring will be needed
   bool reachesTarget() const;
 
  private:
