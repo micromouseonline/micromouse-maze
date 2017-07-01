@@ -173,237 +173,264 @@ uint16_t PathFinder::startCell() const {
   return mStartCell;
 }
 
-void PathFinder::makeDiagonalCommands(const char *src, uint8_t *pCommands) {
-  int cellCount = 0;
+void PathFinder::makeDiagonalCommands(const char *src, const uint16_t maxLength, uint8_t *commands) {
+  int runLength = 0;
+  int p = 0;
   pathgen_state_t state = PathInit;
+  assert(maxLength > 2);
   while (state != PathFinish) {
+    if (runLength > 31){ // MAGIC: maximum for hald-size maze
+      commands[0] = CMD_ERROR;
+      commands[1] = CMD_STOP;
+      break;
+    }
+    if (p >= maxLength) {
+      commands[0] = CMD_ERROR;
+      commands[1] = CMD_STOP;
+      break;
+    }
     char c = *src++;
     switch (state) {
       case PathInit:
         if (c == 'B'){
-          *pCommands++ = (CMD_BEGIN);
+          commands[p++] = (CMD_BEGIN);
           state = PathStart;
         } else {
-          *pCommands++ = (CMD_ERR_BEGIN);
+          commands[p++] = (CMD_ERR_BEGIN);
           state = PathStop;
         }
         break;
       case PathStart:
         if (c == 'F') {
-          cellCount = 1;
+          runLength = 1;
           state = PathOrtho_F;
         } else if (c == 'R') {
-          *pCommands++ = (CMD_ERROR_00);
+          commands[p++] = (CMD_ERROR_NOF);
           state = PathStop;
         } else if (c == 'L') {
-          *pCommands++ = (CMD_ERROR_00);
+          commands[p++] = (CMD_ERROR_NOF);
           state = PathStop;
         } else if (c == 'S') {
           state = PathStop;
+        } else if (c == 'X') {
+          state = PathExit;
         } else {
-          *pCommands++ = (CMD_ERROR_00);
+          commands[p++] = (CMD_ERROR_END);
           state = PathStop;
         }
         break;
       case PathOrtho_F:
         if (c == 'F') {
-          cellCount++;
+          runLength++;
         } else if (c == 'R') {
-          *pCommands++ = (FWD0 + cellCount);
+          commands[p++] = (FWD0 + runLength);
           state = PathOrtho_R;
         } else if (c == 'L') {
-          *pCommands++ = (FWD0 + cellCount);
+          commands[p++] = (FWD0 + runLength);
           state = PathOrtho_L;
         } else if (c == 'S') {
-          *pCommands++ = (FWD0 + cellCount);
+          commands[p++] = (FWD0 + runLength);
           state = PathStop;
+        } else if (c == 'X') {
+          commands[p++] = (FWD0 + runLength);
+          state = PathExit;
         } else {
-          *pCommands++ = (CMD_ERROR_01);
+          commands[p++] = (CMD_ERROR_END);
           state = PathStop;
         }
         break;
       case PathOrtho_R:
         if (c == 'F') {
-          *pCommands++ = (SS90FR);
-          cellCount = 2;
+          commands[p++] = (SS90FR);
+          runLength = 2;
           state = PathOrtho_F;
         } else if (c == 'R') {
           state = PathOrtho_RR;
         } else if (c == 'L') {
-          *pCommands++ = (SD45R);
-          cellCount = 2;
+          commands[p++] = (SD45R);
+          runLength = 2;
           state = PathDiag_RL;
         } else if (c == 'S') {
-          *pCommands++ = (SS90ER);
-          *pCommands++ = (FWD1);
+          commands[p++] = (SS90ER);
+          commands[p++] = (FWD1);
           state = PathStop;
         } else {
-          *pCommands++ = (CMD_ERROR_02);
+          commands[p++] = (CMD_ERROR_END);
           state = PathStop;
         }
         break;
       case PathOrtho_L:
         if (c == 'F') {
-          *pCommands++ = (SS90FL);
-          cellCount = 2;
+          commands[p++] = (SS90FL);
+          runLength = 2;
           state = PathOrtho_F;
         } else if (c == 'R') {
-          *pCommands++ = (SD45L);
-          cellCount = 2;
+          commands[p++] = (SD45L);
+          runLength = 2;
           state = PathDiag_LR;
         } else if (c == 'L') {
           state = PathOrtho_LL;
         } else if (c == 'S') {
-          *pCommands++ = (SS90EL);
-          *pCommands++ = (FWD1);
+          commands[p++] = (SS90EL);
+          commands[p++] = (FWD1);
           state = PathStop;
         } else {
-          *pCommands++ = (CMD_ERROR_03);
+          commands[p++] = (CMD_ERROR_END);
           state = PathStop;
         }
         break;
       case PathOrtho_RR:
         if (c == 'F') {
-          *pCommands++ = (SS180R);
-          cellCount = 2;
+          commands[p++] = (SS180R);
+          runLength = 2;
           state = PathOrtho_F;
         } else if (c == 'R') {
-          *pCommands++ = (CMD_ERROR_04);
+          commands[p++] = (CMD_ERROR_RRR);
           state = PathStop;
         } else if (c == 'L') {
-          *pCommands++ = (SD135R);
-          cellCount = 2;
+          commands[p++] = (SD135R);
+          runLength = 2;
           state = PathDiag_RL;
         } else if (c == 'S') {
-          *pCommands++ = (SS180R);
-          *pCommands++ = (FWD1);
+          commands[p++] = (SS180R);
+          commands[p++] = (FWD1);
           state = PathStop;
         } else {
-          *pCommands++ = (CMD_ERROR_04);
+          commands[p++] = (CMD_ERROR_END);
           state = PathStop;
         }
         break;
       case PathDiag_RL:
         if (c == 'F') {
-          *pCommands++ = (DIA0 + cellCount);
-          *pCommands++ = (DS45L);
-          cellCount = 2;
+          commands[p++] = (DIA0 + runLength);
+          commands[p++] = (DS45L);
+          runLength = 2;
           state = PathOrtho_F;
         } else if (c == 'R') {
-          cellCount += 1;
+          runLength += 1;
           state = PathDiag_LR;
         } else if (c == 'L') {
           state = PathDiag_LL;
         } else if (c == 'S') {
-          *pCommands++ = (DIA0 + cellCount);
-          *pCommands++ = (DS45L);
-          *pCommands++ = (FWD1);
+          commands[p++] = (DIA0 + runLength);
+          commands[p++] = (DS45L);
+          commands[p++] = (FWD1);
           state = PathStop;
+        } else if (c == 'X') {
+          commands[p++] = (DIA0 + runLength);
+          commands[p++] = (DS45L);
+          commands[p++] = (FWD1);
+          state = PathExit;
         } else {
-          *pCommands++ = (CMD_ERROR_05);
+          commands[p++] = (CMD_ERROR_END);
           state = PathStop;
         }
         break;
       case PathDiag_LR:
         if (c == 'F') {
-          *pCommands++ = (DIA0 + cellCount);
-          *pCommands++ = (DS45R);
-          cellCount = 2;
+          commands[p++] = (DIA0 + runLength);
+          commands[p++] = (DS45R);
+          runLength = 2;
           state = PathOrtho_F;
         } else if (c == 'R') {
           state = PathDiag_RR;
         } else if (c == 'L') {
-          cellCount += 1;
+          runLength += 1;
           state = PathDiag_RL;
         } else if (c == 'S') {
-          *pCommands++ = (DIA0 + cellCount);
-          *pCommands++ = (DS45R);
-          *pCommands++ = (FWD1);
+          commands[p++] = (DIA0 + runLength);
+          commands[p++] = (DS45R);
+          commands[p++] = (FWD1);
           state = PathStop;
+        } else if (c == 'X') {
+          commands[p++] = (DIA0 + runLength);
+          commands[p++] = (DS45R);
+          commands[p++] = (FWD1);
+          state = PathExit;
         } else {
-          *pCommands++ = (CMD_ERROR_06);
+          commands[p++] = (CMD_ERROR_END);
           state = PathStop;
         }
         break;
       case PathOrtho_LL:
         if (c == 'F') {
-          *pCommands++ = (SS180L);
-          cellCount = 2;
+          commands[p++] = (SS180L);
+          runLength = 2;
           state = PathOrtho_F;
         } else if (c == 'R') {
-          *pCommands++ = (SD135L);
-          cellCount = 2;
+          commands[p++] = (SD135L);
+          runLength = 2;
           state = PathDiag_LR;
         } else if (c == 'L') {
-          *pCommands++ = (CMD_ERROR_07);
+          commands[p++] = (CMD_ERROR_LLL);
           state = PathStop;
         } else if (c == 'S') {
-          *pCommands++ = (SS180L);
-          *pCommands++ = (FWD1);
+          commands[p++] = (SS180L);
+          commands[p++] = (FWD1);
           state = PathStop;
         } else {
-          *pCommands++ = (CMD_ERROR_07);
+          commands[p++] = (CMD_ERROR_END);
           state = PathStop;
         }
         break;
       case PathDiag_LL:
         if (c == 'F') {
-          *pCommands++ = (DIA0 + cellCount);
-          *pCommands++ = (DS135L);
-          cellCount = 2;
+          commands[p++] = (DIA0 + runLength);
+          commands[p++] = (DS135L);
+          runLength = 2;
           state = PathOrtho_F;
         } else if (c == 'R') {
-          *pCommands++ = (DIA0 + cellCount);
-          *pCommands++ = (DD90L);
-          cellCount = 2;
+          commands[p++] = (DIA0 + runLength);
+          commands[p++] = (DD90L);
+          runLength = 2;
           state = PathDiag_LR;
         } else if (c == 'L') {
-          *pCommands++ = (CMD_ERROR_08);
+          commands[p++] = (CMD_ERROR_LLL);
           state = PathStop;
         } else if (c == 'S') {
-          *pCommands++ = (DIA0 + cellCount);
-          *pCommands++ = (DS135L);
-          *pCommands++ = (FWD1);
+          commands[p++] = (DIA0 + runLength);
+          commands[p++] = (DS135L);
+          commands[p++] = (FWD1);
           state = PathStop;
         } else {
-          *pCommands++ = (CMD_ERROR_08);
+          commands[p++] = (CMD_ERROR_END);
           state = PathStop;
         }
         break;
       case PathDiag_RR:
         if (c == 'F') {
-          *pCommands++ = (DIA0 + cellCount);
-          *pCommands++ = (DS135R);
-          cellCount = 2;
+          commands[p++] = (DIA0 + runLength);
+          commands[p++] = (DS135R);
+          runLength = 2;
           state = PathOrtho_F;
         } else if (c == 'R') {
           state = PathDiag_RR;
         } else if (c == 'L') {
-          *pCommands++ = (DIA0 + cellCount);
-          *pCommands++ = (DD90R);
-          cellCount = 2;
+          commands[p++] = (DIA0 + runLength);
+          commands[p++] = (DD90R);
+          runLength = 2;
           state = PathDiag_RL;
         } else if (c == 'S') {
-          *pCommands++ = (DIA0 + cellCount);
-          *pCommands++ = (DS135R);
-          *pCommands++ = (FWD1);
+          commands[p++] = (DIA0 + runLength);
+          commands[p++] = (DS135R);
+          commands[p++] = (FWD1);
           state = PathStop;
         } else {
-          *pCommands++ = (CMD_ERROR_09);
+          commands[p++] = (CMD_ERROR_END);
           state = PathStop;
         }
         break;
       case PathStop:
-        *pCommands++ = (CMD_STOP);  // make sure the command list gets terminated
+        commands[p++] = (CMD_STOP);  // make sure the command list gets terminated
         state = PathFinish;
         break;
       case PathExit:
-        *pCommands++ = (CMD_EXPLORE);
-        *pCommands++ = (CMD_STOP);  // make sure the command list gets terminated
+        commands[p++] = (CMD_EXPLORE);
+        commands[p++] = (CMD_STOP);  // make sure the command list gets terminated
         state = PathFinish;
         break;
       default:
-        *pCommands++ = (CMD_ERROR_15);
+        commands[p++] = (CMD_ERROR_15);
         state = PathFinish;
         break;
     }
@@ -416,122 +443,134 @@ void PathFinder::makeDiagonalCommands(const char *src, uint8_t *pCommands) {
  * It is suitable for moving the mouse more rapidly in the maze while
  * exploring but where it is not felt safe to use diagonals
  */
-void PathFinder::makeSmoothCommands(const char *src, uint8_t *pCommands) {
-  int x = 0; // a counter for the number of cells to be crossed
+void PathFinder::makeSmoothCommands(const char *src, const uint16_t maxLength, uint8_t *commands) {
+  int runLength = 0; // a counter for the number of cells to be crossed
+  int p = 0;
   pathgen_state_t state = PathInit;
   while (state != PathFinish) {
+    if (runLength >= 31){ // MAGIC: maximum for hald-size maze
+      commands[p++] = CMD_ERROR;
+      commands[p] = CMD_STOP;
+      break;
+    }
+    if (p >= maxLength) {
+      commands[0] = CMD_ERROR;
+      commands[1] = CMD_STOP;
+      break;
+    }
+
     char c = *src++;
     switch (state) {
       case PathInit:
         if (c=='B'){
-          *pCommands++ = (CMD_BEGIN);
+         commands[p++] = (CMD_BEGIN);
           state = PathStart;
         } else {
-          *pCommands++ = (CMD_ERR_BEGIN);
+         commands[p++] = (CMD_ERR_BEGIN);
           state = PathStop;
         }
         break;
       case PathStart:
         if (c == 'F') {
-          x = 1;
+          runLength = 1;
           state = PathOrtho_F;
         } else if (c == 'R') {
-          *pCommands++ = (CMD_ERROR_00);
+         commands[p++] = (CMD_ERROR_NOF);
           state = PathStop;
         } else if (c == 'L') {
-          *pCommands++ = (CMD_ERROR_00);
+         commands[p++] = (CMD_ERROR_NOF);
           state = PathStop;
         } else if (c == 'X') {
           state = PathExit;
         } else if (c == 'S') {
           state = PathStop;
         } else {
-          *pCommands++ = (CMD_ERROR_00);
+         commands[p++] = (CMD_ERROR_END);
           state = PathStop;
         }
         break;
       case PathOrtho_F:
         if (c == 'F') {
-          x++;
+          runLength++;
         } else if (c == 'R') {
-          *pCommands++ = (FWD0 + x);
+         commands[p++] = (FWD0 + runLength);
           state = PathOrtho_R;
         } else if (c == 'L') {
-          *pCommands++ = (FWD0 + x);
+         commands[p++] = (FWD0 + runLength);
           state = PathOrtho_L;
         } else if (c == 'X') {
           state = PathExit;
         } else if (c == 'S') {
-          *pCommands++ = (FWD0 + x);
+         commands[p++] = (FWD0 + runLength);
           state = PathStop;
         } else {
-          *pCommands++ = (CMD_ERROR_01);
+         commands[p++] = (CMD_ERROR_END);
           state = PathStop;
         }
         break;
       case PathOrtho_R:
         if (c == 'F') {
-          *pCommands++ = (SS90ER);
-          x = 2;
+         commands[p++] = (SS90ER);
+          runLength = 2;
           state = PathOrtho_F;
         } else if (c == 'R') {
-          *pCommands++ = (SS90ER);
-          *pCommands++ = (FWD1);
+         commands[p++] = (SS90ER);
+         commands[p++] = (FWD1);
           state = PathOrtho_R;
         } else if (c == 'L') {
-          *pCommands++ = (SS90ER);
-          *pCommands++ = (FWD1);
+         commands[p++] = (SS90ER);
+         commands[p++] = (FWD1);
           state = PathOrtho_L;
         } else if (c == 'X') {
-          *pCommands++ = (SS90ER);
-          *pCommands++ = (FWD1);
+         commands[p++] = (SS90ER);
+         commands[p++] = (FWD1);
           state = PathExit;
         } else if (c == 'S') {
-          *pCommands++ = (SS90ER);
-          *pCommands++ = (FWD1);
+         commands[p++] = (SS90ER);
+         commands[p++] = (FWD1);
           state = PathStop;
         } else {
-          *pCommands++ = (CMD_ERROR_02);
+         commands[p++] = (CMD_ERROR_END);
           state = PathStop;
         }
         break;
       case PathOrtho_L:
         if (c == 'F') {
-          *pCommands++ = (SS90EL);
-          x = 2;
+         commands[p++] = (SS90EL);
+          runLength = 2;
           state = PathOrtho_F;
         } else if (c == 'R') {
-          *pCommands++ = (SS90EL);
-          *pCommands++ = (FWD1);
+         commands[p++] = (SS90EL);
+         commands[p++] = (FWD1);
           state = PathOrtho_R;
         } else if (c == 'L') {
-          *pCommands++ = (SS90EL);
-          *pCommands++ = (FWD1);
+         commands[p++] = (SS90EL);
+         commands[p++] = (FWD1);
           state = PathOrtho_L;
         } else if (c == 'X') {
-          *pCommands++ = (SS90EL);
-          *pCommands++ = (FWD1);
+         commands[p++] = (SS90EL);
+         commands[p++] = (FWD1);
           state = PathExit;
         } else if (c == 'S') {
-          *pCommands++ = (SS90EL);
-          *pCommands++ = (FWD1);
+         commands[p++] = (SS90EL);
+         commands[p++] = (FWD1);
           state = PathStop;
         } else {
-          *pCommands++ = (CMD_ERROR_03);
+         commands[p++] = (CMD_ERROR_END);
           state = PathStop;
         }
         break;
       case PathStop:
-        *pCommands++ = (CMD_STOP);  // make sure the command list gets terminated
+       commands[p++] = (CMD_STOP);  // make sure the command list gets terminated
         state = PathFinish;
         break;
       case PathExit:
-        *pCommands++ = (CMD_EXPLORE);
-        *pCommands++ = (CMD_STOP);  // make sure the command list gets terminated
+       commands[p++] = (CMD_EXPLORE);
+       commands[p++] = (CMD_STOP);  // make sure the command list gets terminated
         state = PathFinish;
         break;
       default:
-        *pCommands++ = (CMD_ERROR_15);
+       commands[p++] = (CMD_ERROR);
         state = PathFinish;
         break;
     }
@@ -539,28 +578,36 @@ void PathFinder::makeSmoothCommands(const char *src, uint8_t *pCommands) {
 }
 
 /*
- * TODO: The pathstring must always end in a null (CMD_STOP) so that it can be treated as a string
- * TODO: protection is needed against over-running the command buffer.
- * TODO: CMD_STOP should not be how 'S' makes it end probably.
- * TODO: could this usefully return a value like the path length or negative for an error
  *
  */
-void PathFinder::makeInPlaceCommands(const char *src, uint8_t *commands) {
+void PathFinder::makeInPlaceCommands(const char *src, const uint16_t maxLength, uint8_t *commands) {
   int p = 0;
+  int runLength = 0;
   unsigned char cmd;
   bool finished = false;
+  assert(maxLength >= 2);
   while (!finished) {
-    if (p > 250) {
+    if (p >= maxLength) {
+      commands[0] = CMD_ERROR;
+      commands[1] = CMD_STOP;
       break;
     }
     char c = *src++;
+
     switch (c) {
       case 'B':
         commands[p++] = CMD_BEGIN;
         cmd = FWD0;
+        runLength = 0;
         break;
       case 'F':
         cmd++;
+        runLength++;
+        if (runLength >= 31){ // MAGIC: maximum for hald-size maze
+          commands[p++] = CMD_ERROR;
+          commands[p] = CMD_STOP;
+          finished = true;
+        }
         break;
       case 'L':
         commands[p++] = cmd;
@@ -599,6 +646,8 @@ void PathFinder::listCommands(uint8_t *commands) {
     unsigned char command = *commands++;
     if (command == CMD_END) {
       printf("CMD_END\n");
+    } else if (command == CMD_ERROR) {
+      printf("CMD_ERROR, ");
     } else if (command == CMD_EXPLORE) {
       printf("CMD_EXPLORE\n");
     } else if (command == CMD_STOP) {
@@ -606,14 +655,16 @@ void PathFinder::listCommands(uint8_t *commands) {
       done = 1;
     } else if (command == CMD_BEGIN) {
       printf("%s, ", "CMD_BEGIN");
-    } else if (command < FWD16) {
+    } else if (command <= FWD31) {
       printf("FWD%d, ", command - FWD0);
-    } else if (command < DIA31) {
+    } else if (command <= DIA31) {
       printf("DIA%d, ", command - DIA0);
     } else if (command <= IP180L) {
       printf("%s, ", inPlaceTurnNames[command - INPLACE]);
     } else if (command <= SS90EL) {
       printf("%s, ", smoothTurnNames[command - SMOOTH]);
+    } else if (command >= 0xF0) {
+      printf("CMD_ERROR_%02d, ", command - 0xF0);
     } else {
       printf("OTHER - %02x\n", command);
     }

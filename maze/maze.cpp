@@ -582,9 +582,10 @@ static uint8_t getExitDirection[4][4] = {
 
 /*
  *  TODO: Initialising the queue needs to be more clever.
- * For each exit from the goal cell, seed the queue with the corresponding neighbour
- * Note that single-cell goals may have multiple exits and the centre region in the
- * classic contest will also have a number of possible exits
+ * For each exit from the goal cell, seed the queue with the corresponding
+ * neighbour. Note that single-cell goals may have multiple exits and the
+ * centre region in the classic contest will also have a number of possible
+ * exits
  * */
 uint16_t Maze::runLengthFlood(uint16_t target) {
   PriorityQueue<FloodInfo> queue;

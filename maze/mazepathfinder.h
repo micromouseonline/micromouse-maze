@@ -82,9 +82,9 @@ class PathFinder {
   ~PathFinder();
   char * path();
   void generatePath(const uint16_t start, const uint16_t finish, Maze *maze);
-  void makeInPlaceCommands(const char *src, uint8_t *commands);
-  void makeDiagonalCommands(const char *src, uint8_t *pCommands);
-  void makeSmoothCommands(const char *src, uint8_t *pCommands);
+  void makeInPlaceCommands(const char *src, const uint16_t maxLength, uint8_t *commands);
+  void makeDiagonalCommands(const char *src, const uint16_t maxLength, uint8_t *commands);
+  void makeSmoothCommands(const char *src, const uint16_t maxLength, uint8_t *commands);
   // this is not well suited here but it makes migration easier
   void listCommands(uint8_t * commands);
 
