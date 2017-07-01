@@ -97,7 +97,7 @@ TEST_F(PathFinderTest, generate_NoExitCurrentCell) {
   EXPECT_EQ(2, strlen(path->path()));
   EXPECT_STREQ("BS", path->path());
   EXPECT_EQ(INVALID_DIRECTION, path->endHeading());
-  EXPECT_EQ(0, path->endCell());
+  EXPECT_EQ(0x77, path->endCell());
   EXPECT_FALSE(path->reachesTarget());
 }
 
@@ -111,7 +111,7 @@ TEST_F(PathFinderTest, generate_NoRoute) {
   EXPECT_EQ(2, strlen(path->path()));
   EXPECT_STREQ("BS", path->path());
   EXPECT_EQ(INVALID_DIRECTION, path->endHeading());
-  EXPECT_EQ(0, path->endCell());
+  EXPECT_EQ(0x77, path->endCell());
   EXPECT_FALSE(path->reachesTarget());
 }
 
