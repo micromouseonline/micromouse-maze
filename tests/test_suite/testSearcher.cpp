@@ -40,20 +40,6 @@ class SearcherTest : public ::testing::Test {
     maze->copyMazeFromFileData(japan2007ef, 256);
     searcher = new MazeSearcher;
     searcher->setRealMaze(maze);
-
-//    MazePrinter::printPlain(&testMaze);
-//    char testMazeName[] = "../mazefiles/minos03f.maz";
-//    MazeResetWalls();
-//    SetGoal (DefaultGoal());
-//    FloodMazeClassic (DefaultGoal());
-//    ReadRealWallsFromFile (testMazeName);
-//    UpdateEntireMazeFromRealWalls ();
-//    FloodMazeClassic (DefaultGoal());
-//    MazeRemoveWall (Location (2, 0), NORTH);
-//    EXPECT_EQ (0, Cost (DefaultGoal()));
-//    EXPECT_EQ (46, Cost (Home()));
-//    EXPECT_EQ (EAST, Direction (Location (2, 0)));
-//    MouseInit();
   }
 
   virtual void TearDown() {
