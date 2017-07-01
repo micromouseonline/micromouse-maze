@@ -1,3 +1,30 @@
+/************************************************************************
+*
+* Copyright (C) 2017 by Peter Harrison. www.micromouseonline.com
+*
+* Permission is hereby granted, free of charge, to any person obtaining a
+* copy of this software and associated documentation files (the
+* "Software"), to deal in the Software without restriction, including
+* without l> imitation the rights to use, copy, modify, merge, publish,
+* distribute, sublicense, and/or sell copies of the Software, and to
+* permit persons to whom the Software is furnished to do so, subject to
+* the following conditions:
+*
+* The above copyright notice and this permission notice shall be included
+* in all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+* OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*
+************************************************************************/
+
+
+
 #include <iostream>
 #include <mazedata.h>
 #include "gtest/gtest.h"
@@ -31,7 +58,7 @@ class PathFinderTest : public ::testing::Test {
 
 TEST_F(PathFinderTest, constructor) {
   EXPECT_EQ(0, strlen(path->path()));
-  EXPECT_EQ(0, path->length());
+  EXPECT_EQ(0, path->cellCount());
   EXPECT_EQ(INVALID_DIRECTION, path->startHeading());
   EXPECT_EQ(INVALID_DIRECTION, path->endHeading());
   EXPECT_EQ(0, path->startCell());
@@ -46,7 +73,7 @@ TEST_F(PathFinderTest, generate_EmptyMaze_ManhattanFlood) {
   path->generatePath(0, 0x77, maze);
   EXPECT_EQ(16, strlen(path->path()));
   EXPECT_STREQ("BFFFFFFFRFFFFFFS", path->path());
-  EXPECT_EQ(15, path->length());
+  EXPECT_EQ(15, path->cellCount());
   EXPECT_EQ(EAST, path->endHeading());
   EXPECT_EQ(0x77, path->endCell());
   EXPECT_TRUE(path->reachesTarget());
@@ -64,7 +91,7 @@ TEST_F(PathFinderTest, generate_EmptyMaze_AtDestination) {
   EXPECT_TRUE(path->reachesTarget());
 }
 
-TEST_F(PathFinderTest, generate_EmptyMaze_OneCellAhead) {
+TEST_F(PathFinderTest, generate_EmptyMaze_TargetOneCellAhead) {
   maze->setFloodType(Maze::MANHATTAN_FLOOD);
   maze->copyMazeFromFileData(emptyMaze, 256);
   maze->flood(0x77);
@@ -76,7 +103,7 @@ TEST_F(PathFinderTest, generate_EmptyMaze_OneCellAhead) {
   EXPECT_TRUE(path->reachesTarget());
 }
 
-TEST_F(PathFinderTest, generate_EmptyMaze_OneCellBehind) {
+TEST_F(PathFinderTest, generate_EmptyMaze_TargetOneCellBehind) {
   maze->setFloodType(Maze::MANHATTAN_FLOOD);
   maze->copyMazeFromFileData(emptyMaze, 256);
   maze->flood(0x77);
@@ -140,31 +167,84 @@ TEST_F(PathFinderTest, generate_Japan2007_RunLength_Path) {
   EXPECT_EQ(WEST, path->endHeading());
   EXPECT_EQ(0x00, path->startCell());
   EXPECT_EQ(0x87, path->endCell());
-  EXPECT_EQ(72, path->length());
+  EXPECT_EQ(72, path->cellCount());
   EXPECT_TRUE(path->reachesTarget());
 }
 
+
+TEST_F(PathFinderTest, generate_EmptyMaze_UnexploredOnPath) {
+  maze->setFloodType(Maze::RUNLENGTH_FLOOD);
+  maze->resetToEmptyMaze();
+  maze->flood(0x77);
+  path->generatePath(0, 0x77, maze);
+  EXPECT_EQ(3, strlen(path->path())) << path->path();
+  char result[] = "BFX";
+  EXPECT_STREQ(result, path->path());
+  EXPECT_FALSE(path->reachesTarget());
+  EXPECT_EQ(0x01,path->endCell());
+  maze->setVisited(0x01);
+  maze->flood(0x77);
+  path->generatePath(0, 0x77, maze);
+  EXPECT_EQ(4, strlen(path->path())) << path->path();
+  EXPECT_STREQ("BFFX", path->path());
+  EXPECT_FALSE(path->reachesTarget());
+  EXPECT_EQ(0x02,path->endCell());
+}
+
+TEST_F(PathFinderTest, generate_Japan2007_SimulateSearch) {
+  // do a simulated search
+  maze->copyMazeFromFileData(japan2007ef,256);
+  for(int i = 1; i < maze->numCells(); i++){
+    maze->clearVisited(i);
+  }
+  char japanPath[] = "BFRLRLRLFLRFFLFRFFRRFLLFFLRLRFRFFFFFFFFFFFFFFRFFFFFFRLRLLRRLLRRFFRFFFLFFFS";
+  int steps = 0;
+  while(!path->reachesTarget()){
+    maze->setVisited(path->endCell());
+    steps++;
+    maze->flood(0x77);
+    path->generatePath(0, 0x77, maze);
+  }
+  EXPECT_EQ(72,steps);
+  EXPECT_EQ(74, strlen(path->path())) << path->path();
+  EXPECT_STREQ(japanPath, path->path());
+  EXPECT_TRUE(path->reachesTarget());
+  EXPECT_EQ(0x77,path->endCell());
+  MazePrinter::printVisitedDirs(maze);
+}
+
+
+
+// the distances are only meant to be accurate in relation to each other
+// rather than as absolutes since they cannot take into account the actual
+// turns. Thus, they should only be used to compare paths.
+TEST_F(PathFinderTest, SimplePath_Distance) {
+  maze->copyMazeFromFileData(emptyMaze,256);
+  maze->flood(0x01);
+  path->generatePath(0x00,0x01,maze);
+  EXPECT_EQ(180,path->distance());
+  maze->flood(0x0A);
+  path->generatePath(0x00,0x0A,maze);
+  EXPECT_EQ(1800,path->distance());
+  maze->flood(0x22);
+  path->generatePath(0x00,0x22,maze);
+  EXPECT_EQ(667,path->distance());
+}
 
 /// Now start to convert some simple strings
 
 
 TEST_F(PathFinderTest, MakeSmoothCommands_NullString) {
-  /*
-   *
-   */
   uint8_t  testCommands[20] = {CMD_ERROR, CMD_STOP};
   uint8_t  commands[20] = {0};
   char src[] = "";
   path->makeInPlaceCommands(src, 20, commands);
   EXPECT_STREQ((char *) testCommands, (char *) commands);
-//  path->listCommands(commands);
+  path->listCommands(commands); // only included for test coverage
 
 }
 
 TEST_F(PathFinderTest, MakeDiagonalCommands_NullString) {
-  /*
-   *
-   */
   uint8_t  testCommands[20] = {CMD_ERROR, CMD_STOP};
   uint8_t  commands[20] = {0};
   char src[] = "";
@@ -277,12 +357,37 @@ TEST_F(PathFinderTest, DiagonalPath_LongDiagonal_ERROR) {
 
 
 TEST_F(PathFinderTest, TestPathCommands_PairList) {
-  uint8_t  commands[150] = {0};
-  for (int i = 0; i < testCount(); i++){
-    EXPECT_GT(150,strlen(testPairs[i].input));
+  uint8_t commands[150] = {0};
+  for (int i = 0; i < diagonalPairCount; i++) {
+//    printf("%d\n",i);
+    EXPECT_GT(150, strlen(testPairs[i].input));
     path->makeDiagonalCommands(testPairs[i].input, 150, commands);
-    EXPECT_STREQ((char *)testPairs[i].expected,(char *)commands) << testPairs[i].input;
+    EXPECT_STREQ((char *) testPairs[i].expected, (char *) commands) << testPairs[i].input;
 //    path->listCommands(testPairs[i].expected);
+//    path->listCommands(commands);
+//    printf("-------------\n");
+  }
+}
+
+
+/// Some Smooth Paths
+TEST_F(PathFinderTest, SmoothPath_SimpleStrings) {
+  uint8_t  commands[20] = {0};
+  char src[] = "BFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF";
+  uint8_t  testCommands[20] = {CMD_ERROR, CMD_STOP};
+  path->makeDiagonalCommands(src, 20, commands);
+  EXPECT_STREQ((char *) testCommands, (char *) commands);
+}
+
+TEST_F(PathFinderTest, SmoothTestPathCommands_PairList) {
+  uint8_t  commands[150] = {0};
+
+  for (int i = 0; i < smoothPairCount; i++){
+//    printf("%d\n",i);
+    EXPECT_GT(150,strlen(smoothTestPairs[i].input));
+    path->makeSmoothCommands(smoothTestPairs[i].input, 150, commands);
+    EXPECT_STREQ((char *)smoothTestPairs[i].expected,(char *)commands) << smoothTestPairs[i].input;
+//    path->listCommands(smoothTestPairs[i].expected);
 //    path->listCommands(commands);
 //    printf("-------------\n");
   }

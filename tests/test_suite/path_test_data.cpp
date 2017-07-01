@@ -1,6 +1,28 @@
-//
-// Created by Peter Harrison on 01/07/2017.
-//
+/************************************************************************
+*
+* Copyright (C) 2017 by Peter Harrison. www.micromouseonline.com
+*
+* Permission is hereby granted, free of charge, to any person obtaining a
+* copy of this software and associated documentation files (the
+* "Software"), to deal in the Software without restriction, including
+* without l> imitation the rights to use, copy, modify, merge, publish,
+* distribute, sublicense, and/or sell copies of the Software, and to
+* permit persons to whom the Software is furnished to do so, subject to
+* the following conditions:
+*
+* The above copyright notice and this permission notice shall be included
+* in all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+* OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*
+************************************************************************/
+
 #include "path_test_data.h"
 
 //TODO: Need test data for smooth and in-place turns
@@ -138,6 +160,33 @@ testPair_t testPairs[] = {
         FWD2, SS90FR, FWD2, SS90FL, FWD3, SS90FR, FWD3, SS90FL, FWD2, SS90FR, FWD2, CMD_STOP},
 };
 
-int testCount(void) {
-  return sizeof(testPairs) / sizeof(testPair_t);
+
+testPair_t smoothTestPairs[] = {
+    "BS", {CMD_BEGIN, CMD_STOP},
+    "BX", {CMD_BEGIN, CMD_EXPLORE}, // this is not an error
+    "BFS", {CMD_BEGIN, FWD1, CMD_STOP},
+    "BFX", {CMD_BEGIN, FWD1, CMD_EXPLORE},
+    "BFFS", {CMD_BEGIN, FWD2, CMD_STOP},
+    "BFFFS", {CMD_BEGIN, FWD3, CMD_STOP},
+    "BFFFX", {CMD_BEGIN, FWD3, CMD_EXPLORE},
+    "BRS", {CMD_BEGIN, CMD_ERROR_NOF, CMD_STOP},
+    "BLS", {CMD_BEGIN, CMD_ERROR_NOF, CMD_STOP},
+    "BFRS", {CMD_BEGIN, FWD1, SS90ER, FWD1, CMD_STOP},
+    "BFLS", {CMD_BEGIN, FWD1, SS90EL, FWD1, CMD_STOP},
+    "BFRFS", {CMD_BEGIN, FWD1, SS90ER, FWD2, CMD_STOP},
+    "BFLFS", {CMD_BEGIN, FWD1, SS90EL, FWD2, CMD_STOP},
+    "BFFRFS", {CMD_BEGIN, FWD2, SS90ER, FWD2, CMD_STOP},
+    "BFFLFS", {CMD_BEGIN, FWD2, SS90EL, FWD2, CMD_STOP},
+    // diagonal steps
+    "BFFRLS", {CMD_BEGIN, FWD2, SS90ER, FWD1, SS90EL,FWD1, CMD_STOP},
+    "BFFLRS", {CMD_BEGIN, FWD2, SS90EL, FWD1, SS90ER, FWD1, CMD_STOP},
+    "BFFRLX", {CMD_BEGIN, FWD2, SS90ER, FWD1, SS90EL, FWD1, CMD_EXPLORE},
+    "BFFLRX", {CMD_BEGIN, FWD2, SS90EL, FWD1, SS90ER, FWD1, CMD_EXPLORE},
 };
+
+
+int diagonalPairCount = sizeof(testPairs) / sizeof(testPair_t);
+
+
+int smoothPairCount = sizeof(smoothTestPairs) / sizeof(testPair_t);
+
