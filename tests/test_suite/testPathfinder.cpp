@@ -157,7 +157,7 @@ TEST_F(PathFinderTest, MakeSmoothCommands_NullString) {
   char src[] = "";
   path->makeInPlaceCommands(src, 20, commands);
   EXPECT_STREQ((char *) testCommands, (char *) commands);
-  path->listCommands(commands);
+//  path->listCommands(commands);
 
 }
 
@@ -170,7 +170,7 @@ TEST_F(PathFinderTest, MakeDiagonalCommands_NullString) {
   char src[] = "";
   path->makeInPlaceCommands(src, 20, commands);
   EXPECT_STREQ((char *) testCommands, (char *) commands);
-  path->listCommands(commands);
+//  path->listCommands(commands);
 
 }
 
@@ -185,7 +185,7 @@ TEST_F(PathFinderTest, MakeInPlaceCommands_NullString) {
   char src[] = "";
   path->makeInPlaceCommands(src, 20, commands);
   EXPECT_STREQ((char *) testCommands, (char *) commands);
-  path->listCommands(commands);
+//  path->listCommands(commands);
 
 }
 
@@ -212,7 +212,7 @@ TEST_F(PathFinderTest, MakeInPlaceCommands_StraightTooLong) {
   char src[] = "BFFRFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX";
   path->makeInPlaceCommands(src, 10, commands);
   EXPECT_STREQ((char *) testCommands, (char *) commands);
-  path->listCommands(commands);
+//  path->listCommands(commands);
 
 }
 
@@ -225,7 +225,7 @@ TEST_F(PathFinderTest, MakeInPlaceCommands_MaxLengthNotExceeded) {
   char src[] = "BFFFRFFFFRFRFRFRFRFRFRFRFRFRFRFRFRFRRFRFRFRFRFRFFX";
   path->makeInPlaceCommands(src, 20, commands);
   EXPECT_STREQ((char *) testCommands, (char *) commands);
-  path->listCommands(commands);
+//  path->listCommands(commands);
 
 }
 
@@ -249,7 +249,7 @@ TEST_F(PathFinderTest, DiagonalPath_NullSrc_ERROR) {
   uint8_t  testCommands[20] = {CMD_ERR_BEGIN, CMD_STOP};
   path->makeDiagonalCommands(src, 20, commands);
   EXPECT_STREQ((char *) testCommands, (char *) commands);
-  path->listCommands(commands);
+//  path->listCommands(commands);
 }
 
 TEST_F(PathFinderTest, DiagonalPath_LongStraight_ERROR) {
@@ -258,7 +258,6 @@ TEST_F(PathFinderTest, DiagonalPath_LongStraight_ERROR) {
   uint8_t  testCommands[20] = {CMD_ERROR, CMD_STOP};
   path->makeDiagonalCommands(src, 20, commands);
   EXPECT_STREQ((char *) testCommands, (char *) commands);
-  path->listCommands(commands);
 }
 
 
@@ -266,17 +265,13 @@ TEST_F(PathFinderTest, DiagonalPath_LongDiagonal_ERROR) {
   uint8_t  commands[30] = {0};
   char src[] = "BFRLRLRLRLRLRLRLRLRLRLRLRLRLRLRLRS";
   uint8_t  testCommands[30] = {CMD_BEGIN, FWD1, SD45R, DIA31, DS45R, FWD1, CMD_STOP};
-  path->listCommands(testCommands);
   path->makeDiagonalCommands(src, 30, commands);
   EXPECT_STREQ((char *) testCommands, (char *) commands);
-  path->listCommands(commands);
-
+  // this path is one cell too long
   char srcX[] = "BFRLRLRLRLRLRLRLRLRLRLRLRLRLRLRLRLS";
   uint8_t  testCommandsX[30] = {CMD_ERROR, CMD_STOP};
-  path->listCommands(testCommandsX);
   path->makeDiagonalCommands(srcX, 30, commands);
   EXPECT_STREQ((char *) testCommandsX, (char *) commands);
-  path->listCommands(commands);
 }
 
 
@@ -287,8 +282,8 @@ TEST_F(PathFinderTest, TestPathCommands_PairList) {
     EXPECT_GT(150,strlen(testPairs[i].input));
     path->makeDiagonalCommands(testPairs[i].input, 150, commands);
     EXPECT_STREQ((char *)testPairs[i].expected,(char *)commands) << testPairs[i].input;
-    path->listCommands(testPairs[i].expected);
-    path->listCommands(commands);
-    printf("-------------\n");
+//    path->listCommands(testPairs[i].expected);
+//    path->listCommands(commands);
+//    printf("-------------\n");
   }
 }
