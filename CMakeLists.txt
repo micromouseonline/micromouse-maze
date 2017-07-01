@@ -5,6 +5,7 @@ set(CMAKE_LEGACY_CYGWIN_WIN32 0)
 #add_definitions(-std=gnu++0x)
 
 set(COMMON_FLAGS " -Wall -Wextra ")
+set(HEADER_COMMENTS 1)
 
 set(CMAKE_C_FLAGS "${COMMON_FLAGS} ")
 set(CMAKE_CXX_FLAGS "${COMMON_FLAGS} ")
