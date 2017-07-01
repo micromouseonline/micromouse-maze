@@ -6,6 +6,7 @@
 #include "maze.h"
 #include "mazedata.h"
 #include "commands.h"
+#include "path_test_data.h"
 
 
 class PathFinderTest : public ::testing::Test {
@@ -147,6 +148,46 @@ TEST_F(PathFinderTest, generate_Japan2007_RunLength_Path) {
 /// Now start to convert some simple strings
 
 
+TEST_F(PathFinderTest, MakeSmoothCommands_NullString) {
+  /*
+   *
+   */
+  uint8_t  testCommands[20] = {CMD_ERROR, CMD_STOP};
+  uint8_t  commands[20] = {0};
+  char src[] = "";
+  path->makeInPlaceCommands(src, 20, commands);
+  EXPECT_STREQ((char *) testCommands, (char *) commands);
+  path->listCommands(commands);
+
+}
+
+TEST_F(PathFinderTest, MakeDiagonalCommands_NullString) {
+  /*
+   *
+   */
+  uint8_t  testCommands[20] = {CMD_ERROR, CMD_STOP};
+  uint8_t  commands[20] = {0};
+  char src[] = "";
+  path->makeInPlaceCommands(src, 20, commands);
+  EXPECT_STREQ((char *) testCommands, (char *) commands);
+  path->listCommands(commands);
+
+}
+
+
+
+TEST_F(PathFinderTest, MakeInPlaceCommands_NullString) {
+  /*
+   *
+   */
+  uint8_t  testCommands[20] = {CMD_ERROR, CMD_STOP};
+  uint8_t  commands[20] = {0};
+  char src[] = "";
+  path->makeInPlaceCommands(src, 20, commands);
+  EXPECT_STREQ((char *) testCommands, (char *) commands);
+  path->listCommands(commands);
+
+}
 
 
 TEST_F(PathFinderTest, CompareOldvsNewWithExplore) {
@@ -156,7 +197,98 @@ TEST_F(PathFinderTest, CompareOldvsNewWithExplore) {
   uint8_t  testCommands[20] = {CMD_BEGIN, FWD4, CMD_EXPLORE};
   uint8_t  commands[20] = {0};
   char src[] = "BFFFFX";
-  path->makeInPlaceCommands(src, commands);
-  ASSERT_STREQ((char *) commands, (char *) testCommands);
+  path->makeInPlaceCommands(src, 20, commands);
+  EXPECT_STREQ((char *) testCommands, (char *) commands);
 
+}
+
+
+TEST_F(PathFinderTest, MakeInPlaceCommands_StraightTooLong) {
+  /*
+   *
+   */
+  uint8_t  testCommands[20] = {CMD_BEGIN, FWD2, IP90R, CMD_ERROR, CMD_STOP};
+  uint8_t  commands[20] = {0};
+  char src[] = "BFFRFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX";
+  path->makeInPlaceCommands(src, 10, commands);
+  EXPECT_STREQ((char *) testCommands, (char *) commands);
+  path->listCommands(commands);
+
+}
+
+TEST_F(PathFinderTest, MakeInPlaceCommands_MaxLengthNotExceeded) {
+  /*
+   *
+   */
+  uint8_t  testCommands[20] = {CMD_ERROR,CMD_STOP};
+  uint8_t  commands[20] = {0};
+  char src[] = "BFFFRFFFFRFRFRFRFRFRFRFRFRFRFRFRFRFRRFRFRFRFRFRFFX";
+  path->makeInPlaceCommands(src, 20, commands);
+  EXPECT_STREQ((char *) testCommands, (char *) commands);
+  path->listCommands(commands);
+
+}
+
+
+TEST_F(PathFinderTest, TestPathCommands_FIG1_AB) {
+  uint8_t  commands[20] = {0};
+  char src[] = "BFFFFS";
+  uint8_t  testCommands[20] = {CMD_BEGIN, FWD4, CMD_STOP};
+  path->makeInPlaceCommands(src, 20, commands);
+  EXPECT_STREQ((char *) testCommands, (char *) commands);
+}
+
+
+// Diagonals paths: Note that the number of diagonals cells traversed is
+// even if the turns at the end are opposite directions
+
+
+TEST_F(PathFinderTest, DiagonalPath_NullSrc_ERROR) {
+  uint8_t  commands[20] = {0};
+  char src[] = "";
+  uint8_t  testCommands[20] = {CMD_ERR_BEGIN, CMD_STOP};
+  path->makeDiagonalCommands(src, 20, commands);
+  EXPECT_STREQ((char *) testCommands, (char *) commands);
+  path->listCommands(commands);
+}
+
+TEST_F(PathFinderTest, DiagonalPath_LongStraight_ERROR) {
+  uint8_t  commands[20] = {0};
+  char src[] = "BFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF";
+  uint8_t  testCommands[20] = {CMD_ERROR, CMD_STOP};
+  path->makeDiagonalCommands(src, 20, commands);
+  EXPECT_STREQ((char *) testCommands, (char *) commands);
+  path->listCommands(commands);
+}
+
+
+TEST_F(PathFinderTest, DiagonalPath_LongDiagonal_ERROR) {
+  uint8_t  commands[30] = {0};
+  char src[] = "BFRLRLRLRLRLRLRLRLRLRLRLRLRLRLRLRS";
+  uint8_t  testCommands[30] = {CMD_BEGIN, FWD1, SD45R, DIA31, DS45R, FWD1, CMD_STOP};
+  path->listCommands(testCommands);
+  path->makeDiagonalCommands(src, 30, commands);
+  EXPECT_STREQ((char *) testCommands, (char *) commands);
+  path->listCommands(commands);
+
+  char srcX[] = "BFRLRLRLRLRLRLRLRLRLRLRLRLRLRLRLRLS";
+  uint8_t  testCommandsX[30] = {CMD_ERROR, CMD_STOP};
+  path->listCommands(testCommandsX);
+  path->makeDiagonalCommands(srcX, 30, commands);
+  EXPECT_STREQ((char *) testCommandsX, (char *) commands);
+  path->listCommands(commands);
+}
+
+
+
+TEST_F(PathFinderTest, TestPathCommands_PairList) {
+  uint8_t  commands[150] = {0};
+  for (int i = 0; i < testCount(); i++){
+    EXPECT_GT(150,strlen(testPairs[i].input));
+    path->makeDiagonalCommands(testPairs[i].input, 150, commands);
+    EXPECT_STREQ((char *)testPairs[i].expected,(char *)commands) << testPairs[i].input;
+    path->listCommands(testPairs[i].expected);
+    path->listCommands(commands);
+    printf("-------------\n");
+  }
 }
