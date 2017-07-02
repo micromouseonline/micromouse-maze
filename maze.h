@@ -1,26 +1,40 @@
-/**
- *  \file maze.h
- *  \brief The Maze class stores wall and flooding data
- * *
- *  \version
- *  \date 15 Apr 2017
- *  \author peterharrison
- *  \bug No known bugs.
- */
+/************************************************************************
+*
+* Copyright (C) 2017 by Peter Harrison. www.micromouseonline.com
+*
+* Permission is hereby granted, free of charge, to any person obtaining a
+* copy of this software and associated documentation files (the
+* "Software"), to deal in the Software without restriction, including
+* without l> imitation the rights to use, copy, modify, merge, publish,
+* distribute, sublicense, and/or sell copies of the Software, and to
+* permit persons to whom the Software is furnished to do so, subject to
+* the following conditions:
+*
+* The above copyright notice and this permission notice shall be included
+* in all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+* OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*
+************************************************************************/
 
 #ifndef _maze_h
 #define _maze_h
 
-
 #include <stdint.h>
 #include <stdbool.h>
 #include "mazeconstants.h"
+#include "floodinfo.h"
 #include "priorityqueue.h"
 
-extern uint8_t backupWalls[1024];
 class Maze {
 
-public:
+ public:
   explicit Maze(uint16_t width);
   enum FloodType {
     MANHATTAN_FLOOD,
@@ -58,7 +72,6 @@ public:
   static uint8_t opposite(uint8_t direction);
   static uint8_t differenceBetween(uint8_t oldDirection, uint8_t newDirection);
 
-
   // static functions about neighbours
   /// return the address of the cell in the indicated direction
   uint16_t cellNorth(uint16_t cell);
@@ -79,20 +92,21 @@ public:
   ///  set the current goal to a new value
   void setGoal(uint16_t goal);
 
-
   /// return the state of the four walls surrounding a given cell
-  uint8_t walls(uint16_t cell) const ;
+  uint8_t walls(uint16_t cell) const;
+  uint8_t internalWalls(uint16_t cell) const;
   /// test whether a wall in a given direction has been observed
   bool isSeen(uint16_t cell, uint8_t direction);
   ///  test for the absence of a wall. Don't care if it is seen or not
   bool hasExit(uint16_t cell, uint8_t direction);
-  ///  test for the definite, observed absence of a wall.
-  bool hasRealExit(uint16_t cell, uint8_t direction);
   ///  test for the presence of a wall. Don't care if it is seen or not
   bool hasWall(uint16_t cell, uint8_t direction);
+
+  ///  it is not clear that these two mthods have any actual use
+  ///  test for the definite, observed absence of a wall.
+  bool hasRealExit(uint16_t cell, uint8_t direction);
   ///  test for the definite, observed presence of a wall.
   bool hasRealWall(uint16_t cell, uint8_t direction);
-
 
   /// return the stored direction for the given cell
   uint8_t direction(uint16_t cell);
@@ -105,7 +119,6 @@ public:
   void setVisited(uint16_t cell);
   /// set a cell as having none of the walls seen
   void clearVisited(uint16_t cell);
-
 
   /// NOT TO BE USED IN SEARCH. Unconditionally set a  wall in a cell and mark as seen.
   void setWall(uint16_t cell, uint8_t direction);
@@ -142,7 +155,6 @@ public:
   /// examine the goal area and move the goal if needed for a better entry speed
   void recalculateGoal();
 
-
   /// return the cost of the current best path assuming unknowns are absent
   uint16_t openMazeCost() const;
   /// return the cost of the current best path assuming unknowns are present
@@ -172,19 +184,20 @@ public:
   void updateDirections();
 
   /// save the wall data, including visited flags in the target array. Not checked for overflow.
-  void save(uint8_t *data = backupWalls);
+  void save(uint8_t *data);
 
   /// load the wall data, including visited flags from the target array. Not checked for overflow.
-  void load(uint8_t *data = backupWalls);
-
+  void load(uint8_t *data);
 
   ///  Return the Flood Type in use
   FloodType getFloodType() const;
   /// set the Flood Type to use
   void setFloodType(FloodType mFloodType);
+  /// used only fro the weighted Flood
+  uint16_t getCornerWeight() const;
+  void setCornerWeight(uint16_t cornerWeight);
 
-
-protected:
+ protected:
   /// the width of the maze in cells. Assume mazes are always square
   uint16_t mWidth;
   /// stores the wall and visited flags. Allows for 32x32 maze but wastes space
@@ -205,16 +218,10 @@ protected:
   FloodType mFloodType;
   /// the weighted flood needs a cost for corners
   uint16_t mCornerWeight;
- public:
-  uint16_t getCornerWeight() const;
-  void setCornerWeight(uint16_t cornerWeight);
- protected:
   /// used to set up the queue before running the more complex floods
   void seedQueue(PriorityQueue<FloodInfo> &queue, uint16_t goal, uint16_t cost);
   /// set all the cell costs to their maxumum value, except the target
   void initialiseFloodCosts(uint16_t target);
-  // allocate the maze to a known position in memory so that we can avoid
-// resetting the contents at reset.
 
 };
 

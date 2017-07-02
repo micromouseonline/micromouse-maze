@@ -1,24 +1,36 @@
-//
-// Created by Peter Harrison on 26/05/2017.
-//
+/************************************************************************
+*
+* Copyright (C) 2017 by Peter Harrison. www.micromouseonline.com
+*
+* Permission is hereby granted, free of charge, to any person obtaining a
+* copy of this software and associated documentation files (the
+* "Software"), to deal in the Software without restriction, including
+* without l> imitation the rights to use, copy, modify, merge, publish,
+* distribute, sublicense, and/or sell copies of the Software, and to
+* permit persons to whom the Software is furnished to do so, subject to
+* the following conditions:
+*
+* The above copyright notice and this permission notice shall be included
+* in all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+* OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*
+************************************************************************/
+
 
 #ifndef MAZE_MAZECONSTANTS_H
 #define MAZE_MAZECONSTANTS_H
 
 #include <stdint.h>
 
-
-
 const uint8_t DEFAULT_GOAL = 0x77;
 const uint16_t MAX_COST = UINT16_MAX;
-const uint8_t BAD_DIRECTION = UINT8_MAX;
-
-
-typedef uint16_t cellref_t;
-typedef uint16_t cost_t;
-typedef uint8_t walldata_t;
-typedef uint8_t direction_t;
-
 
 #define NORTH         (uint8_t)0x00
 #define EAST          (uint8_t)0x01
@@ -27,7 +39,6 @@ typedef uint8_t direction_t;
 #define NONE          (uint8_t)0x04
 #define UNSEEN        (uint8_t)0x05
 #define INVALID_DIRECTION (uint8_t)255
-
 
 enum {
   DIR_N = 0,
@@ -40,18 +51,18 @@ enum {
   DIR_NW = 7,
 };
 
-#define WALL_PRESENT    1
-#define WALL_KNOWN      2
+#define WALL_PRESENT    0x01
+#define WALL_KNOWN      0x10
 
-#define WALL_NORTH (WALL_PRESENT << (2*NORTH))
-#define WALL_EAST  (WALL_PRESENT << (2*EAST))
-#define WALL_SOUTH (WALL_PRESENT << (2*SOUTH))
-#define WALL_WEST  (WALL_PRESENT << (2*WEST))
+#define WALL_NORTH (WALL_PRESENT << (NORTH))
+#define WALL_EAST  (WALL_PRESENT << (EAST))
+#define WALL_SOUTH (WALL_PRESENT << (SOUTH))
+#define WALL_WEST  (WALL_PRESENT << (WEST))
 
-#define CHECKED_NORTH (WALL_KNOWN << (2*NORTH))
-#define CHECKED_EAST  (WALL_KNOWN << (2*EAST))
-#define CHECKED_SOUTH (WALL_KNOWN << (2*SOUTH))
-#define CHECKED_WEST  (WALL_KNOWN << (2*WEST))
+#define CHECKED_NORTH (WALL_KNOWN << (NORTH))
+#define CHECKED_EAST  (WALL_KNOWN << (EAST))
+#define CHECKED_SOUTH (WALL_KNOWN << (SOUTH))
+#define CHECKED_WEST  (WALL_KNOWN << (WEST))
 
 #define VISITED (CHECKED_NORTH + CHECKED_EAST + CHECKED_SOUTH + CHECKED_WEST)
 
