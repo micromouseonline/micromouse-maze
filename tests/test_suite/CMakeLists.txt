@@ -30,3 +30,12 @@ target_link_libraries(
 #target_link_libraries(
 #        runTestSuite
 #        maze)
+
+
+# before building, run astyle over all the sources to be sure
+# the formatting is always consistent
+add_custom_command(TARGET runTestSuite PRE_BUILD
+        COMMENT "Pre build: reformat with astyle\n"
+        COMMAND astyle -nrQ \"${PROJECT_SOURCE_DIR}/../maze/*.cpp\"
+        COMMAND astyle -nrQ \"${PROJECT_SOURCE_DIR}/../maze/*.h\"
+        )

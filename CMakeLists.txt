@@ -22,7 +22,7 @@ add_executable(libmaze_runX
 # places to look for include files
 include_directories(
         maze
-        oldMaze
+        oldmaze
 )
 
 # adds in the CMakeLists files from these directories
@@ -31,3 +31,11 @@ add_subdirectory(tests)
 
 # list the libraries needed by the target named
 target_link_libraries(libmaze_run maze)
+
+# before building, run astyle over all the sources to be sure
+# the formatting is always consistent
+add_custom_command(TARGET libmaze_run PRE_BUILD
+        COMMENT "Pre build: reformat with astyle\n"
+        COMMAND astyle -nrQ \"${PROJECT_SOURCE_DIR}/maze/*.cpp\"
+        COMMAND astyle -nrQ \"${PROJECT_SOURCE_DIR}/maze/*.h\"
+        )
