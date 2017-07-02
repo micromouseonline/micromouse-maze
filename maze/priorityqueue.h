@@ -33,10 +33,10 @@
 
 template<class item_t>
 class PriorityQueue {
- public:
+public:
 
   explicit PriorityQueue(int maxSize = 128) :
-      MAX_ITEMS(maxSize) {
+    MAX_ITEMS(maxSize) {
     mData = new item_t[MAX_ITEMS + 1];
     mHead = 0;
     mTail = 0;
@@ -44,8 +44,8 @@ class PriorityQueue {
   }
 
   PriorityQueue(const PriorityQueue<item_t> &rhs) :
-      MAX_ITEMS(rhs.MAX_ITEMS),
-      mItemCount(rhs.mItemCount) {
+    MAX_ITEMS(rhs.MAX_ITEMS),
+    mItemCount(rhs.mItemCount) {
     mHead = rhs.mHead;
     mTail = rhs.mTail;
     mData = new item_t(MAX_ITEMS + 1);
@@ -96,14 +96,14 @@ class PriorityQueue {
     return result;
   }
 
-/*
- * Search from the head of the queue towards the tail
- * return the smallest item in the queue
- * If two items are equally small, return the one that
- * was in the queue the longest. That is, the first one found.
- * Operation is performed by swapping the smallest item into the head
- * position. Thus, the natural order of the queue is corrupted
- */
+  /*
+   * Search from the head of the queue towards the tail
+   * return the smallest item in the queue
+   * If two items are equally small, return the one that
+   * was in the queue the longest. That is, the first one found.
+   * Operation is performed by swapping the smallest item into the head
+   * position. Thus, the natural order of the queue is corrupted
+   */
   item_t fetchSmallest() {
     assert(mItemCount > 0);
     int posSmallest = mHead;
@@ -123,7 +123,7 @@ class PriorityQueue {
     return head();
   }
 
- protected:
+protected:
   item_t *mData;
   const int MAX_ITEMS;
   int mHead;

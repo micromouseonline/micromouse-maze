@@ -28,35 +28,35 @@
 #include <cstring>
 
 static const char *inPlaceTurnNames[] = {
-    "IP45R",
-    "IP45L",
-    "IP90R",
-    "IP90L",
-    "IP135R",
-    "IP135L",
-    "IP180R",
-    "IP180L",
+  "IP45R",
+  "IP45L",
+  "IP90R",
+  "IP90L",
+  "IP135R",
+  "IP135L",
+  "IP180R",
+  "IP180L",
 };
 
 static const char *smoothTurnNames[] = {
-    "SS90SR",
-    "SS90SL",
-    "SS90FR",
-    "SS90FL",
-    "SS180R",
-    "SS180L",
-    "SD45R",
-    "SD45L",
-    "SD135R",
-    "SD135L",
-    "DS45R",
-    "DS45L",
-    "DS135R",
-    "DS135L",
-    "DD90R",
-    "DD90L",
-    "SS90ER",
-    "SS90EL"
+  "SS90SR",
+  "SS90SL",
+  "SS90FR",
+  "SS90FL",
+  "SS180R",
+  "SS180L",
+  "SD45R",
+  "SD45L",
+  "SD135R",
+  "SD135L",
+  "DS45R",
+  "DS45L",
+  "DS135R",
+  "DS135L",
+  "DD90R",
+  "DD90L",
+  "SS90ER",
+  "SS90EL"
 };
 
 typedef enum {
@@ -89,13 +89,13 @@ typedef enum {
 
 
 PathFinder::PathFinder() :
-    mStartHeading(INVALID_DIRECTION),
-    mEndHeading(INVALID_DIRECTION),
-    mCellCount(0),
-    mStartCell(0),
-    mEndCell(0),
-    mDistance(0),
-    mReachesTarget(false) {
+  mStartHeading(INVALID_DIRECTION),
+  mEndHeading(INVALID_DIRECTION),
+  mCellCount(0),
+  mStartCell(0),
+  mEndCell(0),
+  mDistance(0),
+  mReachesTarget(false) {
   memset(mBuffer, 0, 1024);
 }
 
@@ -108,10 +108,10 @@ char *PathFinder::path() {
 }
 
 static char pathOptions[16] = {
-    'F', 'R', 'A', 'L',
-    'L', 'F', 'R', 'A',
-    'A', 'L', 'F', 'R',
-    'R', 'A', 'L', 'F'
+  'F', 'R', 'A', 'L',
+  'L', 'F', 'R', 'A',
+  'A', 'L', 'F', 'R',
+  'R', 'A', 'L', 'F'
 };
 
 void PathFinder::generatePath(const uint16_t start, const uint16_t target, Maze *maze) {

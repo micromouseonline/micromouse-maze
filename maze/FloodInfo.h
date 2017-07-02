@@ -35,7 +35,7 @@
 #include <stdint.h>
 
 class FloodInfo {
- public:
+public:
   uint16_t cost;
   uint16_t cell;
   uint8_t runLength;
@@ -43,43 +43,43 @@ class FloodInfo {
   uint8_t entryWall;
 
   FloodInfo() :
-      cost(0),
-      cell(0),
-      runLength(),
-      entryDir(0),
-      entryWall(0) {
+    cost(0),
+    cell(0),
+    runLength(),
+    entryDir(0),
+    entryWall(0) {
     //
   }
 
   FloodInfo(uint16_t _cell) :
-      cost(0),
-      cell(_cell),
-      runLength(),
-      entryDir(0) {
+    cost(0),
+    cell(_cell),
+    runLength(),
+    entryDir(0) {
     //
   }
 
   FloodInfo(uint16_t _cost, uint16_t _cell, uint8_t _length) :
-      cost(_cost),
-      cell(_cell),
-      runLength(_length) {
+    cost(_cost),
+    cell(_cell),
+    runLength(_length) {
     //
   }
 
   FloodInfo(uint16_t _cost, uint16_t _cell, uint8_t _length, uint8_t inDir) :
-      cost(_cost),
-      cell(_cell),
-      runLength(_length),
-      entryDir(inDir) {
+    cost(_cost),
+    cell(_cell),
+    runLength(_length),
+    entryDir(inDir) {
     //
   }
 
   FloodInfo(uint16_t _cost, uint16_t _cell, uint8_t _length, uint8_t inDir, uint8_t inWall) :
-      cost(_cost),
-      cell(_cell),
-      runLength(_length),
-      entryDir(inDir),
-      entryWall(inWall) {
+    cost(_cost),
+    cell(_cell),
+    runLength(_length),
+    entryDir(inDir),
+    entryWall(inWall) {
     //
   }
 

@@ -30,12 +30,12 @@
 #include "stddef.h"
 
 MazeSearcher::MazeSearcher() :
-    mLocation(0),
-    mHeading(NORTH),
-    mMap(NULL),
-    mRealMaze(NULL),
-    mVerbose(false),
-    mSearchMethod(SEARCH_NORMAL) {
+  mLocation(0),
+  mHeading(NORTH),
+  mMap(NULL),
+  mRealMaze(NULL),
+  mVerbose(false),
+  mSearchMethod(SEARCH_NORMAL) {
   mMap = new Maze(16);
   mMap->setFloodType(Maze::MANHATTAN_FLOOD);
 }

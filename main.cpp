@@ -54,9 +54,6 @@ int ReadRealWallsFromFile(char *filename) {
  *
  */
 int main(int argc, char **argv) {
-//  MazeResetWalls();
-//  MouseInit();
-//  location_t target = DefaultGoal();
   MazeSearcher barney;
   glob_t glob_result;
   glob("./mazefiles/*", GLOB_TILDE, NULL, &glob_result);
@@ -70,7 +67,7 @@ int main(int argc, char **argv) {
      std::cout << "\n\n\n";
       std::cout << glob_result.gl_pathv[i] << " : ";
       ReadRealWallsFromFile(glob_result.gl_pathv[i]);
-      maze.resetToEmptyMaze();
+//      maze.resetToEmptyMaze();
       maze.load(wallData);
       maze.copyMazeFromFileData(wallData, 256);
       maze.flood(0x77);

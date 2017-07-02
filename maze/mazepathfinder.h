@@ -1,31 +1,31 @@
- /************************************************************************
- * File:   mazepathfinder.h
- * Author: peterharrison
- *
- * Created on 16 February 2016, 14:55
- *
- * Copyright (C) 2017 by Peter Harrison. www.micromouseonline.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without l> imitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
- * the following conditions:
- *
- * The above copyright notice and this permission notice shall be included
- * in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
- * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
- * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
- ************************************************************************/
+/************************************************************************
+* File:   mazepathfinder.h
+* Author: peterharrison
+*
+* Created on 16 February 2016, 14:55
+*
+* Copyright (C) 2017 by Peter Harrison. www.micromouseonline.com
+*
+* Permission is hereby granted, free of charge, to any person obtaining a
+* copy of this software and associated documentation files (the
+* "Software"), to deal in the Software without restriction, including
+* without l> imitation the rights to use, copy, modify, merge, publish,
+* distribute, sublicense, and/or sell copies of the Software, and to
+* permit persons to whom the Software is furnished to do so, subject to
+* the following conditions:
+*
+* The above copyright notice and this permission notice shall be included
+* in all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+* OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*
+************************************************************************/
 
 
 #ifndef MAZEPATHFINDER_H
@@ -103,7 +103,7 @@
 #define MAX_PATH_LENGTH 1022
 
 class PathFinder {
- public:
+public:
 
   PathFinder();
   ~PathFinder();
@@ -134,8 +134,8 @@ class PathFinder {
   /// The path may not reach the target and so more exploring will be needed
   bool reachesTarget() const;
 
- private:
-  char mBuffer[MAX_PATH_LENGTH+2];
+private:
+  char mBuffer[MAX_PATH_LENGTH + 2];
   uint8_t mStartHeading;
   uint8_t mEndHeading;
   uint16_t mCellCount;

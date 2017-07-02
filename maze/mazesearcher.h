@@ -50,7 +50,7 @@
 #include <stdint.h>
 
 class MazeSearcher {
- public:
+public:
 
   enum {
     SEARCH_NORMAL,
@@ -94,7 +94,7 @@ class MazeSearcher {
   uint8_t followRightWall() const;
   uint8_t followAlternateWall() const;
 
- private:
+private:
   uint16_t mLocation;
   uint8_t mHeading;
   Maze *mMap;

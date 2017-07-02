@@ -34,7 +34,7 @@
 
 class Maze {
 
- public:
+public:
   explicit Maze(uint16_t width);
   enum FloodType {
     MANHATTAN_FLOOD,
@@ -197,7 +197,7 @@ class Maze {
   uint16_t getCornerWeight() const;
   void setCornerWeight(uint16_t cornerWeight);
 
- protected:
+protected:
   /// the width of the maze in cells. Assume mazes are always square
   uint16_t mWidth;
   /// stores the wall and visited flags. Allows for 32x32 maze but wastes space

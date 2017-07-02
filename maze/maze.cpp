@@ -36,33 +36,37 @@
  * The runlength flood calculates costs based on the length of straights
  */
 const uint16_t orthoCostTable[] =
-    // low speed costs ( vturn = 1.5m/s/s, acc = 13000 mm/s/s)
-    {0, 98, 75, 63, 55, 50, 46, 43, 40, 38, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-        36, 36,};
+  // low speed costs ( vturn = 1.5m/s/s, acc = 13000 mm/s/s)
+{
+  0, 98, 75, 63, 55, 50, 46, 43, 40, 38, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
+  36, 36,
+};
 
 const uint16_t diagCostTable[] =
-    // low speed costs ( vturn = 1.5m/s/s, acc = 13000 mm/s/s)
-    {0, 73, 58, 50, 44, 40, 37, 35, 33, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31,
-        31, 31};
+  // low speed costs ( vturn = 1.5m/s/s, acc = 13000 mm/s/s)
+{
+  0, 73, 58, 50, 44, 40, 37, 35, 33, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31,
+  31, 31
+};
 
 // high speed costs (vturn = 2000 mm/s, acc = 16667 mm/s/s)
 //{0,56,47,41,37,34,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31};
 
 uint16_t turnCostTable[] = {
-    75,  // 45 degree
-    149,  // 90 degree
-    225,  // 135 degree
-    318,  // 180 degree
+  75,  // 45 degree
+  149,  // 90 degree
+  225,  // 135 degree
+  318,  // 180 degree
 };
 
 Maze::Maze(uint16_t width) :
-    mWidth(width),
-    mGoal(DEFAULT_GOAL),
-    mPathCostOpen(MAX_COST),
-    mPathCostClosed(MAX_COST),
-    mIsSolved(false),
-    mFloodType(RUNLENGTH_FLOOD),
-    mCornerWeight(3) {
+  mWidth(width),
+  mGoal(DEFAULT_GOAL),
+  mPathCostOpen(MAX_COST),
+  mPathCostClosed(MAX_COST),
+  mIsSolved(false),
+  mFloodType(RUNLENGTH_FLOOD),
+  mCornerWeight(3) {
   resetToEmptyMaze();
 };
 
@@ -158,15 +162,15 @@ uint8_t Maze::ahead(uint8_t direction) {
 }
 
 uint8_t Maze::rightOf(uint8_t direction) {
-  return (uint8_t) ((direction + 1) % 4);
+  return (uint8_t)((direction + 1) % 4);
 }
 
 uint8_t Maze::leftOf(uint8_t direction) {
-  return (uint8_t) ((direction + 3) % 4);
+  return (uint8_t)((direction + 3) % 4);
 }
 
 uint8_t Maze::behind(uint8_t direction) {
-  return (uint8_t) ((direction + 2) % 4);
+  return (uint8_t)((direction + 2) % 4);
 }
 
 uint8_t Maze::opposite(uint8_t direction) {
@@ -493,6 +497,7 @@ bool Maze::testForSolution(void) { // takes less than 3ms
   return mIsSolved;
 };
 
+
 /*
  *  The default goal while searching a classic maze
  *  the cell 0x77. This may not be the best finish
@@ -587,10 +592,10 @@ uint16_t Maze::flood(uint16_t target) {
 }
 
 static uint8_t getExitDirection[4][4] = {
-    {255, 3, 4, 5,},
-    {7, 255, 5, 6,},
-    {0, 1, 255, 7,},
-    {1, 2, 3, 255},
+  {255, 3, 4, 5,},
+  {7, 255, 5, 6,},
+  {0, 1, 255, 7,},
+  {1, 2, 3, 255},
 };
 
 /*
