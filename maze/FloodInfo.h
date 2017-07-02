@@ -27,11 +27,6 @@
 /**
  *  \file floodinfo.h
  *  \brief Stores the data needed by the flooding algorithm(s)
- * *
- *  \version
- *  \date 15 Apr 2017
- *  \author peterharrison
- *  \bug No known bugs.
  */
 
 
@@ -40,7 +35,7 @@
 #include <stdint.h>
 
 class FloodInfo {
-public:
+ public:
   uint16_t cost;
   uint16_t cell;
   uint8_t runLength;
@@ -70,6 +65,7 @@ public:
       runLength(_length) {
     //
   }
+
   FloodInfo(uint16_t _cost, uint16_t _cell, uint8_t _length, uint8_t inDir) :
       cost(_cost),
       cell(_cell),
@@ -78,7 +74,7 @@ public:
     //
   }
 
-  FloodInfo(uint16_t _cost, uint16_t _cell, uint8_t _length,  uint8_t inDir, uint8_t inWall) :
+  FloodInfo(uint16_t _cost, uint16_t _cell, uint8_t _length, uint8_t inDir, uint8_t inWall) :
       cost(_cost),
       cell(_cell),
       runLength(_length),
