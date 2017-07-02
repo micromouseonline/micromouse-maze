@@ -3,22 +3,7 @@
 
 #include <stdint.h>
 
-
-
-
-
-
 extern const char *turnNames[];
-
-
-
-//
-//void makeInPlaceCommands(uint8_t *commands, const char *s);
-//void executeCommandString(const char *s);
-//void executeCommands(void);
-//void listCommands(unsigned char * commandList);
-//void logCommands(unsigned char * commandList);
-
 
 
 #define CMD_STOP       (0x00)
@@ -50,73 +35,73 @@ extern const char *turnNames[];
 #define CMD_ERROR_15   (0xFF)
 #define CMD_ERROR      (0xFF)
 
+enum {
+  FWD0 = 0,
+  FWD1,
+  FWD2,
+  FWD3,
+  FWD4,
+  FWD5,
+  FWD6,
+  FWD7,
+  FWD8,
+  FWD9,
+  FWD10,
+  FWD11,
+  FWD12,
+  FWD13,
+  FWD14,
+  FWD15,
+  FWD16,
+  FWD17,
+  FWD18,
+  FWD19,
+  FWD20,
+  FWD21,
+  FWD22,
+  FWD23,
+  FWD24,
+  FWD25,
+  FWD26,
+  FWD27,
+  FWD28,
+  FWD29,
+  FWD30,
+  FWD31,
+  DIA0 = 32,
+  DIA1,
+  DIA2,
+  DIA3,
+  DIA4,
+  DIA5,
+  DIA6,
+  DIA7,
+  DIA8,
+  DIA9,
+  DIA10,
+  DIA11,
+  DIA12,
+  DIA13,
+  DIA14,
+  DIA15,
+  DIA16,
+  DIA17,
+  DIA18,
+  DIA19,
+  DIA20,
+  DIA21,
+  DIA22,
+  DIA23,
+  DIA24,
+  DIA25,
+  DIA26,
+  DIA27,
+  DIA28,
+  DIA29,
+  DIA30,
+  DIA31,
 
-#define STOP     CMD_STOP
-#define FWD0    (CMD_STRAIGHT+ 0)   //00
-#define FWD1    (CMD_STRAIGHT+ 1)   //01
-#define FWD2    (CMD_STRAIGHT+ 2)   //02
-#define FWD3    (CMD_STRAIGHT+ 3)   //03
-#define FWD4    (CMD_STRAIGHT+ 4)   //04
-#define FWD5    (CMD_STRAIGHT+ 5)   //05
-#define FWD6    (CMD_STRAIGHT+ 6)   //06
-#define FWD7    (CMD_STRAIGHT+ 7)   //07
-#define FWD8    (CMD_STRAIGHT+ 8)   //08
-#define FWD9    (CMD_STRAIGHT+ 9)   //09
-#define FWD10   (CMD_STRAIGHT+ 10)  //10
-#define FWD11   (CMD_STRAIGHT+ 11)  //11
-#define FWD12   (CMD_STRAIGHT+ 12)  //12
-#define FWD13   (CMD_STRAIGHT+ 13)  //13
-#define FWD14   (CMD_STRAIGHT+ 14)  //14
-#define FWD15   (CMD_STRAIGHT+ 15)  //15
-#define FWD16   (CMD_STRAIGHT+ 16)  //16
-#define FWD17   (CMD_STRAIGHT+ 17)  //17
-#define FWD18   (CMD_STRAIGHT+ 18)  //18
-#define FWD19   (CMD_STRAIGHT+ 19)  //19
-#define FWD20   (CMD_STRAIGHT+ 20)  //20
-#define FWD21   (CMD_STRAIGHT+ 21)  //21
-#define FWD22   (CMD_STRAIGHT+ 22)  //22
-#define FWD23   (CMD_STRAIGHT+ 23)  //23
-#define FWD24   (CMD_STRAIGHT+ 24)  //24
-#define FWD25   (CMD_STRAIGHT+ 25)  //25
-#define FWD26   (CMD_STRAIGHT+ 26)  //26
-#define FWD27   (CMD_STRAIGHT+ 27)  //27
-#define FWD28   (CMD_STRAIGHT+ 28)  //28
-#define FWD29   (CMD_STRAIGHT+ 29)  //29
-#define FWD30   (CMD_STRAIGHT+ 30)  //30
-#define FWD31   (CMD_STRAIGHT+ 31)  //31
-
-#define DIA0    (CMD_DIAGONAL +  0) //32
-#define DIA1    (CMD_DIAGONAL +  1) //33
-#define DIA2    (CMD_DIAGONAL +  2) //34
-#define DIA3    (CMD_DIAGONAL +  3) //35
-#define DIA4    (CMD_DIAGONAL +  4) //36
-#define DIA5    (CMD_DIAGONAL +  5) //37
-#define DIA6    (CMD_DIAGONAL +  6) //38
-#define DIA7    (CMD_DIAGONAL +  7) //39
-#define DIA8    (CMD_DIAGONAL +  8) //40
-#define DIA9    (CMD_DIAGONAL +  9) //41
-#define DIA10   (CMD_DIAGONAL + 10) //42
-#define DIA11   (CMD_DIAGONAL + 11) //43
-#define DIA12   (CMD_DIAGONAL + 12) //44
-#define DIA13   (CMD_DIAGONAL + 13) //45
-#define DIA14   (CMD_DIAGONAL + 14) //46
-#define DIA15   (CMD_DIAGONAL + 15) //47
-#define DIA16   (CMD_DIAGONAL + 16) //48
-#define DIA17   (CMD_DIAGONAL + 17) //49
-#define DIA18   (CMD_DIAGONAL + 18) //50
-#define DIA19   (CMD_DIAGONAL + 19) //51
-#define DIA20   (CMD_DIAGONAL + 20) //52
-#define DIA21   (CMD_DIAGONAL + 21) //53
-#define DIA22   (CMD_DIAGONAL + 22) //54
-#define DIA23   (CMD_DIAGONAL + 23) //55
-#define DIA24   (CMD_DIAGONAL + 24) //56
-#define DIA25   (CMD_DIAGONAL + 25) //57
-#define DIA26   (CMD_DIAGONAL + 26) //58
-#define DIA27   (CMD_DIAGONAL + 27) //59
-#define DIA28   (CMD_DIAGONAL + 28) //60
-#define DIA29   (CMD_DIAGONAL + 29) //61
-#define DIA30   (CMD_DIAGONAL + 30) //62
-#define DIA31   (CMD_DIAGONAL + 31) //63
+};
 
 #define INPLACE (CMD_TURN +  0)
 #define IP45R   (INPLACE +  0)     //64
@@ -147,6 +132,5 @@ extern const char *turnNames[];
 #define DD90L   (SMOOTH + 15)     //87
 #define SS90ER  (SMOOTH + 16)     //88
 #define SS90EL  (SMOOTH + 17)     //89
-
 
 #endif
