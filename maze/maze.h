@@ -173,7 +173,9 @@ class Maze {
   uint16_t directionFlood(uint16_t target);
 
 
+  // TODO: is the closed maze needed? is it enough to see if the path has unvisited cells?
   /// Flood the maze both open and closed and then test the cost difference
+  /// leaves the maze with unknowns clear
   bool testForSolution(void);
   /// returns the result of the most recent test for a solution
   bool isSolved(void);
@@ -189,11 +191,9 @@ class Maze {
   /// load the wall data, including visited flags from the target array. Not checked for overflow.
   void load(uint8_t *data);
 
-  ///  Return the Flood Type in use
-  FloodType getFloodType() const;
   /// set the Flood Type to use
   void setFloodType(FloodType mFloodType);
-  /// used only fro the weighted Flood
+  /// used only for the weighted Flood
   uint16_t getCornerWeight() const;
   void setCornerWeight(uint16_t cornerWeight);
 

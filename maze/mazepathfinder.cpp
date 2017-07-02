@@ -89,9 +89,9 @@ typedef enum {
 
 
 PathFinder::PathFinder() :
-    mCellCount(0),
     mStartHeading(INVALID_DIRECTION),
     mEndHeading(INVALID_DIRECTION),
+    mCellCount(0),
     mStartCell(0),
     mEndCell(0),
     mDistance(0),
