@@ -40,9 +40,9 @@ char *strpad(const char *string, char pad, size_t fieldSize) {
   size_t ssize = strlen(string);
   size_t padSize = fieldSize - ssize;
   assert(padSize > 0);
-  char padding[64];
-  memset(padding, pad, 62);
-  padding[63] = 0;
+  char padding[128];
+  memset(padding, pad, 126);
+  padding[127] = 0;
   char *padded = (char *) malloc(fieldSize + 1);
   strncpy(padded, string, fieldSize);
   strncat(padded, padding, padSize);
@@ -77,32 +77,33 @@ int main(int argc, char **argv) {
       barney.setLocation(0x00);
       int steps = barney.searchTo(0x77);
       steps += barney.searchTo(0x00);
+      steps += barney.searchTo(0x77);
+      steps += barney.searchTo(0x00);
       barney.map()->testForSolution();
       int costDifference = barney.map()->costDifference();
       int openCost = barney.map()->openMazeCost();
       int residual = (100 * costDifference) / openCost;
 
-      if (residual < 5) {
-//        MazePrinter::printVisitedDirs(barney.map());
-        char *name = strpad(glob_result.gl_pathv[i], ' ', 43);
-        std::cout << name;
-        delete name;
-        std::cout.width(6);
-        std::cout << std::right;
-        std::cout << steps << " steps";
-        std::cout << " delta " << costDifference << " (" << residual << "%)";
-        if (costDifference == 0) {
-        onePassCount++;
-            std::cout << " <---- ";
-        std::cout << std::endl;
-        } else if (residual < 5 && residual >= 0) {
-            chancerCount++;
-            std::cout << " ***** ";
-        std::cout << std::endl;
-          }
-        }
+      if (residual > 5) {
+        MazePrinter::printVisitedDirs(barney.map());
       }
+      char *name = strpad(glob_result.gl_pathv[i], ' ', 50);
+      std::cout << name;
+      delete name;
+      std::cout.width(6);
+      std::cout << std::right;
+      std::cout << steps << " steps";
+      std::cout << " delta " << costDifference << " (" << residual << "%)";
+      if (costDifference == 0) {
+        onePassCount++;
+        std::cout << " <---- ";
+      } else if (residual < 5 && residual >= 0) {
+        chancerCount++;
+        std::cout << " ***** ";
+      }
+        std::cout << std::endl;
 
+    }
 
     printf("\n%d mazes:\n", glob_result.gl_pathc);
     printf(" one Pass mazes: %3d\n", onePassCount);
