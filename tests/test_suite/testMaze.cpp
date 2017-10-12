@@ -184,41 +184,7 @@ TEST_F(MazeTest, SetClearVisited_clearsVisitFlagsOnly) {
 
 }
 
-/////////////////////
-TEST_F(MazeTest, UpdateMap_OnlyAddsWalls) {
-  maze->resetToEmptyMaze();
-  uint16_t cell = 0x22;
-  maze->updateMap(cell, 0x00);
-  EXPECT_FALSE(maze->hasWall(cell, NORTH));
-  EXPECT_FALSE(maze->hasWall(cell, EAST));
-  EXPECT_FALSE(maze->hasWall(cell, SOUTH));
-  EXPECT_FALSE(maze->hasWall(cell, WEST));
 
-  maze->updateMap(cell, 1 << NORTH);
-  EXPECT_TRUE(maze->hasWall(cell, NORTH));
-  EXPECT_FALSE(maze->hasWall(cell, EAST));
-  EXPECT_FALSE(maze->hasWall(cell, SOUTH));
-  EXPECT_FALSE(maze->hasWall(cell, WEST));
-
-  maze->updateMap(cell, 1 << EAST);
-  EXPECT_TRUE(maze->hasWall(cell, NORTH));
-  EXPECT_TRUE(maze->hasWall(cell, EAST));
-  EXPECT_FALSE(maze->hasWall(cell, SOUTH));
-  EXPECT_FALSE(maze->hasWall(cell, WEST));
-
-  maze->updateMap(cell, 1 << SOUTH);
-  EXPECT_TRUE(maze->hasWall(cell, NORTH));
-  EXPECT_TRUE(maze->hasWall(cell, EAST));
-  EXPECT_TRUE(maze->hasWall(cell, SOUTH));
-  EXPECT_FALSE(maze->hasWall(cell, WEST));
-
-  maze->updateMap(cell, 1 << WEST);
-  EXPECT_TRUE(maze->hasWall(cell, NORTH));
-  EXPECT_TRUE(maze->hasWall(cell, EAST));
-  EXPECT_TRUE(maze->hasWall(cell, SOUTH));
-  EXPECT_TRUE(maze->hasWall(cell, WEST));
-
-}
 
 /////////////////////
 TEST_F(MazeTest, HasExit) {
@@ -295,51 +261,3 @@ TEST_F(MazeTest, LoadAndSave_MazeKeptSafe) {
 
 }
 
-TEST_F(MazeTest, RecalculateGoalOneEntrance_SetToCellOppositeEntrance) {
-  maze->resetToEmptyMaze();
-  EXPECT_EQ(0x77, maze->goal());
-  maze->setWall(0x77, WEST);
-  maze->setWall(0x78, WEST);
-  maze->setWall(0x78, NORTH);
-  maze->setWall(0x88, NORTH);
-  maze->setWall(0x88, EAST);
-  maze->setWall(0x87, EAST);
-  maze->setWall(0x87, SOUTH);
-  maze->recalculateGoal();
-  EXPECT_EQ(0x78, maze->goal());
-  //
-  maze->setWall(0x77, SOUTH);
-  maze->clearWall(0x77, WEST);
-  maze->recalculateGoal();
-  EXPECT_EQ(0x87, maze->goal());
-  //
-  maze->setWall(0x77, WEST);
-  maze->clearWall(0x78, WEST);
-  maze->recalculateGoal();
-  EXPECT_EQ(0x88, maze->goal());
-  //
-  maze->setWall(0x78, WEST);
-  maze->clearWall(0x78, NORTH);
-  maze->recalculateGoal();
-  EXPECT_EQ(0x77, maze->goal());
-  //
-  maze->setWall(0x78, NORTH);
-  maze->clearWall(0x88, NORTH);
-  maze->recalculateGoal();
-  EXPECT_EQ(0x87, maze->goal());
-  //
-  maze->setWall(0x88, NORTH);
-  maze->clearWall(0x88, EAST);
-  maze->recalculateGoal();
-  EXPECT_EQ(0x78, maze->goal());
-  //
-  maze->setWall(0x88, EAST);
-  maze->clearWall(0x87, EAST);
-  maze->recalculateGoal();
-  EXPECT_EQ(0x77, maze->goal());
-  //
-  maze->setWall(0x87, EAST);
-  maze->clearWall(0x87, SOUTH);
-  maze->recalculateGoal();
-  EXPECT_EQ(0x88, maze->goal());
-}

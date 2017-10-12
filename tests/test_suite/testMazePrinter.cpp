@@ -62,7 +62,7 @@ class TestMazePrinter : public ::testing::Test {
  */
 TEST_F (TestMazePrinter, PrintForCoverageTesting)
 {
-
+return;
 //  MazePrinter::printVisitedDirs(maze);
   copyClassicMaze(japan2007ef);
 

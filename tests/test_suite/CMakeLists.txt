@@ -19,7 +19,8 @@ add_executable(runTestSuite
         testSearcher.cpp
         testFloodInfo.cpp
         path_test_data.cpp
-        path_test_data.h)
+        path_test_data.h
+        )
 
 target_link_libraries(
         runTestSuite

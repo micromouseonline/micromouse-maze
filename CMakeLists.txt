@@ -1,8 +1,12 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.7)
 project(micromouse-maze)
 set(CMAKE_LEGACY_CYGWIN_WIN32 0)
 
+#set(CMAKE_CXX_FLAGS " -std=gnu++0x")
 #add_definitions(-std=gnu++0x)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_STANDARD 11)
 
 set(COMMON_FLAGS " -Wall -Wextra ")
 set(HEADER_COMMENTS 1)

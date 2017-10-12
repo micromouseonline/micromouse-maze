@@ -40,6 +40,7 @@ class SearcherTest : public ::testing::Test {
     maze->copyMazeFromFileData(japan2007ef, 256);
     searcher = new MazeSearcher;
     searcher->setRealMaze(maze);
+    searcher->setVerbose(false);
   }
 
   virtual void TearDown() {
@@ -272,7 +273,6 @@ TEST_F (SearcherTest, MouseSearchTo_EmptyMaze_Success) {
 TEST_F (SearcherTest, MouseRunTo_SearchToTarget_VerboseMode) {
   Maze *testMaze = new Maze(16);
   searcher->setRealMaze(testMaze);
-  //barney->setVerbose(true);
   searcher->map()->setFloodType(Maze::MANHATTAN_FLOOD);
   int steps = searcher->searchTo(0x7);
   EXPECT_EQ(7, steps);
