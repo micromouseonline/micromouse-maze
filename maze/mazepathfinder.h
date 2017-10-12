@@ -109,7 +109,11 @@ public:
   ~PathFinder();
   char * path();
   ///  Create a simple pathstring representing the route from start to finsh in the maze
-  void generatePath(const uint16_t start, const uint16_t finish, Maze *maze);
+  void generateSafePath(const uint16_t start, const uint16_t finish, Maze *maze);
+
+  ///  Create a simple pathstring representing the route from start to finsh in the maze
+  /// but do not stop at unvisited cells
+  void generateUnsafePath(const uint16_t start, const uint16_t finish, Maze *maze);
   void makeInPlaceCommands(const char *src, const uint16_t maxLength, uint8_t *commands);
   /// Convert the path to a set of commands using only 90 degree explore turns
   void makeDiagonalCommands(const char *src, const uint16_t maxLength, uint8_t *commands);

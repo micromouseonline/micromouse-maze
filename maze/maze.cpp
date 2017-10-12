@@ -38,15 +38,13 @@
 const uint16_t orthoCostTable[] =
   // low speed costs ( vturn = 1.5m/s/s, acc = 13000 mm/s/s)
 {
-  0, 98, 75, 63, 55, 50, 46, 43, 40, 38, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-  36, 36,
+  0, 98, 75, 63, 55, 50, 46, 43, 40, 38, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
 };
 
 const uint16_t diagCostTable[] =
   // low speed costs ( vturn = 1.5m/s/s, acc = 13000 mm/s/s)
 {
-  0, 73, 58, 50, 44, 40, 37, 35, 33, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31,
-  31, 31
+  0, 73, 58, 50, 44, 40, 37, 35, 33, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31,
 };
 
 // high speed costs (vturn = 2000 mm/s, acc = 16667 mm/s/s)
@@ -355,20 +353,31 @@ void Maze::clearWall(uint16_t cell, uint8_t direction) {
 /*
  * Updates the map by adding walls
  * Used when exploring only.
- * Will not remove a wall
+ *
+ * TODO: It may be that walls should be set and then the current state marked as  knownn
+ * regadless of presence or absence.
+ *
  */
 void Maze::updateMap(uint16_t cell, uint8_t wallData) {
   if (wallData & 0x01) {
     setWall(cell, NORTH);
+  } else {
+    clearWall(cell, NORTH);
   }
   if (wallData & 0x02) {
     setWall(cell, EAST);
+  } else {
+    clearWall(cell, EAST);
   }
   if (wallData & 0x04) {
     setWall(cell, SOUTH);
+  } else {
+    clearWall(cell, SOUTH);
   }
   if (wallData & 0x08) {
     setWall(cell, WEST);
+  } else {
+    clearWall(cell, WEST);
   }
   mWalls[cell] |= VISITED;
 }
@@ -509,54 +518,45 @@ bool Maze::testForSolution(void) { // takes less than 3ms
  *  entrances but it is better than nothing
  */
 void Maze::recalculateGoal() {
+  //NOTE: this is not a very good idea without improving the pathfinder
+  return;
   uint16_t newGoal = goal();
   // count the entrances
   int entranceCount = 0;
 
-  if (hasExit(0x77, SOUTH)) {
+  if (hasRealExit(0x77, SOUTH)) {
     entranceCount++;
     newGoal = 0x78;
   };
-  if (hasExit(0x77, WEST)) {
+  if (hasRealExit(0x77, WEST)) {
     entranceCount++;
     newGoal = 0x87;
   };
-  if (hasExit(0x78, WEST)) {
+  if (hasRealExit(0x78, WEST)) {
     entranceCount++;
     newGoal = 0x88;
   };
-  if (hasExit(0x78, NORTH)) {
+  if (hasRealExit(0x78, NORTH)) {
     entranceCount++;
     newGoal = 0x77;
   };
-  if (hasExit(0x88, NORTH)) {
+  if (hasRealExit(0x88, NORTH)) {
     entranceCount++;
     newGoal = 0x87;
   };
-  if (hasExit(0x88, EAST)) {
+  if (hasRealExit(0x88, EAST)) {
     entranceCount++;
     newGoal = 0x78;
   };
-  if (hasExit(0x87, EAST)) {
+  if (hasRealExit(0x87, EAST)) {
     entranceCount++;
     newGoal = 0x77;
   };
-  if (hasExit(0x87, SOUTH)) {
+  if (hasRealExit(0x87, SOUTH)) {
     entranceCount++;
     newGoal = 0x88;
   };
-  switch (entranceCount) {
-    case 0:
-      break;
-    case 1:
-    case 2:
-    case 3:
-      setGoal(newGoal);
-      setGoal(newGoal);
-      break;
-    default:
-      break;
-  }
+
   setGoal(newGoal);
 }
 

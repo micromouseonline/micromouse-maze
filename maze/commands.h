@@ -1,9 +1,6 @@
 #ifndef _commands_h
 #define _commands_h
 
-#include <stdint.h>
-
-extern const char *turnNames[];
 
 
 #define CMD_STOP       (0x00)
@@ -37,71 +34,13 @@ extern const char *turnNames[];
 
 enum {
   FWD0 = 0,
-  FWD1,
-  FWD2,
-  FWD3,
-  FWD4,
-  FWD5,
-  FWD6,
-  FWD7,
-  FWD8,
-  FWD9,
-  FWD10,
-  FWD11,
-  FWD12,
-  FWD13,
-  FWD14,
-  FWD15,
-  FWD16,
-  FWD17,
-  FWD18,
-  FWD19,
-  FWD20,
-  FWD21,
-  FWD22,
-  FWD23,
-  FWD24,
-  FWD25,
-  FWD26,
-  FWD27,
-  FWD28,
-  FWD29,
-  FWD30,
-  FWD31,
+  FWD1, FWD2, FWD3, FWD4, FWD5, FWD6, FWD7, FWD8, FWD9, FWD10, FWD11, FWD12, FWD13, FWD14, FWD15, FWD16, FWD17, FWD18, FWD19, FWD20, FWD21, FWD22, FWD23, FWD24, FWD25, FWD26, FWD27, FWD28, FWD29, FWD30, FWD31,
   DIA0 = 32,
-  DIA1,
-  DIA2,
-  DIA3,
-  DIA4,
-  DIA5,
-  DIA6,
-  DIA7,
-  DIA8,
-  DIA9,
-  DIA10,
-  DIA11,
-  DIA12,
-  DIA13,
-  DIA14,
-  DIA15,
-  DIA16,
-  DIA17,
-  DIA18,
-  DIA19,
-  DIA20,
-  DIA21,
-  DIA22,
-  DIA23,
-  DIA24,
-  DIA25,
-  DIA26,
-  DIA27,
-  DIA28,
-  DIA29,
-  DIA30,
-  DIA31,
+  DIA1, DIA2, DIA3, DIA4, DIA5, DIA6, DIA7, DIA8, DIA9, DIA10, DIA11, DIA12, DIA13, DIA14, DIA15, DIA16, DIA17, DIA18, DIA19, DIA20, DIA21, DIA22, DIA23, DIA24, DIA25, DIA26, DIA27, DIA28, DIA29, DIA30, DIA31,
 
 };
+
+#define STOP     CMD_STOP
 
 #define INPLACE (CMD_TURN +  0)
 #define IP45R   (INPLACE +  0)     //64
@@ -132,5 +71,7 @@ enum {
 #define DD90L   (SMOOTH + 15)     //87
 #define SS90ER  (SMOOTH + 16)     //88
 #define SS90EL  (SMOOTH + 17)     //89
+
+
 
 #endif

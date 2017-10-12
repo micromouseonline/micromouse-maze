@@ -114,7 +114,7 @@ static char pathOptions[16] = {
   'R', 'A', 'L', 'F'
 };
 
-void PathFinder::generatePath(const uint16_t start, const uint16_t target, Maze *maze) {
+void PathFinder::generateSafePath(const uint16_t start, const uint16_t target, Maze *maze) {
 
   char *pPath = mBuffer;
   uint16_t distance = 0;
@@ -701,5 +701,59 @@ void PathFinder::listCommands(uint8_t *commands) {
 
 uint16_t PathFinder::distance() {
   return mDistance;
+}
+
+
+void PathFinder::generateUnsafePath(const uint16_t start, const uint16_t target, Maze *maze) {
+
+  char *pPath = mBuffer;
+  uint16_t distance = 0;
+  uint16_t here = start;
+  uint8_t headingHere = maze->direction(here);
+  mStartCell = start;
+  mEndCell = target;
+  mStartHeading = headingHere;
+  mEndHeading = mStartHeading;
+  mCellCount = 0;
+  *pPath++ = 'B';
+  if (headingHere == INVALID_DIRECTION) {
+    *pPath++ = 'S';
+    *pPath = 0;
+    return;
+  }
+  while (here != target) {
+    if (mCellCount >= MAX_PATH_LENGTH) {
+      break;
+    }
+    uint8_t headingLast = headingHere;
+    headingHere = maze->direction(here);
+    char command = pathOptions[headingLast * 4 + headingHere];
+    if (command == 'R') {
+      mEndHeading = Maze::rightOf(mEndHeading);
+      distance += 127;
+    }
+    if (command == 'L') {
+      mEndHeading = Maze::leftOf(mEndHeading);
+      distance += 127;
+    }
+    if (command == 'F') {
+      distance += 180;
+    }
+    *pPath++ = command;
+    mCellCount++;
+    here = maze->neighbour(here, headingHere);
+  }
+  mEndCell = here;
+  if (mEndCell == target) {
+    *pPath++ = 'S';
+    mReachesTarget = true;
+  } else {
+    *pPath++ = 'X';
+    mReachesTarget = false;
+  }
+  // this is a string to be sure it gets terminated properly
+  mCellCount++;
+  *pPath = 0;
+  mDistance = distance;
 }
 
