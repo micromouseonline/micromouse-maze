@@ -79,6 +79,19 @@ TEST_F(PathFinderTest, generate_EmptyMaze_ManhattanFlood) {
   EXPECT_TRUE(path->reachesTarget());
 }
 
+TEST_F(PathFinderTest, generate_EmptyMaze_RunLengthFlood) {
+  maze->setFloodType(Maze::RUNLENGTH_FLOOD);
+  maze->copyMazeFromFileData(emptyMaze, 256);
+  maze->flood(0x77);
+  path->generateSafePath(0, 0x77, maze);
+  EXPECT_EQ(16, strlen(path->path()));
+  EXPECT_STREQ("BFFFFFFFRFFFFFFS", path->path());
+  EXPECT_EQ(15, path->cellCount());
+  EXPECT_EQ(EAST, path->endHeading());
+  EXPECT_EQ(0x77, path->endCell());
+  EXPECT_TRUE(path->reachesTarget());
+}
+
 TEST_F(PathFinderTest, generate_EmptyMaze_AtDestination) {
   maze->setFloodType(Maze::MANHATTAN_FLOOD);
   maze->copyMazeFromFileData(emptyMaze, 256);
