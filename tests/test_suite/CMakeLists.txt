@@ -26,7 +26,7 @@ target_link_libraries(
         runTestSuite
         gtest
         gtest_main
-        libMaze
+        maze
         )
 #target_link_libraries(
 #        runTestSuite
