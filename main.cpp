@@ -21,14 +21,19 @@
 
 uint8_t wallData[1024];
 
+enum {
+  E_FILE_NOT_FOUND = 1,
+  E_FILE_READ_ERROR = 2,
+};
+
 int ReadRealWallsFromFile(char *filename) {
   FILE *fp;
   if ((fp = fopen(filename, "rb")) == NULL) {
-    return 1;
+    return E_FILE_NOT_FOUND;
   }
   if (fread(wallData, 1, 256, fp) < 256) {
     fclose(fp);
-    return 2;
+    return E_FILE_READ_ERROR;
   };
   fclose(fp);
   return 0;
@@ -65,10 +70,11 @@ int main(int argc, char **argv) {
     int chancerCount = 0;
     printf("   FULL  MODOPEN   MODALL\n");
     maze.setFloodType(Maze::RUNLENGTH_FLOOD);
-    barney.setSearchMethod(MazeSearcher::SEARCH_NORMAL);
     for (unsigned int i = 0; i < glob_result.gl_pathc; ++i) {
       std::cout << "";
-      ReadRealWallsFromFile(glob_result.gl_pathv[i]);
+      if (0 !=  ReadRealWallsFromFile(glob_result.gl_pathv[i])){
+        continue;
+      };
       maze.load(wallData);
       maze.copyMazeFromFileData(wallData, 256);
       maze.flood(0x77);
