@@ -29,7 +29,7 @@
 
 #include "maze.h"
 #include "mazeconstants.h"
-#include "libMaze/floodinfo.h"
+#include "floodinfo.h"
 #include "priorityqueue.h"
 
 /*
