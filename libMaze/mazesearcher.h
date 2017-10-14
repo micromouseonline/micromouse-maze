@@ -28,8 +28,8 @@
 #define MAZESEARCHER_H
 
 /*
- * The mazeSearcher is the mouse. The robot that explores and runs the maze.
- * It gets its sensor data from the worldview and uses it to update a maze
+ * The mazeSearcher is the mouse. The robot that explores and runs the libMaze.
+ * It gets its sensor data from the worldview and uses it to update a libMaze
  * and act appropriately.
  *
  * It is here that the behaviour of the mouse will be defined. For each

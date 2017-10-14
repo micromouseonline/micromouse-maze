@@ -87,15 +87,15 @@ int MazeFiler::readMaze(Maze *maze, char *fileName) {
   return MAZE_READ_ERROR;
 }
 
-/* A binary maze file is stored as sequential bytes
+/* A binary libMaze file is stored as sequential bytes
  * in 'natural' order. That is, the first byte in the file
  * is cell 0,0 followed by the cells in the left-most column, col 0.
  * Next will be col 1 and so on. Each cell is just the raw wall data
- * as defined for internal maze storage.
+ * as defined for internal libMaze storage.
  * Since the first cell read is the start cell, it must have walls
  * to its West, South and East giving it a value of 0x0E. This is the
- * only fixed-value cell in a maze
- * It is not guaranteed that the maze is stored internally as bytes.
+ * only fixed-value cell in a libMaze
+ * It is not guaranteed that the libMaze is stored internally as bytes.
  * nor is it guaranteed that char is a byte!!!!!
  */
 
@@ -106,27 +106,27 @@ int MazeFiler::readBinaryMaze(FILE *fp,  Maze * maze) {
     return MAZE_READ_ERROR;
   }
   if (buffer[0] != 0x0e) {
-    // probably not a binary maze
+    // probably not a binary libMaze
     return MAZE_READ_ERROR;
   }
   if (bytesRead < 1024) {
-    // assume classic maze
+    // assume classic libMaze
     maze->copyMazeFromFileData(buffer, 256);
     return MAZE_SUCCESS;
   }
-  // then assume it is a half-size maze
+  // then assume it is a half-size libMaze
   maze->copyMazeFromFileData(buffer, 1024);
   return MAZE_SUCCESS;
 }
 
 
-/* A text maze can be stored in several formats.
+/* A text libMaze can be stored in several formats.
  * most common is to have a single '+' or 'o' for each post
  * followed by a '-' for a horizontal wall, a space for
  * no wall and a '|' for a vertical wall.
  * Alternatively, better printing can be achieved with
  * two or three '-' characters for a horizontal wall.
- * A text maze may use a single (different) character to represent both posts and walls.
+ * A text libMaze may use a single (different) character to represent both posts and walls.
  * It is assumed these use only one character for a horizontal wall.
  * Assuming the text file is stored in the normal orientation
  * the first post is the northwest
@@ -151,7 +151,7 @@ int MazeFiler::readTextMaze(FILE *fp, Maze * maze) {
   }
   int lineLength = strlen(line1);
   if (lineLength < 32) {
-    //printf("unknown maze format for '%s' - first line too short\n", fname);
+    //printf("unknown libMaze format for '%s' - first line too short\n", fname);
     return MAZE_READ_ERROR;
   }
   // those are the two obvious errors sorted out
@@ -187,7 +187,7 @@ int MazeFiler::readTextMaze(FILE *fp, Maze * maze) {
   rewind(fp);
   maze->clearData();
   // and begin parsing lines
-  // a text maze starts top left and every row takes up two lines of text
+  // a text libMaze starts top left and every row takes up two lines of text
   int mazeWidth = lineLength / charsPerCell;
   row = mazeWidth - 1;
   while (row >= 0) {
@@ -237,9 +237,9 @@ int MazeFiler::writeDeclarationMaze(Maze *maze, char * fileName) {
     return MAZE_WRITE_ERROR;
   } else {
     char temp[256];
-    snprintf(temp, sizeof(temp), "const uint8_t %s[];\n\n", "maze");
+    snprintf(temp, sizeof(temp), "const uint8_t %s[];\n\n", "libMaze");
     fputs(temp, fp);
-    snprintf(temp, sizeof(temp), "const uint8_t %s[] = {\n", "maze");
+    snprintf(temp, sizeof(temp), "const uint8_t %s[] = {\n", "libMaze");
     fputs(temp, fp);
     for (uint16_t x = 0; x < maze->width(); x++) {
       fputs("   ", fp);

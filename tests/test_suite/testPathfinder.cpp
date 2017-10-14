@@ -223,7 +223,7 @@ TEST_F(PathFinderTest, generate_Japan2007_SimulateSearch) {
   EXPECT_STREQ(japanPath, path->path());
   EXPECT_TRUE(path->reachesTarget());
   EXPECT_EQ(0x77,path->endCell());
-//  MazePrinter::printVisitedDirs(maze);
+//  MazePrinter::printVisitedDirs(libMaze);
 }
 
 

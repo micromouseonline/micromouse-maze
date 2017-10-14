@@ -222,7 +222,7 @@ TEST_F (SearcherTest, MouseRunTo_EmptyMaze_ToStartFromAnywhere) {
 
 /*
  * Tests mouse getting lost in a cell with invalid direction
- * Taiwan2015 maze has closed in cells at 0x5C and 0x5D
+ * Taiwan2015 libMaze has closed in cells at 0x5C and 0x5D
  */
 TEST_F (SearcherTest, MouseRunTo_RunToGoal_StartClosedIn_Error) {
   searcher->setMapFromFileData(taiwan2015, 256);
@@ -233,7 +233,7 @@ TEST_F (SearcherTest, MouseRunTo_RunToGoal_StartClosedIn_Error) {
 
 /*
  * Tests mouse getting lost in a cell with invalid direction
- * Taiwan2015 maze has closed in cells at 0x5C and 0x5D
+ * Taiwan2015 libMaze has closed in cells at 0x5C and 0x5D
  */
 TEST_F (SearcherTest, MouseRunTo_RunToGoal_TargetClosedIn_Error) {
   searcher->setMapFromFileData(taiwan2015, 256);
@@ -245,7 +245,7 @@ TEST_F (SearcherTest, MouseRunTo_RunToGoal_TargetClosedIn_Error) {
 
 /*
  * Tests mouse getting lost because path is too long
- * Simulate by setting target outside maze
+ * Simulate by setting target outside libMaze
  */
 //TEST_F (SearcherTest, MouseRunTo_RunToGoal_TargetTooFar_Error) {
 //  barney->setMazeWalls(taiwan2015, 256);
@@ -268,7 +268,7 @@ TEST_F (SearcherTest, MouseSearchTo_EmptyMaze_Success) {
 
 
 /*
- * verbose mode prints out the maze after each step.
+ * verbose mode prints out the libMaze after each step.
  */
 TEST_F (SearcherTest, MouseRunTo_SearchToTarget_VerboseMode) {
   Maze *testMaze = new Maze(16);
@@ -288,7 +288,7 @@ TEST_F (SearcherTest, MouseRunTo_SearchToTarget_ManhattanFlood) {
   searcher->map()->setFloodType(Maze::MANHATTAN_FLOOD);
   int steps = searcher->searchTo(0x77);
   EXPECT_EQ(130, steps);
-//  MazePrinter::printVisitedDirs(barney->maze());
+//  MazePrinter::printVisitedDirs(barney->libMaze());
 }
 
 

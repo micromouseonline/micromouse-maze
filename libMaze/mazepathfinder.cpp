@@ -206,7 +206,7 @@ void PathFinder::makeDiagonalCommands(const char *src, const uint16_t maxLength,
   pathgen_state_t state = PathInit;
   assert(maxLength > 2);
   while (state != PathFinish) {
-    if (runLength > 31) { // MAGIC: maximum for hald-size maze
+    if (runLength > 31) { // MAGIC: maximum for hald-size libMaze
       commands[0] = CMD_ERROR;
       commands[1] = CMD_STOP;
       break;
@@ -467,7 +467,7 @@ void PathFinder::makeDiagonalCommands(const char *src, const uint16_t maxLength,
 /*
  * The smooth command list uses only orthogonal moves and 90 degree
  * explore turns. It should be very safe but continuous.
- * It is suitable for moving the mouse more rapidly in the maze while
+ * It is suitable for moving the mouse more rapidly in the libMaze while
  * exploring but where it is not felt safe to use diagonals
  */
 void PathFinder::makeSmoothCommands(const char *src, const uint16_t maxLength, uint8_t *commands) {
@@ -475,7 +475,7 @@ void PathFinder::makeSmoothCommands(const char *src, const uint16_t maxLength, u
   int p = 0;
   pathgen_state_t state = PathInit;
   while (state != PathFinish) {
-    if (runLength >= 31) { // MAGIC: maximum for hald-size maze
+    if (runLength >= 31) { // MAGIC: maximum for hald-size libMaze
       commands[p++] = CMD_ERROR;
       commands[p] = CMD_STOP;
       break;
@@ -631,7 +631,7 @@ void PathFinder::makeInPlaceCommands(const char *src, const uint16_t maxLength, 
       case 'F':
         cmd++;
         runLength++;
-        if (runLength >= 31) { // MAGIC: maximum for hald-size maze
+        if (runLength >= 31) { // MAGIC: maximum for hald-size libMaze
           commands[p++] = CMD_ERROR;
           commands[p] = CMD_STOP;
           finished = true;

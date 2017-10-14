@@ -116,7 +116,7 @@ int main(int argc, char **argv) {
     printf(" Possible chancer  mazes: %3d\n", chancerCount);
 
   } else {
-    printf(" you should provide the name of at least one maze file on the command line\n");
+    printf(" you should provide the name of at least one libMaze file on the command line\n");
   }
   return (EXIT_SUCCESS);
 }

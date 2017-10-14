@@ -5,7 +5,7 @@ set(CMAKE_CXX_FLAGS " -std=gnu++0x")
 add_definitions(-std=gnu++0x)
 
 
-project(maze)
+project(libMaze)
 
 set(HEADER_FILES
         maze.h
@@ -32,7 +32,7 @@ set (SOURCE_FILES
 
         )
 
-add_library(maze
+add_library(libMaze
         STATIC
         ${SOURCE_FILES}
         ${HEADER_FILES}

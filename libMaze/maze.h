@@ -173,7 +173,7 @@ public:
   uint16_t directionFlood(uint16_t target);
 
 
-  // TODO: is the closed maze needed? is it enough to see if the path has unvisited cells?
+  // TODO: is the closed libMaze needed? is it enough to see if the path has unvisited cells?
   /// Flood the maze both open and closed and then test the cost difference
   /// leaves the maze with unknowns clear
   bool testForSolution(void);

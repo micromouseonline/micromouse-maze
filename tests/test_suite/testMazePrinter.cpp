@@ -57,13 +57,13 @@ class TestMazePrinter : public ::testing::Test {
 };
 
 /*
- * It is not clear how best to test the results of the maze printing
+ * It is not clear how best to test the results of the libMaze printing
  * except by visual inspection.
  */
 TEST_F (TestMazePrinter, PrintForCoverageTesting)
 {
 return;
-//  MazePrinter::printVisitedDirs(maze);
+//  MazePrinter::printVisitedDirs(libMaze);
   copyClassicMaze(japan2007ef);
 
   maze->flood(maze->goal());

@@ -34,11 +34,11 @@
 #include <stdint.h>
 #include "maze.h"
 /*
- * The PathFinder class examines a properly flooded maze and uses its data
+ * The PathFinder class examines a properly flooded libMaze and uses its data
  * to construct a path for the mouse to follow.
  *
  * A basic path is a simple character string. Each letter in the string
- * represents a command for the robot in a cell of the maze.
+ * represents a command for the robot in a cell of the libMaze.
  *
  * PathString commands
  *  'B' : Begin path. Must be present. No motion. Robot initialisation.
@@ -87,7 +87,7 @@
  *  de-allocation. The Pathfinder will not create any objects that it does not
  *  then destroy.
  *
- *  The Pathfinder assumes it may be used on a half size maze so the maximum path
+ *  The Pathfinder assumes it may be used on a half size libMaze so the maximum path
  *  length is large.
  *
  *  In the unlikely event it became necessary to save memory or accommodate

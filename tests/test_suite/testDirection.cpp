@@ -29,7 +29,7 @@
 #include "maze.h"
 
 /*
- * test the ability of the maze to store direction information
+ * test the ability of the libMaze to store direction information
  */
 
 TEST (Direction, MazeHeading_defaultValue_isNORTH)

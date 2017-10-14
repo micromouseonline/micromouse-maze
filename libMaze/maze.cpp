@@ -283,8 +283,8 @@ void Maze::clearVisited(uint16_t cell) {
 /*
  * unconditionally adds a wall in the map.
  * over-writes whatever is there.
- * should only be used when setting up a maze.
- * To update the maze when running, use updateWalls(cell,wallData)
+ * should only be used when setting up a libMaze.
+ * To update the libMaze when running, use updateWalls(cell,wallData)
  */
 void Maze::setWall(uint16_t cell, uint8_t direction) {
   switch (direction) {
@@ -314,8 +314,8 @@ void Maze::setWall(uint16_t cell, uint8_t direction) {
 /*
  * unconditionally clears a wall in the map.
  * over-writes whatever is there.
- * should only be used when setting up a maze.
- * To update the maze when running, use updateWalls(cell,wallData)
+ * should only be used when setting up a libMaze.
+ * To update the libMaze when running, use updateWalls(cell,wallData)
  */
 void Maze::clearWall(uint16_t cell, uint8_t direction) {
   switch (direction) {
@@ -508,7 +508,7 @@ bool Maze::testForSolution(void) { // takes less than 3ms
 
 
 /*
- *  The default goal while searching a classic maze
+ *  The default goal while searching a classic libMaze
  *  the cell 0x77. This may not be the best finish
  *  cell on a speed run. Generally, it is best to
  *  finish on the other side of the goal area to the
