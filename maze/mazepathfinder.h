@@ -137,6 +137,9 @@ public:
   uint16_t endCell() const;
   /// The path may not reach the target and so more exploring will be needed
   bool reachesTarget() const;
+  /// Reverse the path string to allow flooding from location to target
+  void reversePath();
+  void reversePath(char * s);
 
 private:
   char mBuffer[MAX_PATH_LENGTH + 2];

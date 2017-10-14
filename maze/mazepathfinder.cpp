@@ -757,3 +757,34 @@ void PathFinder::generateUnsafePath(const uint16_t start, const uint16_t target,
   mDistance = distance;
 }
 
+void PathFinder::reversePath(char * s) {
+  int length = strlen(s);
+  if (length == 0) {
+    return;
+  }
+  int i, j;
+  int terminator = s[length - 1];
+  for (i = 0, j = length - 1; i < j; i++, j--) {
+    int c = s[i];
+    s[i] = s[j];
+    s[j] = c;
+  }
+  // All the directions get reversed
+  for (i = 0; i < length; i++) {
+    int c = s[i];
+    if (c == 'R') {
+      c = 'L';
+    } else if (c == 'L') {
+      c = 'R';
+    }
+    s[i] = c;
+  }
+  // fixup the begin and terminator
+  s[0] = 'B';
+  s[length - 1] = terminator;
+}
+
+void PathFinder::reversePath() {
+  reversePath(mBuffer);
+}
+
