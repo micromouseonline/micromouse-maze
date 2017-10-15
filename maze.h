@@ -29,7 +29,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "mazeconstants.h"
-#include "libMaze/floodinfo.h"
+#include "floodinfo.h"
 #include "priorityqueue.h"
 
 class Maze {
