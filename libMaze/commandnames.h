@@ -1,5 +1,5 @@
-#ifndef _commands_h
-#define _commands_h
+#ifndef _commandnames_h
+#define _commandnames_h
 
 
 

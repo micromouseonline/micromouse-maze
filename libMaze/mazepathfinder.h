@@ -98,7 +98,7 @@
 
 
 #include "maze.h"
-#include "commands.h"
+#include "commandnames.h"
 
 #define MAX_PATH_LENGTH 1022
 
