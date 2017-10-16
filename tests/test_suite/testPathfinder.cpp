@@ -161,7 +161,7 @@ TEST_F(PathFinderTest, generate_Japan2007_ManHattan_CorrectPAth) {
   maze->flood(0x77);
   path->generateSafePath(0, 0x77, maze);
   EXPECT_EQ(74, strlen(path->path()));
-  char result[] = "BFFFRLLRRLLRRLLRFFRRFLLFFLRFRRLLRRLLRFFFFFFFFFRFFFFFRLRLLRRLLRRFFRFFFLFFFS";
+  char result[] = "BFFFRLLRRLLRRLLRFFRRFLLFFLRLRFRFFFFFFFFFFFFFFRFFFFFFRLRLLRRLLRRFFRFFFLFFFS";
   EXPECT_STREQ(result, path->path());
   EXPECT_EQ(WEST, path->endHeading());
   EXPECT_EQ(0x77, path->endCell());
