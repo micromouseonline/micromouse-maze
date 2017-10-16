@@ -95,7 +95,8 @@ PathFinder::PathFinder() :
   mStartCell(0),
   mEndCell(0),
   mDistance(0),
-  mReachesTarget(false) {
+  mReachesTarget(false),
+  mStopAtUnvisited(true) {
   memset(mBuffer, 0, 1024);
 }
 
@@ -115,6 +116,16 @@ static char pathOptions[16] = {
 };
 
 void PathFinder::generateSafePath(const uint16_t start, const uint16_t target, Maze *maze) {
+  mStopAtUnvisited = true;
+  generatePath(start, target, maze);
+}
+
+void PathFinder::generateUnsafePath(const uint16_t start, const uint16_t target, Maze *maze) {
+  mStopAtUnvisited = false;
+  generatePath(start, target, maze);
+}
+
+void PathFinder::generatePath(const uint16_t start, const uint16_t target, Maze *maze) {
 
   char *pPath = mBuffer;
   uint16_t distance = 0;
@@ -131,21 +142,81 @@ void PathFinder::generateSafePath(const uint16_t start, const uint16_t target, M
     *pPath = 0;
     return;
   }
+  char lastTurn = 'F';
   while (here != target) {
-    if (!maze->isVisited(here)) {
+    if (mStopAtUnvisited && !maze->isVisited(here)) {
       break;
     }
     if (mCellCount >= MAX_PATH_LENGTH) {
       break;
     }
     uint8_t headingLast = headingHere;
-    headingHere = maze->direction(here);
+    //    headingHere = maze->direction(here);
     char command = pathOptions[headingLast * 4 + headingHere];
+    uint16_t smallest = maze->cost(here);
+    uint16_t nextCost = MAX_COST;
+    switch (lastTurn) {
+      case 'L':
+        nextCost = maze->cost(here, Maze::rightOf(headingHere));
+        if (nextCost < smallest) {
+          smallest = nextCost;
+          command = 'R';
+        }
+        nextCost = maze->cost(here, Maze::ahead(headingHere));
+        if (nextCost < smallest) {
+          smallest = nextCost;
+          command = 'F';
+        }
+        nextCost = maze->cost(here, Maze::leftOf(headingHere));
+        if (nextCost < smallest) {
+          smallest = nextCost;
+          command = 'L';
+        }
+
+        break;
+      case 'R':
+        nextCost = maze->cost(here, Maze::leftOf(headingHere));
+        if (nextCost < smallest) {
+          smallest = nextCost;
+          command = 'L';
+        }
+        nextCost = maze->cost(here, Maze::ahead(headingHere));
+        if (nextCost < smallest) {
+          smallest = nextCost;
+          command = 'F';
+        }
+        nextCost = maze->cost(here, Maze::rightOf(headingHere));
+        if (nextCost < smallest) {
+          smallest = nextCost;
+          command = 'R';
+        }
+        break;
+      default:
+        nextCost = maze->cost(here, Maze::ahead(headingHere));
+        if (nextCost < smallest) {
+          smallest = nextCost;
+          command = 'F';
+        }
+        nextCost = maze->cost(here, Maze::rightOf(headingHere));
+        if (nextCost < smallest) {
+          smallest = nextCost;
+          command = 'R';
+        }
+        nextCost = maze->cost(here, Maze::leftOf(headingHere));
+        if (nextCost < smallest) {
+          smallest = nextCost;
+          command = 'L';
+        }
+        break;
+    }
+    lastTurn = command;
     if (command == 'R') {
+      headingHere = Maze::rightOf(headingHere);
       mEndHeading = Maze::rightOf(mEndHeading);
       distance += 127;
     }
     if (command == 'L') {
+      headingHere = Maze::leftOf(headingHere);
       mEndHeading = Maze::leftOf(mEndHeading);
       distance += 127;
     }
@@ -702,89 +773,3 @@ void PathFinder::listCommands(uint8_t *commands) {
 uint16_t PathFinder::distance() {
   return mDistance;
 }
-
-
-void PathFinder::generateUnsafePath(const uint16_t start, const uint16_t target, Maze *maze) {
-
-  char *pPath = mBuffer;
-  uint16_t distance = 0;
-  uint16_t here = start;
-  uint8_t headingHere = maze->direction(here);
-  mStartCell = start;
-  mEndCell = target;
-  mStartHeading = headingHere;
-  mEndHeading = mStartHeading;
-  mCellCount = 0;
-  *pPath++ = 'B';
-  if (headingHere == INVALID_DIRECTION) {
-    *pPath++ = 'S';
-    *pPath = 0;
-    return;
-  }
-  while (here != target) {
-    if (mCellCount >= MAX_PATH_LENGTH) {
-      break;
-    }
-    uint8_t headingLast = headingHere;
-    headingHere = maze->direction(here);
-    char command = pathOptions[headingLast * 4 + headingHere];
-    if (command == 'R') {
-      mEndHeading = Maze::rightOf(mEndHeading);
-      distance += 127;
-    }
-    if (command == 'L') {
-      mEndHeading = Maze::leftOf(mEndHeading);
-      distance += 127;
-    }
-    if (command == 'F') {
-      distance += 180;
-    }
-    *pPath++ = command;
-    mCellCount++;
-    here = maze->neighbour(here, headingHere);
-  }
-  mEndCell = here;
-  if (mEndCell == target) {
-    *pPath++ = 'S';
-    mReachesTarget = true;
-  } else {
-    *pPath++ = 'X';
-    mReachesTarget = false;
-  }
-  // this is a string to be sure it gets terminated properly
-  mCellCount++;
-  *pPath = 0;
-  mDistance = distance;
-}
-
-void PathFinder::reversePath(char * s) {
-  int length = strlen(s);
-  if (length == 0) {
-    return;
-  }
-  int i, j;
-  int terminator = s[length - 1];
-  for (i = 0, j = length - 1; i < j; i++, j--) {
-    int c = s[i];
-    s[i] = s[j];
-    s[j] = c;
-  }
-  // All the directions get reversed
-  for (i = 0; i < length; i++) {
-    int c = s[i];
-    if (c == 'R') {
-      c = 'L';
-    } else if (c == 'L') {
-      c = 'R';
-    }
-    s[i] = c;
-  }
-  // fixup the begin and terminator
-  s[0] = 'B';
-  s[length - 1] = terminator;
-}
-
-void PathFinder::reversePath() {
-  reversePath(mBuffer);
-}
-
