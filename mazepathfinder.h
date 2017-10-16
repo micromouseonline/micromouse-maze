@@ -150,6 +150,10 @@ private:
   uint16_t mEndCell;
   uint16_t mDistance;
   bool mReachesTarget;
+  bool mStopAtUnvisited;
+  // the basic path generator can only be called via one of the methods that determine
+  // whether or not to create a safe or unsafe path
+  void generatePath(const uint16_t start, const uint16_t finish, Maze *maze);
 };
 
 
