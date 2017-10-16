@@ -28,7 +28,7 @@
 
 #define MAX_CMD_COUNT 256
 #include <stdint.h>
-#include "commands.h"
+#include "commandnames.h"
 typedef struct {
   char input[MAX_CMD_COUNT];
   uint8_t  expected[MAX_CMD_COUNT];

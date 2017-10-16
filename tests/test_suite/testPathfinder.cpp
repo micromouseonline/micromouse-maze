@@ -32,7 +32,7 @@
 #include "mazepathfinder.h"
 #include "maze.h"
 #include "mazedata.h"
-#include "commands.h"
+#include "commandnames.h"
 #include "path_test_data.h"
 
 
