@@ -518,8 +518,6 @@ bool Maze::testForSolution(void) { // takes less than 3ms
  *  entrances but it is better than nothing
  */
 void Maze::recalculateGoal() {
-  //NOTE: this is not a very good idea without improving the pathfinder
-  return;
   uint16_t newGoal = goal();
   // count the entrances
   int entranceCount = 0;
