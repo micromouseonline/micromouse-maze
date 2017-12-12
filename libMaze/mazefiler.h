@@ -53,8 +53,8 @@ public:
   int writeTextMaze(Maze * maze, char * filename);
 
 private:
-  void writeNorthWalls(Maze *maze, int y, FILE* fp);
-  void writeWestWalls(Maze * maze, int y, FILE* fp);
+  void writeNorthWalls(Maze *maze, uint16_t y, FILE *fp);
+  void writeWestWalls(Maze *maze, uint16_t y, FILE *fp);
 
 };
 

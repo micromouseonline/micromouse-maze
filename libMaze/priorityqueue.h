@@ -26,8 +26,8 @@
 #ifndef PRIORITYQUEUE_H
 #define PRIORITYQUEUE_H
 
-#include <assert.h>
-#include <stdint.h>
+#include <cassert>
+#include <cstdint>
 
 //#include "floodinfo.h"
 
@@ -55,7 +55,7 @@ public:
 
   };
 
-  ~PriorityQueue(void) {
+  ~PriorityQueue() {
     delete[] mData;
   };
 

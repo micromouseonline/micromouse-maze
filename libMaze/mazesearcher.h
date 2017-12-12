@@ -47,7 +47,7 @@
  * there should not be any direct calls to specific search methods.
  */
 
-#include <stdint.h>
+#include <cstdint>
 
 class MazeSearcher {
 public:

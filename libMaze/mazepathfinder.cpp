@@ -73,8 +73,7 @@ typedef enum {
   PathDiag_LL,
   PathStop,
   PathExit,
-  PathFinish,
-  PathError
+  PathFinish
 } pathgen_state_t;
 
 /*
@@ -152,7 +151,7 @@ void PathFinder::generatePath(const uint16_t start, const uint16_t target, Maze 
     //    headingHere = maze->direction(here);
     char command = pathOptions[headingLast * 4 + headingHere];
     uint16_t smallest = maze->cost(here);
-    uint16_t nextCost = MAX_COST;
+    uint16_t nextCost;
     switch (lastTurn) {
       case 'L':
         nextCost = maze->cost(here, Maze::rightOf(headingHere));
@@ -167,7 +166,6 @@ void PathFinder::generatePath(const uint16_t start, const uint16_t target, Maze 
         }
         nextCost = maze->cost(here, Maze::leftOf(headingHere));
         if (nextCost < smallest) {
-          smallest = nextCost;
           command = 'L';
         }
 
@@ -185,7 +183,6 @@ void PathFinder::generatePath(const uint16_t start, const uint16_t target, Maze 
         }
         nextCost = maze->cost(here, Maze::rightOf(headingHere));
         if (nextCost < smallest) {
-          smallest = nextCost;
           command = 'R';
         }
         break;
@@ -202,7 +199,6 @@ void PathFinder::generatePath(const uint16_t start, const uint16_t target, Maze 
         }
         nextCost = maze->cost(here, Maze::leftOf(headingHere));
         if (nextCost < smallest) {
-          smallest = nextCost;
           command = 'L';
         }
         break;
@@ -680,7 +676,7 @@ void PathFinder::makeSmoothCommands(const char *src, const uint16_t maxLength, u
 void PathFinder::makeInPlaceCommands(const char *src, const uint16_t maxLength, uint8_t *commands) {
   int p = 0;
   int runLength = 0;
-  unsigned char cmd;
+  unsigned char cmd = CMD_STOP;
   bool finished = false;
   assert(maxLength >= 2);
   while (!finished) {
@@ -770,4 +766,12 @@ void PathFinder::listCommands(uint8_t *commands) {
 
 uint16_t PathFinder::distance() {
   return mDistance;
+}
+
+void PathFinder::reversePath() {
+
+}
+
+void PathFinder::reversePath(char *s) {
+  (void)s;
 }

@@ -27,7 +27,7 @@
 #ifndef MAZEDATA_H
 #define MAZEDATA_H
 
-#include <stdint.h>
+#include <cstdint>
 
 typedef struct {
   const char* title;
@@ -84,7 +84,7 @@ extern const uint8_t japan2003[];
 extern const uint8_t japan2004[];
 extern const uint8_t japan2005f[];
 extern const uint8_t japan2007ef[];
-extern const uint8_t japan2007ef[];
+
 extern const uint8_t japan2007eq[];
 extern const uint8_t japan2009ef[];
 extern const uint8_t japan2009eq[];
@@ -95,7 +95,7 @@ extern const uint8_t kyot_89[];
 extern const uint8_t minos01f[];
 extern const uint8_t minos02f[];
 extern const uint8_t minos03f[];
-extern const uint8_t minos03f[];
+
 extern const uint8_t minos04f[];
 extern const uint8_t minos04q[];
 extern const uint8_t minos08f[];
