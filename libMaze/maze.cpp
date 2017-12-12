@@ -279,26 +279,23 @@ void Maze::clearVisited(uint16_t cell) {
  * To update the maze when running, use updateWalls(cell,wallData)
  */
 void Maze::setWall(uint16_t cell, uint8_t direction) {
+  uint16_t nextCell = neighbour(cell, direction);
   switch (direction) {
     case NORTH:
       mWalls[cell] |= CHECKED_NORTH + WALL_NORTH;
-      cell = cellNorth(cell);
-      mWalls[cell] |= CHECKED_SOUTH + WALL_SOUTH;
+      mWalls[nextCell] |= CHECKED_SOUTH + WALL_SOUTH;
       break;
     case EAST:
       mWalls[cell] |= CHECKED_EAST + WALL_EAST;
-      cell = cellEast(cell);
-      mWalls[cell] |= CHECKED_WEST + WALL_WEST;
+      mWalls[nextCell] |= CHECKED_WEST + WALL_WEST;
       break;
     case SOUTH:
       mWalls[cell] |= CHECKED_SOUTH + WALL_SOUTH;
-      cell = cellSouth(cell);
-      mWalls[cell] |= CHECKED_NORTH + WALL_NORTH;
+      mWalls[nextCell] |= CHECKED_NORTH + WALL_NORTH;
       break;
     case WEST:
       mWalls[cell] |= CHECKED_WEST + WALL_WEST;
-      cell = cellWest(cell);
-      mWalls[cell] |= CHECKED_EAST + WALL_EAST;
+      mWalls[nextCell] |= CHECKED_EAST + WALL_EAST;
       break;
   }
 }
@@ -306,38 +303,35 @@ void Maze::setWall(uint16_t cell, uint8_t direction) {
 /*
  * unconditionally clears a wall in the map.
  * over-writes whatever is there.
- * should only be used when setting up a maze.
- * To update the maze when running, use updateWalls(cell,wallData)
+ * normally used only when setting up a maze.
+ * To update the maze when running, use updateMap(cell,wallData)
  */
 void Maze::clearWall(uint16_t cell, uint8_t direction) {
+  uint16_t nextCell = neighbour(cell, direction);
   switch (direction) {
     case NORTH:
       mWalls[cell] &= ~WALL_NORTH;
       mWalls[cell] |= CHECKED_NORTH;
-      cell = cellNorth(cell);
-      mWalls[cell] &= ~WALL_SOUTH;
-      mWalls[cell] |= CHECKED_SOUTH;
+      mWalls[nextCell] &= ~WALL_SOUTH;
+      mWalls[nextCell] |= CHECKED_SOUTH;
       break;
     case EAST:
       mWalls[cell] &= ~WALL_EAST;
       mWalls[cell] |= CHECKED_EAST;
-      cell = cellEast(cell);
-      mWalls[cell] &= ~WALL_WEST;
-      mWalls[cell] |= CHECKED_WEST;
+      mWalls[nextCell] &= ~WALL_WEST;
+      mWalls[nextCell] |= CHECKED_WEST;
       break;
     case SOUTH:
       mWalls[cell] &= ~WALL_SOUTH;
       mWalls[cell] |= CHECKED_SOUTH;
-      cell = cellSouth(cell);
-      mWalls[cell] &= ~WALL_NORTH;
-      mWalls[cell] |= CHECKED_NORTH;
+      mWalls[nextCell] &= ~WALL_NORTH;
+      mWalls[nextCell] |= CHECKED_NORTH;
       break;
     case WEST:
       mWalls[cell] &= ~WALL_WEST;
       mWalls[cell] |= CHECKED_WEST;
-      cell = cellWest(cell);
-      mWalls[cell] &= ~WALL_EAST;
-      mWalls[cell] |= CHECKED_EAST;
+      mWalls[nextCell] &= ~WALL_EAST;
+      mWalls[nextCell] |= CHECKED_EAST;
       break;
   }
 }
