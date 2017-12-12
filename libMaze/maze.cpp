@@ -147,14 +147,6 @@ void Maze::copyMazeFromFileData(const uint8_t *wallData, uint16_t cellCount) {
   }
 }
 
-uint16_t Maze::col(uint16_t cell) {
-  return cell / mWidth;
-}
-
-uint16_t Maze::row(uint16_t cell) {
-  return cell % mWidth;
-}
-
 uint8_t Maze::ahead(uint8_t direction) {
   return direction;
 }
