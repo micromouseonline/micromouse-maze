@@ -23,17 +23,17 @@
 *
 ************************************************************************/
 
-#include <assert.h>
+#include <cassert>
 #include "maze.h"
 #include "mazesearcher.h"
 #include "mazeprinter.h"
-#include "stddef.h"
+#include <cstddef>
 
 MazeSearcher::MazeSearcher() :
   mLocation(0),
   mHeading(NORTH),
-  mMap(NULL),
-  mRealMaze(NULL),
+  mMap(nullptr),
+  mRealMaze(nullptr),
   mVerbose(false),
   mSearchMethod(SEARCH_NORMAL) {
   mMap = new Maze(16);

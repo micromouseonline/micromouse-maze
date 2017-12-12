@@ -147,14 +147,6 @@ void Maze::copyMazeFromFileData(const uint8_t *wallData, uint16_t cellCount) {
   }
 }
 
-uint16_t Maze::col(uint16_t cell) {
-  return cell / mWidth;
-}
-
-uint16_t Maze::row(uint16_t cell) {
-  return cell % mWidth;
-}
-
 uint8_t Maze::ahead(uint8_t direction) {
   return direction;
 }
@@ -264,7 +256,6 @@ uint8_t Maze::direction(uint16_t cell) {
 }
 
 void Maze::setDirection(uint16_t cell, uint8_t direction) {
-  assert(direction == NORTH || direction == EAST || direction == SOUTH || direction == WEST);
   mDirection[cell] = direction;
 }
 
@@ -287,26 +278,23 @@ void Maze::clearVisited(uint16_t cell) {
  * To update the maze when running, use updateWalls(cell,wallData)
  */
 void Maze::setWall(uint16_t cell, uint8_t direction) {
+  uint16_t nextCell = neighbour(cell, direction);
   switch (direction) {
     case NORTH:
       mWalls[cell] |= CHECKED_NORTH + WALL_NORTH;
-      cell = cellNorth(cell);
-      mWalls[cell] |= CHECKED_SOUTH + WALL_SOUTH;
+      mWalls[nextCell] |= CHECKED_SOUTH + WALL_SOUTH;
       break;
     case EAST:
       mWalls[cell] |= CHECKED_EAST + WALL_EAST;
-      cell = cellEast(cell);
-      mWalls[cell] |= CHECKED_WEST + WALL_WEST;
+      mWalls[nextCell] |= CHECKED_WEST + WALL_WEST;
       break;
     case SOUTH:
       mWalls[cell] |= CHECKED_SOUTH + WALL_SOUTH;
-      cell = cellSouth(cell);
-      mWalls[cell] |= CHECKED_NORTH + WALL_NORTH;
+      mWalls[nextCell] |= CHECKED_NORTH + WALL_NORTH;
       break;
     case WEST:
       mWalls[cell] |= CHECKED_WEST + WALL_WEST;
-      cell = cellWest(cell);
-      mWalls[cell] |= CHECKED_EAST + WALL_EAST;
+      mWalls[nextCell] |= CHECKED_EAST + WALL_EAST;
       break;
   }
 }
@@ -314,38 +302,35 @@ void Maze::setWall(uint16_t cell, uint8_t direction) {
 /*
  * unconditionally clears a wall in the map.
  * over-writes whatever is there.
- * should only be used when setting up a maze.
- * To update the maze when running, use updateWalls(cell,wallData)
+ * normally used only when setting up a maze.
+ * To update the maze when running, use updateMap(cell,wallData)
  */
 void Maze::clearWall(uint16_t cell, uint8_t direction) {
+  uint16_t nextCell = neighbour(cell, direction);
   switch (direction) {
     case NORTH:
       mWalls[cell] &= ~WALL_NORTH;
       mWalls[cell] |= CHECKED_NORTH;
-      cell = cellNorth(cell);
-      mWalls[cell] &= ~WALL_SOUTH;
-      mWalls[cell] |= CHECKED_SOUTH;
+      mWalls[nextCell] &= ~WALL_SOUTH;
+      mWalls[nextCell] |= CHECKED_SOUTH;
       break;
     case EAST:
       mWalls[cell] &= ~WALL_EAST;
       mWalls[cell] |= CHECKED_EAST;
-      cell = cellEast(cell);
-      mWalls[cell] &= ~WALL_WEST;
-      mWalls[cell] |= CHECKED_WEST;
+      mWalls[nextCell] &= ~WALL_WEST;
+      mWalls[nextCell] |= CHECKED_WEST;
       break;
     case SOUTH:
       mWalls[cell] &= ~WALL_SOUTH;
       mWalls[cell] |= CHECKED_SOUTH;
-      cell = cellSouth(cell);
-      mWalls[cell] &= ~WALL_NORTH;
-      mWalls[cell] |= CHECKED_NORTH;
+      mWalls[nextCell] &= ~WALL_NORTH;
+      mWalls[nextCell] |= CHECKED_NORTH;
       break;
     case WEST:
       mWalls[cell] &= ~WALL_WEST;
       mWalls[cell] |= CHECKED_WEST;
-      cell = cellWest(cell);
-      mWalls[cell] &= ~WALL_EAST;
-      mWalls[cell] |= CHECKED_EAST;
+      mWalls[nextCell] &= ~WALL_EAST;
+      mWalls[nextCell] |= CHECKED_EAST;
       break;
   }
 }
@@ -354,32 +339,28 @@ void Maze::clearWall(uint16_t cell, uint8_t direction) {
  * Updates the map by adding walls
  * Used when exploring only.
  *
- * TODO: It may be that walls should be set and then the current state marked as  knownn
- * regadless of presence or absence.
- *
  */
 void Maze::updateMap(uint16_t cell, uint8_t wallData) {
-  if (wallData & 0x01) {
+  if (wallData & WALL_NORTH) {
     setWall(cell, NORTH);
   } else {
     clearWall(cell, NORTH);
   }
-  if (wallData & 0x02) {
+  if (wallData & WALL_EAST) {
     setWall(cell, EAST);
   } else {
     clearWall(cell, EAST);
   }
-  if (wallData & 0x04) {
+  if (wallData & WALL_SOUTH) {
     setWall(cell, SOUTH);
   } else {
     clearWall(cell, SOUTH);
   }
-  if (wallData & 0x08) {
+  if (wallData & WALL_WEST) {
     setWall(cell, WEST);
   } else {
     clearWall(cell, WEST);
   }
-  mWalls[cell] |= VISITED;
 }
 
 void Maze::setUnknowns(void) {

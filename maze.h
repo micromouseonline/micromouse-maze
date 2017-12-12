@@ -56,9 +56,14 @@ public:
   void copyMazeFromFileData(const uint8_t *wallData, uint16_t cellCount);
 
   /// return the column number of  given cell
-  uint16_t col(uint16_t cell);
+  inline uint16_t col(uint16_t cell) {
+    return cell / mWidth;
+  }
   /// return the roww number of a given cell
-  uint16_t row(uint16_t cell);
+  inline uint16_t row(uint16_t cell) {
+    return cell % mWidth;
+  }
+
 
   /// return the address of the cell ahead from this cardinal direction
   static uint8_t ahead(uint8_t direction);
