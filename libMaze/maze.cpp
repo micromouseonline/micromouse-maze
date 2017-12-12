@@ -340,32 +340,28 @@ void Maze::clearWall(uint16_t cell, uint8_t direction) {
  * Updates the map by adding walls
  * Used when exploring only.
  *
- * TODO: It may be that walls should be set and then the current state marked as  knownn
- * regadless of presence or absence.
- *
  */
 void Maze::updateMap(uint16_t cell, uint8_t wallData) {
-  if (wallData & 0x01) {
+  if (wallData & WALL_NORTH) {
     setWall(cell, NORTH);
   } else {
     clearWall(cell, NORTH);
   }
-  if (wallData & 0x02) {
+  if (wallData & WALL_EAST) {
     setWall(cell, EAST);
   } else {
     clearWall(cell, EAST);
   }
-  if (wallData & 0x04) {
+  if (wallData & WALL_SOUTH) {
     setWall(cell, SOUTH);
   } else {
     clearWall(cell, SOUTH);
   }
-  if (wallData & 0x08) {
+  if (wallData & WALL_WEST) {
     setWall(cell, WEST);
   } else {
     clearWall(cell, WEST);
   }
-  mWalls[cell] |= VISITED;
 }
 
 void Maze::setUnknowns(void) {
