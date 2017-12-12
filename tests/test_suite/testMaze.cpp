@@ -45,6 +45,19 @@ protected:
 
 };
 
+TEST_F(MazeTest, RowAndColCalculations){
+  EXPECT_EQ(0,maze->col(0x00));
+  EXPECT_EQ(0,maze->row(0x00));
+  EXPECT_EQ(5,maze->col(0x57));
+  EXPECT_EQ(7,maze->row(0x57));
+  EXPECT_EQ(15,maze->col(0xf2));
+  EXPECT_EQ(2,maze->row(0xf2));
+}
+
+TEST_F(MazeTest, SetTrainingGoal){
+  maze->setGoal(TRAINING_GOAL);
+  EXPECT_EQ(TRAINING_GOAL,maze->goal());
+}
 
 TEST_F(MazeTest, CopyMaze) {
   maze->copyMazeFromFileData(emptyMaze, 256);
