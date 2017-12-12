@@ -256,7 +256,6 @@ uint8_t Maze::direction(uint16_t cell) {
 }
 
 void Maze::setDirection(uint16_t cell, uint8_t direction) {
-  assert(direction == NORTH || direction == EAST || direction == SOUTH || direction == WEST);
   mDirection[cell] = direction;
 }
 
