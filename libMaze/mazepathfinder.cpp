@@ -24,7 +24,7 @@
 ************************************************************************/
 
 #include "mazepathfinder.h"
-#include <stdio.h>
+#include <cstdio>
 #include <cstring>
 
 static const char *inPlaceTurnNames[] = {
@@ -100,9 +100,7 @@ PathFinder::PathFinder() :
   memset(mBuffer, 0, 1024);
 }
 
-PathFinder::~PathFinder() {
-
-}
+PathFinder::~PathFinder() = default;
 
 char *PathFinder::path() {
   return mBuffer;

@@ -29,8 +29,7 @@
 #define MICROMOUSE_MAZE_MAZEFILER_H
 
 #include "maze.h"
-#include <stdio.h>
-
+#include <cstdio>
 
 class MazeFiler {
 public:
