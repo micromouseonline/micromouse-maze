@@ -26,7 +26,7 @@ set (SOURCE_FILES
         mazesearcher.cpp
         mazefiler.cpp
 
-        )
+        compiler.cpp compiler.h)
 
 add_library(maze
         STATIC
