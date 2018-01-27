@@ -17,6 +17,7 @@
 #include "mazeprinter.h"
 #include "mazesearcher.h"
 #include <glob.h>
+#include <libgen.h>
 
 uint8_t wallData[1024];
 
@@ -27,7 +28,7 @@ enum {
 
 int ReadRealWallsFromFile(char *filename) {
   FILE *fp;
-  if ((fp = fopen(filename, "rb")) == NULL) {
+  if ((fp = fopen(filename, "rb")) == nullptr) {
     return E_FILE_NOT_FOUND;
   }
   if (fread(wallData, 1, 256, fp) < 256) {
@@ -60,15 +61,15 @@ char *strpad(const char *string, char pad, size_t fieldSize) {
  *
  */
 int main(int argc, char **argv) {
-  (void)argv;
   MazeSearcher barney;
   glob_t glob_result;
-  glob("./mazefiles/*", GLOB_TILDE, NULL, &glob_result);
-  if (argc > 1) {
+  glob(argv[1], GLOB_TILDE, nullptr, &glob_result);
+  std::cout << "Processing " << glob_result.gl_pathc << " mazes" << std::endl;
+
+  if (argc >= 1) {
     Maze maze(16);
     int onePassCount = 0;
     int chancerCount = 0;
-    printf("   FULL  MODOPEN   MODALL\n");
     maze.setFloodType(Maze::RUNLENGTH_FLOOD);
     for (unsigned int i = 0; i < glob_result.gl_pathc; ++i) {
       std::cout << "";
@@ -81,33 +82,42 @@ int main(int argc, char **argv) {
       barney.setRealMaze(&maze);
       barney.map()->resetToEmptyMaze();
       barney.setLocation(0x00);
+      //Run a search out and back again, recording the total steps needed
       int steps = barney.searchTo(0x77);
-      steps += barney.searchTo(0x00);
-      steps += barney.searchTo(0x77);
       steps += barney.searchTo(0x00);
       barney.map()->testForSolution();
       int costDifference = barney.map()->costDifference();
       int openCost = barney.map()->openMazeCost();
+      // how close to a complete solution are we?
       int residual = (100 * costDifference) / openCost;
 
       if (residual > 5) {
+//        std::cout << glob_result.gl_pathv[i] << std::endl;
         MazePrinter::printVisitedDirs(barney.map());
+
       }
-      char *name = strpad(glob_result.gl_pathv[i], ' ', 50);
+      char *fileName= basename(glob_result.gl_pathv[i]);
+      char *name = strpad(fileName, ' ', 38);
       std::cout << name;
-      delete name;
+//      delete name;
       std::cout.width(6);
       std::cout << std::right;
-      std::cout << steps << " steps";
-      std::cout << " delta " << costDifference << " (" << residual << "%)";
+      std::cout << steps << " steps - delta ";
+      std::cout.width(3);
+      std::cout << std::right;
+      std::cout << costDifference << " (";
+      std::cout.width(3);
+      std::cout << std::right;
+      std::cout << residual << "%)";
       if (costDifference == 0) {
         onePassCount++;
-        std::cout << " <---- ";
+        std::cout << " Fully solved";
       } else if (residual < 5 && residual >= 0) {
         chancerCount++;
-        std::cout << " ***** ";
+        std::cout << " Worth a run ";
       }
         std::cout << std::endl;
+      delete name;
 
     }
 
