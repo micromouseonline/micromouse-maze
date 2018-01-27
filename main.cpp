@@ -14,6 +14,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "maze.h"
 #include "mazeprinter.h"
 #include "mazesearcher.h"

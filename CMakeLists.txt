@@ -34,7 +34,8 @@ add_subdirectory(libMaze)
 add_subdirectory(tests)
 
 # list the libraries needed by the target named
-target_link_libraries(libmaze_run libMaze)
+target_link_libraries(libmaze_run maze)
+target_link_libraries(libmaze_runX maze)
 
 # before building, run astyle over all the sources to be sure
 # the formatting is always consistent
