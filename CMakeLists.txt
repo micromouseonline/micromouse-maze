@@ -37,6 +37,7 @@ target_link_libraries(libmaze_run maze)
 # the formatting is always consistent
 add_custom_command(TARGET libmaze_run PRE_BUILD
         COMMENT "Pre build: reformat with astyle\n"
-        COMMAND astyle -nrQ \"${PROJECT_SOURCE_DIR}/libMaze/*.cpp\"
-        COMMAND astyle -nrQ \"${PROJECT_SOURCE_DIR}/libMaze/*.h\"
+        COMMAND astyle -nQ \"${PROJECT_SOURCE_DIR}/*.cpp\"
+        COMMAND astyle -nQ \"${PROJECT_SOURCE_DIR}/libMaze/*.cpp\"
+        COMMAND astyle -nQ \"${PROJECT_SOURCE_DIR}/libMaze/*.h\"
         )
