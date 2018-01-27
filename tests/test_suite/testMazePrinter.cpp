@@ -35,7 +35,7 @@
 
 
 class TestMazePrinter : public ::testing::Test {
- protected:
+protected:
   Maze *maze;
 
 
@@ -60,16 +60,15 @@ class TestMazePrinter : public ::testing::Test {
  * It is not clear how best to test the results of the libMaze printing
  * except by visual inspection.
  */
-TEST_F (TestMazePrinter, PrintForCoverageTesting)
-{
-return;
-//  MazePrinter::printVisitedDirs(libMaze);
+TEST_F(TestMazePrinter, PrintForCoverageTesting) {
+  return;
+  //  MazePrinter::printVisitedDirs(libMaze);
   copyClassicMaze(japan2007ef);
 
   maze->flood(maze->goal());
   MazePrinter::printDirs(maze);
 
   MazePrinter::printPlain(maze);
-  MazePrinter::printCDecl(maze,"julian");
+  MazePrinter::printCDecl(maze, "julian");
 }
 

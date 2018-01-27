@@ -29,7 +29,7 @@
 #include "priorityqueue.h"
 
 class QueueTest : public ::testing::Test {
- protected:
+protected:
   PriorityQueue<FloodInfo> *queue;
 
   FloodInfo itemA;
