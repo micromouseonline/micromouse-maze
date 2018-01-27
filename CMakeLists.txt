@@ -19,9 +19,6 @@ set(SOURCE_FILES
 add_executable(libmaze_run
         ${SOURCE_FILES}
         )
-add_executable(libmaze_runX
-        ${SOURCE_FILES}
-        )
 
 # places to look for include files
 include_directories(
