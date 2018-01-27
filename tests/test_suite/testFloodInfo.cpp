@@ -28,15 +28,15 @@
 
 TEST(FloodInfoTest, Instantiation) {
   FloodInfo info;
-  EXPECT_EQ(0,info.cost);
-  EXPECT_EQ(0,info.cell);
-  EXPECT_EQ(0,info.entryDir);
-  EXPECT_EQ(0,info.entryWall);
-  EXPECT_EQ(0,info.runLength);
+  EXPECT_EQ(0, info.cost);
+  EXPECT_EQ(0, info.cell);
+  EXPECT_EQ(0, info.entryDir);
+  EXPECT_EQ(0, info.entryWall);
+  EXPECT_EQ(0, info.runLength);
   EXPECT_TRUE(info.isNull());
 }
 
-TEST(FloodInfoTest, Operators){
+TEST(FloodInfoTest, Operators) {
   FloodInfo infoA;
   FloodInfo infoB;
   EXPECT_TRUE(infoA == infoB);

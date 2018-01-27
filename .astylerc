@@ -1,0 +1,12 @@
+--suffix=none
+--add-brackets
+--pad-oper
+--pad-header
+--unpad-paren
+--indent=spaces=2
+--style=java
+--indent-switches
+--indent-col1-comments
+#--delete-empty-lines
+#--ignore-exclude-errors-x
+#--exclude=turnparameters.c

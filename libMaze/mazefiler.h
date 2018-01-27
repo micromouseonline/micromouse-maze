@@ -36,8 +36,8 @@ public:
 
   typedef enum  {
     MAZE_SUCCESS = 0,
-    MAZE_READ_ERROR ,
-    MAZE_WRITE_ERROR ,
+    MAZE_READ_ERROR,
+    MAZE_WRITE_ERROR,
   } MazeFileType;
 
   MazeFiler();

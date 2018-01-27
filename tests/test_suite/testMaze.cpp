@@ -45,18 +45,18 @@ protected:
 
 };
 
-TEST_F(MazeTest, RowAndColCalculations){
-  EXPECT_EQ(0,maze->col(0x00));
-  EXPECT_EQ(0,maze->row(0x00));
-  EXPECT_EQ(5,maze->col(0x57));
-  EXPECT_EQ(7,maze->row(0x57));
-  EXPECT_EQ(15,maze->col(0xf2));
-  EXPECT_EQ(2,maze->row(0xf2));
+TEST_F(MazeTest, RowAndColCalculations) {
+  EXPECT_EQ(0, maze->col(0x00));
+  EXPECT_EQ(0, maze->row(0x00));
+  EXPECT_EQ(5, maze->col(0x57));
+  EXPECT_EQ(7, maze->row(0x57));
+  EXPECT_EQ(15, maze->col(0xf2));
+  EXPECT_EQ(2, maze->row(0xf2));
 }
 
-TEST_F(MazeTest, SetTrainingGoal){
+TEST_F(MazeTest, SetTrainingGoal) {
   maze->setGoal(TRAINING_GOAL);
-  EXPECT_EQ(TRAINING_GOAL,maze->goal());
+  EXPECT_EQ(TRAINING_GOAL, maze->goal());
 }
 
 TEST_F(MazeTest, CopyMaze) {
@@ -68,15 +68,15 @@ TEST_F(MazeTest, CopyMaze) {
 }
 
 TEST_F(MazeTest, SetClearUnknowns_TestoneCell) {
- maze->resetToEmptyMaze();
+  maze->resetToEmptyMaze();
   maze->setUnknowns();
-  EXPECT_EQ(0x0F,maze->walls(0x22));
-  EXPECT_EQ(0x0E,maze->walls(0x00));
-  EXPECT_EQ(0x0B,maze->walls(0x01));
+  EXPECT_EQ(0x0F, maze->walls(0x22));
+  EXPECT_EQ(0x0E, maze->walls(0x00));
+  EXPECT_EQ(0x0B, maze->walls(0x01));
   maze->clearUnknowns();
-  EXPECT_EQ(0x00,maze->walls(0x22));
-  EXPECT_EQ(0x0E,maze->walls(0x00));
-  EXPECT_EQ(0x08,maze->walls(0x01));
+  EXPECT_EQ(0x00, maze->walls(0x22));
+  EXPECT_EQ(0x0E, maze->walls(0x00));
+  EXPECT_EQ(0x08, maze->walls(0x01));
 }
 
 TEST_F(MazeTest, SetClearUnknowns_NoChangeInExploredMaze) {
@@ -109,7 +109,7 @@ TEST_F(MazeTest, SetAndGetGoal) {
   EXPECT_EQ(99, maze->goal());
 }
 
-TEST_F (MazeTest, ResetData_16x16_SetsEmptyMaze) {
+TEST_F(MazeTest, ResetData_16x16_SetsEmptyMaze) {
   maze->resetToEmptyMaze();
   EXPECT_EQ(256, maze->numCells());
   for (int i = 0; i < maze->numCells(); i++) {
@@ -117,23 +117,23 @@ TEST_F (MazeTest, ResetData_16x16_SetsEmptyMaze) {
   }
 }
 
-TEST_F (MazeTest, ResetData_OnlyHomeCellVisited) {
+TEST_F(MazeTest, ResetData_OnlyHomeCellVisited) {
   maze->resetToEmptyMaze();
   for (int i = 0; i < maze->numCells(); i++) {
     if (i != maze->home()) {
-      EXPECT_FALSE (maze->isVisited(i));
+      EXPECT_FALSE(maze->isVisited(i));
     }
   }
 }
 
-TEST_F (MazeTest, RealExitAndWalls) {
+TEST_F(MazeTest, RealExitAndWalls) {
   maze->resetToEmptyMaze();
-  EXPECT_TRUE(maze->hasExit(0x01,SOUTH));
-  EXPECT_TRUE(maze->hasExit(0x01,EAST));
-  EXPECT_FALSE(maze->hasRealExit(0x01,EAST));
-  EXPECT_TRUE(maze->hasWall(0x01,WEST));
-  EXPECT_TRUE(maze->hasRealWall(0x01,WEST));
-  EXPECT_TRUE(maze->isSeen(0x01,WEST));
+  EXPECT_TRUE(maze->hasExit(0x01, SOUTH));
+  EXPECT_TRUE(maze->hasExit(0x01, EAST));
+  EXPECT_FALSE(maze->hasRealExit(0x01, EAST));
+  EXPECT_TRUE(maze->hasWall(0x01, WEST));
+  EXPECT_TRUE(maze->hasRealWall(0x01, WEST));
+  EXPECT_TRUE(maze->isSeen(0x01, WEST));
 }
 
 TEST_F(MazeTest, SetClearAndGetWalls) {
@@ -208,7 +208,7 @@ TEST_F(MazeTest, HasExit) {
   EXPECT_FALSE(maze->hasExit(0xF0, SOUTH));
 }
 
-TEST_F (MazeTest, CopyCellFromFileData_GetExactCopy) {
+TEST_F(MazeTest, CopyCellFromFileData_GetExactCopy) {
   const uint8_t *src = japan2007ef;
   maze->resetToEmptyMaze();
   for (int i = 0; i < maze->numCells(); i++) {
@@ -260,15 +260,15 @@ TEST_F(MazeTest, NeighbourInvalidDirection_ReturnsUINT16_MAX) {
 
 TEST_F(MazeTest, LoadAndSave_MazeKeptSafe) {
   uint8_t backupWalls[1024] = {};
-  maze->copyMazeFromFileData(japan2007ef,256);
+  maze->copyMazeFromFileData(japan2007ef, 256);
   maze->save(backupWalls);
   maze->resetToEmptyMaze();
-  for (int i = 0; i < maze->numCells(); i++){
-    EXPECT_EQ(maze->walls(i),emptyMaze[i]);
+  for (int i = 0; i < maze->numCells(); i++) {
+    EXPECT_EQ(maze->walls(i), emptyMaze[i]);
   }
   maze->load(backupWalls);
-  for (int i = 0; i < maze->numCells(); i++){
-    EXPECT_EQ(maze->walls(i),japan2007ef[i]);
+  for (int i = 0; i < maze->numCells(); i++) {
+    EXPECT_EQ(maze->walls(i), japan2007ef[i]);
   }
 
 
