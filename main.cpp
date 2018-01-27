@@ -51,9 +51,9 @@ char *strpad(const char *string, char pad, size_t fieldSize) {
   char *padded = (char *) malloc(fieldSize + 1);
   strncpy(padded, string, fieldSize);
   strncat(padded, padding, padSize);
-//  memset(padded, pad, fieldSize);
+  //  memset(padded, pad, fieldSize);
   padded[fieldSize] = 0;
-//  strcpy(padded , string);
+  //  strcpy(padded , string);
   return padded;
 }
 
@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
     maze.setFloodType(Maze::RUNLENGTH_FLOOD);
     for (unsigned int i = 0; i < glob_result.gl_pathc; ++i) {
       std::cout << "";
-      if (0 !=  ReadRealWallsFromFile(glob_result.gl_pathv[i])){
+      if (0 !=  ReadRealWallsFromFile(glob_result.gl_pathv[i])) {
         continue;
       };
       maze.load(wallData);
@@ -92,14 +92,14 @@ int main(int argc, char **argv) {
       int residual = (100 * costDifference) / openCost;
 
       if (residual > 5) {
-//        std::cout << glob_result.gl_pathv[i] << std::endl;
+        //        std::cout << glob_result.gl_pathv[i] << std::endl;
         MazePrinter::printVisitedDirs(barney.map());
 
       }
-      char *fileName= basename(glob_result.gl_pathv[i]);
+      char *fileName = basename(glob_result.gl_pathv[i]);
       char *name = strpad(fileName, ' ', 38);
       std::cout << name;
-//      delete name;
+      //      delete name;
       std::cout.width(6);
       std::cout << std::right;
       std::cout << steps << " steps - delta ";
@@ -116,7 +116,7 @@ int main(int argc, char **argv) {
         chancerCount++;
         std::cout << " Worth a run ";
       }
-        std::cout << std::endl;
+      std::cout << std::endl;
       delete name;
 
     }
