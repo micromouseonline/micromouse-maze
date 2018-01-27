@@ -28,15 +28,11 @@ target_link_libraries(
         gtest_main
         maze
         )
-#target_link_libraries(
-#        runTestSuite
-#        libMaze)
-
 
 # before building, run astyle over all the sources to be sure
 # the formatting is always consistent
-add_custom_command(TARGET runTestSuite PRE_BUILD
-        COMMENT "Pre build: reformat with astyle\n"
-        COMMAND astyle -nrQ \"${PROJECT_SOURCE_DIR}/../libMaze/*.cpp\"
-        COMMAND astyle -nrQ \"${PROJECT_SOURCE_DIR}/../libMaze/*.h\"
-        )
+#add_custom_command(TARGET runTestSuite PRE_BUILD
+#        COMMENT "Pre build: reformat with astyle\n"
+#        COMMAND astyle -nrQ \"${PROJECT_SOURCE_DIR}/../libMaze/*.cpp\"
+#        COMMAND astyle -nrQ \"${PROJECT_SOURCE_DIR}/../libMaze/*.h\"
+#        )
