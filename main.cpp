@@ -111,7 +111,7 @@ int main(int argc, char **argv) {
 
     }
 
-    printf("\n%d mazes:\n", glob_result.gl_pathc);
+    printf("\n%d mazes:\n", (int)glob_result.gl_pathc);
     printf(" one Pass mazes: %3d\n", onePassCount);
     printf(" Possible chancer  mazes: %3d\n", chancerCount);
 
