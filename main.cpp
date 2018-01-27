@@ -11,9 +11,8 @@
  * Created on 07 February 2016, 23:47
  */
 
+#include <cstring>
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
 #include "maze.h"
 #include "mazeprinter.h"
 #include "mazesearcher.h"
