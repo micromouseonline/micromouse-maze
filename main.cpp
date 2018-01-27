@@ -13,6 +13,8 @@
 
 #include <cstring>
 #include <iostream>
+#include <cstdio>
+#include <stdlib.h>
 #include "maze.h"
 #include "mazeprinter.h"
 #include "mazesearcher.h"
