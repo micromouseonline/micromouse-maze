@@ -60,6 +60,7 @@ char *strpad(const char *string, char pad, size_t fieldSize) {
  *
  */
 int main(int argc, char **argv) {
+  (void)argv;
   MazeSearcher barney;
   glob_t glob_result;
   glob("./mazefiles/*", GLOB_TILDE, NULL, &glob_result);
