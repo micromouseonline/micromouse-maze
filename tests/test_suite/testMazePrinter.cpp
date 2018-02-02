@@ -61,14 +61,15 @@ protected:
  * except by visual inspection.
  */
 TEST_F(TestMazePrinter, PrintForCoverageTesting) {
-  return;
+  //  return;
   //  MazePrinter::printVisitedDirs(libMaze);
   copyClassicMaze(japan2007ef);
 
   maze->flood(maze->goal());
   MazePrinter::printDirs(maze);
-
   MazePrinter::printPlain(maze);
   MazePrinter::printCDecl(maze, "julian");
+  MazePrinter::printCosts(maze);
+  MazePrinter::printVisitedDirs(maze);
 }
 
