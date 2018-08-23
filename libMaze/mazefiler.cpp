@@ -276,7 +276,13 @@ void MazeFiler::writeWestWalls(Maze *maze, uint16_t y, FILE *fp) {
       fputs("    ", fp);
     }
   }
-  fputs("|\n", fp);
+  uint16_t cell = (maze->width() - 1) * maze->width() + y;
+  if (maze->hasWall(cell, EAST)) {
+    fputs("|", fp);
+  } else {
+    fputs(" ", fp);
+  }
+  fputs("\n", fp);
 }
 
 int MazeFiler::writeTextMaze(Maze *maze, char * fileName) {
@@ -285,12 +291,17 @@ int MazeFiler::writeTextMaze(Maze *maze, char * fileName) {
   if (fp == nullptr) {
     return MAZE_WRITE_ERROR;
   } else {
-    for (auto y = static_cast<uint16_t>(maze->width() - 1); y >= 0; y--) {
+    for (int y = maze->width() - 1; y >= 0; y--) {
       writeNorthWalls(maze, y, fp);
       writeWestWalls(maze, y, fp);
     }
-    for (int x = 0; x < maze->width(); x++) {
-      fputs("o---", fp);
+    for (uint16_t x = 0; x < maze->width(); x++) {
+      uint16_t cell = x * maze->width();
+      if (maze->hasWall(cell, SOUTH)) {
+        fputs("o---", fp);
+      } else {
+        fputs("o   ", fp);
+      }
     }
     fputs("o\n", fp);
     fclose(fp);

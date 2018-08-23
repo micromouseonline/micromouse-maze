@@ -48,12 +48,12 @@ class SearcherTest : public ::testing::Test {
     delete maze;
   }
 
- protected:
+protected:
   MazeSearcher *searcher;
   Maze *maze;
 };
 
-TEST_F (SearcherTest, Constructor) {
+TEST_F(SearcherTest, Constructor) {
   EXPECT_EQ(0, searcher->location());
   EXPECT_EQ(NORTH, searcher->heading());
   EXPECT_NE(nullptr, searcher->realMaze());
@@ -61,23 +61,23 @@ TEST_F (SearcherTest, Constructor) {
   EXPECT_EQ(14, searcher->map()->cost(0x00));
 }
 
-TEST_F (SearcherTest, MouseSetPosition_PositionAsSet) {
+TEST_F(SearcherTest, MouseSetPosition_PositionAsSet) {
   searcher->setLocation(0x99);
   EXPECT_EQ(0x99, searcher->location());
 }
 
-TEST_F (SearcherTest, MouseSetHeading_HeadingAsSet) {
+TEST_F(SearcherTest, MouseSetHeading_HeadingAsSet) {
   searcher->setHeading(EAST);
   EXPECT_EQ(EAST, searcher->heading());
 }
 
-TEST_F (SearcherTest, moveWithMaze_ChangeLocationOnly) {
+TEST_F(SearcherTest, moveWithMaze_ChangeLocationOnly) {
   searcher->move();
   EXPECT_EQ(0x01, searcher->location());
   EXPECT_EQ(NORTH, searcher->heading());
 }
 
-TEST_F (SearcherTest, Turning_ChangeHeadingOnly) {
+TEST_F(SearcherTest, Turning_ChangeHeadingOnly) {
   searcher->setLocation(0x44);
   EXPECT_EQ(NORTH, searcher->heading());
   searcher->turnRight();
@@ -104,7 +104,7 @@ TEST_F (SearcherTest, Turning_ChangeHeadingOnly) {
   EXPECT_EQ(0x44, searcher->location());
 }
 
-TEST_F (SearcherTest, followLeftWall) {
+TEST_F(SearcherTest, followLeftWall) {
   searcher->setMapFromFileData(emptyMaze, 256);
   searcher->setHeading(NORTH);
   searcher->setLocation(0x00);
@@ -124,7 +124,7 @@ TEST_F (SearcherTest, followLeftWall) {
 
 }
 
-TEST_F (SearcherTest, followRightWall) {
+TEST_F(SearcherTest, followRightWall) {
   searcher->setMapFromFileData(emptyMaze, 256);
   searcher->setHeading(NORTH);
   searcher->setLocation(0x00);
@@ -143,7 +143,7 @@ TEST_F (SearcherTest, followRightWall) {
   EXPECT_EQ(NORTH, searcher->followRightWall());
 }
 
-TEST_F (SearcherTest, chooseRanndomExit) {
+TEST_F(SearcherTest, chooseRanndomExit) {
   searcher->setMapFromFileData(emptyMaze, 256);
   searcher->setHeading(NORTH);
   searcher->setLocation(0x11);
@@ -157,7 +157,7 @@ TEST_F (SearcherTest, chooseRanndomExit) {
   EXPECT_EQ(NORTH, searcher->followAlternateWall());
 }
 
-TEST_F (SearcherTest, moveWithMaze_smallCircuitReturnToStart) {
+TEST_F(SearcherTest, moveWithMaze_smallCircuitReturnToStart) {
   searcher->setLocation(0x39);
   searcher->move();
   searcher->setHeading(EAST);
@@ -175,7 +175,7 @@ TEST_F (SearcherTest, moveWithMaze_smallCircuitReturnToStart) {
  * Tests whether the mouse can successfully follow a correctly setup
  * direction array and stop at the appropriate mLocation
  */
-TEST_F (SearcherTest, MouseRunTo_EmptyMaze_StartToGoal_MouseAtGoal) {
+TEST_F(SearcherTest, MouseRunTo_EmptyMaze_StartToGoal_MouseAtGoal) {
   searcher->setMapFromFileData(emptyMaze, 256);
   int steps = searcher->runTo(0x77);
   EXPECT_EQ(14, steps);
@@ -186,7 +186,7 @@ TEST_F (SearcherTest, MouseRunTo_EmptyMaze_StartToGoal_MouseAtGoal) {
  * Tests whether the mouse can successfully follow a correctly setup
  * direction array and stop at the appropriate mLocation
  */
-TEST_F (SearcherTest, MouseRunTo_EmptyMaze_ToGoalFromAnywhere) {
+TEST_F(SearcherTest, MouseRunTo_EmptyMaze_ToGoalFromAnywhere) {
   searcher->setMapFromFileData(japan2007ef, 256);
   maze->copyMazeFromFileData(japan2007ef, 256);
   maze->flood(0x77);
@@ -204,7 +204,7 @@ TEST_F (SearcherTest, MouseRunTo_EmptyMaze_ToGoalFromAnywhere) {
  * Tests whether the mouse can successfully follow a correctly setup
  * direction array and stop at the appropriate mLocation
  */
-TEST_F (SearcherTest, MouseRunTo_EmptyMaze_ToStartFromAnywhere) {
+TEST_F(SearcherTest, MouseRunTo_EmptyMaze_ToStartFromAnywhere) {
   searcher->setMapFromFileData(japan2007ef, 256);
   maze->copyMazeFromFileData(japan2007ef, 256);
   maze->flood(maze->home());
@@ -224,7 +224,7 @@ TEST_F (SearcherTest, MouseRunTo_EmptyMaze_ToStartFromAnywhere) {
  * Tests mouse getting lost in a cell with invalid direction
  * Taiwan2015 libMaze has closed in cells at 0x5C and 0x5D
  */
-TEST_F (SearcherTest, MouseRunTo_RunToGoal_StartClosedIn_Error) {
+TEST_F(SearcherTest, MouseRunTo_RunToGoal_StartClosedIn_Error) {
   searcher->setMapFromFileData(taiwan2015, 256);
   searcher->setLocation(0x5D);
   int steps = searcher->runTo(maze->goal());
@@ -235,7 +235,7 @@ TEST_F (SearcherTest, MouseRunTo_RunToGoal_StartClosedIn_Error) {
  * Tests mouse getting lost in a cell with invalid direction
  * Taiwan2015 libMaze has closed in cells at 0x5C and 0x5D
  */
-TEST_F (SearcherTest, MouseRunTo_RunToGoal_TargetClosedIn_Error) {
+TEST_F(SearcherTest, MouseRunTo_RunToGoal_TargetClosedIn_Error) {
   searcher->setMapFromFileData(taiwan2015, 256);
   int steps = searcher->runTo(0x5C);
   EXPECT_EQ(int(MazeSearcher::E_NO_ROUTE), steps);
@@ -256,7 +256,7 @@ TEST_F (SearcherTest, MouseRunTo_RunToGoal_TargetClosedIn_Error) {
 /*
  * Tests mouse search
  */
-TEST_F (SearcherTest, MouseSearchTo_EmptyMaze_Success) {
+TEST_F(SearcherTest, MouseSearchTo_EmptyMaze_Success) {
   Maze *testMaze = new Maze(16);
   testMaze->setWall(0x07, EAST);
   testMaze->setFloodType(Maze::MANHATTAN_FLOOD);
@@ -270,7 +270,7 @@ TEST_F (SearcherTest, MouseSearchTo_EmptyMaze_Success) {
 /*
  * verbose mode prints out the libMaze after each step.
  */
-TEST_F (SearcherTest, MouseRunTo_SearchToTarget_VerboseMode) {
+TEST_F(SearcherTest, MouseRunTo_SearchToTarget_VerboseMode) {
   Maze *testMaze = new Maze(16);
   searcher->setRealMaze(testMaze);
   searcher->map()->setFloodType(Maze::MANHATTAN_FLOOD);
@@ -282,20 +282,20 @@ TEST_F (SearcherTest, MouseRunTo_SearchToTarget_VerboseMode) {
 /*
  *
  */
-TEST_F (SearcherTest, MouseRunTo_SearchToTarget_ManhattanFlood) {
+TEST_F(SearcherTest, MouseRunTo_SearchToTarget_ManhattanFlood) {
   maze->copyMazeFromFileData(japan2007ef, 256);
   searcher->setRealMaze(maze);
   searcher->map()->setFloodType(Maze::MANHATTAN_FLOOD);
   int steps = searcher->searchTo(0x77);
   EXPECT_EQ(130, steps);
-//  MazePrinter::printVisitedDirs(barney->libMaze());
+  //  MazePrinter::printVisitedDirs(barney->libMaze());
 }
 
 
 /*
  *
  */
-TEST_F (SearcherTest, MouseSearchToTarget_RunLengthFlood) {
+TEST_F(SearcherTest, MouseSearchToTarget_RunLengthFlood) {
   maze->copyMazeFromFileData(japan2007ef, 256);
   searcher->setRealMaze(maze);
   searcher->setSearchMethod(MazeSearcher::SEARCH_NORMAL);
@@ -309,7 +309,7 @@ TEST_F (SearcherTest, MouseSearchToTarget_RunLengthFlood) {
 /*
  *
  */
-TEST_F (SearcherTest, MouseSearchToTarget_LeftWall_Fail) {
+TEST_F(SearcherTest, MouseSearchToTarget_LeftWall_Fail) {
   maze->copyMazeFromFileData(emptyMaze, 256);
   searcher->setRealMaze(maze);
   searcher->setSearchMethod(MazeSearcher::SEARCH_LEFT_WALL);
@@ -317,7 +317,7 @@ TEST_F (SearcherTest, MouseSearchToTarget_LeftWall_Fail) {
   EXPECT_EQ(MazeSearcher::E_ROUTE_TOO_LONG, steps);
 }
 
-TEST_F (SearcherTest, MouseSearchToTarget_RightWall_Fail) {
+TEST_F(SearcherTest, MouseSearchToTarget_RightWall_Fail) {
   maze->copyMazeFromFileData(emptyMaze, 256);
   searcher->setRealMaze(maze);
   searcher->setSearchMethod(MazeSearcher::SEARCH_RIGHT_WALL);
@@ -328,7 +328,7 @@ TEST_F (SearcherTest, MouseSearchToTarget_RightWall_Fail) {
 /*
  *
  */
-TEST_F (SearcherTest, MouseSearchToTarget_LeftWall_Succeed) {
+TEST_F(SearcherTest, MouseSearchToTarget_LeftWall_Succeed) {
   maze->copyMazeFromFileData(japan2007ef, 256);
   searcher->setRealMaze(maze);
   searcher->setSearchMethod(MazeSearcher::SEARCH_LEFT_WALL);
@@ -336,7 +336,7 @@ TEST_F (SearcherTest, MouseSearchToTarget_LeftWall_Succeed) {
   EXPECT_EQ(84, steps);
 }
 
-TEST_F (SearcherTest, MouseSearchToTarget_RightWall_Succeed) {
+TEST_F(SearcherTest, MouseSearchToTarget_RightWall_Succeed) {
   maze->copyMazeFromFileData(japan2007ef, 256);
   searcher->setRealMaze(maze);
   searcher->setSearchMethod(MazeSearcher::SEARCH_RIGHT_WALL);
@@ -344,7 +344,7 @@ TEST_F (SearcherTest, MouseSearchToTarget_RightWall_Succeed) {
   EXPECT_EQ(92, steps);
 }
 
-TEST_F (SearcherTest, MouseSearchToTarget_AlternateWall_Fail) {
+TEST_F(SearcherTest, MouseSearchToTarget_AlternateWall_Fail) {
   maze->copyMazeFromFileData(japan2007ef, 256);
   searcher->setRealMaze(maze);
   searcher->setSearchMethod(MazeSearcher::SEARCH_ALTERNATE);
@@ -352,7 +352,7 @@ TEST_F (SearcherTest, MouseSearchToTarget_AlternateWall_Fail) {
   EXPECT_EQ(MazeSearcher::E_ROUTE_TOO_LONG, steps);
 }
 
-TEST_F (SearcherTest, MouseSearchToTarget_AlternateWall_Succeed) {
+TEST_F(SearcherTest, MouseSearchToTarget_AlternateWall_Succeed) {
   maze->copyMazeFromFileData(japan2007ef, 256);
   searcher->setRealMaze(maze);
   searcher->setSearchMethod(MazeSearcher::SEARCH_ALTERNATE);
@@ -363,7 +363,7 @@ TEST_F (SearcherTest, MouseSearchToTarget_AlternateWall_Succeed) {
 /*
  *
  */
-TEST_F (SearcherTest, MouseRunTo_SearchOutAndIn_RunLengthFlood) {
+TEST_F(SearcherTest, MouseRunTo_SearchOutAndIn_RunLengthFlood) {
   searcher->map()->setFloodType(Maze::RUNLENGTH_FLOOD);
   int steps = 0;
   steps += searcher->searchTo(0x77);
@@ -383,7 +383,7 @@ TEST_F (SearcherTest, MouseRunTo_SearchOutAndIn_RunLengthFlood) {
 /*
  *
  */
-TEST_F (SearcherTest, MouseRunTo_SearchOutAndIn_ManhattanFlood) {
+TEST_F(SearcherTest, MouseRunTo_SearchOutAndIn_ManhattanFlood) {
   searcher->map()->setFloodType(Maze::MANHATTAN_FLOOD);
   int steps = 0;
   steps += searcher->searchTo(0x77);

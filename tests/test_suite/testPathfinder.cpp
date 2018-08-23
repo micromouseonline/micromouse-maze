@@ -52,7 +52,7 @@ class PathFinderTest : public ::testing::Test {
     delete maze;
   }
 
- protected:
+protected:
   PathFinder *path;
   Maze *maze;
 };
@@ -195,36 +195,36 @@ TEST_F(PathFinderTest, generate_EmptyMaze_UnexploredOnPath) {
   char result[] = "BFX";
   EXPECT_STREQ(result, path->path());
   EXPECT_FALSE(path->reachesTarget());
-  EXPECT_EQ(0x01,path->endCell());
+  EXPECT_EQ(0x01, path->endCell());
   maze->setVisited(0x01);
   maze->flood(0x77);
   path->generateSafePath(0, 0x77, maze);
   EXPECT_EQ(4, strlen(path->path())) << path->path();
   EXPECT_STREQ("BFFX", path->path());
   EXPECT_FALSE(path->reachesTarget());
-  EXPECT_EQ(0x02,path->endCell());
+  EXPECT_EQ(0x02, path->endCell());
 }
 
 TEST_F(PathFinderTest, generate_Japan2007_SimulateSearch) {
   // do a simulated search
-  maze->copyMazeFromFileData(japan2007ef,256);
-  for(int i = 1; i < maze->numCells(); i++){
+  maze->copyMazeFromFileData(japan2007ef, 256);
+  for (int i = 1; i < maze->numCells(); i++) {
     maze->clearVisited(i);
   }
   char japanPath[] = "BFRLRLRLFLRFFLFRFFRRFLLFFLRLRFRFFFFFFFFFFFFFFRFFFFFFRLRLLRRLLRRFFRFFFLFFFS";
   int steps = 0;
-  while(!path->reachesTarget()){
+  while (!path->reachesTarget()) {
     maze->setVisited(path->endCell());
     steps++;
     maze->flood(0x77);
     path->generateSafePath(0, 0x77, maze);
   }
-  EXPECT_EQ(72,steps);
+  EXPECT_EQ(72, steps);
   EXPECT_EQ(74, strlen(path->path())) << path->path();
   EXPECT_STREQ(japanPath, path->path());
   EXPECT_TRUE(path->reachesTarget());
-  EXPECT_EQ(0x77,path->endCell());
-//  MazePrinter::printVisitedDirs(libMaze);
+  EXPECT_EQ(0x77, path->endCell());
+  //  MazePrinter::printVisitedDirs(libMaze);
 }
 
 
@@ -233,16 +233,16 @@ TEST_F(PathFinderTest, generate_Japan2007_SimulateSearch) {
 // rather than as absolutes since they cannot take into account the actual
 // turns. Thus, they should only be used to compare paths.
 TEST_F(PathFinderTest, SimplePath_Distance) {
-  maze->copyMazeFromFileData(emptyMaze,256);
+  maze->copyMazeFromFileData(emptyMaze, 256);
   maze->flood(0x01);
-  path->generateSafePath(0x00,0x01,maze);
-  EXPECT_EQ(180,path->distance());
+  path->generateSafePath(0x00, 0x01, maze);
+  EXPECT_EQ(180, path->distance());
   maze->flood(0x0A);
-  path->generateSafePath(0x00,0x0A,maze);
-  EXPECT_EQ(1800,path->distance());
+  path->generateSafePath(0x00, 0x0A, maze);
+  EXPECT_EQ(1800, path->distance());
   maze->flood(0x22);
-  path->generateSafePath(0x00,0x22,maze);
-  EXPECT_EQ(667,path->distance());
+  path->generateSafePath(0x00, 0x22, maze);
+  EXPECT_EQ(667, path->distance());
 }
 
 /// Now start to convert some simple strings
@@ -254,7 +254,7 @@ TEST_F(PathFinderTest, MakeSmoothCommands_NullString) {
   char src[] = "";
   makeInPlaceCommands(src, 20, commands);
   EXPECT_STREQ((char *) testCommands, (char *) commands);
-//  path->listCommands(commands); // only included for test coverage
+  //  path->listCommands(commands); // only included for test coverage
 
 }
 
@@ -264,7 +264,7 @@ TEST_F(PathFinderTest, MakeDiagonalCommands_NullString) {
   char src[] = "";
   makeInPlaceCommands(src, 20, commands);
   EXPECT_STREQ((char *) testCommands, (char *) commands);
-//  path->listCommands(commands);
+  //  path->listCommands(commands);
 
 }
 
@@ -279,7 +279,7 @@ TEST_F(PathFinderTest, MakeInPlaceCommands_NullString) {
   char src[] = "";
   makeInPlaceCommands(src, 20, commands);
   EXPECT_STREQ((char *) testCommands, (char *) commands);
-//  path->listCommands(commands);
+  //  path->listCommands(commands);
 
 }
 
@@ -306,7 +306,7 @@ TEST_F(PathFinderTest, MakeInPlaceCommands_StraightTooLong) {
   char src[] = "BFFRFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFX";
   makeInPlaceCommands(src, 10, commands);
   EXPECT_STREQ((char *) testCommands, (char *) commands);
-//  path->listCommands(commands);
+  //  path->listCommands(commands);
 
 }
 
@@ -314,12 +314,12 @@ TEST_F(PathFinderTest, MakeInPlaceCommands_MaxLengthNotExceeded) {
   /*
    *
    */
-  uint8_t  testCommands[20] = {CMD_ERROR,CMD_STOP};
+  uint8_t  testCommands[20] = {CMD_ERROR, CMD_STOP};
   uint8_t  commands[20] = {0};
   char src[] = "BFFFRFFFFRFRFRFRFRFRFRFRFRFRFRFRFRFRRFRFRFRFRFRFFX";
   makeInPlaceCommands(src, 20, commands);
   EXPECT_STREQ((char *) testCommands, (char *) commands);
-//  path->listCommands(commands);
+  //  path->listCommands(commands);
 
 }
 
@@ -343,7 +343,7 @@ TEST_F(PathFinderTest, DiagonalPath_NullSrc_ERROR) {
   uint8_t  testCommands[20] = {CMD_ERR_BEGIN, CMD_STOP};
   makeDiagonalCommands(src, 20, commands);
   EXPECT_STREQ((char *) testCommands, (char *) commands);
-//  path->listCommands(commands);
+  //  path->listCommands(commands);
 }
 
 TEST_F(PathFinderTest, DiagonalPath_LongStraight_ERROR) {
@@ -373,13 +373,13 @@ TEST_F(PathFinderTest, DiagonalPath_LongDiagonal_ERROR) {
 TEST_F(PathFinderTest, TestPathCommands_PairList) {
   uint8_t commands[150] = {0};
   for (int i = 0; i < diagonalPairCount; i++) {
-//    printf("%d\n",i);
+    //    printf("%d\n",i);
     EXPECT_GT(150, strlen(testPairs[i].input));
     makeDiagonalCommands(testPairs[i].input, 150, commands);
     EXPECT_STREQ((char *) testPairs[i].expected, (char *) commands) << testPairs[i].input;
-//    path->listCommands(testPairs[i].expected);
-//    path->listCommands(commands);
-//    printf("-------------\n");
+    //    path->listCommands(testPairs[i].expected);
+    //    path->listCommands(commands);
+    //    printf("-------------\n");
   }
 }
 
@@ -396,13 +396,13 @@ TEST_F(PathFinderTest, SmoothPath_SimpleStrings) {
 TEST_F(PathFinderTest, SmoothTestPathCommands_PairList) {
   uint8_t  commands[150] = {0};
 
-  for (int i = 0; i < smoothPairCount; i++){
-//    printf("%d\n",i);
-    EXPECT_GT(150,strlen(smoothTestPairs[i].input));
+  for (int i = 0; i < smoothPairCount; i++) {
+    //    printf("%d\n",i);
+    EXPECT_GT(150, strlen(smoothTestPairs[i].input));
     makeSmoothCommands(smoothTestPairs[i].input, 150, commands);
-    EXPECT_STREQ((char *)smoothTestPairs[i].expected,(char *)commands) << smoothTestPairs[i].input;
-//    path->listCommands(smoothTestPairs[i].expected);
-//    path->listCommands(commands);
-//    printf("-------------\n");
+    EXPECT_STREQ((char *)smoothTestPairs[i].expected, (char *)commands) << smoothTestPairs[i].input;
+    //    path->listCommands(smoothTestPairs[i].expected);
+    //    path->listCommands(commands);
+    //    printf("-------------\n");
   }
 }
