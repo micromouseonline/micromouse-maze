@@ -756,7 +756,7 @@ uint16_t Maze::directionFlood(uint16_t target) {
   return mCost[0];
 }
 
-int Maze::floodType() {
+Maze::FloodType Maze::floodType() {
   return mFloodType;
 }
 

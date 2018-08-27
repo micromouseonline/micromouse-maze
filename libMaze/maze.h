@@ -176,7 +176,7 @@ public:
   uint16_t weightedFlood(uint16_t target);
   /// directionFlood does not care about costs, only using direction pointers
   uint16_t directionFlood(uint16_t target);
-  int floodType();
+
 
   // TODO: is the closed maze needed? is it enough to see if the path has unvisited cells?
   /// Flood the maze both open and closed and then test the cost difference
@@ -196,8 +196,10 @@ public:
   /// load the wall data, including visited flags from the target array. Not checked for overflow.
   void load(const uint8_t *data);
 
-  /// set the Flood Type to use
+  /// set and get the Flood Type to use
   void setFloodType(FloodType mFloodType);
+  FloodType floodType();
+
   /// used only for the weighted Flood
   uint16_t getCornerWeight() const;
   void setCornerWeight(uint16_t cornerWeight);
