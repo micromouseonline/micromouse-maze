@@ -1,5 +1,5 @@
 /***********************************************************************
- * Created by Peter Harrison on 03/07/2017.
+ * Created by Peter Harrison on 15/12/2017.
  * Copyright (c) 2017 Peter Harrison
  *
  *
@@ -25,37 +25,17 @@
  **************************************************************************/
 
 
-#ifndef MICROMOUSE_MAZE_MAZEFILER_H
-#define MICROMOUSE_MAZE_MAZEFILER_H
+#ifndef MICROMOUSE_MAZE_COMPILER_H
+#define MICROMOUSE_MAZE_COMPILER_H
 
-#include "maze.h"
-#include <cstdio>
+#include <cstdint>
 
-class MazeFiler {
-public:
 
-  typedef enum  {
-    MAZE_SUCCESS = 0,
-    MAZE_READ_ERROR,
-    MAZE_WRITE_ERROR,
-  } MazeFileType;
+/// Convert the path to a set of commands using only 90 degree in place turns
+void makeInPlaceCommands(const char *src, const uint16_t maxLength, uint8_t *commands);
+/// Convert the path to a set of commands using only 90 degree explore turns
+void makeDiagonalCommands(const char *src, const uint16_t maxLength, uint8_t *commands);
+/// Convert the path to a set of commands using the full range of turns and moves
+void makeSmoothCommands(const char *src, const uint16_t maxLength, uint8_t *commands);
 
-  MazeFiler();
-
-  int saveMaze(Maze * maze, char *fileName);
-  int readMaze(Maze * maze, char * fileName);
-
-  int readBinaryMaze(FILE * fp,  Maze * maze);
-  int readTextMaze(FILE * fp, Maze * maze);
-  // COPOUT: reading a c declaration is not easy so it is not here.
-  int writeBinaryMaze(Maze *maze, char *fileName);
-  int writeDeclarationMaze(Maze *maze, char * fileName);
-  int writeTextMaze(Maze * maze, char * filename);
-
-private:
-  void writeNorthWalls(Maze *maze, uint16_t y, FILE *fp);
-  void writeWestWalls(Maze *maze, uint16_t y, FILE *fp);
-
-};
-
-#endif //MICROMOUSE_MAZE_MAZEFILER_H
+#endif //MICROMOUSE_MAZE_COMPILER_H

@@ -27,7 +27,6 @@
 #include "maze.h"
 #include "mazesearcher.h"
 #include "mazeprinter.h"
-#include <cstddef>
 
 MazeSearcher::MazeSearcher() :
   mLocation(0),

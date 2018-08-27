@@ -26,8 +26,8 @@
 #ifndef _maze_h
 #define _maze_h
 
-#include <stdint.h>
-#include <stdbool.h>
+#include <cstdint>
+
 #include "mazeconstants.h"
 #include "floodinfo.h"
 #include "priorityqueue.h"
@@ -50,7 +50,7 @@ public:
   ///  reset the wall, cost and direction data to defaults
   void clearData();
   /// clear the data and then set all the walls that exist in an empty maze
-  void resetToEmptyMaze(void); ///
+  void resetToEmptyMaze(); ///
 
   /// Clear the costs and directions and then copy the walls from an array
   void copyMazeFromFileData(const uint8_t *wallData, uint16_t cellCount);
@@ -137,9 +137,9 @@ public:
   void updateMap(uint16_t cell, uint8_t wallData);
 
   /// Set all unseen walls as present. This is the closed maze used to test for a solution
-  void setUnknowns(void);
+  void setUnknowns();
   /// Set all unseen walls as present. This is the open maze used for path generation
-  void clearUnknowns(void);
+  void clearUnknowns();
 
   /// return the cost value for a given cell. Used in flooding and searching
   uint16_t cost(uint16_t cell);
@@ -165,7 +165,7 @@ public:
   /// return the cost of the current best path assuming unknowns are present
   uint16_t closedMazeCost() const;
   /// return the difference between the open and closed cost. Zero when the best route is found.
-  int32_t costDifference(void);
+  int32_t costDifference();
   /// flood the maze for the give goal
   uint16_t flood(uint16_t target);
   /// RunLengthFlood is a specific kind of flood used in this mouse
@@ -181,9 +181,9 @@ public:
   // TODO: is the closed maze needed? is it enough to see if the path has unvisited cells?
   /// Flood the maze both open and closed and then test the cost difference
   /// leaves the maze with unknowns clear
-  bool testForSolution(void);
+  bool testForSolution();
   /// returns the result of the most recent test for a solution
-  bool isSolved(void);
+  bool isSolved();
 
   ///  return the direction from the given cell to the least costly neighbour
   uint8_t directionToSmallest(uint16_t cell);
@@ -194,7 +194,7 @@ public:
   void save(uint8_t *data);
 
   /// load the wall data, including visited flags from the target array. Not checked for overflow.
-  void load(uint8_t *data);
+  void load(const uint8_t *data);
 
   /// set the Flood Type to use
   void setFloodType(FloodType mFloodType);

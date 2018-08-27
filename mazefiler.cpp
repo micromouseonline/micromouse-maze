@@ -26,12 +26,9 @@
 
 
 #include "mazefiler.h"
-#include <string.h>
+#include <cstring>
 
-MazeFiler::MazeFiler() {
-
-}
-
+MazeFiler::MazeFiler() = default;
 
 bool endsWith(const char * src, const char * ending) {
   size_t srcLength = strlen(src);
@@ -73,7 +70,7 @@ int MazeFiler::saveMaze(Maze * maze, char *fileName) {
 int MazeFiler::readMaze(Maze *maze, char *fileName) {
   FILE * fp;
   fp = fopen(fileName, "r");
-  if (fp == NULL) {
+  if (fp == nullptr) {
     return MAZE_READ_ERROR;
   }
   if (readBinaryMaze(fp, maze) == 0) {
@@ -137,81 +134,110 @@ int MazeFiler::readBinaryMaze(FILE *fp,  Maze * maze) {
  */
 
 
-int MazeFiler::readTextMaze(FILE *fp, Maze * maze) {
-  char line1[500], line2[500];
+int MazeFiler::readTextMaze(FILE *infile, Maze * maze) {
+  int const maxLineLength = 80;
+  char nsWalls[maxLineLength], ewWalls[maxLineLength];
   char *result;
   char postchar;
   char hwallchar;
   char vwallchar;
-  int row, col, charsPerCell;
-  rewind(fp);
-  result = fgets(line1, 300, fp);
-  if (result == NULL) {
+  int row;
+  int col;
+  int charsPerCell;
+  rewind(infile);
+
+  result = fgets(nsWalls, maxLineLength, infile);
+  if (result == nullptr) {
     return MAZE_READ_ERROR;
   }
-  int lineLength = strlen(line1);
-  if (lineLength < 32) {
+  unsigned long lineLength = strlen(nsWalls);
+  if (lineLength < (32)) {
     //printf("unknown maze format for '%s' - first line too short\n", fname);
     return MAZE_READ_ERROR;
   }
   // those are the two obvious errors sorted out
   // the first character we see is the post
-  postchar = line1[0];
-  // where we next see it tells us how many characters per cell
+  postchar = nsWalls[0];
+  // the next character after the post is a horizontal wall
+  hwallchar = nsWalls[1];
+  // where we next see a post tells us how many characters per cell
   // although we are interested only in 1 or 2
-  if (line1[2] == postchar) {
+  if (nsWalls[2] == postchar) {
     charsPerCell = 2;
-  } else if (line1[3] == postchar) {
+  } else if (nsWalls[3] == postchar) {
     charsPerCell = 3;
-  } else if (line1[4] == postchar) {
+  } else if (nsWalls[4] == postchar) {
     charsPerCell = 4;
   } else {
     return MAZE_READ_ERROR;
   }
-  // the next character after the post is a horizontal wall
-  hwallchar = line1[1];
-  if (!fgets(line2, 300, fp)) {
+  if (!fgets(ewWalls, maxLineLength, infile)) {
     return MAZE_READ_ERROR;
   }
 
   // and the first character on the next line is a vertical wall
-  vwallchar = line2[0];
+  vwallchar = ewWalls[0];
 
-  // both of these must not be blank
+  // both of the wall characters must not be blank
   if ((hwallchar == ' ') || (vwallchar == ' ')) {
     //printf("The file has blank walls in the top left corner (%s)\n", fname);
     return MAZE_READ_ERROR;
   }
+
+
   // now we just assume the rest of the file makes sense
   // go back to the start
-  rewind(fp);
+  rewind(infile);
   maze->clearData();
+  maze->resetToEmptyMaze();
   // and begin parsing lines
   // a text maze starts top left and every row takes up two lines of text
-  int mazeWidth = lineLength / charsPerCell;
-  row = mazeWidth - 1;
+  int mazeWidth = maze->width();
+  row = maze->width() - 1;
   while (row >= 0) {
-    result = fgets(line1, 300, fp); /* north walls */
-    if (result == NULL) {
-      //printf("Unexpected end of file: %s\n", fname);
+    result = fgets(nsWalls, maxLineLength, infile); /* north walls */
+    if (result == nullptr) {
       return MAZE_READ_ERROR;
     }
-    result = fgets(line2, 300, fp); /* east-west walls */
-    if (result == NULL) {
-      //printf("Unexpected end of file: %s\n", fname);
+    result = fgets(ewWalls, maxLineLength, infile); /* east-west walls */
+    if (result == nullptr) {
       return MAZE_READ_ERROR;
     }
     // now just go through the lines grabbing wall information
     // we only look at the west side because the last cell always has an east wall
     for (col = 0; col < mazeWidth; col++) {
-      if (line1[1 + charsPerCell * col] != ' ') {
+      if (nsWalls[1 + charsPerCell * col] != ' ') {
         maze->setWall(row + mazeWidth * col, NORTH);
+      } else {
+        maze->clearWall(row + mazeWidth * col, NORTH);
       }
-      if (line2[charsPerCell * col] != ' ') {
+      if (ewWalls[charsPerCell * col] != ' ') {
         maze->setWall(row + mazeWidth * col, WEST);
+      } else {
+        maze->clearWall(row + mazeWidth * col, WEST);
       }
     }
+    if (ewWalls[charsPerCell * mazeWidth] != ' ') {
+      maze->setWall(row + (mazeWidth - 1) * col, EAST);
+    } else {
+      maze->clearWall(row + (mazeWidth - 1) * col, EAST);
+
+    }
     row--;
+  }
+
+  // there should be one row of text left which is the south walls of the maze
+  result = fgets(nsWalls, maxLineLength, infile); /* north walls */
+  if (result == NULL) {
+    return MAZE_READ_ERROR;
+  }
+  row = 0;
+  for (col = 0; col < mazeWidth; col++) {
+    if (nsWalls[1 + charsPerCell * col] != ' ') {
+      maze->setWall(static_cast<uint16_t>(row + mazeWidth * col), SOUTH);
+    } else {
+      maze->clearWall(static_cast<uint16_t>(row + mazeWidth * col), SOUTH);
+    }
   }
   return MAZE_SUCCESS;
 }
@@ -219,7 +245,7 @@ int MazeFiler::readTextMaze(FILE *fp, Maze * maze) {
 int MazeFiler::writeBinaryMaze(Maze *maze, char * fileName) {
   FILE * fp;
   fp = fopen(fileName, "w");
-  if (fp == NULL) {
+  if (fp == nullptr) {
     return MAZE_WRITE_ERROR;
   } else {
     for (uint16_t i = 0; i < maze->numCells(); i++) {
@@ -233,7 +259,7 @@ int MazeFiler::writeBinaryMaze(Maze *maze, char * fileName) {
 int MazeFiler::writeDeclarationMaze(Maze *maze, char * fileName) {
   FILE * fp;
   fp = fopen(fileName, "w");
-  if (fp == NULL) {
+  if (fp == nullptr) {
     return MAZE_WRITE_ERROR;
   } else {
     char temp[256];
@@ -257,7 +283,7 @@ int MazeFiler::writeDeclarationMaze(Maze *maze, char * fileName) {
 }
 
 
-void MazeFiler::writeNorthWalls(Maze *maze, int y, FILE* fp) {
+void MazeFiler::writeNorthWalls(Maze *maze, uint16_t y, FILE *fp) {
   for (uint16_t x = 0; x < maze->width(); x++) {
     uint16_t cell = x * maze->width() + y;
     if (maze->hasWall(cell, NORTH)) {
@@ -270,7 +296,7 @@ void MazeFiler::writeNorthWalls(Maze *maze, int y, FILE* fp) {
 }
 
 
-void MazeFiler::writeWestWalls(Maze *maze, int y, FILE* fp) {
+void MazeFiler::writeWestWalls(Maze *maze, uint16_t y, FILE *fp) {
   for (uint16_t x = 0; x < maze->width(); x++) {
     uint16_t cell = x * maze->width() + y;
     if (maze->hasWall(cell, WEST)) {
@@ -285,10 +311,10 @@ void MazeFiler::writeWestWalls(Maze *maze, int y, FILE* fp) {
 int MazeFiler::writeTextMaze(Maze *maze, char * fileName) {
   FILE * fp;
   fp = fopen(fileName, "w");
-  if (fp == NULL) {
+  if (fp == nullptr) {
     return MAZE_WRITE_ERROR;
   } else {
-    for (int y = maze->width() - 1; y >= 0; y--) {
+    for (int y = (maze->width() - 1); y >= 0; y--) {
       writeNorthWalls(maze, y, fp);
       writeWestWalls(maze, y, fp);
     }

@@ -38,8 +38,8 @@ public:
   static void printDirs(Maze *maze);
   static void printVisitedDirs(Maze *maze);
 private:
-  MazePrinter() {}                             // Private constructor
-  ~MazePrinter() {}
+  MazePrinter() = default;                             // Private constructor
+  ~MazePrinter() = default;
 
   MazePrinter(const MazePrinter &);             // Prevent copy-construction
   MazePrinter &operator=(const MazePrinter &);  // Prevent assignment

@@ -27,7 +27,7 @@
 #ifndef MAZE_MAZECONSTANTS_H
 #define MAZE_MAZECONSTANTS_H
 
-#include <stdint.h>
+#include <cstdint>
 
 const uint8_t DEFAULT_GOAL = 0x77;
 const uint8_t TRAINING_GOAL = 0x11;

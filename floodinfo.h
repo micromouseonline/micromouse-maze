@@ -36,11 +36,11 @@
 
 class FloodInfo {
 public:
-  uint16_t cost;
-  uint16_t cell;
-  uint8_t runLength;
-  uint8_t entryDir;
-  uint8_t entryWall;
+  uint16_t cost {};
+  uint16_t cell {};
+  uint8_t runLength {};
+  uint8_t entryDir {};
+  uint8_t entryWall {};
 
   FloodInfo() :
     cost(0),
@@ -51,7 +51,7 @@ public:
     //
   }
 
-  FloodInfo(uint16_t _cell) :
+  explicit FloodInfo(uint16_t _cell)  :
     cost(0),
     cell(_cell),
     runLength(),
