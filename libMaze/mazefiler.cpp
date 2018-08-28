@@ -216,6 +216,11 @@ int MazeFiler::readTextMaze(FILE *infile, Maze * maze) {
       } else {
         maze->clearWall(row + mazeWidth * col, WEST);
       }
+      for (int i = 1; i < charsPerCell; i++) {
+        if (ewWalls[charsPerCell * col + i] == 'G') {
+          maze->setGoal(row + mazeWidth * col);
+        }
+      }
     }
     if (ewWalls[charsPerCell * mazeWidth] != ' ') {
       maze->setWall(row + (mazeWidth - 1) * col, EAST);
