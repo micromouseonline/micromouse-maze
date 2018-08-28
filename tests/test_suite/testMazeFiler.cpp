@@ -94,7 +94,7 @@ TEST_F(MazeFilerTest, LoadClassicMazeFromTextFile) {
 
 
 TEST_F(MazeFilerTest, LoadClassicMazeFromBinaryFile) {
-  char fileName[] = "japan2007ef.maz";
+  char fileName[] = "japan2007ef_classic.maz";
   MazeFiler filer;
   Maze testMaze(16);
   copyMaze(classicMaze, japan2007ef);
