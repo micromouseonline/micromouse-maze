@@ -71,17 +71,17 @@ int MazeFiler::readMaze(Maze *maze, char *fileName) {
   FILE * fp;
   fp = fopen(fileName, "r");
   if (fp == nullptr) {
-    return MAZE_READ_ERROR;
+    return MAZE_FILER_NOT_FOUND;
   }
   if (readBinaryMaze(fp, maze) == 0) {
     fclose(fp);
-    return MAZE_SUCCESS;
+    return MAZE_FILER_SUCCESS;
   }
   if (readTextMaze(fp, maze) == 0) {
     fclose(fp);
-    return MAZE_SUCCESS;
+    return MAZE_FILER_SUCCESS;
   }
-  return MAZE_READ_ERROR;
+  return MAZE_FILER_READ_ERROR;
 }
 
 /* A binary maze file is stored as sequential bytes
@@ -100,20 +100,20 @@ int MazeFiler::readBinaryMaze(FILE *fp,  Maze * maze) {
   uint8_t buffer[1024];
   size_t bytesRead = fread(buffer, 1, 1024, fp);
   if (bytesRead < 256) {
-    return MAZE_READ_ERROR;
+    return MAZE_FILER_BAD_FORMAT;
   }
   if (buffer[0] != 0x0e) {
     // probably not a binary maze
-    return MAZE_READ_ERROR;
+    return MAZE_FILER_BAD_FORMAT;
   }
   if (bytesRead < 1024) {
     // assume classic maze
     maze->copyMazeFromFileData(buffer, 256);
-    return MAZE_SUCCESS;
+    return MAZE_FILER_SUCCESS;
   }
   // then assume it is a half-size maze
   maze->copyMazeFromFileData(buffer, 1024);
-  return MAZE_SUCCESS;
+  return MAZE_FILER_SUCCESS;
 }
 
 
@@ -148,12 +148,12 @@ int MazeFiler::readTextMaze(FILE *infile, Maze * maze) {
 
   result = fgets(nsWalls, maxLineLength, infile);
   if (result == nullptr) {
-    return MAZE_READ_ERROR;
+    return MAZE_FILER_EMPTY_FILE;
   }
   unsigned long lineLength = strlen(nsWalls);
   if (lineLength < (32)) {
     //printf("unknown maze format for '%s' - first line too short\n", fname);
-    return MAZE_READ_ERROR;
+    return MAZE_FILER_BAD_FORMAT;
   }
   // those are the two obvious errors sorted out
   // the first character we see is the post
@@ -169,10 +169,10 @@ int MazeFiler::readTextMaze(FILE *infile, Maze * maze) {
   } else if (nsWalls[4] == postchar) {
     charsPerCell = 4;
   } else {
-    return MAZE_READ_ERROR;
+    return MAZE_FILER_BAD_FORMAT;
   }
   if (!fgets(ewWalls, maxLineLength, infile)) {
-    return MAZE_READ_ERROR;
+    return MAZE_FILER_BAD_FORMAT;
   }
 
   // and the first character on the next line is a vertical wall
@@ -181,7 +181,7 @@ int MazeFiler::readTextMaze(FILE *infile, Maze * maze) {
   // both of the wall characters must not be blank
   if ((hwallchar == ' ') || (vwallchar == ' ')) {
     //printf("The file has blank walls in the top left corner (%s)\n", fname);
-    return MAZE_READ_ERROR;
+    return MAZE_FILER_BAD_FORMAT;
   }
 
 
@@ -197,11 +197,11 @@ int MazeFiler::readTextMaze(FILE *infile, Maze * maze) {
   while (row >= 0) {
     result = fgets(nsWalls, maxLineLength, infile); /* north walls */
     if (result == nullptr) {
-      return MAZE_READ_ERROR;
+      return MAZE_FILER_BAD_FORMAT;
     }
     result = fgets(ewWalls, maxLineLength, infile); /* east-west walls */
     if (result == nullptr) {
-      return MAZE_READ_ERROR;
+      return MAZE_FILER_BAD_FORMAT;
     }
     // now just go through the lines grabbing wall information
     // we only look at the west side because the last cell always has an east wall
@@ -234,7 +234,7 @@ int MazeFiler::readTextMaze(FILE *infile, Maze * maze) {
   // there should be one row of text left which is the south walls of the maze
   result = fgets(nsWalls, maxLineLength, infile); /* north walls */
   if (result == NULL) {
-    return MAZE_READ_ERROR;
+    return MAZE_FILER_BAD_FORMAT;
   }
   row = 0;
   for (col = 0; col < mazeWidth; col++) {
@@ -244,28 +244,28 @@ int MazeFiler::readTextMaze(FILE *infile, Maze * maze) {
       maze->clearWall(static_cast<uint16_t>(row + mazeWidth * col), SOUTH);
     }
   }
-  return MAZE_SUCCESS;
+  return MAZE_FILER_SUCCESS;
 }
 
 int MazeFiler::writeBinaryMaze(Maze *maze, char * fileName) {
   FILE * fp;
   fp = fopen(fileName, "w");
   if (fp == nullptr) {
-    return MAZE_WRITE_ERROR;
+    return MAZE_FILER_WRITE_ERROR;
   } else {
     for (uint16_t i = 0; i < maze->numCells(); i++) {
       fputc(maze->walls(i), fp);
     }
     fclose(fp);
   }
-  return MAZE_SUCCESS;
+  return MAZE_FILER_SUCCESS;
 }
 
 int MazeFiler::writeDeclarationMaze(Maze *maze, char * fileName) {
   FILE * fp;
   fp = fopen(fileName, "w");
   if (fp == nullptr) {
-    return MAZE_WRITE_ERROR;
+    return MAZE_FILER_WRITE_ERROR;
   } else {
     char temp[256];
     snprintf(temp, sizeof(temp), "const uint8_t %s[];\n\n", "maze");
@@ -284,7 +284,7 @@ int MazeFiler::writeDeclarationMaze(Maze *maze, char * fileName) {
     fputs("   };\n\n", fp);
     fclose(fp);
   }
-  return MAZE_SUCCESS;
+  return MAZE_FILER_SUCCESS;
 }
 
 
@@ -317,7 +317,7 @@ int MazeFiler::writeTextMaze(Maze *maze, char * fileName) {
   FILE * fp;
   fp = fopen(fileName, "w");
   if (fp == nullptr) {
-    return MAZE_WRITE_ERROR;
+    return MAZE_FILER_WRITE_ERROR;
   } else {
     for (int y = (maze->width() - 1); y >= 0; y--) {
       writeNorthWalls(maze, y, fp);
@@ -329,5 +329,5 @@ int MazeFiler::writeTextMaze(Maze *maze, char * fileName) {
     fputs("o\n", fp);
     fclose(fp);
   }
-  return MAZE_SUCCESS;
+  return MAZE_FILER_SUCCESS;
 }
