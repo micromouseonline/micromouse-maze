@@ -42,7 +42,6 @@ protected:
   virtual void SetUp() {
     maze = new Maze(16);
     maze->resetToEmptyMaze();
-
   }
 
   virtual void TearDown() {
@@ -66,10 +65,10 @@ TEST_F(TestMazePrinter, PrintForCoverageTesting) {
   copyClassicMaze(japan2007ef);
 
   maze->flood(maze->goal());
-  MazePrinter::printDirs(maze);
-  MazePrinter::printPlain(maze);
-  MazePrinter::printCDecl(maze, "julian");
-  MazePrinter::printCosts(maze);
-  MazePrinter::printVisitedDirs(maze);
+  //  MazePrinter::printDirs(maze);
+  //  MazePrinter::printPlain(maze);
+  //  MazePrinter::printCDecl(maze, "julian");
+  //  MazePrinter::printCosts(maze);
+  //  MazePrinter::printVisitedDirs(maze);
 }
 
