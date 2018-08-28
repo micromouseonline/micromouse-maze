@@ -14,13 +14,14 @@ add_executable(runTestSuite
         testDirection.cpp
         testFlood.cpp
         testMazePrinter.cpp
-        testMazeReader.cpp
+        testMazeFiler.cpp
         testPathFinder.cpp
         testSearcher.cpp
         testFloodInfo.cpp
         path_test_data.cpp
         path_test_data.h
-        testPathReverse.cpp)
+        testPathReverse.cpp
+        )
 
 target_link_libraries(
         runTestSuite

@@ -43,6 +43,16 @@ protected:
     delete maze;
   }
 
+  virtual void copyMaze(Maze *maze, const uint8_t *mazeData) const {
+    if (!maze || !mazeData) {
+      return;
+    }
+    for (int cell = 0; cell < maze->numCells(); ++cell) {
+      maze->copyCellFromFileData(cell, mazeData[cell]);
+    }
+  }
+
+
 };
 
 TEST_F(MazeTest, RowAndColCalculations) {
@@ -59,13 +69,24 @@ TEST_F(MazeTest, SetTrainingGoal) {
   EXPECT_EQ(TRAINING_GOAL, maze->goal());
 }
 
-TEST_F(MazeTest, CopyMaze) {
-  maze->copyMazeFromFileData(emptyMaze, 256);
-  for (uint16_t cell = 0; cell < maze->numCells(); cell++) {
-    EXPECT_EQ(emptyMaze[cell], maze->walls(cell));
-    EXPECT_TRUE(maze->isVisited(cell));
+TEST_F(MazeTest, CopyClassicMaze) {
+  Maze testMaze(16);
+  copyMaze(&testMaze, emptyMaze);
+  for (uint16_t cell = 0; cell < testMaze.numCells(); cell++) {
+    EXPECT_EQ(emptyMaze[cell], testMaze.walls(cell));
+    EXPECT_TRUE(testMaze.isVisited(cell));
   }
 }
+
+TEST_F(MazeTest, CopyHalfSizeMaze) {
+  Maze testMaze(32);
+  copyMaze(&testMaze, emptyHalfSize);
+  for (uint16_t cell = 0; cell < testMaze.numCells(); cell++) {
+    EXPECT_EQ(emptyHalfSize[cell], testMaze.walls(cell));
+    EXPECT_TRUE(testMaze.isVisited(cell));
+  }
+}
+
 
 TEST_F(MazeTest, SetClearUnknowns_TestoneCell) {
   maze->resetToEmptyMaze();

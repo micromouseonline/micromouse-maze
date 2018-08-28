@@ -139,6 +139,9 @@ extern const uint8_t uk2011f[];
 extern const uint8_t uk2012f[];
 extern const uint8_t uk2014f[];
 
+// half size mazes
+extern const uint8_t emptyHalfSize[];
+extern const uint8_t japan2014ef_half[];
 
 
 
