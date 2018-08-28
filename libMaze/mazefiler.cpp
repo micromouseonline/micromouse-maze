@@ -135,7 +135,7 @@ int MazeFiler::readBinaryMaze(FILE *fp,  Maze * maze) {
 
 
 int MazeFiler::readTextMaze(FILE *infile, Maze * maze) {
-  int const maxLineLength = 80;
+  int const maxLineLength = 3 + 4 * 32;
   char nsWalls[maxLineLength], ewWalls[maxLineLength];
   char *result;
   char postchar;
