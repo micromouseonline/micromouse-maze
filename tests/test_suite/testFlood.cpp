@@ -49,6 +49,15 @@ protected:
     }
   }
 
+  virtual void copyMaze(Maze *maze, const uint8_t *mazeData) const {
+    if (!maze || !mazeData) {
+      return;
+    }
+    for (int cell = 0; cell < maze->numCells(); ++cell) {
+      maze->copyCellFromFileData(cell, mazeData[cell]);
+    }
+  }
+
 };
 
 TEST_F(MazeFlood, FloodMaze_TargetCostIsZero) {
@@ -184,3 +193,25 @@ TEST_F(MazeFlood, directionFlood_EmptyMaze_cost_31) {
   EXPECT_EQ(15, maze->cost(maze->width() - 1));
   EXPECT_EQ(NORTH, maze->direction(0));
 }
+
+//////// HALF SIZE TESTS /////////////
+
+TEST_F(MazeFlood, ManhattanFlood_EmptyHalfSizeMaze_cost_14) {
+  Maze * maze = new Maze(32);
+  uint16_t cost = maze->manhattanFlood(maze->cellID(7, 7));
+  EXPECT_EQ(14, cost);
+  EXPECT_EQ(NORTH, maze->direction(0));
+}
+
+TEST_F(MazeFlood, ManhattanFlood_Japan2014HalfSize_costx) {
+  Maze * maze = new Maze(32);
+  copyMaze(maze, japan2014ef_half);
+  maze->setGoal(maze->cellID(26, 5));
+  int cost = maze->manhattanFlood(maze->goal());
+  MazePrinter::printCosts(maze);
+  EXPECT_EQ(159, cost);
+  // top left cell
+  EXPECT_EQ(98, maze->cost(maze->width() - 1));
+  EXPECT_EQ(NORTH, maze->direction(0));
+}
+
