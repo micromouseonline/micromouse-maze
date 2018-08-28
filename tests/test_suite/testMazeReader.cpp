@@ -28,30 +28,213 @@
 #include "gtest/gtest.h"
 
 #include "maze.h"
+#include "mazefiler.h"
+#include "mazedata.h"
+#include "mazeprinter.h"
 
-TEST(MazeReader, LoadMazeFromFile) {
-  //  char fileName[] = "../mazefiles/empty.maz";
-  //  ReadRealWallsFromFile (fileName);
-  //  UpdateEntireMazeFromRealWalls ();
-  //  EXPECT_EQ (ALL_SEEN + WEST_WALL + SOUTH_WALL + EAST_WALL, Walls (Home()));
+class MazeFilerTest : public ::testing::Test {
+protected:
+  Maze *classicMaze;
+  Maze *halfSizeMaze;
+
+
+  virtual void SetUp() {
+    classicMaze = new Maze(16);
+    classicMaze->resetToEmptyMaze();
+    halfSizeMaze = new Maze(32);
+    halfSizeMaze->resetToEmptyMaze();
+  }
+
+  virtual void TearDown() {
+    delete classicMaze;
+    delete halfSizeMaze;
+  }
+
+  virtual void copyMaze(Maze *maze, const uint8_t *mazeData) const {
+    if (!maze || !mazeData) {
+      return;
+    }
+    for (int cell = 0; cell < maze->numCells(); ++cell) {
+      maze->copyCellFromFileData(cell, mazeData[cell]);
+    }
+  }
+};
+
+
+TEST_F(MazeFilerTest, LoadClassicMazeFileNotFound) {
+  char fileName[] = "mazefiles/classic/missing.txt";
+  MazeFiler filer;
+  Maze testMaze(16);
+  int err = filer.readMaze(&testMaze, fileName);
+  EXPECT_EQ(MazeFiler::MAZE_FILER_NOT_FOUND, err);
+}
+
+TEST_F(MazeFilerTest, LoadClassicMazeFileFound) {
+  char fileName[] = "mazefiles/classic/empty.txt";
+  MazeFiler filer;
+  Maze testMaze(16);
+  int err = filer.readMaze(&testMaze, fileName);
+  EXPECT_EQ(MazeFiler::MAZE_FILER_SUCCESS, err);
 }
 
 
-TEST(MazeReader, LoadMazeFromInvalidFile) {
-  //  char fileName[] = "../mazefiles/aaaaaa.maz";
-  //  ReadRealWallsFromFile (fileName);
-  //  UpdateEntireMazeFromRealWalls ();
-  //  EXPECT_EQ (ALL_SEEN + NO_WALLS, Walls (Home()));
+TEST_F(MazeFilerTest, LoadClassicMazeFromTextFile) {
+  char fileName[] = "mazefiles/classic/alljapan-028-2007-exp-fin.txt";
+  MazeFiler filer;
+  Maze testMaze(16);
+  copyMaze(classicMaze, japan2007ef);
+  int err = filer.readMaze(&testMaze, fileName);
+  EXPECT_EQ(MazeFiler::MAZE_FILER_SUCCESS, err);
+  for (uint16_t cell = 0; cell < classicMaze->numCells(); cell++) {
+    EXPECT_EQ(classicMaze->walls(cell), testMaze.walls(cell));
+    EXPECT_TRUE(testMaze.isVisited(cell));
+  }
 }
 
 
-TEST(MazeReader, ReadWallSensors) {
-  //  walls_t wallData;
-  //  char fileName[] = "../mazefiles/minos03f.maz";
-  //  ReadRealWallsFromFile (fileName);
-  //  wallData = ReadWallSensors (Location (0, 0));
-  //  EXPECT_EQ (WEST_WALL + SOUTH_WALL + EAST_WALL, wallData);
-  //  wallData = ReadWallSensors (Location (0, 1));
-  //  EXPECT_EQ (WEST_WALL + SOUTH_WALL, wallData);
+
+TEST_F(MazeFilerTest, LoadClassicMazeFromBinaryFile) {
+  char fileName[] = "japan2007ef.maz";
+  MazeFiler filer;
+  Maze testMaze(16);
+  copyMaze(classicMaze, japan2007ef);
+  int err = filer.readMaze(&testMaze, fileName);
+  EXPECT_EQ(MazeFiler::MAZE_FILER_SUCCESS, err);
+
+  for (uint16_t cell = 0; cell < classicMaze->numCells(); cell++) {
+    EXPECT_EQ(classicMaze->walls(cell), testMaze.walls(cell));
+    EXPECT_TRUE(testMaze.isVisited(cell));
+  }
 }
+
+
+
+TEST_F(MazeFilerTest, SaveClassicMazeToTextFile) {
+  char fileName[] = "japan2007ef_classic.txt";
+  MazeFiler filer;
+  Maze testMaze(16);
+  copyMaze(classicMaze, japan2007ef);
+  int err = filer.writeTextMaze(classicMaze, fileName);
+  EXPECT_EQ(MazeFiler::MAZE_FILER_SUCCESS, err);
+  // now load it back in and compare
+  err = filer.readMaze(&testMaze, fileName);
+  EXPECT_EQ(MazeFiler::MAZE_FILER_SUCCESS, err);
+  for (uint16_t cell = 0; cell < classicMaze->numCells(); cell++) {
+    EXPECT_EQ(classicMaze->walls(cell), testMaze.walls(cell));
+  }
+}
+
+
+
+TEST_F(MazeFilerTest, SaveClassicMazeToBinaryFile) {
+  char fileName[] = "japan2007ef_classic.maz";
+  MazeFiler filer;
+  Maze testMaze(16);
+  copyMaze(classicMaze, japan2007ef);
+  int err = filer.writeBinaryMaze(classicMaze, fileName);
+  EXPECT_EQ(MazeFiler::MAZE_FILER_SUCCESS, err);
+  // now load it back in and compare
+  err = filer.readMaze(&testMaze, fileName);
+  EXPECT_EQ(MazeFiler::MAZE_FILER_SUCCESS, err);
+  for (uint16_t cell = 0; cell < classicMaze->numCells(); cell++) {
+    EXPECT_EQ(classicMaze->walls(cell), testMaze.walls(cell));
+  }
+}
+
+
+
+
+
+TEST_F(MazeFilerTest, SaveClassicMazeToDeclarations) {
+  char fileName[] = "japan2007ef_classic.c";
+  MazeFiler filer;
+  copyMaze(classicMaze, japan2007ef);
+  int err = filer.writeDeclarationMaze(classicMaze, fileName);
+  EXPECT_EQ(MazeFiler::MAZE_FILER_SUCCESS, err);
+  // need to visually inspect the file. Sorry - can't think of a good way to test
+}
+
+
+
+// half size tests
+
+TEST_F(MazeFilerTest, LoadHalfSizeMazeFromTextFile) {
+  char fileName[] = "mazefiles/halfsize/japan2014ef.txt";
+  MazeFiler filer;
+  Maze * testMaze = new Maze(32);
+
+  copyMaze(halfSizeMaze, japan2014ef_half);
+  int err = filer.readMaze(testMaze, fileName);
+  EXPECT_EQ((int)MazeFiler::MAZE_FILER_SUCCESS, err);
+  halfSizeMaze->setGoal(testMaze->goal());
+
+  for (uint16_t cell = 0; cell < halfSizeMaze->numCells(); cell++) {
+    EXPECT_EQ(halfSizeMaze->walls(cell), testMaze->walls(cell));
+    EXPECT_TRUE(testMaze->isVisited(cell));
+  }
+}
+
+
+
+TEST_F(MazeFilerTest, LoadHalfSizeMazeFromBinaryFile) {
+  char fileName[] = "japan2014ef_half.maz";
+  MazeFiler filer;
+  Maze * testMaze = new Maze(32);
+  copyMaze(halfSizeMaze, japan2014ef_half);
+  int err = filer.readMaze(testMaze, fileName);
+  EXPECT_EQ(MazeFiler::MAZE_FILER_SUCCESS, err);
+
+  for (uint16_t cell = 0; cell < halfSizeMaze->numCells(); cell++) {
+    EXPECT_EQ(halfSizeMaze->walls(cell), testMaze->walls(cell));
+    EXPECT_TRUE(testMaze->isVisited(cell));
+  }
+}
+
+
+
+TEST_F(MazeFilerTest, SaveHalfSizeMazeToTextFile) {
+  char fileName[] = "japan2014ef_half.txt";
+  MazeFiler filer;
+  Maze testMaze(32);
+  copyMaze(halfSizeMaze, japan2014ef_half);
+  int err = filer.writeTextMaze(halfSizeMaze, fileName);
+  EXPECT_EQ(MazeFiler::MAZE_FILER_SUCCESS, err);
+  // now load it back in and compare
+  err = filer.readMaze(&testMaze, fileName);
+  EXPECT_EQ(MazeFiler::MAZE_FILER_SUCCESS, err);
+  for (uint16_t cell = 0; cell < halfSizeMaze->numCells(); cell++) {
+    EXPECT_EQ(halfSizeMaze->walls(cell), testMaze.walls(cell));
+  }
+}
+
+
+
+TEST_F(MazeFilerTest, SaveHalfSizeMazeToBinaryFile) {
+  char fileName[] = "japan2014ef_half.maz";
+  MazeFiler filer;
+  Maze testMaze(32);
+  copyMaze(halfSizeMaze, japan2014ef_half);
+  int err = filer.writeBinaryMaze(halfSizeMaze, fileName);
+  EXPECT_EQ(MazeFiler::MAZE_FILER_SUCCESS, err);
+  // now load it back in and compare
+  err = filer.readMaze(&testMaze, fileName);
+  EXPECT_EQ(MazeFiler::MAZE_FILER_SUCCESS, err);
+  for (uint16_t cell = 0; cell < halfSizeMaze->numCells(); cell++) {
+    EXPECT_EQ(halfSizeMaze->walls(cell), testMaze.walls(cell));
+  }
+}
+
+
+
+TEST_F(MazeFilerTest, SavehalfsizeMazeToDeclarations) {
+  char fileName[] = "japan2014ef_half.c";
+  MazeFiler filer;
+  copyMaze(halfSizeMaze, japan2014ef_half);
+  int err = filer.writeDeclarationMaze(halfSizeMaze, fileName);
+  EXPECT_EQ(MazeFiler::MAZE_FILER_SUCCESS, err);
+  // need to visually inspect the file. Sorry - can't think of a good way to test
+}
+
+
+
 
