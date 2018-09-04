@@ -9,7 +9,6 @@ set(HEADER_FILES
         mazedata.h
         mazepathfinder.h
         mazeprinter.h
-        mazesearcher.h
         priorityqueue.h
         mazeconstants.h
         mazefiler.h
@@ -23,7 +22,6 @@ set (SOURCE_FILES
         mazedata.cpp
         mazepathfinder.cpp
         mazeprinter.cpp
-        mazesearcher.cpp
         mazefiler.cpp
 
         compiler.cpp compiler.h)
