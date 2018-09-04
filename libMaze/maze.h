@@ -112,9 +112,9 @@ public:
   bool hasMaskedWall(uint16_t cell, uint8_t direction);
   ///  it is not clear that these two mthods have any actual use
   ///  test for the definite, observed absence of a wall.
-  bool hasRealExit(uint16_t cell, uint8_t direction);
+  bool hasRealExit(uint16_t cell, uint8_t direction) const;
   ///  test for the definite, observed presence of a wall.
-  bool hasRealWall(uint16_t cell, uint8_t direction);
+  bool hasRealWall(uint16_t cell, uint8_t direction) const;
 
   /// return the stored direction for the given cell
   uint8_t direction(uint16_t cell);
@@ -180,8 +180,6 @@ public:
   /// directionFlood does not care about costs, only using direction pointers
   uint16_t directionFlood(uint16_t target);
 
-
-  // TODO: is the closed maze needed? is it enough to see if the path has unvisited cells?
   /// Flood the maze both open and closed and then test the cost difference
   /// leaves the maze with unknowns clear
   bool testForSolution();
@@ -217,7 +215,6 @@ protected:
   uint16_t mWidth;
   /// stores the wall and visited flags. Allows for 32x32 maze but wastes space
   wall_t xWalls[1024];
-  uint8_t mWalls[1024];
   /// stores the least costly direction. Allows for 32x32 maze but wastes space
   uint8_t mDirection[1024];
   /// stores the cost information from a flood. Allows for 32x32 maze but wastes space
