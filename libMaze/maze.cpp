@@ -228,9 +228,6 @@ uint8_t Maze::walls(uint16_t cell) const {
   return result;
 }
 
-bool Maze::isSeen(uint16_t cell, uint8_t direction) {
-  return (mWalls[cell] & (0x10 << direction)) != 0;
-}
 
 bool Maze::hasExit(uint16_t cell, uint8_t direction) {
   return (mWalls[cell] & (0x01 << direction)) == 0;
@@ -241,11 +238,41 @@ bool Maze::hasWall(uint16_t cell, uint8_t direction) {
 }
 
 bool Maze::hasRealExit(uint16_t cell, uint8_t direction) {
-  return isSeen(cell, direction) && hasExit(cell, direction);
+  bool result;
+  switch (direction) {
+    case NORTH:
+      result = xWalls[cell].wall.north == EXIT;
+      break;
+    case EAST:
+      result = xWalls[cell].wall.east == EXIT;
+      break;
+    case SOUTH:
+      result = xWalls[cell].wall.south == EXIT;
+      break;
+    case WEST:
+      result = xWalls[cell].wall.west == EXIT;
+      break;
+  }
+  return result;
 }
 
 bool Maze::hasRealWall(uint16_t cell, uint8_t direction) {
-  return isSeen(cell, direction) && hasWall(cell, direction);
+  bool result;
+  switch (direction) {
+    case NORTH:
+      result = xWalls[cell].wall.north == WALL;
+      break;
+    case EAST:
+      result = xWalls[cell].wall.east == WALL;
+      break;
+    case SOUTH:
+      result = xWalls[cell].wall.south == WALL;
+      break;
+    case WEST:
+      result = xWalls[cell].wall.west == WALL;
+      break;
+  }
+  return result;
 }
 
 uint8_t Maze::direction(uint16_t cell) {
