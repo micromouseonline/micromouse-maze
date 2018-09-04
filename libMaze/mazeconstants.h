@@ -67,4 +67,23 @@ enum {
 
 #define VISITED (CHECKED_NORTH + CHECKED_EAST + CHECKED_SOUTH + CHECKED_WEST)
 
+
+#define EXIT  0
+#define WALL    1
+#define UNKNOWN 2
+
+#define CLOSED_MASK    3
+#define OPEN_MASK      1
+
+typedef union {
+  uint8_t byte;
+  struct  {
+    unsigned  char north: 2 ;
+    unsigned  char east: 2 ;
+    unsigned  char south: 2 ;
+    unsigned  char west: 2 ;
+  } wall;
+} wall_t;      // structure that stores wall information (bit field)
+
+
 #endif //MAZE_MAZECONSTANTS_H
