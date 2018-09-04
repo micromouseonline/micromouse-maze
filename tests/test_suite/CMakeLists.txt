@@ -16,7 +16,6 @@ add_executable(runTestSuite
         testMazePrinter.cpp
         testMazeFiler.cpp
         testPathFinder.cpp
-        testSearcher.cpp
         testFloodInfo.cpp
         path_test_data.cpp
         path_test_data.h
