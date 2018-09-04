@@ -32,6 +32,7 @@
 #include "floodinfo.h"
 #include "priorityqueue.h"
 
+
 class Maze {
 
 public:
@@ -103,6 +104,7 @@ public:
 
   /// return the state of the four walls surrounding a given cell
   uint8_t walls(uint16_t cell) const;
+  wall_t xwalls(uint16_t cell) const;
   uint8_t internalWalls(uint16_t cell) const;
   /// test whether a wall in a given direction has been observed
   bool isSeen(uint16_t cell, uint8_t direction);
@@ -207,7 +209,13 @@ public:
   /// used only for the weighted Flood
   uint16_t getCornerWeight() const;
   void setCornerWeight(uint16_t cornerWeight);
+  wall_t xWalls[1024];
 
+protected:
+  /// safety mask lets us choose to ignore unkmown walls
+  uint8_t mSafetyMask;
+public:
+  uint8_t getMSafetyMask() const;
 protected:
   /// the width of the maze in cells. Assume mazes are always square
   uint16_t mWidth;
