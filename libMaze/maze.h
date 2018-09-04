@@ -107,6 +107,8 @@ public:
   wall_t xwalls(uint16_t cell) const;
   uint8_t internalWalls(uint16_t cell) const;
   ///  test for the absence of a wall. Don't care if it is seen or not
+  /// test whether there are any unknown walls in a cell
+  bool hasUnknowns(uint16_t cell) const;
   bool hasExit(uint16_t cell, uint8_t direction);
   ///  test for the presence of a wall. Don't care if it is seen or not
   bool hasWall(uint16_t cell, uint8_t direction);

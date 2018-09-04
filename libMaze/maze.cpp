@@ -863,6 +863,17 @@ wall_t Maze::xwalls(uint16_t cell) const {
   return xWalls[cell];
 }
 
+bool Maze::hasUnknowns(uint16_t cell) const {
+  if (xWalls[cell].wall.north == UNKNOWN ||
+      xWalls[cell].wall.east == UNKNOWN ||
+      xWalls[cell].wall.south == UNKNOWN ||
+      xWalls[cell].wall.west == UNKNOWN) {
+    return true;
+  } else {
+    return false;
+  }
+
+
 uint8_t Maze::getMSafetyMask() const {
   return mSafetyMask;
 };
