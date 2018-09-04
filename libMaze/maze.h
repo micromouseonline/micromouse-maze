@@ -103,18 +103,24 @@ public:
   void setGoal(uint16_t goal);
 
   /// return the state of the four walls surrounding a given cell
+  /// NOTE: should this be always the open maze
   uint8_t walls(uint16_t cell) const;
   wall_t xwalls(uint16_t cell) const;
   bool hasExit(uint16_t cell, uint8_t direction);
   ///  test for the presence of a wall. Don't care if it is seen or not
-  bool hasWall(uint16_t cell, uint8_t direction);
+  bool hasWall(uint16_t cell, uint8_t direction); // not used in maze
   bool hasMaskedWall(uint16_t cell, uint8_t direction);
   ///  it is not clear that these two mthods have any actual use
   ///  test for the definite, observed absence of a wall.
   bool hasRealExit(uint16_t cell, uint8_t direction) const;
   ///  test for the definite, observed presence of a wall.
   bool hasRealWall(uint16_t cell, uint8_t direction) const;
-
+  inline bool isExit(uint8_t wall, uint8_t mask) const {
+    return (wall & mask) == EXIT;
+  };
+  inline bool isWall(uint8_t wall, uint8_t mask) const {
+    return (wall & mask) != EXIT;
+  };
   /// return the stored direction for the given cell
   uint8_t direction(uint16_t cell);
   /// set the direction for the given cell
