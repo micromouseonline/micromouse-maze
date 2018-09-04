@@ -223,16 +223,21 @@ void Maze::setGoal(uint16_t goal) {
 
 uint8_t Maze::walls(uint16_t cell) const {
   uint8_t result = 0;
-  if (hasRealWall(cell, NORTH)) {
+  wall_t wallData = xWalls[cell];
+  if (isWall(wallData.wall.north, OPEN_MASK)) {
+    //  if (hasRealWall(cell, NORTH)) {
     result |= 0x01;
   }
-  if (hasRealWall(cell, EAST)) {
+  if (isWall(wallData.wall.east, OPEN_MASK)) {
+    //  if (hasRealWall(cell, EAST)) {
     result |= 0x02;
   }
-  if (hasRealWall(cell, SOUTH)) {
+  if (isWall(wallData.wall.south, OPEN_MASK)) {
+    //  if (hasRealWall(cell, SOUTH)) {
     result |= 0x04;
   }
-  if (hasRealWall(cell, WEST)) {
+  if (isWall(wallData.wall.west, OPEN_MASK)) {
+    //  if (hasRealWall(cell, WEST)) {
     result |= 0x08;
   }
   return result;
@@ -243,16 +248,16 @@ bool Maze::hasExit(uint16_t cell, uint8_t direction) {
   bool result;
   switch (direction) {
     case NORTH:
-      result = xWalls[cell].wall.north != WALL;
+      result = isExit(xWalls[cell].wall.north, OPEN_MASK);
       break;
     case EAST:
-      result = xWalls[cell].wall.east != WALL;
+      result = isExit(xWalls[cell].wall.east, OPEN_MASK);
       break;
     case SOUTH:
-      result = xWalls[cell].wall.south != WALL;
+      result = isExit(xWalls[cell].wall.south, OPEN_MASK);
       break;
     case WEST:
-      result = xWalls[cell].wall.west != WALL;
+      result = isExit(xWalls[cell].wall.west, OPEN_MASK);
       break;
   }
   return result;
@@ -263,16 +268,16 @@ bool Maze::hasWall(uint16_t cell, uint8_t direction) {
   bool result;
   switch (direction) {
     case NORTH:
-      result = xWalls[cell].wall.north != EXIT;
+      result = isWall(xWalls[cell].wall.north, OPEN_MASK);
       break;
     case EAST:
-      result = xWalls[cell].wall.east  != EXIT;
+      result = isWall(xWalls[cell].wall.east, OPEN_MASK);
       break;
     case SOUTH:
-      result = xWalls[cell].wall.south  != EXIT;
+      result = isWall(xWalls[cell].wall.south, OPEN_MASK);
       break;
     case WEST:
-      result = xWalls[cell].wall.west  != EXIT;
+      result = isWall(xWalls[cell].wall.west, OPEN_MASK);
       break;
   }
   return result;
@@ -282,16 +287,16 @@ bool Maze::hasRealExit(uint16_t cell, uint8_t direction) const {
   bool result;
   switch (direction) {
     case NORTH:
-      result = xWalls[cell].wall.north == EXIT;
+      result = isExit(xWalls[cell].wall.north, CLOSED_MASK);
       break;
     case EAST:
-      result = xWalls[cell].wall.east == EXIT;
+      result = isExit(xWalls[cell].wall.east, CLOSED_MASK);
       break;
     case SOUTH:
-      result = xWalls[cell].wall.south == EXIT;
+      result = isExit(xWalls[cell].wall.south, CLOSED_MASK);
       break;
     case WEST:
-      result = xWalls[cell].wall.west == EXIT;
+      result = isExit(xWalls[cell].wall.west, CLOSED_MASK);
       break;
   }
   return result;
@@ -301,16 +306,16 @@ bool Maze::hasRealWall(uint16_t cell, uint8_t direction) const {
   bool result;
   switch (direction) {
     case NORTH:
-      result = xWalls[cell].wall.north == WALL;
+      result = isWall(xWalls[cell].wall.north, CLOSED_MASK);
       break;
     case EAST:
-      result = xWalls[cell].wall.east == WALL;
+      result = isWall(xWalls[cell].wall.east, CLOSED_MASK);
       break;
     case SOUTH:
-      result = xWalls[cell].wall.south == WALL;
+      result = isWall(xWalls[cell].wall.south, CLOSED_MASK);
       break;
     case WEST:
-      result = xWalls[cell].wall.west == WALL;
+      result = isWall(xWalls[cell].wall.west, CLOSED_MASK);
       break;
   }
   return result;
