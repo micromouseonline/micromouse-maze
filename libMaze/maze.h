@@ -206,7 +206,6 @@ public:
   /// used only for the weighted Flood
   uint16_t getCornerWeight() const;
   void setCornerWeight(uint16_t cornerWeight);
-  wall_t xWalls[1024];
 
 protected:
   /// safety mask lets us choose to ignore unkmown walls
@@ -217,6 +216,7 @@ protected:
   /// the width of the maze in cells. Assume mazes are always square
   uint16_t mWidth;
   /// stores the wall and visited flags. Allows for 32x32 maze but wastes space
+  wall_t xWalls[1024];
   uint8_t mWalls[1024];
   /// stores the least costly direction. Allows for 32x32 maze but wastes space
   uint8_t mDirection[1024];
