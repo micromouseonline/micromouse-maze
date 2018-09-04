@@ -105,7 +105,6 @@ public:
   /// return the state of the four walls surrounding a given cell
   uint8_t walls(uint16_t cell) const;
   wall_t xwalls(uint16_t cell) const;
-  uint8_t internalWalls(uint16_t cell) const;
   bool hasExit(uint16_t cell, uint8_t direction);
   ///  test for the presence of a wall. Don't care if it is seen or not
   bool hasWall(uint16_t cell, uint8_t direction);

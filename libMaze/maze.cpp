@@ -831,10 +831,6 @@ void Maze::setCornerWeight(uint16_t cornerWeight) {
   Maze::mCornerWeight = cornerWeight;
 }
 
-uint8_t Maze::internalWalls(uint16_t cell) const {
-  return walls(cell);
-}
-
 wall_t Maze::xwalls(uint16_t cell) const {
   return xWalls[cell];
 }
