@@ -203,5 +203,6 @@ void MazePrinter::printCosts(Maze *maze) {
     printf("\n");
   }
   printSouthWalls(maze, 0);
+  printf("\n");
 }
 
