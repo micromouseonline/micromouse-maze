@@ -154,13 +154,17 @@ TEST_F(MazeTest, HasKnownWall) {
   EXPECT_TRUE(maze32->hasRealWall(0, EAST));
   EXPECT_TRUE(maze32->hasRealWall(0, SOUTH));
   EXPECT_TRUE(maze32->hasRealWall(0, WEST));
-
+  // all the unknowns are walls unless we 'see' them
+  EXPECT_TRUE(maze32->hasRealWall(1, NORTH));
+  EXPECT_TRUE(maze32->hasRealWall(1, EAST));
+  EXPECT_FALSE(maze32->hasRealWall(1, SOUTH));
+  EXPECT_TRUE(maze32->hasRealWall(1, WEST));
+  // all the unknowns are walls unless we 'see' them
+  maze32->setVisited(1);
   EXPECT_FALSE(maze32->hasRealWall(1, NORTH));
   EXPECT_FALSE(maze32->hasRealWall(1, EAST));
   EXPECT_FALSE(maze32->hasRealWall(1, SOUTH));
   EXPECT_TRUE(maze32->hasRealWall(1, WEST));
-
-
 }
 
 
@@ -244,8 +248,9 @@ TEST_F(MazeTest, SetClearVisited_clearsVisitFlagsOnly) {
   maze->clearVisited(cell);
   printf("%02x\n", maze->xwalls(cell).byte);
   EXPECT_FALSE(maze->isVisited(cell));
-  // unseen walls are not reported
-  EXPECT_EQ(0x00, maze->walls(cell));
+  // unseen walls are virtual but present
+  // to 'unsee' a wall, it should be marked as UNKNOWN
+  EXPECT_EQ(0x0F, maze->walls(cell));
   maze->setVisited(cell);
   EXPECT_TRUE(maze->isVisited(cell));
   EXPECT_EQ(0x0F, maze->walls(cell));
