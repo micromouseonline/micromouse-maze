@@ -77,13 +77,13 @@ TEST_F(CostTest, GetNeighbourCosts_GetCostIgnoresWals) {
 }
 
 TEST_F(CostTest, CostDirection_GivesNeighbourCostIfNoWall) {
-  maze->resetToEmptyMaze();
   for (int cell = 0; cell < maze->numCells(); ++cell) {
     maze->setCost(cell, cell);
   }
   uint32_t neighbour;
   uint32_t cell;
   cell = 0x22;
+  maze->clearUnknowns();
   neighbour = maze->cellNorth(cell);
   EXPECT_EQ(neighbour, maze->costNorth(cell));
   neighbour = maze->cellEast(cell);
@@ -116,7 +116,8 @@ TEST_F(CostTest, SmallestNeighbourDirection) {
   for (int cell = 0; cell < maze->numCells(); ++cell) {
     maze->setCost(cell, (uint16_t)cell);
   }
-
+  // all internal walls are unknown so we need unsafe tests
+  maze->clearUnknowns();
   EXPECT_EQ(WEST, maze->directionToSmallest(0x22));
   maze->setWall(0x22, WEST);
   EXPECT_EQ(SOUTH, maze->directionToSmallest(0x22));
@@ -125,9 +126,9 @@ TEST_F(CostTest, SmallestNeighbourDirection) {
   maze->setWall(0x22, NORTH);
   EXPECT_EQ(EAST, maze->directionToSmallest(0x22));
   maze->setWall(0x22, EAST);
-
   // no accessible neighbours now
   EXPECT_EQ(INVALID_DIRECTION, maze->directionToSmallest(0x22));
+
 
 
 }
@@ -137,7 +138,7 @@ TEST_F(CostTest, UpdateDirections) {
   for (int cell = 0; cell < maze->numCells(); ++cell) {
     maze->setCost(cell, cell);
   }
-
+  maze->clearUnknowns();
   maze->updateDirections();
   EXPECT_EQ(WEST, maze->direction(0x22));
 

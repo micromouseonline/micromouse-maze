@@ -189,7 +189,9 @@ TEST_F(PathFinderTest, generate_Japan2007_RunLength_Path) {
 TEST_F(PathFinderTest, generate_EmptyMaze_UnexploredOnPath) {
   maze->setFloodType(Maze::RUNLENGTH_FLOOD);
   maze->resetToEmptyMaze();
+  maze->clearUnknowns();
   maze->flood(0x77);
+
   path->generateSafePath(0, 0x77, maze);
   EXPECT_EQ(3, strlen(path->path())) << path->path();
   char result[] = "BFX";
@@ -204,29 +206,6 @@ TEST_F(PathFinderTest, generate_EmptyMaze_UnexploredOnPath) {
   EXPECT_FALSE(path->reachesTarget());
   EXPECT_EQ(0x02, path->endCell());
 }
-
-TEST_F(PathFinderTest, generate_Japan2007_SimulateSearch) {
-  // do a simulated search
-  maze->copyMazeFromFileData(japan2007ef, 256);
-  for (int i = 1; i < maze->numCells(); i++) {
-    maze->clearVisited(i);
-  }
-  char japanPath[] = "BFRLRLRLFLRFFLFRFFRRFLLFFLRLRFRFFFFFFFFFFFFFFRFFFFFFRLRLLRRLLRRFFRFFFLFFFS";
-  int steps = 0;
-  while (!path->reachesTarget()) {
-    maze->setVisited(path->endCell());
-    steps++;
-    maze->flood(0x77);
-    path->generateSafePath(0, 0x77, maze);
-  }
-  EXPECT_EQ(72, steps);
-  EXPECT_EQ(74, strlen(path->path())) << path->path();
-  EXPECT_STREQ(japanPath, path->path());
-  EXPECT_TRUE(path->reachesTarget());
-  EXPECT_EQ(0x77, path->endCell());
-  //  MazePrinter::printVisitedDirs(libMaze);
-}
-
 
 
 // the distances are only meant to be accurate in relation to each other
