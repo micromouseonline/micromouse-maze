@@ -221,7 +221,7 @@ TEST_F(MazeFlood, directionFlood_EmptyMaze_cost_31) {
 TEST_F(MazeFlood, ManhattanFlood_EmptyHalfSizeMaze_cost_14) {
   Maze * maze = new Maze(32);
   maze->clearUnknowns();
-  uint16_t cost = maze->manhattanFlood(maze->cellID(7, 7));
+  uint16_t cost = maze->manhattanFlood(maze->cell(7, 7));
   EXPECT_EQ(14, cost);
   EXPECT_EQ(NORTH, maze->direction(0));
 }
@@ -229,7 +229,7 @@ TEST_F(MazeFlood, ManhattanFlood_EmptyHalfSizeMaze_cost_14) {
 TEST_F(MazeFlood, ManhattanFlood_Japan2014HalfSize_costx) {
   Maze * maze = new Maze(32);
   copyMaze(maze, japan2014ef_half);
-  maze->setGoal(maze->cellID(26, 5));
+  maze->setGoal(maze->cell(26, 5));
   int cost = maze->manhattanFlood(maze->goal());
   //  MazePrinter::printCosts(maze);
   EXPECT_EQ(159, cost);

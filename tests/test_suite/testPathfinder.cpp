@@ -394,7 +394,7 @@ TEST_F(PathFinderTest, generate_Japan2014HalfSize_Manhattan_CorrectPath) {
   Maze * maze = new Maze(32);
   maze->setFloodType(Maze::MANHATTAN_FLOOD);
   maze->copyMazeFromFileData(japan2014ef_half, 1024);
-  maze->setGoal(maze->cellID(26, 5));
+  maze->setGoal(maze->cell(26, 5));
   maze->flood(maze->goal());
   path->generateSafePath(0, maze->goal(), maze);
   EXPECT_EQ(161, strlen(path->path()));

@@ -85,13 +85,13 @@ TEST_F(CostTest, CostDirection_GivesNeighbourCostIfNoWall) {
   cell = 0x22;
   maze->clearUnknowns();
   neighbour = maze->cellNorth(cell);
-  EXPECT_EQ(neighbour, maze->costNorth(cell));
+  EXPECT_EQ(neighbour, maze->cost(cell, NORTH));
   neighbour = maze->cellEast(cell);
-  EXPECT_EQ(neighbour, maze->costEast(cell));
+  EXPECT_EQ(neighbour, maze->cost(cell, EAST));
   neighbour = maze->cellSouth(cell);
-  EXPECT_EQ(neighbour, maze->costSouth(cell));
+  EXPECT_EQ(neighbour, maze->cost(cell, SOUTH));
   neighbour = maze->cellWest(cell);
-  EXPECT_EQ(neighbour, maze->costWest(cell));
+  EXPECT_EQ(neighbour, maze->cost(cell, WEST));
 }
 
 TEST_F(CostTest, CostDirection_GivesUINT16_MAXIfWall) {
@@ -105,10 +105,10 @@ TEST_F(CostTest, CostDirection_GivesUINT16_MAXIfWall) {
   maze->setWall(cell, EAST);
   maze->setWall(cell, SOUTH);
   maze->setWall(cell, WEST);
-  EXPECT_EQ(MAX_COST, maze->costNorth(cell));
-  EXPECT_EQ(MAX_COST, maze->costEast(cell));
-  EXPECT_EQ(MAX_COST, maze->costSouth(cell));
-  EXPECT_EQ(MAX_COST, maze->costWest(cell));
+  EXPECT_EQ(MAX_COST, maze->cost(cell, NORTH));
+  EXPECT_EQ(MAX_COST, maze->cost(cell, EAST));
+  EXPECT_EQ(MAX_COST, maze->cost(cell, SOUTH));
+  EXPECT_EQ(MAX_COST, maze->cost(cell, WEST));
 }
 
 TEST_F(CostTest, SmallestNeighbourDirection) {
