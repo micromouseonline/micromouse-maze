@@ -83,10 +83,10 @@ void Maze::clearData() {
 void Maze::resetToEmptyMaze() {
   clearData();
   for (uint16_t i = 0; i < width(); i++) {
-    setWall(i, WEST);
-    setWall(static_cast<uint16_t>(width() * (width() - 1) + i), EAST);
-    setWall(i * width(), SOUTH);
-    setWall(static_cast<uint16_t>(width() * i + width() - 1), NORTH);
+    setWall(cell(0, i), WEST);
+    setWall(cell(width() - 1, i), EAST);
+    setWall(cell(i, 0), SOUTH);
+    setWall(cell(i, width() - 1), NORTH);
   }
   setWall(0, EAST);
   clearWall(0, NORTH);
