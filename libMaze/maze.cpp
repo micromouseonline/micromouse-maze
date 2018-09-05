@@ -516,8 +516,15 @@ bool Maze::testForSolution() { // takes less than 3ms
  *  This method tries to work out where that will be.
  *  It takes no account of the possibil ty of multiple
  *  entrances but it is better than nothing
+ *  It also only works on the classic maze.
+ *
+ *  TODO: Better to examine the direction through the gate and
+ *  work out how far the mouse can travel in a straight line after that.
  */
 void Maze::recalculateGoal() {
+  if (width() != 16) {
+    return; // only works for classic maze
+  }
   uint16_t newGoal = goal();
   // count the entrances
   int entranceCount = 0;
