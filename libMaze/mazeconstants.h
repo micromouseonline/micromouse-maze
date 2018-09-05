@@ -29,6 +29,15 @@
 
 #include <cstdint>
 
+#if defined(__GNUC__) || defined(__clang__)
+#define DEPRECATED(msg) __attribute__((deprecated(msg)))
+#elif defined(_MSC_VER)
+#define DEPRECATED __declspec(deprecated)
+#else
+#pragma message("WARNING: You need to implement DEPRECATED for this compiler")
+#define DEPRECATED
+#endif
+
 const uint8_t DEFAULT_GOAL = 0x77;
 const uint8_t TRAINING_GOAL = 0x11;
 const uint16_t MAX_COST = UINT16_MAX;

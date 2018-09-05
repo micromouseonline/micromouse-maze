@@ -49,9 +49,7 @@ protected:
   }
 
   virtual void copyClassicMaze(const uint8_t *mazeData) const {
-    for (int cell = 0; cell < this->maze->numCells(); ++cell) {
-      maze->copyCellFromFileData(cell, mazeData[cell]);
-    }
+    maze->loadFromFileData(mazeData);
   }
 };
 

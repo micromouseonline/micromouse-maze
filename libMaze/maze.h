@@ -53,9 +53,6 @@ public:
   /// clear the data and then set all the walls that exist in an empty maze
   void resetToEmptyMaze(); ///
 
-  /// Clear the costs and directions and then copy the walls from an array
-  void copyMazeFromFileData(const uint8_t *wallData, uint16_t cellCount);
-
   /// return the column number of  given cell
   inline uint16_t col(uint16_t cell) {
     return cell / mWidth;
@@ -137,9 +134,6 @@ public:
   /// NOT TO BE USED IN SEARCH. Unconditionally clear a  wall in a cell and mark as seen.
   void clearWall(uint16_t cell, uint8_t direction);
 
-  /// NOT TO BE USED IN SEARCH. Update a single cell from stored map data.
-  void copyCellFromFileData(uint16_t cell, uint8_t wallData);
-
   /// USE THIS FOR SEARCH. Update a single cell with wall data (normalised for direction)
   void updateMap(uint16_t cell, uint8_t wallData);
 
@@ -192,6 +186,12 @@ public:
 
   /// load the wall data, including visited flags from the target array. Not checked for overflow.
   void load(const uint8_t *data);
+
+
+  /// Clear the costs and directions and then copy the walls from an array
+  void copyMazeFromFileData(const uint8_t *wallData, uint16_t cellCount) DEPRECATED(" use void loadFromFileData(const uint8_t *wallData)");
+  void loadFromFileData(const uint8_t *fileData);
+
 
   /// set and get the Flood Type to use
   void setFloodType(FloodType mFloodType);

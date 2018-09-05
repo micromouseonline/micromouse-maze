@@ -77,7 +77,7 @@ int main(int argc, char **argv) {
         continue;
       };
       maze.load(wallData);
-      maze.copyMazeFromFileData(wallData, 256);
+      maze.loadFromFileData(wallData);
       maze.flood(0x77);
     }
   } else {

@@ -99,20 +99,14 @@ int MazeFiler::readMaze(Maze *maze, char *fileName) {
 int MazeFiler::readBinaryMaze(FILE *fp,  Maze * maze) {
   uint8_t buffer[1024];
   size_t bytesRead = fread(buffer, 1, 1024, fp);
-  if (bytesRead < 256) {
-    return MAZE_FILER_BAD_FORMAT;
-  }
   if (buffer[0] != 0x0e) {
     // probably not a binary maze
     return MAZE_FILER_BAD_FORMAT;
   }
-  if (bytesRead < 1024) {
-    // assume classic maze
-    maze->copyMazeFromFileData(buffer, 256);
-    return MAZE_FILER_SUCCESS;
+  if (maze->numCells() > bytesRead) {
+    return MAZE_FILER_BAD_FORMAT;
   }
-  // then assume it is a half-size maze
-  maze->copyMazeFromFileData(buffer, 1024);
+  maze->loadFromFileData(buffer);
   return MAZE_FILER_SUCCESS;
 }
 

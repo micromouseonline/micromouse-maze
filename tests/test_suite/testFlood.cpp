@@ -44,18 +44,14 @@ protected:
   }
 
   virtual void copyClassicMaze(const uint8_t *mazeData) const {
-    for (int cell = 0; cell < this->maze->numCells(); ++cell) {
-      maze->copyCellFromFileData(cell, mazeData[cell]);
-    }
+    maze->loadFromFileData(mazeData);
   }
 
   virtual void copyMaze(Maze *maze, const uint8_t *mazeData) const {
     if (!maze || !mazeData) {
       return;
     }
-    for (int cell = 0; cell < maze->numCells(); ++cell) {
-      maze->copyCellFromFileData(cell, mazeData[cell]);
-    }
+    maze->loadFromFileData(mazeData);
   }
 
 };
@@ -187,7 +183,7 @@ TEST_F(MazeFlood, ManhattanFlood_EmptyMaze_cost_14) {
 }
 
 TEST_F(MazeFlood, ManhattanFlood_Japan2007_costx) {
-  maze->copyMazeFromFileData(japan2007ef, 256);
+  maze->loadFromFileData(japan2007ef);
   uint16_t cost = maze->manhattanFlood(0x77);
   EXPECT_EQ(72, cost);
   // top left cell

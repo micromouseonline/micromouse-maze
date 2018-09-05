@@ -54,9 +54,7 @@ protected:
     if (!maze || !mazeData) {
       return;
     }
-    for (int cell = 0; cell < maze->numCells(); ++cell) {
-      maze->copyCellFromFileData(cell, mazeData[cell]);
-    }
+    maze->loadFromFileData(mazeData);
   }
 };
 

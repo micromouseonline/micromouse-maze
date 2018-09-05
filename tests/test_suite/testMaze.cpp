@@ -49,9 +49,8 @@ protected:
     if (!maze || !mazeData) {
       return;
     }
-    for (int cell = 0; cell < maze->numCells(); ++cell) {
-      maze->copyCellFromFileData(cell, mazeData[cell]);
-    }
+    maze->loadFromFileData(mazeData);
+
   }
 
 
@@ -197,12 +196,12 @@ TEST_F(MazeTest, CopyHalfSizeMaze) {
 
 
 TEST_F(MazeTest, SetClearUnknowns_NoChangeInExploredMaze) {
-  maze->copyMazeFromFileData(emptyMaze, 256);
+  maze->loadFromFileData(emptyMaze);
   Maze setMaze(16);
   Maze clearMaze(16);
-  setMaze.copyMazeFromFileData(emptyMaze, 256);
+  setMaze.loadFromFileData(emptyMaze);
   setMaze.setUnknowns();
-  clearMaze.copyMazeFromFileData(emptyMaze, 256);
+  clearMaze.loadFromFileData(emptyMaze);
   clearMaze.clearUnknowns();
   for (uint16_t cell = 0; cell < maze->numCells(); cell++) {
     EXPECT_EQ(setMaze.walls(cell), clearMaze.walls(cell));
@@ -271,9 +270,8 @@ TEST_F(MazeTest, HasExit) {
 TEST_F(MazeTest, CopyCellFromFileData_GetExactCopy) {
   const uint8_t *src = japan2007ef;
   maze->resetToEmptyMaze();
-  for (int i = 0; i < maze->numCells(); i++) {
-    maze->copyCellFromFileData(i, src[i]);
-  }
+  maze->loadFromFileData(src);
+
   for (int i = 0; i < maze->numCells(); i++) {
     EXPECT_EQ(src[i], maze->walls(i));
     EXPECT_TRUE(maze->isVisited(i));
@@ -303,7 +301,7 @@ TEST_F(MazeTest, NeighbourInvalidDirection_ReturnsUINT16_MAX) {
 
 TEST_F(MazeTest, LoadAndSave_MazeKeptSafe) {
   uint8_t backupWalls[1024] = {};
-  maze->copyMazeFromFileData(japan2007ef, 256);
+  maze->loadFromFileData(japan2007ef);
   maze->save(backupWalls);
   maze->resetToEmptyMaze();
   for (int i = 0; i < maze->numCells(); i++) {
