@@ -311,7 +311,27 @@ TEST_F(MazeTest, LoadAndSave_MazeKeptSafe) {
   for (int i = 0; i < maze->numCells(); i++) {
     EXPECT_EQ(maze->walls(i), japan2007ef[i]);
   }
-
-
 }
+
+
+TEST_F(MazeTest, RecalculateGoal) {
+  maze->loadFromFileData(japan2007ef);
+  EXPECT_EQ(0x77, maze->goal());
+  maze->setGoal(0x87);
+  maze->recalculateGoal();
+  EXPECT_EQ(0x77, maze->goal());
+  maze->setGoal(0x11);
+  maze->recalculateGoal();
+  EXPECT_EQ(0x77, maze->goal());
+  maze->clearWall(0x87, SOUTH);
+  maze->setGoal(0x11);
+  maze->recalculateGoal();
+  EXPECT_EQ(0x88, maze->goal());
+  MazePrinter::printPlain(maze);
+  maze32->setGoal(0x11);
+  maze32->recalculateGoal();
+  EXPECT_EQ(0x11, maze32->goal());
+}
+
+
 
