@@ -104,8 +104,9 @@ public:
   wall_t xwalls(uint16_t cell) const;
   bool hasExit(uint16_t cell, uint8_t direction) const;
   ///  test for the presence of a wall. Don't care if it is seen or not
-  bool hasWall(uint16_t cell, uint8_t direction) const;
-  bool hasMaskedWall(uint16_t cell, uint8_t direction);
+  bool hasWall(uint16_t cell, uint8_t direction) const DEPRECATED("Use the version of hasWall with an explicit mask");
+  bool hasWall(uint16_t cell, uint8_t direction, uint8_t mask) const;
+  bool hasMaskedWall(uint16_t cell, uint8_t direction) ;
   ///  it is not clear that these two mthods have any actual use
   ///  test for the definite, observed absence of a wall.
   bool hasRealExit(uint16_t cell, uint8_t direction) const;
@@ -195,22 +196,21 @@ public:
 
   /// set and get the Flood Type to use
   void setFloodType(FloodType mFloodType);
-  FloodType floodType();
+  FloodType floodType() DEPRECATED("Has no purpose?");
 
   /// used only for the weighted Flood
   uint16_t getCornerWeight() const;
   void setCornerWeight(uint16_t cornerWeight);
 
-protected:
-  /// safety mask lets us choose to ignore unkmown walls
-  uint8_t mSafetyMask;
 public:
   uint8_t getMSafetyMask() const;
 protected:
+  /// safety mask lets us choose to ignore unkmown walls
+  uint8_t mSafetyMask;
   /// the width of the maze in cells. Assume mazes are always square
   uint16_t mWidth;
   /// stores the wall and visited flags. Allows for 32x32 maze but wastes space
-  wall_t xWalls[1024];
+  wall_t mWalls[1024];
   /// stores the least costly direction. Allows for 32x32 maze but wastes space
   uint8_t mDirection[1024];
   /// stores the cost information from a flood. Allows for 32x32 maze but wastes space
