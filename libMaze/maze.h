@@ -64,9 +64,8 @@ public:
   inline uint16_t row(uint16_t cell) {
     return cell % mWidth;
   }
-
   ///  return the cell index from row and column
-  inline uint16_t cellID(uint16_t col, uint16_t row) {
+  inline uint16_t cell(uint16_t col, uint16_t row) {
     return row + col * mWidth;
   }
 
@@ -106,9 +105,9 @@ public:
   /// NOTE: should this be always the open maze
   uint8_t walls(uint16_t cell) const;
   wall_t xwalls(uint16_t cell) const;
-  bool hasExit(uint16_t cell, uint8_t direction);
+  bool hasExit(uint16_t cell, uint8_t direction) const;
   ///  test for the presence of a wall. Don't care if it is seen or not
-  bool hasWall(uint16_t cell, uint8_t direction); // not used in maze
+  bool hasWall(uint16_t cell, uint8_t direction) const;
   bool hasMaskedWall(uint16_t cell, uint8_t direction);
   ///  it is not clear that these two mthods have any actual use
   ///  test for the definite, observed absence of a wall.
@@ -153,14 +152,6 @@ public:
   uint16_t cost(uint16_t cell);
   /// return the cost in the neighbouring cell in the given direction
   uint16_t cost(uint16_t cell, uint16_t direction);
-  /// return the cost in the neighbouring cell to the North
-  uint16_t costNorth(uint16_t cell);
-  /// return the cost in the neighbouring cell to the East
-  uint16_t costEast(uint16_t cell);
-  /// return the cost in the neighbouring cell to the South
-  uint16_t costSouth(uint16_t cell);
-  /// return the cost in the neighbouring cell to the West
-  uint16_t costWest(uint16_t cell);
 
   /// set the cost in the given cell.
   void setCost(uint16_t cell, uint16_t cost); ///

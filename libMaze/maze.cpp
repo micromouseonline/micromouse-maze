@@ -223,27 +223,22 @@ void Maze::setGoal(uint16_t goal) {
 
 uint8_t Maze::walls(uint16_t cell) const {
   uint8_t result = 0;
-  wall_t wallData = xWalls[cell];
-  if (isWall(wallData.wall.north, OPEN_MASK)) {
-    //  if (hasRealWall(cell, NORTH)) {
+  if (hasWall(cell, NORTH)) {
     result |= 0x01;
   }
-  if (isWall(wallData.wall.east, OPEN_MASK)) {
-    //  if (hasRealWall(cell, EAST)) {
+  if (hasWall(cell, EAST)) {
     result |= 0x02;
   }
-  if (isWall(wallData.wall.south, OPEN_MASK)) {
-    //  if (hasRealWall(cell, SOUTH)) {
+  if (hasWall(cell, SOUTH)) {
     result |= 0x04;
   }
-  if (isWall(wallData.wall.west, OPEN_MASK)) {
-    //  if (hasRealWall(cell, WEST)) {
+  if (hasWall(cell, WEST)) {
     result |= 0x08;
   }
   return result;
 }
 
-bool Maze::hasExit(uint16_t cell, uint8_t direction) {
+bool Maze::hasExit(uint16_t cell, uint8_t direction) const {
   // regardless of whether it has been seen
   bool result;
   switch (direction) {
@@ -263,7 +258,7 @@ bool Maze::hasExit(uint16_t cell, uint8_t direction) {
   return result;
 }
 
-bool Maze::hasWall(uint16_t cell, uint8_t direction) {
+bool Maze::hasWall(uint16_t cell, uint8_t direction) const {
   // don't care if is is unknown
   bool result;
   switch (direction) {
@@ -443,56 +438,32 @@ uint16_t Maze::cost(uint16_t cell) {
   return mCost[cell];
 }
 
-/*
- * Distance is returned based upon the setting of the wall flag.
- * No account is taken of the 'wall seen' flag.
- */
-uint16_t Maze::costNorth(uint16_t cell) {
-  if (hasMaskedWall(cell, NORTH)) {
-    return MAX_COST;
-  }
-  cell = cellNorth(cell);
-  return mCost[cell];
-}
-
-uint16_t Maze::costEast(uint16_t cell) {
-  if (hasMaskedWall(cell, EAST)) {
-    return MAX_COST;
-  }
-  cell = cellEast(cell);
-  return mCost[cell];
-}
-
-uint16_t Maze::costSouth(uint16_t cell) {
-  if (hasMaskedWall(cell, SOUTH)) {
-    return MAX_COST;
-  }
-  cell = cellSouth(cell);
-  return mCost[cell];
-}
-
-uint16_t Maze::costWest(uint16_t cell) {
-  if (hasMaskedWall(cell, WEST)) {
-    return MAX_COST;
-  }
-  cell = cellWest(cell);
-  return mCost[cell];
-}
-
 uint16_t Maze::cost(uint16_t cell, uint16_t direction) {
-  uint16_t result;
+  uint16_t result = MAX_COST;
   switch (direction) {
     case NORTH:
-      result = costNorth(cell);
+      if (isExit(xWalls[cell].wall.north, mSafetyMask)) {
+        cell = cellNorth(cell);
+        result = mCost[cell];
+      }
       break;
     case EAST:
-      result = costEast(cell);
+      if (isExit(xWalls[cell].wall.east, mSafetyMask)) {
+        cell = cellEast(cell);
+        result = mCost[cell];
+      }
       break;
     case SOUTH:
-      result = costSouth(cell);
+      if (isExit(xWalls[cell].wall.south, mSafetyMask)) {
+        cell = cellSouth(cell);
+        result = mCost[cell];
+      }
       break;
     case WEST:
-      result = costWest(cell);
+      if (isExit(xWalls[cell].wall.west, mSafetyMask)) {
+        cell = cellWest(cell);
+        result = mCost[cell];
+      }
       break;
     default:
       result = MAX_COST;
