@@ -201,16 +201,7 @@ TEST_F(MazeFlood, WeightedFlood_EmptyMaze_cost_31) {
   EXPECT_EQ(NORTH, maze->direction(0));
 }
 
-TEST_F(MazeFlood, directionFlood_EmptyMaze_cost_31) {
-  maze->resetToEmptyMaze();
-  maze->clearUnknowns();
-  uint16_t cost = maze->directionFlood(0x77);
-  EXPECT_EQ(14, cost);
-  // top left cell
-  EXPECT_EQ(15, maze->cost(maze->width() - 1));
-  EXPECT_EQ(NORTH, maze->direction(0));
 
-}
 
 //////// HALF SIZE TESTS /////////////
 

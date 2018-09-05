@@ -633,9 +633,6 @@ uint16_t Maze::flood(uint16_t target) {
     case RUNLENGTH_FLOOD:
       cost = runLengthFlood(target);
       break;
-    case DIRECTION_FLOOD:
-      cost = directionFlood(target);
-      break;
   }
   return cost;
 }
@@ -820,32 +817,6 @@ uint16_t Maze::weightedFlood(uint16_t target) {
     }
   }
   updateDirections();
-  return mCost[0];
-}
-
-/** Although the direction flood uses only directions
- * it updates the manhattan distance for the costing
- * so that  a test for a solution can be made
- */
-
-uint16_t Maze::directionFlood(uint16_t target) {
-  PriorityQueue<int> queue;
-  initialiseFloodCosts(target);
-  queue.add(target);
-  while (queue.size() > 0) {
-    auto here = static_cast<uint16_t>(queue.head());
-    auto nextCost = static_cast<uint16_t>(mCost[here] + 1);
-    for (uint8_t exit = 0; exit < 4; exit++) {
-      if (!hasMaskedWall(here, exit)) {
-        uint16_t next = neighbour(here, exit);
-        if (mDirection[next] == INVALID_DIRECTION) {
-          mDirection[next] = behind(exit);
-          mCost[next] = nextCost;
-          queue.add(next);
-        }
-      }
-    }
-  }
   return mCost[0];
 }
 

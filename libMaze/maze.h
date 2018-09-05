@@ -40,8 +40,7 @@ public:
   enum FloodType {
     MANHATTAN_FLOOD,
     WEIGHTED_FLOOD,
-    RUNLENGTH_FLOOD,
-    DIRECTION_FLOOD
+    RUNLENGTH_FLOOD
   };
 
   /// the maze is assumed to be square
@@ -168,8 +167,6 @@ public:
   uint16_t manhattanFlood(uint16_t target);
   /// weightedFlood assigns a penalty to turns vs straights
   uint16_t weightedFlood(uint16_t target);
-  /// directionFlood does not care about costs, only using direction pointers
-  uint16_t directionFlood(uint16_t target);
 
   /// Flood the maze both open and closed and then test the cost difference
   /// leaves the maze with unknowns clear
