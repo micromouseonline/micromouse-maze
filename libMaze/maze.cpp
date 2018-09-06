@@ -207,7 +207,7 @@ void Maze::setGoal(uint16_t goal) {
   mGoal = goal;
 }
 
-uint8_t Maze::walls(uint16_t cell) const {
+uint8_t Maze::fwalls(uint16_t cell) const {
   uint8_t result = 0;
   if (hasWall(cell, NORTH, OPEN_MASK)) {
     result |= 0x01;
@@ -222,6 +222,9 @@ uint8_t Maze::walls(uint16_t cell) const {
     result |= 0x08;
   }
   return result;
+}
+uint8_t Maze::walls(uint16_t cell) const {
+  return fwalls(cell);
 }
 
 bool Maze::hasExit(uint16_t cell, uint8_t direction, uint8_t mask) const {

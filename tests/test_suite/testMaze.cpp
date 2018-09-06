@@ -179,7 +179,7 @@ TEST_F(MazeTest, CopyClassicMaze) {
   Maze testMaze(16);
   copyMaze(&testMaze, emptyMaze);
   for (uint16_t cell = 0; cell < testMaze.numCells(); cell++) {
-    EXPECT_EQ(emptyMaze[cell], testMaze.walls(cell));
+    EXPECT_EQ(emptyMaze[cell], testMaze.fwalls(cell));
     EXPECT_TRUE(testMaze.isVisited(cell));
   }
 }
@@ -188,7 +188,7 @@ TEST_F(MazeTest, CopyHalfSizeMaze) {
   Maze testMaze(32);
   copyMaze(&testMaze, emptyHalfSize);
   for (uint16_t cell = 0; cell < testMaze.numCells(); cell++) {
-    EXPECT_EQ(emptyHalfSize[cell], testMaze.walls(cell));
+    EXPECT_EQ(emptyHalfSize[cell], testMaze.fwalls(cell));
     EXPECT_TRUE(testMaze.isVisited(cell));
   }
 }
@@ -204,7 +204,7 @@ TEST_F(MazeTest, SetClearUnknowns_NoChangeInExploredMaze) {
   clearMaze.loadFromFileData(emptyMaze);
   clearMaze.clearUnknowns();
   for (uint16_t cell = 0; cell < maze->numCells(); cell++) {
-    EXPECT_EQ(setMaze.walls(cell), clearMaze.walls(cell));
+    EXPECT_EQ(setMaze.fwalls(cell), clearMaze.fwalls(cell));
   }
 }
 
@@ -220,7 +220,7 @@ TEST_F(MazeTest, ResetData_16x16_SetsEmptyMaze) {
   maze->resetToEmptyMaze();
   EXPECT_EQ(256, maze->numCells());
   for (int i = 0; i < maze->numCells(); i++) {
-    EXPECT_EQ(emptyMaze[i], maze->walls(i));
+    EXPECT_EQ(emptyMaze[i], maze->fwalls(i));
   }
 }
 
@@ -242,17 +242,17 @@ TEST_F(MazeTest, SetClearVisited_clearsVisitFlagsOnly) {
   maze->updateMap(cell, 0x0F);
   printf("%02x\n", maze->xwalls(cell).byte);
   EXPECT_TRUE(maze->isVisited(cell));
-  EXPECT_EQ(0x0f, maze->walls(cell));
+  EXPECT_EQ(0x0f, maze->fwalls(cell));
   printf("%02x\n", maze->xwalls(cell).byte);
   maze->clearVisited(cell);
   printf("%02x\n", maze->xwalls(cell).byte);
   EXPECT_FALSE(maze->isVisited(cell));
   // unseen walls are virtual but present
   // to 'unsee' a wall, it should be marked as UNKNOWN
-  EXPECT_EQ(0x0F, maze->walls(cell));
+  EXPECT_EQ(0x0F, maze->fwalls(cell));
   maze->setVisited(cell);
   EXPECT_TRUE(maze->isVisited(cell));
-  EXPECT_EQ(0x0F, maze->walls(cell));
+  EXPECT_EQ(0x0F, maze->fwalls(cell));
 
 }
 
@@ -279,7 +279,7 @@ TEST_F(MazeTest, CopyCellFromFileData_GetExactCopy) {
   maze->loadFromFileData(src);
 
   for (int i = 0; i < maze->numCells(); i++) {
-    EXPECT_EQ(src[i], maze->walls(i));
+    EXPECT_EQ(src[i], maze->fwalls(i));
     EXPECT_TRUE(maze->isVisited(i));
   }
 }
@@ -311,11 +311,11 @@ TEST_F(MazeTest, LoadAndSave_MazeKeptSafe) {
   maze->save(backupWalls);
   maze->resetToEmptyMaze();
   for (int i = 0; i < maze->numCells(); i++) {
-    EXPECT_EQ(maze->walls(i), emptyMaze[i]);
+    EXPECT_EQ(maze->fwalls(i), emptyMaze[i]);
   }
   maze->load(backupWalls);
   for (int i = 0; i < maze->numCells(); i++) {
-    EXPECT_EQ(maze->walls(i), japan2007ef[i]);
+    EXPECT_EQ(maze->fwalls(i), japan2007ef[i]);
   }
 }
 

@@ -248,7 +248,7 @@ int MazeFiler::writeBinaryMaze(Maze *maze, char * fileName) {
     return MAZE_FILER_WRITE_ERROR;
   } else {
     for (uint16_t i = 0; i < maze->numCells(); i++) {
-      fputc(maze->walls(i), fp);
+      fputc(maze->fwalls(i), fp);
     }
     fclose(fp);
   }
@@ -270,7 +270,7 @@ int MazeFiler::writeDeclarationMaze(Maze *maze, char * fileName) {
       fputs("   ", fp);
       for (uint16_t y = 0; y < maze->width(); y++) {
         uint16_t i = x * maze->width() + y;
-        snprintf(temp, sizeof(temp), "0x%02X, ", maze->walls(i));
+        snprintf(temp, sizeof(temp), "0x%02X, ", maze->fwalls(i));
         fputs(temp, fp);
       }
       fputs("\n", fp);

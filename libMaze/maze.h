@@ -99,8 +99,10 @@ public:
 
   /// return the state of the four walls surrounding a given cell
   /// NOTE: should this be always the open maze
-  uint8_t walls(uint16_t cell) const;
+  uint8_t fwalls(uint16_t cell) const;
+  uint8_t walls(uint16_t cell) const DEPRECATED("Use the version of hasExit with an explicit mask");
   wall_t xwalls(uint16_t cell) const;
+
   bool hasExit(uint16_t cell, uint8_t direction, uint8_t mask) const;
   bool hasExit(uint16_t cell, uint8_t direction) const DEPRECATED("Use the version of hasExit with an explicit mask");;
   ///  test for the presence of a wall. Don't care if it is seen or not
