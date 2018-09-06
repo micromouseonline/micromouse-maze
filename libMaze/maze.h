@@ -113,6 +113,7 @@ public:
   inline bool isWall(uint8_t wall, uint8_t mask) const {
     return (wall & mask) != EXIT;
   };
+
   /// return the stored direction for the given cell
   uint8_t direction(uint16_t cell);
   /// set the direction for the given cell

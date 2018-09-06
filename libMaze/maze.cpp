@@ -223,6 +223,7 @@ uint8_t Maze::fwalls(uint16_t cell) const {
   }
   return result;
 }
+
 uint8_t Maze::walls(uint16_t cell) const {
   return fwalls(cell);
 }
@@ -250,6 +251,7 @@ bool Maze::hasExit(uint16_t cell, uint8_t direction, uint8_t mask = OPEN_MASK) c
 
 bool Maze::hasWall(uint16_t cell, uint8_t direction, uint8_t mask = OPEN_MASK) const {
   bool result = false;
+  // NOTE: it is no faster to make this a single mask shift with AND operation
   switch (direction) {
     case NORTH:
       result = isWall(mWalls[cell].wall.north, mask);
@@ -617,6 +619,8 @@ uint16_t Maze::runLengthFlood(uint16_t target) {
   return mCost[0];
 }
 
+//NOTE: MANHATTAN flood is 3x - 5x faster than RUNLENGTH flood so explore with that.
+// an empty 32x32 maze takes < 1ms at 168MHz on STM32F4
 uint16_t Maze::manhattanFlood(uint16_t target) {
   PriorityQueue<uint16_t> queue;
   initialiseFloodCosts(target);
