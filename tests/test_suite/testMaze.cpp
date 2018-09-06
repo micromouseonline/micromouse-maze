@@ -260,11 +260,17 @@ TEST_F(MazeTest, SetClearVisited_clearsVisitFlagsOnly) {
 
 /////////////////////
 TEST_F(MazeTest, HasExit) {
-  maze->resetToEmptyMaze();
-  EXPECT_FALSE(maze->hasExit(0x0F, WEST));
-  EXPECT_FALSE(maze->hasExit(0x0F, NORTH));
-  EXPECT_FALSE(maze->hasExit(0xF0, EAST));
-  EXPECT_FALSE(maze->hasExit(0xF0, SOUTH));
+
+  EXPECT_FALSE(maze->hasExit(0, EAST, OPEN_MASK));
+  EXPECT_FALSE(maze->hasExit(0, EAST, CLOSED_MASK));
+
+  EXPECT_TRUE(maze->hasExit(0, NORTH, CLOSED_MASK));
+  EXPECT_TRUE(maze->hasExit(0, NORTH, OPEN_MASK));
+  EXPECT_TRUE(maze->hasExit(1, SOUTH, OPEN_MASK));
+  EXPECT_TRUE(maze->hasExit(1, SOUTH, CLOSED_MASK));
+  EXPECT_TRUE(maze->hasExit(1, EAST, OPEN_MASK));
+  EXPECT_FALSE(maze->hasExit(1, EAST, CLOSED_MASK));
+
 }
 
 TEST_F(MazeTest, CopyCellFromFileData_GetExactCopy) {

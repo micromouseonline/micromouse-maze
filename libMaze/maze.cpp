@@ -224,6 +224,26 @@ uint8_t Maze::walls(uint16_t cell) const {
   return result;
 }
 
+bool Maze::hasExit(uint16_t cell, uint8_t direction, uint8_t mask) const {
+  // regardless of whether it has been seen
+  bool result;
+  switch (direction) {
+    case NORTH:
+      result = isExit(mWalls[cell].wall.north, mask);
+      break;
+    case EAST:
+      result = isExit(mWalls[cell].wall.east, mask);
+      break;
+    case SOUTH:
+      result = isExit(mWalls[cell].wall.south, mask);
+      break;
+    case WEST:
+      result = isExit(mWalls[cell].wall.west, mask);
+      break;
+  }
+  return result;
+}
+
 bool Maze::hasExit(uint16_t cell, uint8_t direction) const {
   // regardless of whether it has been seen
   bool result;
@@ -572,35 +592,35 @@ void Maze::recalculateGoal() {
   // count the entrances
   int entranceCount = 0;
 
-  if (hasExit(0x77, SOUTH)) {
+  if (hasExit(0x77, SOUTH, OPEN_MASK)) {
     entranceCount++;
     newGoal = 0x78;
   };
-  if (hasExit(0x77, WEST)) {
+  if (hasExit(0x77, WEST, OPEN_MASK)) {
     entranceCount++;
     newGoal = 0x87;
   };
-  if (hasExit(0x78, WEST)) {
+  if (hasExit(0x78, WEST, OPEN_MASK)) {
     entranceCount++;
     newGoal = 0x88;
   };
-  if (hasExit(0x78, NORTH)) {
+  if (hasExit(0x78, NORTH, OPEN_MASK)) {
     entranceCount++;
     newGoal = 0x77;
   };
-  if (hasExit(0x88, NORTH)) {
+  if (hasExit(0x88, NORTH, OPEN_MASK)) {
     entranceCount++;
     newGoal = 0x87;
   };
-  if (hasExit(0x88, EAST)) {
+  if (hasExit(0x88, EAST, OPEN_MASK)) {
     entranceCount++;
     newGoal = 0x78;
   };
-  if (hasExit(0x87, EAST)) {
+  if (hasExit(0x87, EAST, OPEN_MASK)) {
     entranceCount++;
     newGoal = 0x77;
   };
-  if (hasExit(0x87, SOUTH)) {
+  if (hasExit(0x87, SOUTH, OPEN_MASK)) {
     entranceCount++;
     newGoal = 0x88;
   };
