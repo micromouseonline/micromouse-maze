@@ -800,21 +800,64 @@ uint16_t Maze::weightedFlood(uint16_t target) {
     auto here = static_cast<uint16_t>(queue.head());
     uint16_t costHere = mCost[here];
     uint8_t thisDirection = mDirection[here];
-    for (uint8_t exitDirection = 0; exitDirection < 4; exitDirection++) {
-      if (!hasMaskedWall(here, exitDirection)) {
-        uint16_t nextCell = neighbour(here, exitDirection);
-        if (thisDirection == exitDirection) {
-          newCost = costHere + aheadCost;
-        } else {
-          newCost = costHere + mCornerWeight;
-        }
-        if (mCost[nextCell] > newCost) {
-          mCost[nextCell] = newCost;
-          mDirection[nextCell] = exitDirection;
-          queue.add(nextCell);
-        }
+
+    wall_t wallsHere = mWalls[here];
+    if (isExit(wallsHere.wall.north, mSafetyMask)) {
+      uint16_t nextCell = neighbour(here, NORTH);
+      if (thisDirection == NORTH) {
+        newCost = costHere + aheadCost;
+      } else {
+        newCost = costHere + mCornerWeight;
+      }
+      if (mCost[nextCell] > newCost) {
+        mCost[nextCell] = newCost;
+        mDirection[nextCell] = NORTH;
+        queue.add(nextCell);
       }
     }
+
+    if (isExit(wallsHere.wall.east, mSafetyMask)) {
+      uint16_t nextCell = neighbour(here, EAST);
+      if (thisDirection == EAST) {
+        newCost = costHere + aheadCost;
+      } else {
+        newCost = costHere + mCornerWeight;
+      }
+      if (mCost[nextCell] > newCost) {
+        mCost[nextCell] = newCost;
+        mDirection[nextCell] = EAST;
+        queue.add(nextCell);
+      }
+    }
+
+    if (isExit(wallsHere.wall.south, mSafetyMask)) {
+      uint16_t nextCell = neighbour(here, SOUTH);
+      if (thisDirection == SOUTH) {
+        newCost = costHere + aheadCost;
+      } else {
+        newCost = costHere + mCornerWeight;
+      }
+      if (mCost[nextCell] > newCost) {
+        mCost[nextCell] = newCost;
+        mDirection[nextCell] = SOUTH;
+        queue.add(nextCell);
+      }
+    }
+
+    if (isExit(wallsHere.wall.west, mSafetyMask)) {
+      uint16_t nextCell = neighbour(here, WEST);
+      if (thisDirection == WEST) {
+        newCost = costHere + aheadCost;
+      } else {
+        newCost = costHere + mCornerWeight;
+      }
+      if (mCost[nextCell] > newCost) {
+        mCost[nextCell] = newCost;
+        mDirection[nextCell] = WEST;
+        queue.add(nextCell);
+      }
+    }
+
   }
   updateDirections();
   return mCost[0];
