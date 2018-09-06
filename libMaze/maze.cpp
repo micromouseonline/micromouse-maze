@@ -227,7 +227,7 @@ uint8_t Maze::walls(uint16_t cell) const {
   return fwalls(cell);
 }
 
-bool Maze::hasExit(uint16_t cell, uint8_t direction, uint8_t mask) const {
+bool Maze::hasExit(uint16_t cell, uint8_t direction, uint8_t mask = OPEN_MASK) const {
   // regardless of whether it has been seen
   bool result;
   switch (direction) {
@@ -247,28 +247,8 @@ bool Maze::hasExit(uint16_t cell, uint8_t direction, uint8_t mask) const {
   return result;
 }
 
-bool Maze::hasExit(uint16_t cell, uint8_t direction) const {
-  // regardless of whether it has been seen
-  bool result;
-  switch (direction) {
-    case NORTH:
-      result = isExit(mWalls[cell].wall.north, OPEN_MASK);
-      break;
-    case EAST:
-      result = isExit(mWalls[cell].wall.east, OPEN_MASK);
-      break;
-    case SOUTH:
-      result = isExit(mWalls[cell].wall.south, OPEN_MASK);
-      break;
-    case WEST:
-      result = isExit(mWalls[cell].wall.west, OPEN_MASK);
-      break;
-  }
-  return result;
-}
 
-
-bool Maze::hasWall(uint16_t cell, uint8_t direction, uint8_t mask) const {
+bool Maze::hasWall(uint16_t cell, uint8_t direction, uint8_t mask = OPEN_MASK) const {
   bool result = false;
   switch (direction) {
     case NORTH:
@@ -287,27 +267,6 @@ bool Maze::hasWall(uint16_t cell, uint8_t direction, uint8_t mask) const {
   return result;
 };
 
-
-
-bool Maze::hasWall(uint16_t cell, uint8_t direction) const {
-  // don't care if is is unknown
-  bool result;
-  switch (direction) {
-    case NORTH:
-      result = isWall(mWalls[cell].wall.north, OPEN_MASK);
-      break;
-    case EAST:
-      result = isWall(mWalls[cell].wall.east, OPEN_MASK);
-      break;
-    case SOUTH:
-      result = isWall(mWalls[cell].wall.south, OPEN_MASK);
-      break;
-    case WEST:
-      result = isWall(mWalls[cell].wall.west, OPEN_MASK);
-      break;
-  }
-  return result;
-}
 
 
 bool Maze::hasMaskedWall(uint16_t cell, uint8_t direction) {

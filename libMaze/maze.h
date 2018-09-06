@@ -104,9 +104,7 @@ public:
   wall_t xwalls(uint16_t cell) const;
 
   bool hasExit(uint16_t cell, uint8_t direction, uint8_t mask) const;
-  bool hasExit(uint16_t cell, uint8_t direction) const DEPRECATED("Use the version of hasExit with an explicit mask");;
   ///  test for the presence of a wall. Don't care if it is seen or not
-  bool hasWall(uint16_t cell, uint8_t direction) const DEPRECATED("Use the version of hasWall with an explicit mask");
   bool hasWall(uint16_t cell, uint8_t direction, uint8_t mask) const;
   bool hasMaskedWall(uint16_t cell, uint8_t direction) ;
   ///  it is not clear that these two mthods have any actual use
