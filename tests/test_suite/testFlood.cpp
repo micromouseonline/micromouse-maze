@@ -60,16 +60,16 @@ protected:
 TEST_F(MazeFlood, FloodMaze_MaskedWallsTests) {
   maze->setUnknowns();
   EXPECT_EQ(CLOSED_MASK, maze->getMSafetyMask());
-  EXPECT_FALSE(maze->hasMaskedWall(0x00, NORTH));
-  EXPECT_TRUE(maze->hasMaskedWall(0x00, EAST));
-  EXPECT_TRUE(maze->hasMaskedWall(0x01, NORTH));
-  EXPECT_TRUE(maze->hasMaskedWall(0x01, EAST));
+  EXPECT_FALSE(maze->hasWall(0x00, NORTH, maze->getMSafetyMask()));
+  EXPECT_TRUE(maze->hasWall(0x00, EAST, maze->getMSafetyMask()));
+  EXPECT_TRUE(maze->hasWall(0x01, NORTH, maze->getMSafetyMask()));
+  EXPECT_TRUE(maze->hasWall(0x01, EAST, maze->getMSafetyMask()));
   maze->clearUnknowns();
   EXPECT_EQ(OPEN_MASK, maze->getMSafetyMask());
-  EXPECT_FALSE(maze->hasMaskedWall(0x00, NORTH));
-  EXPECT_TRUE(maze->hasMaskedWall(0x00, EAST));
-  EXPECT_FALSE(maze->hasMaskedWall(0x01, NORTH));
-  EXPECT_FALSE(maze->hasMaskedWall(0x01, EAST));
+  EXPECT_FALSE(maze->hasWall(0x00, NORTH, maze->getMSafetyMask()));
+  EXPECT_TRUE(maze->hasWall(0x00, EAST, maze->getMSafetyMask()));
+  EXPECT_FALSE(maze->hasWall(0x01, NORTH, maze->getMSafetyMask()));
+  EXPECT_FALSE(maze->hasWall(0x01, EAST, maze->getMSafetyMask()));
 }
 
 

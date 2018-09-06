@@ -267,28 +267,6 @@ bool Maze::hasWall(uint16_t cell, uint8_t direction, uint8_t mask = OPEN_MASK) c
   return result;
 };
 
-
-
-bool Maze::hasMaskedWall(uint16_t cell, uint8_t direction) {
-  bool result;
-  switch (direction) {
-    case NORTH:
-      result = isWall(mWalls[cell].wall.north, mSafetyMask);
-      //      result = !((mWalls[cell].wall.north & mSafetyMask) == EXIT);
-      break;
-    case EAST:
-      result = isWall(mWalls[cell].wall.east, mSafetyMask);
-      break;
-    case SOUTH:
-      result = isWall(mWalls[cell].wall.south, mSafetyMask);
-      break;
-    case WEST:
-      result = isWall(mWalls[cell].wall.west, mSafetyMask);
-      break;
-  }
-  return result;
-}
-
 uint8_t Maze::direction(uint16_t cell) {
   return mDirection[cell];
 }
@@ -609,7 +587,7 @@ uint16_t Maze::runLengthFlood(uint16_t target) {
       if (exitWall == info.entryWall) {
         continue;
       }
-      if (hasMaskedWall(info.cell, exitWall)) {
+      if (hasWall(info.cell, exitWall, mSafetyMask)) {
         continue;
       }
       uint16_t nextCell = neighbour(info.cell, exitWall);
@@ -684,22 +662,22 @@ uint16_t Maze::manhattanFlood(uint16_t target) {
 };
 
 void Maze::seedQueue(PriorityQueue<FloodInfo> &queue, uint16_t goal, uint16_t cost) {
-  if (!hasMaskedWall(goal, NORTH)) {
+  if (!hasWall(goal, NORTH, mSafetyMask)) {
     uint16_t nextCell = cellNorth(goal);
     queue.add(FloodInfo(cost, nextCell, 1, DIR_N, SOUTH));
     mCost[nextCell] = cost;
   }
-  if (!hasMaskedWall(goal, EAST)) {
+  if (!hasWall(goal, EAST, mSafetyMask)) {
     uint16_t nextCell = cellEast(goal);
     queue.add(FloodInfo(cost, nextCell, 1, DIR_E, WEST));
     mCost[nextCell] = cost;
   }
-  if (!hasMaskedWall(goal, SOUTH)) {
+  if (!hasWall(goal, SOUTH, mSafetyMask)) {
     uint16_t nextCell = cellSouth(goal);
     queue.add(FloodInfo(cost, nextCell, 1, DIR_S, NORTH));
     mCost[nextCell] = cost;
   }
-  if (!hasMaskedWall(goal, WEST)) {
+  if (!hasWall(goal, WEST, mSafetyMask)) {
     uint16_t nextCell = cellWest(goal);
     queue.add(FloodInfo(cost, nextCell, 1, DIR_W, EAST));
     mCost[nextCell] = cost;
