@@ -135,35 +135,35 @@ TEST_F(MazeTest, HasUnknowns) {
 
 TEST_F(MazeTest, HasKnownExit) {
 
-  EXPECT_TRUE(maze32->hasRealExit(0, NORTH));
-  EXPECT_FALSE(maze32->hasRealExit(0, EAST));
-  EXPECT_FALSE(maze32->hasRealExit(0, SOUTH));
-  EXPECT_FALSE(maze32->hasRealExit(0, WEST));
+  EXPECT_TRUE(maze32->hasExit(0, NORTH, CLOSED_MASK));
+  EXPECT_FALSE(maze32->hasExit(0, EAST, CLOSED_MASK));
+  EXPECT_FALSE(maze32->hasExit(0, SOUTH, CLOSED_MASK));
+  EXPECT_FALSE(maze32->hasExit(0, WEST, CLOSED_MASK));
 
-  EXPECT_FALSE(maze32->hasRealExit(1, NORTH));
-  EXPECT_FALSE(maze32->hasRealExit(1, EAST));
-  EXPECT_TRUE(maze32->hasRealExit(1, SOUTH));
-  EXPECT_FALSE(maze32->hasRealExit(1, WEST));
+  EXPECT_FALSE(maze32->hasExit(1, NORTH, CLOSED_MASK));
+  EXPECT_FALSE(maze32->hasExit(1, EAST, CLOSED_MASK));
+  EXPECT_TRUE(maze32->hasExit(1, SOUTH, CLOSED_MASK));
+  EXPECT_FALSE(maze32->hasExit(1, WEST, CLOSED_MASK));
 }
 
 
 TEST_F(MazeTest, HasKnownWall) {
 
-  EXPECT_FALSE(maze32->hasRealWall(0, NORTH));
-  EXPECT_TRUE(maze32->hasRealWall(0, EAST));
-  EXPECT_TRUE(maze32->hasRealWall(0, SOUTH));
-  EXPECT_TRUE(maze32->hasRealWall(0, WEST));
+  EXPECT_FALSE(maze32->hasWall(0, NORTH, CLOSED_MASK));
+  EXPECT_TRUE(maze32->hasWall(0, EAST, CLOSED_MASK));
+  EXPECT_TRUE(maze32->hasWall(0, SOUTH, CLOSED_MASK));
+  EXPECT_TRUE(maze32->hasWall(0, WEST, CLOSED_MASK));
   // all the unknowns are walls unless we 'see' them
-  EXPECT_TRUE(maze32->hasRealWall(1, NORTH));
-  EXPECT_TRUE(maze32->hasRealWall(1, EAST));
-  EXPECT_FALSE(maze32->hasRealWall(1, SOUTH));
-  EXPECT_TRUE(maze32->hasRealWall(1, WEST));
+  EXPECT_TRUE(maze32->hasWall(1, NORTH, CLOSED_MASK));
+  EXPECT_TRUE(maze32->hasWall(1, EAST, CLOSED_MASK));
+  EXPECT_FALSE(maze32->hasWall(1, SOUTH, CLOSED_MASK));
+  EXPECT_TRUE(maze32->hasWall(1, WEST, CLOSED_MASK));
   // all the unknowns are walls unless we 'see' them
   maze32->setVisited(1);
-  EXPECT_FALSE(maze32->hasRealWall(1, NORTH));
-  EXPECT_FALSE(maze32->hasRealWall(1, EAST));
-  EXPECT_FALSE(maze32->hasRealWall(1, SOUTH));
-  EXPECT_TRUE(maze32->hasRealWall(1, WEST));
+  EXPECT_FALSE(maze32->hasWall(1, NORTH, CLOSED_MASK));
+  EXPECT_FALSE(maze32->hasWall(1, EAST, CLOSED_MASK));
+  EXPECT_FALSE(maze32->hasWall(1, SOUTH, CLOSED_MASK));
+  EXPECT_TRUE(maze32->hasWall(1, WEST, CLOSED_MASK));
 }
 
 

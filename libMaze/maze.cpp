@@ -289,44 +289,6 @@ bool Maze::hasMaskedWall(uint16_t cell, uint8_t direction) {
   return result;
 }
 
-bool Maze::hasRealExit(uint16_t cell, uint8_t direction) const {
-  bool result;
-  switch (direction) {
-    case NORTH:
-      result = isExit(mWalls[cell].wall.north, CLOSED_MASK);
-      break;
-    case EAST:
-      result = isExit(mWalls[cell].wall.east, CLOSED_MASK);
-      break;
-    case SOUTH:
-      result = isExit(mWalls[cell].wall.south, CLOSED_MASK);
-      break;
-    case WEST:
-      result = isExit(mWalls[cell].wall.west, CLOSED_MASK);
-      break;
-  }
-  return result;
-}
-
-bool Maze::hasRealWall(uint16_t cell, uint8_t direction) const {
-  bool result;
-  switch (direction) {
-    case NORTH:
-      result = isWall(mWalls[cell].wall.north, CLOSED_MASK);
-      break;
-    case EAST:
-      result = isWall(mWalls[cell].wall.east, CLOSED_MASK);
-      break;
-    case SOUTH:
-      result = isWall(mWalls[cell].wall.south, CLOSED_MASK);
-      break;
-    case WEST:
-      result = isWall(mWalls[cell].wall.west, CLOSED_MASK);
-      break;
-  }
-  return result;
-}
-
 uint8_t Maze::direction(uint16_t cell) {
   return mDirection[cell];
 }
