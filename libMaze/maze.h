@@ -158,6 +158,7 @@ public:
   int32_t costDifference();
   /// flood the maze for the give goal
   uint16_t flood(uint16_t target);
+  uint16_t flood(uint16_t target, uint8_t mask);
   /// RunLengthFlood is a specific kind of flood used in this mouse
   uint16_t runLengthFlood(uint16_t target);
   /// manhattanFlood is a the simplest kind of flood used in this mouse

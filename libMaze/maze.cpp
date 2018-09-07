@@ -465,10 +465,10 @@ void Maze::updateDirections() {
 }
 
 bool Maze::testForSolution() { // takes less than 3ms
-  setUnknowns();
-  mPathCostClosed = flood(goal());
-  clearUnknowns();
-  mPathCostOpen = flood(goal());
+  uint8_t savedMask = mSafetyMask;
+  mPathCostClosed = flood(goal(), CLOSED_MASK);
+  mPathCostOpen = flood(goal(), OPEN_MASK);
+  mSafetyMask = savedMask;
   mIsSolved = mPathCostClosed == mPathCostOpen;
   return mIsSolved;
 };
@@ -544,6 +544,13 @@ uint16_t Maze::openMazeCost() const {
 uint16_t Maze::closedMazeCost() const {
   return mPathCostClosed;
 }
+
+
+uint16_t Maze::flood(uint16_t target, uint8_t mask) {
+  mSafetyMask = mask;
+  return flood(target);
+}
+
 
 uint16_t Maze::flood(uint16_t target) {
   uint16_t cost = MAX_COST;
@@ -842,5 +849,4 @@ void Maze::loadFromFileData(const uint8_t *fileData) {
     }
   }
 }
-
 

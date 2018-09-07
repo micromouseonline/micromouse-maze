@@ -38,7 +38,7 @@ class PathFinderReverseTest : public ::testing::Test {
   virtual void SetUp() {
     maze = new Maze(16);
     maze->loadFromFileData(japan2007ef);
-    maze->flood(0x77);
+    maze->flood(0x77, OPEN_MASK);
     path = new PathFinder();
   }
 

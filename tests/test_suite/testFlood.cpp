@@ -76,32 +76,28 @@ TEST_F(MazeFlood, FloodMaze_MaskedWallsTests) {
 TEST_F(MazeFlood, FloodMaze_TargetCostIsZero) {
   uint16_t target = 0x34;
   EXPECT_EQ(MAX_COST, maze->cost(0));
-  maze->flood(target);
+  maze->flood(target, OPEN_MASK);
   EXPECT_EQ(0, maze->cost(target));
   EXPECT_NE(0, maze->cost(0));
 }
 
 TEST_F(MazeFlood, FloodMaze_BlockedMaze_HomeCostMax) {
   maze->setWall(0x00, NORTH);
-  maze->flood(maze->goal());
+  maze->flood(maze->goal(), OPEN_MASK);
   EXPECT_EQ(MAX_COST, maze->cost(0));
 }
 
 TEST_F(MazeFlood, FloodOpenUnexploredMaze_HomeCostNotMax) {
-  maze->clearUnknowns();
-  maze->flood(maze->goal());
+  maze->flood(maze->goal(), OPEN_MASK);
   EXPECT_NE(MAX_COST, maze->cost(0));
   EXPECT_EQ(NORTH, maze->direction(0));
 }
 
 
 TEST_F(MazeFlood, FloodClosedMaze_HomeCostMax) {
-  maze->setUnknowns();
-  maze->flood(maze->goal());
+  maze->flood(maze->goal(), CLOSED_MASK);
   EXPECT_EQ(MAX_COST, maze->cost(0));
   EXPECT_EQ(INVALID_DIRECTION, maze->direction(0));
-  maze->clearUnknowns();
-
 }
 
 
@@ -109,10 +105,8 @@ TEST_F(MazeFlood, FloodKnownMaze_OpenClosedCostsSame) {
 
   copyClassicMaze(japan2007ef);
   maze->setFloodType(Maze::RUNLENGTH_FLOOD);;
-  maze->setUnknowns();
-  uint16_t closedCost = maze->flood(maze->goal());
-  maze->clearUnknowns();
-  uint16_t openCost = maze->flood(maze->goal());
+  uint16_t closedCost = maze->flood(maze->goal(), CLOSED_MASK);
+  uint16_t openCost = maze->flood(maze->goal(), OPEN_MASK);
   EXPECT_EQ(closedCost, openCost);
   EXPECT_EQ(NORTH, maze->direction(0));
 }

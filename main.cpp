@@ -78,7 +78,7 @@ int main(int argc, char **argv) {
       };
       maze.load(wallData);
       maze.loadFromFileData(wallData);
-      maze.flood(0x77);
+      maze.flood(0x77,OPEN_MASK);
     }
   } else {
     printf(" you should provide the name of at least one libMaze file on the command line\n");
