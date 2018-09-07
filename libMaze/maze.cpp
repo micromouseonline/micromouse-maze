@@ -50,14 +50,15 @@ const uint16_t diagCostTable[] =
 //{0,56,47,41,37,34,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31};
 
 Maze::Maze(uint16_t width) :
+  mChanged(true),
+  mSafetyMask(CLOSED_MASK),
   mWidth(width),
   mGoal(DEFAULT_GOAL),
   mPathCostOpen(MAX_COST),
   mPathCostClosed(MAX_COST),
   mIsSolved(false),
   mFloodType(RUNLENGTH_FLOOD),
-  mCornerWeight(3),
-  mSafetyMask(CLOSED_MASK) {
+  mCornerWeight(3) {
   resetToEmptyMaze();
 };
 
@@ -78,6 +79,7 @@ void Maze::clearData() {
     mWalls[i].wall.south = UNKNOWN;
     mWalls[i].wall.west = UNKNOWN;
   }
+  mChanged = true;
 }
 
 void Maze::resetToEmptyMaze() {
@@ -127,6 +129,7 @@ void Maze::copyMazeFromFileData(const uint8_t *wallData, uint16_t cellCount) {
       }
     }
   }
+  mChanged = true;
 }
 
 uint8_t Maze::ahead(uint8_t direction) {
@@ -205,6 +208,7 @@ uint16_t Maze::goal() {
 
 void Maze::setGoal(uint16_t goal) {
   mGoal = goal;
+  mChanged = true;
 }
 
 uint8_t Maze::fwalls(uint16_t cell) const {
@@ -275,6 +279,7 @@ uint8_t Maze::direction(uint16_t cell) {
 
 void Maze::setDirection(uint16_t cell, uint8_t direction) {
   mDirection[cell] = direction;
+  mChanged = true;
 }
 
 bool Maze::isVisited(uint16_t cell) {
@@ -283,10 +288,12 @@ bool Maze::isVisited(uint16_t cell) {
 
 void Maze::setVisited(uint16_t cell) {
   mWalls[cell].byte &= 0x55;
+  mChanged  = true;
 }
 
 void Maze::clearVisited(uint16_t cell) {
   mWalls[cell].byte |= 0xAA;
+  mChanged = true;
 }
 
 /*
@@ -318,6 +325,7 @@ void Maze::setWall(uint16_t cell, uint8_t direction) {
       ; // do nothing -although this is an error
       break;
   }
+  mChanged = true;
 }
 
 /*
@@ -349,6 +357,7 @@ void Maze::clearWall(uint16_t cell, uint8_t direction) {
       ; // do nothing -although this is an error
       break;
   }
+  mChanged = true;
 }
 
 /*
@@ -462,14 +471,19 @@ void Maze::updateDirections() {
   for (uint16_t i = 0; i < numCells(); i++) {
     mDirection[i] = directionToSmallest(i);
   }
+  mChanged = true;
 }
 
 bool Maze::testForSolution() { // takes less than 3ms
+  if (!mChanged) {
+    return mIsSolved;
+  }
   uint8_t savedMask = mSafetyMask;
   mPathCostClosed = flood(goal(), CLOSED_MASK);
   mPathCostOpen = flood(goal(), OPEN_MASK);
   mSafetyMask = savedMask;
   mIsSolved = mPathCostClosed == mPathCostOpen;
+  mChanged = false;
   return mIsSolved;
 };
 
@@ -531,6 +545,7 @@ void Maze::recalculateGoal() {
   if (entranceCount != 0) {
     setGoal(newGoal);
   }
+  mChanged = true;
 }
 
 int32_t Maze::costDifference() {
@@ -848,5 +863,9 @@ void Maze::loadFromFileData(const uint8_t *fileData) {
       }
     }
   }
+}
+
+bool Maze::isChanged() const {
+  return mChanged;
 }
 

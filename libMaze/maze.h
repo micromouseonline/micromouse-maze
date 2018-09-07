@@ -197,9 +197,12 @@ public:
   uint16_t getCornerWeight() const;
   void setCornerWeight(uint16_t cornerWeight);
 
-public:
   uint8_t getMSafetyMask() const;
+
+  bool isChanged() const;
+
 protected:
+  bool mChanged;
   /// safety mask lets us choose to ignore unkmown walls
   uint8_t mSafetyMask;
   /// the width of the maze in cells. Assume mazes are always square
