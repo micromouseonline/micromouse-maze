@@ -581,7 +581,7 @@ uint16_t Maze::runLengthFlood(uint16_t target) {
   seedQueue(queue, target, orthoCostTable[1]);
   // each (accessible) cell will be processed only once
   while ((queue.size() > 0)) {
-    FloodInfo info = queue.fetchSmallest();
+    FloodInfo info = queue.head();
     /*
      * test each wall for an exit. Skip any blocked, or already used exits
      */
