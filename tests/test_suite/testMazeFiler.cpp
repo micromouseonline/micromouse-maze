@@ -54,9 +54,7 @@ protected:
     if (!maze || !mazeData) {
       return;
     }
-    for (int cell = 0; cell < maze->numCells(); ++cell) {
-      maze->copyCellFromFileData(cell, mazeData[cell]);
-    }
+    maze->loadFromFileData(mazeData);
   }
 };
 
@@ -86,7 +84,7 @@ TEST_F(MazeFilerTest, LoadClassicMazeFromTextFile) {
   int err = filer.readMaze(&testMaze, fileName);
   EXPECT_EQ(MazeFiler::MAZE_FILER_SUCCESS, err);
   for (uint16_t cell = 0; cell < classicMaze->numCells(); cell++) {
-    EXPECT_EQ(classicMaze->walls(cell), testMaze.walls(cell));
+    EXPECT_EQ(classicMaze->fwalls(cell), testMaze.fwalls(cell));
     EXPECT_TRUE(testMaze.isVisited(cell));
   }
 }
@@ -102,7 +100,7 @@ TEST_F(MazeFilerTest, LoadClassicMazeFromBinaryFile) {
   EXPECT_EQ(MazeFiler::MAZE_FILER_SUCCESS, err);
 
   for (uint16_t cell = 0; cell < classicMaze->numCells(); cell++) {
-    EXPECT_EQ(classicMaze->walls(cell), testMaze.walls(cell));
+    EXPECT_EQ(classicMaze->fwalls(cell), testMaze.fwalls(cell));
     EXPECT_TRUE(testMaze.isVisited(cell));
   }
 }
@@ -120,7 +118,7 @@ TEST_F(MazeFilerTest, SaveClassicMazeToTextFile) {
   err = filer.readMaze(&testMaze, fileName);
   EXPECT_EQ(MazeFiler::MAZE_FILER_SUCCESS, err);
   for (uint16_t cell = 0; cell < classicMaze->numCells(); cell++) {
-    EXPECT_EQ(classicMaze->walls(cell), testMaze.walls(cell));
+    EXPECT_EQ(classicMaze->fwalls(cell), testMaze.fwalls(cell));
   }
 }
 
@@ -137,7 +135,7 @@ TEST_F(MazeFilerTest, SaveClassicMazeToBinaryFile) {
   err = filer.readMaze(&testMaze, fileName);
   EXPECT_EQ(MazeFiler::MAZE_FILER_SUCCESS, err);
   for (uint16_t cell = 0; cell < classicMaze->numCells(); cell++) {
-    EXPECT_EQ(classicMaze->walls(cell), testMaze.walls(cell));
+    EXPECT_EQ(classicMaze->fwalls(cell), testMaze.fwalls(cell));
   }
 }
 
@@ -169,7 +167,7 @@ TEST_F(MazeFilerTest, LoadHalfSizeMazeFromTextFile) {
   halfSizeMaze->setGoal(testMaze->goal());
 
   for (uint16_t cell = 0; cell < halfSizeMaze->numCells(); cell++) {
-    EXPECT_EQ(halfSizeMaze->walls(cell), testMaze->walls(cell));
+    EXPECT_EQ(halfSizeMaze->fwalls(cell), testMaze->fwalls(cell));
     EXPECT_TRUE(testMaze->isVisited(cell));
   }
 }
@@ -185,7 +183,7 @@ TEST_F(MazeFilerTest, LoadHalfSizeMazeFromBinaryFile) {
   EXPECT_EQ(MazeFiler::MAZE_FILER_SUCCESS, err);
 
   for (uint16_t cell = 0; cell < halfSizeMaze->numCells(); cell++) {
-    EXPECT_EQ(halfSizeMaze->walls(cell), testMaze->walls(cell));
+    EXPECT_EQ(halfSizeMaze->fwalls(cell), testMaze->fwalls(cell));
     EXPECT_TRUE(testMaze->isVisited(cell));
   }
 }
@@ -203,7 +201,7 @@ TEST_F(MazeFilerTest, SaveHalfSizeMazeToTextFile) {
   err = filer.readMaze(&testMaze, fileName);
   EXPECT_EQ(MazeFiler::MAZE_FILER_SUCCESS, err);
   for (uint16_t cell = 0; cell < halfSizeMaze->numCells(); cell++) {
-    EXPECT_EQ(halfSizeMaze->walls(cell), testMaze.walls(cell));
+    EXPECT_EQ(halfSizeMaze->fwalls(cell), testMaze.fwalls(cell));
   }
 }
 
@@ -220,7 +218,7 @@ TEST_F(MazeFilerTest, SaveHalfSizeMazeToBinaryFile) {
   err = filer.readMaze(&testMaze, fileName);
   EXPECT_EQ(MazeFiler::MAZE_FILER_SUCCESS, err);
   for (uint16_t cell = 0; cell < halfSizeMaze->numCells(); cell++) {
-    EXPECT_EQ(halfSizeMaze->walls(cell), testMaze.walls(cell));
+    EXPECT_EQ(halfSizeMaze->fwalls(cell), testMaze.fwalls(cell));
   }
 }
 

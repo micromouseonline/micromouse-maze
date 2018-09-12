@@ -99,20 +99,14 @@ int MazeFiler::readMaze(Maze *maze, char *fileName) {
 int MazeFiler::readBinaryMaze(FILE *fp,  Maze * maze) {
   uint8_t buffer[1024];
   size_t bytesRead = fread(buffer, 1, 1024, fp);
-  if (bytesRead < 256) {
-    return MAZE_FILER_BAD_FORMAT;
-  }
   if (buffer[0] != 0x0e) {
     // probably not a binary maze
     return MAZE_FILER_BAD_FORMAT;
   }
-  if (bytesRead < 1024) {
-    // assume classic maze
-    maze->copyMazeFromFileData(buffer, 256);
-    return MAZE_FILER_SUCCESS;
+  if (maze->numCells() > bytesRead) {
+    return MAZE_FILER_BAD_FORMAT;
   }
-  // then assume it is a half-size maze
-  maze->copyMazeFromFileData(buffer, 1024);
+  maze->loadFromFileData(buffer);
   return MAZE_FILER_SUCCESS;
 }
 
@@ -254,7 +248,7 @@ int MazeFiler::writeBinaryMaze(Maze *maze, char * fileName) {
     return MAZE_FILER_WRITE_ERROR;
   } else {
     for (uint16_t i = 0; i < maze->numCells(); i++) {
-      fputc(maze->walls(i), fp);
+      fputc(maze->fwalls(i), fp);
     }
     fclose(fp);
   }
@@ -276,7 +270,7 @@ int MazeFiler::writeDeclarationMaze(Maze *maze, char * fileName) {
       fputs("   ", fp);
       for (uint16_t y = 0; y < maze->width(); y++) {
         uint16_t i = x * maze->width() + y;
-        snprintf(temp, sizeof(temp), "0x%02X, ", maze->walls(i));
+        snprintf(temp, sizeof(temp), "0x%02X, ", maze->fwalls(i));
         fputs(temp, fp);
       }
       fputs("\n", fp);
@@ -291,7 +285,7 @@ int MazeFiler::writeDeclarationMaze(Maze *maze, char * fileName) {
 void MazeFiler::writeNorthWalls(Maze *maze, uint16_t y, FILE *fp) {
   for (uint16_t x = 0; x < maze->width(); x++) {
     uint16_t cell = x * maze->width() + y;
-    if (maze->hasWall(cell, NORTH)) {
+    if (maze->hasWall(cell, NORTH, OPEN_MASK)) {
       fputs("o---", fp);
     } else {
       fputs("o   ", fp);
@@ -304,7 +298,7 @@ void MazeFiler::writeNorthWalls(Maze *maze, uint16_t y, FILE *fp) {
 void MazeFiler::writeWestWalls(Maze *maze, uint16_t y, FILE *fp) {
   for (uint16_t x = 0; x < maze->width(); x++) {
     uint16_t cell = x * maze->width() + y;
-    if (maze->hasWall(cell, WEST)) {
+    if (maze->hasWall(cell, WEST, OPEN_MASK)) {
       fputs("|", fp);
     } else {
       fputs(" ", fp);
