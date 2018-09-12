@@ -221,6 +221,9 @@ protected:
   bool mIsSolved;
   /// Remember which type of flood is to be used
   FloodType mFloodType;
+public:
+  FloodType floodType() const;
+protected:
   /// the weighted flood needs a cost for corners
   uint16_t mCornerWeight;
   /// used to set up the queue before running the more complex floods

@@ -772,6 +772,10 @@ uint8_t Maze::internalWalls(uint16_t cell) const {
   return mWalls[cell];
 }
 
+Maze::FloodType Maze::floodType() const {
+  return mFloodType;
+}
+
 
 
 
