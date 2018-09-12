@@ -3,7 +3,7 @@ Code for manipulating mazes used in the micromouse contest
 
 This is configured for gitflow. Development is through branches from develop.
 
-This version of the code was used in the CLion IDE and uses cmake for builds.
+This version of the code was used in the CLion IDE and uses cmake for builds. If CLion and CMake are not your thing, there is a Netbeans project as well. Both should build and be able to run the tests.
 
 The googletest target tests individual libMaze functions
 

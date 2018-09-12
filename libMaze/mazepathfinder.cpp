@@ -112,21 +112,8 @@ static char pathOptions[16] = {
   'R', 'A', 'L', 'F'
 };
 
-/*
- * mouse only ever uses
- * setUnknowns + unsafe for a speedrun
- * and
- * clearUnknowns + safe for searching
- *
- * setUnknowns means using the SAFE_MASK (closed)
- * with this setting, the path cannot go through unknown cells
- * so safe and unsafe should be the same once the goal has been found
- *
- * clearUnknowns means using the UNSAFE_MASK (open)
- */
 void PathFinder::generateSafePath(const uint16_t start, const uint16_t target, Maze *maze) {
   mStopAtUnvisited = true;
-  //  CONVERT THIS FOR SAFETY MASK
   generatePath(start, target, maze);
 }
 

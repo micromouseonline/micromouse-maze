@@ -29,15 +29,6 @@
 
 #include <cstdint>
 
-#if defined(__GNUC__) || defined(__clang__)
-#define DEPRECATED(msg) __attribute__((deprecated(msg)))
-#elif defined(_MSC_VER)
-#define DEPRECATED __declspec(deprecated)
-#else
-#pragma message("WARNING: You need to implement DEPRECATED for this compiler")
-#define DEPRECATED
-#endif
-
 const uint8_t DEFAULT_GOAL = 0x77;
 const uint8_t TRAINING_GOAL = 0x11;
 const uint16_t MAX_COST = UINT16_MAX;
@@ -75,24 +66,5 @@ enum {
 #define CHECKED_WEST  (WALL_CHECKED << (WEST))
 
 #define VISITED (CHECKED_NORTH + CHECKED_EAST + CHECKED_SOUTH + CHECKED_WEST)
-
-
-#define EXIT  0
-#define WALL    1
-#define UNKNOWN 2
-
-#define CLOSED_MASK    3
-#define OPEN_MASK      1
-
-typedef union {
-  uint8_t byte;
-  struct  {
-    unsigned  char north: 2 ;
-    unsigned  char east: 2 ;
-    unsigned  char south: 2 ;
-    unsigned  char west: 2 ;
-  } wall;
-} wall_t;      // structure that stores wall information (bit field)
-
 
 #endif //MAZE_MAZECONSTANTS_H

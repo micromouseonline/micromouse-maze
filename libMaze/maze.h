@@ -32,7 +32,6 @@
 #include "floodinfo.h"
 #include "priorityqueue.h"
 
-
 class Maze {
 
 public:
@@ -40,7 +39,8 @@ public:
   enum FloodType {
     MANHATTAN_FLOOD,
     WEIGHTED_FLOOD,
-    RUNLENGTH_FLOOD
+    RUNLENGTH_FLOOD,
+    DIRECTION_FLOOD
   };
 
   /// the maze is assumed to be square
@@ -52,6 +52,9 @@ public:
   /// clear the data and then set all the walls that exist in an empty maze
   void resetToEmptyMaze(); ///
 
+  /// Clear the costs and directions and then copy the walls from an array
+  void copyMazeFromFileData(const uint8_t *wallData, uint16_t cellCount);
+
   /// return the column number of  given cell
   inline uint16_t col(uint16_t cell) {
     return cell / mWidth;
@@ -60,10 +63,7 @@ public:
   inline uint16_t row(uint16_t cell) {
     return cell % mWidth;
   }
-  ///  return the cell index from row and column
-  inline uint16_t cell(uint16_t col, uint16_t row) {
-    return row + col * mWidth;
-  }
+
 
   /// return the address of the cell ahead from this cardinal direction
   static uint8_t ahead(uint8_t direction);
@@ -98,21 +98,20 @@ public:
   void setGoal(uint16_t goal);
 
   /// return the state of the four walls surrounding a given cell
-  /// NOTE: should this be always the open maze
-  uint8_t fwalls(uint16_t cell) const;
-  uint8_t walls(uint16_t cell) const DEPRECATED("Use the version of hasExit with an explicit mask");
-  wall_t xwalls(uint16_t cell) const;
+  uint8_t walls(uint16_t cell) const;
+  uint8_t internalWalls(uint16_t cell) const;
+  /// test whether a wall in a given direction has been observed
+  bool isSeen(uint16_t cell, uint8_t direction);
+  ///  test for the absence of a wall. Don't care if it is seen or not
+  bool hasExit(uint16_t cell, uint8_t direction);
+  ///  test for the presence of a wall. Don't care if it is seen or not
+  bool hasWall(uint16_t cell, uint8_t direction);
 
-  bool hasExit(uint16_t cell, uint8_t direction, uint8_t mask) const;
-
-  bool hasWall(uint16_t cell, uint8_t direction, uint8_t mask) const;
-
-  inline bool isExit(uint8_t wall, uint8_t mask) const {
-    return (wall & mask) == EXIT;
-  };
-  inline bool isWall(uint8_t wall, uint8_t mask) const {
-    return (wall & mask) != EXIT;
-  };
+  ///  it is not clear that these two mthods have any actual use
+  ///  test for the definite, observed absence of a wall.
+  bool hasRealExit(uint16_t cell, uint8_t direction);
+  ///  test for the definite, observed presence of a wall.
+  bool hasRealWall(uint16_t cell, uint8_t direction);
 
   /// return the stored direction for the given cell
   uint8_t direction(uint16_t cell);
@@ -131,6 +130,9 @@ public:
   /// NOT TO BE USED IN SEARCH. Unconditionally clear a  wall in a cell and mark as seen.
   void clearWall(uint16_t cell, uint8_t direction);
 
+  /// NOT TO BE USED IN SEARCH. Update a single cell from stored map data.
+  void copyCellFromFileData(uint16_t cell, uint8_t wallData);
+
   /// USE THIS FOR SEARCH. Update a single cell with wall data (normalised for direction)
   void updateMap(uint16_t cell, uint8_t wallData);
 
@@ -143,6 +145,14 @@ public:
   uint16_t cost(uint16_t cell);
   /// return the cost in the neighbouring cell in the given direction
   uint16_t cost(uint16_t cell, uint16_t direction);
+  /// return the cost in the neighbouring cell to the North
+  uint16_t costNorth(uint16_t cell);
+  /// return the cost in the neighbouring cell to the East
+  uint16_t costEast(uint16_t cell);
+  /// return the cost in the neighbouring cell to the South
+  uint16_t costSouth(uint16_t cell);
+  /// return the cost in the neighbouring cell to the West
+  uint16_t costWest(uint16_t cell);
 
   /// set the cost in the given cell.
   void setCost(uint16_t cell, uint16_t cost); ///
@@ -158,14 +168,17 @@ public:
   int32_t costDifference();
   /// flood the maze for the give goal
   uint16_t flood(uint16_t target);
-  uint16_t flood(uint16_t target, uint8_t mask);
   /// RunLengthFlood is a specific kind of flood used in this mouse
   uint16_t runLengthFlood(uint16_t target);
   /// manhattanFlood is a the simplest kind of flood used in this mouse
   uint16_t manhattanFlood(uint16_t target);
   /// weightedFlood assigns a penalty to turns vs straights
   uint16_t weightedFlood(uint16_t target);
+  /// directionFlood does not care about costs, only using direction pointers
+  uint16_t directionFlood(uint16_t target);
 
+
+  // TODO: is the closed maze needed? is it enough to see if the path has unvisited cells?
   /// Flood the maze both open and closed and then test the cost difference
   /// leaves the maze with unknowns clear
   bool testForSolution();
@@ -183,32 +196,17 @@ public:
   /// load the wall data, including visited flags from the target array. Not checked for overflow.
   void load(const uint8_t *data);
 
-
-  /// Clear the costs and directions and then copy the walls from an array
-  void copyMazeFromFileData(const uint8_t *wallData, uint16_t cellCount) DEPRECATED(" use void loadFromFileData(const uint8_t *wallData)");
-  void loadFromFileData(const uint8_t *fileData);
-
-
-  /// set and get the Flood Type to use
+  /// set the Flood Type to use
   void setFloodType(FloodType mFloodType);
-  FloodType floodType() DEPRECATED("Has no purpose?");
-
   /// used only for the weighted Flood
   uint16_t getCornerWeight() const;
   void setCornerWeight(uint16_t cornerWeight);
 
-  uint8_t getMSafetyMask() const;
-
-  bool isChanged() const;
-
 protected:
-  bool mChanged;
-  /// safety mask lets us choose to ignore unkmown walls
-  uint8_t mSafetyMask;
   /// the width of the maze in cells. Assume mazes are always square
   uint16_t mWidth;
   /// stores the wall and visited flags. Allows for 32x32 maze but wastes space
-  wall_t mWalls[1024];
+  uint8_t mWalls[1024];
   /// stores the least costly direction. Allows for 32x32 maze but wastes space
   uint8_t mDirection[1024];
   /// stores the cost information from a flood. Allows for 32x32 maze but wastes space

@@ -1,10 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
 
-if (POLICY CMP0048)
-    cmake_policy(SET CMP0048 NEW)
-endif (POLICY CMP0048)
-
-project(maze VERSION 0.4.1)
 
 project(maze)
 
@@ -14,6 +9,7 @@ set(HEADER_FILES
         mazedata.h
         mazepathfinder.h
         mazeprinter.h
+        mazesearcher.h
         priorityqueue.h
         mazeconstants.h
         mazefiler.h
@@ -27,6 +23,7 @@ set (SOURCE_FILES
         mazedata.cpp
         mazepathfinder.cpp
         mazeprinter.cpp
+        mazesearcher.cpp
         mazefiler.cpp
 
         compiler.cpp compiler.h)
