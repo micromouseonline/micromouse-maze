@@ -35,9 +35,13 @@ class MazeFiler {
 public:
 
   typedef enum  {
-    MAZE_SUCCESS = 0,
-    MAZE_READ_ERROR,
-    MAZE_WRITE_ERROR,
+    MAZE_FILER_SUCCESS = 0,
+    MAZE_FILER_NOT_FOUND,
+    MAZE_FILER_BAD_FORMAT,
+    MAZE_FILER_EMPTY_FILE,
+    MAZE_FILER_UNKNOWN_SIZE,
+    MAZE_FILER_READ_ERROR,
+    MAZE_FILER_WRITE_ERROR,
   } MazeFileType;
 
   MazeFiler();

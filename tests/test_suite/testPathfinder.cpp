@@ -42,8 +42,8 @@ class PathFinderTest : public ::testing::Test {
   /* This gets run before each test */
   virtual void SetUp() {
     maze = new Maze(16);
-    maze->copyMazeFromFileData(japan2007ef, 256);
-    maze->flood(0x77);
+    maze->loadFromFileData(japan2007ef);
+    maze->flood(0x77, OPEN_MASK);
     path = new PathFinder();
   }
 
@@ -69,8 +69,8 @@ TEST_F(PathFinderTest, constructor) {
 
 TEST_F(PathFinderTest, generate_EmptyMaze_ManhattanFlood) {
   maze->setFloodType(Maze::MANHATTAN_FLOOD);
-  maze->copyMazeFromFileData(emptyMaze, 256);
-  maze->flood(0x77);
+  maze->loadFromFileData(emptyMaze);
+  maze->flood(0x77, OPEN_MASK);
   path->generateSafePath(0, 0x77, maze);
   EXPECT_EQ(16, strlen(path->path()));
   EXPECT_STREQ("BFFFFFFFRFFFFFFS", path->path());
@@ -82,8 +82,8 @@ TEST_F(PathFinderTest, generate_EmptyMaze_ManhattanFlood) {
 
 TEST_F(PathFinderTest, generate_EmptyMaze_RunLengthFlood) {
   maze->setFloodType(Maze::RUNLENGTH_FLOOD);
-  maze->copyMazeFromFileData(emptyMaze, 256);
-  maze->flood(0x77);
+  maze->loadFromFileData(emptyMaze);
+  maze->flood(0x77, OPEN_MASK);
   path->generateSafePath(0, 0x77, maze);
   EXPECT_EQ(16, strlen(path->path()));
   EXPECT_STREQ("BFFFFFFFRFFFFFFS", path->path());
@@ -95,8 +95,8 @@ TEST_F(PathFinderTest, generate_EmptyMaze_RunLengthFlood) {
 
 TEST_F(PathFinderTest, generate_EmptyMaze_AtDestination) {
   maze->setFloodType(Maze::MANHATTAN_FLOOD);
-  maze->copyMazeFromFileData(emptyMaze, 256);
-  maze->flood(0x77);
+  maze->loadFromFileData(emptyMaze);
+  maze->flood(0x77, OPEN_MASK);
   path->generateSafePath(0x77, 0x77, maze);
   EXPECT_EQ(2, strlen(path->path()));
   EXPECT_STREQ("BS", path->path());
@@ -107,8 +107,8 @@ TEST_F(PathFinderTest, generate_EmptyMaze_AtDestination) {
 
 TEST_F(PathFinderTest, generate_EmptyMaze_TargetOneCellAhead) {
   maze->setFloodType(Maze::MANHATTAN_FLOOD);
-  maze->copyMazeFromFileData(emptyMaze, 256);
-  maze->flood(0x77);
+  maze->loadFromFileData(emptyMaze);
+  maze->flood(0x77, OPEN_MASK);
   path->generateSafePath(0x76, 0x77, maze);
   EXPECT_EQ(3, strlen(path->path()));
   EXPECT_STREQ("BFS", path->path());
@@ -119,8 +119,8 @@ TEST_F(PathFinderTest, generate_EmptyMaze_TargetOneCellAhead) {
 
 TEST_F(PathFinderTest, generate_EmptyMaze_TargetOneCellBehind) {
   maze->setFloodType(Maze::MANHATTAN_FLOOD);
-  maze->copyMazeFromFileData(emptyMaze, 256);
-  maze->flood(0x77);
+  maze->loadFromFileData(emptyMaze);
+  maze->flood(0x77, OPEN_MASK);
   path->generateSafePath(0x78, 0x77, maze);
   EXPECT_EQ(3, strlen(path->path()));
   EXPECT_STREQ("BFS", path->path());
@@ -131,9 +131,9 @@ TEST_F(PathFinderTest, generate_EmptyMaze_TargetOneCellBehind) {
 
 TEST_F(PathFinderTest, generate_NoExitCurrentCell) {
   maze->setFloodType(Maze::MANHATTAN_FLOOD);
-  maze->copyMazeFromFileData(emptyMaze, 256);
+  maze->loadFromFileData(emptyMaze);
   maze->setWall(0x00, NORTH);
-  maze->flood(0x77);
+  maze->flood(0x77, OPEN_MASK);
   path->generateSafePath(0, 0x77, maze);
   EXPECT_EQ(2, strlen(path->path()));
   EXPECT_STREQ("BS", path->path());
@@ -144,10 +144,10 @@ TEST_F(PathFinderTest, generate_NoExitCurrentCell) {
 
 TEST_F(PathFinderTest, generate_NoRoute) {
   maze->setFloodType(Maze::MANHATTAN_FLOOD);
-  maze->copyMazeFromFileData(emptyMaze, 256);
+  maze->loadFromFileData(emptyMaze);
   maze->setWall(0x01, NORTH);
   maze->setWall(0x01, EAST);
-  maze->flood(0x77);
+  maze->flood(0x77, OPEN_MASK);
   path->generateSafePath(0, 0x77, maze);
   EXPECT_EQ(2, strlen(path->path()));
   EXPECT_STREQ("BS", path->path());
@@ -158,8 +158,8 @@ TEST_F(PathFinderTest, generate_NoRoute) {
 
 TEST_F(PathFinderTest, generate_Japan2007_ManHattan_CorrectPAth) {
   maze->setFloodType(Maze::MANHATTAN_FLOOD);
-  maze->copyMazeFromFileData(japan2007ef, 256);
-  maze->flood(0x77);
+  maze->loadFromFileData(japan2007ef);
+  maze->flood(0x77, OPEN_MASK);
   path->generateSafePath(0, 0x77, maze);
   EXPECT_EQ(74, strlen(path->path()));
   char result[] = "BFFFRLLRRLLRRLLRFFRRFLLFFLRLRFRFFFFFFFFFFFFFFRFFFFFFRLRLLRRLLRRFFRFFFLFFFS";
@@ -171,8 +171,8 @@ TEST_F(PathFinderTest, generate_Japan2007_ManHattan_CorrectPAth) {
 
 TEST_F(PathFinderTest, generate_Japan2007_RunLength_Path) {
   maze->setFloodType(Maze::RUNLENGTH_FLOOD);
-  maze->copyMazeFromFileData(japan2007ef, 256);
-  maze->flood(0x77);
+  maze->loadFromFileData(japan2007ef);
+  maze->flood(0x77, OPEN_MASK);
   path->generateSafePath(0, 0x87, maze);
   EXPECT_EQ(73, strlen(path->path()));
   char result[] = "BFRLRLRLFLRFFLFRFFRRFLLFFLRLRFRFFFFFFFFFFFFFFRFFFFFFRLRLLRRLLRRFFRFFFLFFS";
@@ -189,7 +189,8 @@ TEST_F(PathFinderTest, generate_Japan2007_RunLength_Path) {
 TEST_F(PathFinderTest, generate_EmptyMaze_UnexploredOnPath) {
   maze->setFloodType(Maze::RUNLENGTH_FLOOD);
   maze->resetToEmptyMaze();
-  maze->flood(0x77);
+  maze->flood(0x77, OPEN_MASK);
+
   path->generateSafePath(0, 0x77, maze);
   EXPECT_EQ(3, strlen(path->path())) << path->path();
   char result[] = "BFX";
@@ -197,7 +198,7 @@ TEST_F(PathFinderTest, generate_EmptyMaze_UnexploredOnPath) {
   EXPECT_FALSE(path->reachesTarget());
   EXPECT_EQ(0x01, path->endCell());
   maze->setVisited(0x01);
-  maze->flood(0x77);
+  maze->flood(0x77, OPEN_MASK);
   path->generateSafePath(0, 0x77, maze);
   EXPECT_EQ(4, strlen(path->path())) << path->path();
   EXPECT_STREQ("BFFX", path->path());
@@ -205,42 +206,19 @@ TEST_F(PathFinderTest, generate_EmptyMaze_UnexploredOnPath) {
   EXPECT_EQ(0x02, path->endCell());
 }
 
-TEST_F(PathFinderTest, generate_Japan2007_SimulateSearch) {
-  // do a simulated search
-  maze->copyMazeFromFileData(japan2007ef, 256);
-  for (int i = 1; i < maze->numCells(); i++) {
-    maze->clearVisited(i);
-  }
-  char japanPath[] = "BFRLRLRLFLRFFLFRFFRRFLLFFLRLRFRFFFFFFFFFFFFFFRFFFFFFRLRLLRRLLRRFFRFFFLFFFS";
-  int steps = 0;
-  while (!path->reachesTarget()) {
-    maze->setVisited(path->endCell());
-    steps++;
-    maze->flood(0x77);
-    path->generateSafePath(0, 0x77, maze);
-  }
-  EXPECT_EQ(72, steps);
-  EXPECT_EQ(74, strlen(path->path())) << path->path();
-  EXPECT_STREQ(japanPath, path->path());
-  EXPECT_TRUE(path->reachesTarget());
-  EXPECT_EQ(0x77, path->endCell());
-  //  MazePrinter::printVisitedDirs(libMaze);
-}
-
-
 
 // the distances are only meant to be accurate in relation to each other
 // rather than as absolutes since they cannot take into account the actual
 // turns. Thus, they should only be used to compare paths.
 TEST_F(PathFinderTest, SimplePath_Distance) {
-  maze->copyMazeFromFileData(emptyMaze, 256);
-  maze->flood(0x01);
+  maze->loadFromFileData(emptyMaze);
+  maze->flood(0x01, OPEN_MASK);
   path->generateSafePath(0x00, 0x01, maze);
   EXPECT_EQ(180, path->distance());
-  maze->flood(0x0A);
+  maze->flood(0x0A, OPEN_MASK);
   path->generateSafePath(0x00, 0x0A, maze);
   EXPECT_EQ(1800, path->distance());
-  maze->flood(0x22);
+  maze->flood(0x22, OPEN_MASK);
   path->generateSafePath(0x00, 0x22, maze);
   EXPECT_EQ(667, path->distance());
 }
@@ -406,3 +384,23 @@ TEST_F(PathFinderTest, SmoothTestPathCommands_PairList) {
     //    printf("-------------\n");
   }
 }
+
+
+/// HALF SIZE TESTS ///
+
+
+TEST_F(PathFinderTest, generate_Japan2014HalfSize_Manhattan_CorrectPath) {
+  Maze * maze = new Maze(32);
+  maze->setFloodType(Maze::MANHATTAN_FLOOD);
+  maze->loadFromFileData(japan2014ef_half);
+  maze->setGoal(maze->cell(26, 5));
+  maze->flood(maze->goal(), OPEN_MASK);
+  path->generateSafePath(0, maze->goal(), maze);
+  EXPECT_EQ(161, strlen(path->path()));
+  char result[] = "BFFFFFFFRFFFFFRFFFRFRFLFLFFFLFFFFFFFFFFFFLRFRLFFFFFFFFFFFFLLFFFFFFFFFFFRLFFFLRFFFFFRFFFRRLRRLLFLRRLLFLFRLRLRLRLRLRLRLRRFRLRLRLRLRLRLRLFRLFLFRFFRFFFLLRLRRLRLFFLFS";
+  EXPECT_STREQ(result, path->path());
+  EXPECT_EQ(NORTH, path->endHeading());
+  EXPECT_EQ(maze->goal(), path->endCell());
+  EXPECT_TRUE(path->reachesTarget());
+}
+

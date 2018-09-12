@@ -44,51 +44,69 @@ protected:
   }
 
   virtual void copyClassicMaze(const uint8_t *mazeData) const {
-    for (int cell = 0; cell < this->maze->numCells(); ++cell) {
-      maze->copyCellFromFileData(cell, mazeData[cell]);
+    maze->loadFromFileData(mazeData);
+  }
+
+  virtual void copyMaze(Maze *maze, const uint8_t *mazeData) const {
+    if (!maze || !mazeData) {
+      return;
     }
+    maze->loadFromFileData(mazeData);
   }
 
 };
 
+
+TEST_F(MazeFlood, FloodMaze_MaskedWallsTests) {
+  maze->setUnknowns();
+  EXPECT_EQ(CLOSED_MASK, maze->getMSafetyMask());
+  EXPECT_FALSE(maze->hasWall(0x00, NORTH, maze->getMSafetyMask()));
+  EXPECT_TRUE(maze->hasWall(0x00, EAST, maze->getMSafetyMask()));
+  EXPECT_TRUE(maze->hasWall(0x01, NORTH, maze->getMSafetyMask()));
+  EXPECT_TRUE(maze->hasWall(0x01, EAST, maze->getMSafetyMask()));
+  maze->clearUnknowns();
+  EXPECT_EQ(OPEN_MASK, maze->getMSafetyMask());
+  EXPECT_FALSE(maze->hasWall(0x00, NORTH, maze->getMSafetyMask()));
+  EXPECT_TRUE(maze->hasWall(0x00, EAST, maze->getMSafetyMask()));
+  EXPECT_FALSE(maze->hasWall(0x01, NORTH, maze->getMSafetyMask()));
+  EXPECT_FALSE(maze->hasWall(0x01, EAST, maze->getMSafetyMask()));
+}
+
+
 TEST_F(MazeFlood, FloodMaze_TargetCostIsZero) {
   uint16_t target = 0x34;
   EXPECT_EQ(MAX_COST, maze->cost(0));
-  maze->flood(target);
+  maze->flood(target, OPEN_MASK);
   EXPECT_EQ(0, maze->cost(target));
   EXPECT_NE(0, maze->cost(0));
 }
 
 TEST_F(MazeFlood, FloodMaze_BlockedMaze_HomeCostMax) {
   maze->setWall(0x00, NORTH);
-  maze->flood(maze->goal());
+  maze->flood(maze->goal(), OPEN_MASK);
   EXPECT_EQ(MAX_COST, maze->cost(0));
 }
 
 TEST_F(MazeFlood, FloodOpenUnexploredMaze_HomeCostNotMax) {
-  maze->clearUnknowns();
-  maze->flood(maze->goal());
+  maze->flood(maze->goal(), OPEN_MASK);
   EXPECT_NE(MAX_COST, maze->cost(0));
   EXPECT_EQ(NORTH, maze->direction(0));
 }
 
 
 TEST_F(MazeFlood, FloodClosedMaze_HomeCostMax) {
-  maze->setUnknowns();
-  maze->flood(maze->goal());
+  maze->flood(maze->goal(), CLOSED_MASK);
   EXPECT_EQ(MAX_COST, maze->cost(0));
   EXPECT_EQ(INVALID_DIRECTION, maze->direction(0));
-  maze->clearUnknowns();
-
 }
 
 
 TEST_F(MazeFlood, FloodKnownMaze_OpenClosedCostsSame) {
+
   copyClassicMaze(japan2007ef);
-  maze->setUnknowns();
-  uint16_t closedCost = maze->flood(maze->goal());
-  maze->clearUnknowns();
-  uint16_t openCost = maze->flood(maze->goal());
+  maze->setFloodType(Maze::RUNLENGTH_FLOOD);;
+  uint16_t closedCost = maze->flood(maze->goal(), CLOSED_MASK);
+  uint16_t openCost = maze->flood(maze->goal(), OPEN_MASK);
   EXPECT_EQ(closedCost, openCost);
   EXPECT_EQ(NORTH, maze->direction(0));
 }
@@ -99,7 +117,7 @@ TEST_F(MazeFlood, UnExploredMazeSolution) {
   maze->resetToEmptyMaze();
   maze->testForSolution();
   EXPECT_GE(maze->closedMazeCost(), maze->openMazeCost());
-  EXPECT_EQ(64601, maze->costDifference());
+  EXPECT_EQ(64549, maze->costDifference());
   EXPECT_FALSE(maze->isSolved());
 }
 
@@ -150,7 +168,7 @@ TEST_F(MazeFlood, FloodPartialMaze_SolutionTestFails) {
 // full maze floods are not so easily tested.
 // here we just look for the cost left in cell 0
 TEST_F(MazeFlood, ManhattanFlood_EmptyMaze_cost_14) {
-  maze->resetToEmptyMaze();
+  maze->clearUnknowns();
   uint16_t cost = maze->manhattanFlood(0x77);
   EXPECT_EQ(14, cost);
   // top left cell
@@ -159,7 +177,7 @@ TEST_F(MazeFlood, ManhattanFlood_EmptyMaze_cost_14) {
 }
 
 TEST_F(MazeFlood, ManhattanFlood_Japan2007_costx) {
-  maze->copyMazeFromFileData(japan2007ef, 256);
+  maze->loadFromFileData(japan2007ef);
   uint16_t cost = maze->manhattanFlood(0x77);
   EXPECT_EQ(72, cost);
   // top left cell
@@ -169,6 +187,7 @@ TEST_F(MazeFlood, ManhattanFlood_Japan2007_costx) {
 
 TEST_F(MazeFlood, WeightedFlood_EmptyMaze_cost_31) {
   maze->resetToEmptyMaze();
+  maze->clearUnknowns();
   uint16_t cost = maze->weightedFlood(0x77);
   EXPECT_EQ(31, cost);
   // top left cell
@@ -176,11 +195,27 @@ TEST_F(MazeFlood, WeightedFlood_EmptyMaze_cost_31) {
   EXPECT_EQ(NORTH, maze->direction(0));
 }
 
-TEST_F(MazeFlood, directionFlood_EmptyMaze_cost_31) {
-  maze->resetToEmptyMaze();
-  uint16_t cost = maze->directionFlood(0x77);
+
+
+//////// HALF SIZE TESTS /////////////
+
+TEST_F(MazeFlood, ManhattanFlood_EmptyHalfSizeMaze_cost_14) {
+  Maze * maze = new Maze(32);
+  maze->clearUnknowns();
+  uint16_t cost = maze->manhattanFlood(maze->cell(7, 7));
   EXPECT_EQ(14, cost);
-  // top left cell
-  EXPECT_EQ(15, maze->cost(maze->width() - 1));
   EXPECT_EQ(NORTH, maze->direction(0));
 }
+
+TEST_F(MazeFlood, ManhattanFlood_Japan2014HalfSize_costx) {
+  Maze * maze = new Maze(32);
+  copyMaze(maze, japan2014ef_half);
+  maze->setGoal(maze->cell(26, 5));
+  int cost = maze->manhattanFlood(maze->goal());
+  //  MazePrinter::printCosts(maze);
+  EXPECT_EQ(159, cost);
+  // top left cell
+  EXPECT_EQ(98, maze->cost(maze->width() - 1));
+  EXPECT_EQ(NORTH, maze->direction(0));
+}
+

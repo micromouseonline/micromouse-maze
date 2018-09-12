@@ -42,7 +42,6 @@ protected:
   virtual void SetUp() {
     maze = new Maze(16);
     maze->resetToEmptyMaze();
-
   }
 
   virtual void TearDown() {
@@ -50,9 +49,7 @@ protected:
   }
 
   virtual void copyClassicMaze(const uint8_t *mazeData) const {
-    for (int cell = 0; cell < this->maze->numCells(); ++cell) {
-      maze->copyCellFromFileData(cell, mazeData[cell]);
-    }
+    maze->loadFromFileData(mazeData);
   }
 };
 
@@ -65,11 +62,11 @@ TEST_F(TestMazePrinter, PrintForCoverageTesting) {
   //  MazePrinter::printVisitedDirs(libMaze);
   copyClassicMaze(japan2007ef);
 
-  maze->flood(maze->goal());
-  MazePrinter::printDirs(maze);
-  MazePrinter::printPlain(maze);
-  MazePrinter::printCDecl(maze, "julian");
-  MazePrinter::printCosts(maze);
-  MazePrinter::printVisitedDirs(maze);
+  maze->flood(maze->goal(), OPEN_MASK);
+  //  MazePrinter::printDirs(maze);
+  //  MazePrinter::printPlain(maze);
+  //  MazePrinter::printCDecl(maze, "julian");
+  //  MazePrinter::printCosts(maze);
+  //  MazePrinter::printVisitedDirs(maze);
 }
 

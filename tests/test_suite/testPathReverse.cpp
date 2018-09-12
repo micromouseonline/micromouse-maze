@@ -37,8 +37,8 @@ class PathFinderReverseTest : public ::testing::Test {
   /* This gets run before each test */
   virtual void SetUp() {
     maze = new Maze(16);
-    maze->copyMazeFromFileData(japan2007ef, 256);
-    maze->flood(0x77);
+    maze->loadFromFileData(japan2007ef);
+    maze->flood(0x77, OPEN_MASK);
     path = new PathFinder();
   }
 
@@ -96,7 +96,7 @@ TEST_F(PathFinderReverseTest, longOddString) {
 
 TEST_F(PathFinderReverseTest, emptyMaze_FromGoal){
   maze->setFloodType(Maze::RUNLENGTH_FLOOD);
-  maze->copyMazeFromFileData(emptyMaze, 256);
+  maze->loadFromFileData(emptyMaze, 256);
   maze->flood(0x77);
   path->generateSafePath(0, 0x77, maze);
   EXPECT_EQ(16, strlen(path->path()));

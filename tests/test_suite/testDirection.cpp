@@ -40,6 +40,28 @@ TEST(Direction, MazeHeading_defaultValue_isNORTH) {
   }
 }
 
+TEST(Direction, DirectionBetween) {
+  EXPECT_EQ(0, Maze::differenceBetween(NORTH, NORTH));
+  EXPECT_EQ(0, Maze::differenceBetween(EAST, EAST));
+  EXPECT_EQ(0, Maze::differenceBetween(SOUTH, SOUTH));
+  EXPECT_EQ(0, Maze::differenceBetween(WEST, WEST));
+
+  EXPECT_EQ(1, Maze::differenceBetween(NORTH, EAST));
+  EXPECT_EQ(1, Maze::differenceBetween(EAST, SOUTH));
+  EXPECT_EQ(1, Maze::differenceBetween(SOUTH, WEST));
+  EXPECT_EQ(1, Maze::differenceBetween(WEST, NORTH));
+
+  EXPECT_EQ(2, Maze::differenceBetween(NORTH, SOUTH));
+  EXPECT_EQ(2, Maze::differenceBetween(EAST, WEST));
+  EXPECT_EQ(2, Maze::differenceBetween(SOUTH, NORTH));
+  EXPECT_EQ(2, Maze::differenceBetween(WEST, EAST));
+
+  EXPECT_EQ(3, Maze::differenceBetween(NORTH, WEST));
+  EXPECT_EQ(3, Maze::differenceBetween(EAST, NORTH));
+  EXPECT_EQ(3, Maze::differenceBetween(SOUTH, EAST));
+  EXPECT_EQ(3, Maze::differenceBetween(WEST, SOUTH));
+}
+
 TEST(Direction, MazeSetDirection_ReturnSetValue) {
   Maze maze(16);
   maze.resetToEmptyMaze();

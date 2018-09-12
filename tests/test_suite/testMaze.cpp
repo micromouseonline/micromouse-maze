@@ -33,15 +33,26 @@
 class MazeTest : public ::testing::Test {
 protected:
   Maze *maze;
+  Maze * maze32;
 
   virtual void SetUp() {
+    maze32 = new Maze(32);
     maze = new Maze(16);
-    maze->resetToEmptyMaze();
   }
 
   virtual void TearDown() {
     delete maze;
+    delete maze32;
   }
+
+  virtual void copyMaze(Maze *maze, const uint8_t *mazeData) const {
+    if (!maze || !mazeData) {
+      return;
+    }
+    maze->loadFromFileData(mazeData);
+
+  }
+
 
 };
 
@@ -54,54 +65,150 @@ TEST_F(MazeTest, RowAndColCalculations) {
   EXPECT_EQ(2, maze->row(0xf2));
 }
 
+
+TEST_F(MazeTest, SetXWalls) {
+  EXPECT_EQ(WALL, maze32->xwalls(0).wall.south);
+  EXPECT_EQ(WALL, maze32->xwalls(0).wall.east);
+  EXPECT_EQ(WALL, maze32->xwalls(0).wall.west);
+  EXPECT_EQ(UNKNOWN, maze32->xwalls(132).wall.north);
+  EXPECT_EQ(UNKNOWN, maze32->xwalls(132).wall.east);
+  EXPECT_EQ(UNKNOWN, maze32->xwalls(132).wall.south);
+  EXPECT_EQ(UNKNOWN, maze32->xwalls(132).wall.west);
+  maze32->setWall(132, NORTH);
+  EXPECT_EQ(WALL, maze32->xwalls(132).wall.north);
+  EXPECT_EQ(WALL, maze32->xwalls(133).wall.south);
+  EXPECT_EQ(UNKNOWN, maze32->xwalls(132).wall.east);
+  EXPECT_EQ(UNKNOWN, maze32->xwalls(132).wall.south);
+  EXPECT_EQ(UNKNOWN, maze32->xwalls(132).wall.west);
+  maze32->setWall(132, EAST);
+  EXPECT_EQ(WALL, maze32->xwalls(132).wall.east);
+  EXPECT_EQ(WALL, maze32->xwalls(164).wall.west);
+  EXPECT_EQ(UNKNOWN, maze32->xwalls(132).wall.south);
+  EXPECT_EQ(UNKNOWN, maze32->xwalls(132).wall.west);
+  maze32->setWall(132, SOUTH);
+  EXPECT_EQ(WALL, maze32->xwalls(132).wall.south);
+  EXPECT_EQ(WALL, maze32->xwalls(131).wall.north);
+  EXPECT_EQ(UNKNOWN, maze32->xwalls(132).wall.west);
+  maze32->setWall(132, WEST);
+  EXPECT_EQ(WALL, maze32->xwalls(132).wall.west);
+  EXPECT_EQ(WALL, maze32->xwalls(100).wall.east);
+}
+
+TEST_F(MazeTest, ClearXWalls) {
+  EXPECT_EQ(WALL, maze32->xwalls(0).wall.south);
+  EXPECT_EQ(WALL, maze32->xwalls(0).wall.east);
+  EXPECT_EQ(WALL, maze32->xwalls(0).wall.west);
+  EXPECT_EQ(UNKNOWN, maze32->xwalls(132).wall.north);
+  EXPECT_EQ(UNKNOWN, maze32->xwalls(132).wall.east);
+  EXPECT_EQ(UNKNOWN, maze32->xwalls(132).wall.south);
+  EXPECT_EQ(UNKNOWN, maze32->xwalls(132).wall.west);
+  maze32->setWall(132, NORTH);
+  maze32->setWall(132, EAST);
+  maze32->setWall(132, SOUTH);
+  maze32->setWall(132, WEST);
+
+  maze32->clearWall(132, NORTH);
+  EXPECT_EQ(EXIT, maze32->xwalls(132).wall.north);
+  EXPECT_EQ(EXIT, maze32->xwalls(133).wall.south);
+  EXPECT_EQ(WALL, maze32->xwalls(132).wall.east);
+  EXPECT_EQ(WALL, maze32->xwalls(132).wall.south);
+  EXPECT_EQ(WALL, maze32->xwalls(132).wall.west);
+  maze32->clearWall(132, EAST);
+  EXPECT_EQ(EXIT, maze32->xwalls(132).wall.east);
+  EXPECT_EQ(EXIT, maze32->xwalls(164).wall.west);
+  EXPECT_EQ(WALL, maze32->xwalls(132).wall.south);
+  EXPECT_EQ(WALL, maze32->xwalls(132).wall.west);
+  maze32->clearWall(132, SOUTH);
+  EXPECT_EQ(EXIT, maze32->xwalls(132).wall.south);
+  EXPECT_EQ(EXIT, maze32->xwalls(131).wall.north);
+  EXPECT_EQ(WALL, maze32->xwalls(132).wall.west);
+  maze32->clearWall(132, WEST);
+  EXPECT_EQ(EXIT, maze32->xwalls(132).wall.west);
+  EXPECT_EQ(EXIT, maze32->xwalls(100).wall.east);
+}
+
+TEST_F(MazeTest, HasUnknowns) {
+  EXPECT_TRUE(maze32->isVisited(0));
+  EXPECT_FALSE(maze32->isVisited(1));
+}
+
+
+TEST_F(MazeTest, HasKnownExit) {
+
+  EXPECT_TRUE(maze32->hasExit(0, NORTH, CLOSED_MASK));
+  EXPECT_FALSE(maze32->hasExit(0, EAST, CLOSED_MASK));
+  EXPECT_FALSE(maze32->hasExit(0, SOUTH, CLOSED_MASK));
+  EXPECT_FALSE(maze32->hasExit(0, WEST, CLOSED_MASK));
+
+  EXPECT_FALSE(maze32->hasExit(1, NORTH, CLOSED_MASK));
+  EXPECT_FALSE(maze32->hasExit(1, EAST, CLOSED_MASK));
+  EXPECT_TRUE(maze32->hasExit(1, SOUTH, CLOSED_MASK));
+  EXPECT_FALSE(maze32->hasExit(1, WEST, CLOSED_MASK));
+}
+
+
+TEST_F(MazeTest, HasKnownWall) {
+
+  EXPECT_FALSE(maze32->hasWall(0, NORTH, CLOSED_MASK));
+  EXPECT_TRUE(maze32->hasWall(0, EAST, CLOSED_MASK));
+  EXPECT_TRUE(maze32->hasWall(0, SOUTH, CLOSED_MASK));
+  EXPECT_TRUE(maze32->hasWall(0, WEST, CLOSED_MASK));
+  // all the unknowns are walls unless we 'see' them
+  EXPECT_TRUE(maze32->hasWall(1, NORTH, CLOSED_MASK));
+  EXPECT_TRUE(maze32->hasWall(1, EAST, CLOSED_MASK));
+  EXPECT_FALSE(maze32->hasWall(1, SOUTH, CLOSED_MASK));
+  EXPECT_TRUE(maze32->hasWall(1, WEST, CLOSED_MASK));
+  // all the unknowns are walls unless we 'see' them
+  maze32->setVisited(1);
+  EXPECT_FALSE(maze32->hasWall(1, NORTH, CLOSED_MASK));
+  EXPECT_FALSE(maze32->hasWall(1, EAST, CLOSED_MASK));
+  EXPECT_FALSE(maze32->hasWall(1, SOUTH, CLOSED_MASK));
+  EXPECT_TRUE(maze32->hasWall(1, WEST, CLOSED_MASK));
+}
+
+
+
+
+
 TEST_F(MazeTest, SetTrainingGoal) {
   maze->setGoal(TRAINING_GOAL);
   EXPECT_EQ(TRAINING_GOAL, maze->goal());
 }
 
-TEST_F(MazeTest, CopyMaze) {
-  maze->copyMazeFromFileData(emptyMaze, 256);
-  for (uint16_t cell = 0; cell < maze->numCells(); cell++) {
-    EXPECT_EQ(emptyMaze[cell], maze->walls(cell));
-    EXPECT_TRUE(maze->isVisited(cell));
+TEST_F(MazeTest, CopyClassicMaze) {
+  Maze testMaze(16);
+  copyMaze(&testMaze, emptyMaze);
+  for (uint16_t cell = 0; cell < testMaze.numCells(); cell++) {
+    EXPECT_EQ(emptyMaze[cell], testMaze.fwalls(cell));
+    EXPECT_TRUE(testMaze.isVisited(cell));
   }
 }
 
-TEST_F(MazeTest, SetClearUnknowns_TestoneCell) {
-  maze->resetToEmptyMaze();
-  maze->setUnknowns();
-  EXPECT_EQ(0x0F, maze->walls(0x22));
-  EXPECT_EQ(0x0E, maze->walls(0x00));
-  EXPECT_EQ(0x0B, maze->walls(0x01));
-  maze->clearUnknowns();
-  EXPECT_EQ(0x00, maze->walls(0x22));
-  EXPECT_EQ(0x0E, maze->walls(0x00));
-  EXPECT_EQ(0x08, maze->walls(0x01));
+TEST_F(MazeTest, CopyHalfSizeMaze) {
+  Maze testMaze(32);
+  copyMaze(&testMaze, emptyHalfSize);
+  for (uint16_t cell = 0; cell < testMaze.numCells(); cell++) {
+    EXPECT_EQ(emptyHalfSize[cell], testMaze.fwalls(cell));
+    EXPECT_TRUE(testMaze.isVisited(cell));
+  }
 }
+
+
 
 TEST_F(MazeTest, SetClearUnknowns_NoChangeInExploredMaze) {
-  maze->copyMazeFromFileData(emptyMaze, 256);
+  maze->loadFromFileData(emptyMaze);
   Maze setMaze(16);
   Maze clearMaze(16);
-  setMaze.copyMazeFromFileData(emptyMaze, 256);
+  setMaze.loadFromFileData(emptyMaze);
   setMaze.setUnknowns();
-  clearMaze.copyMazeFromFileData(emptyMaze, 256);
+  clearMaze.loadFromFileData(emptyMaze);
   clearMaze.clearUnknowns();
   for (uint16_t cell = 0; cell < maze->numCells(); cell++) {
-    EXPECT_EQ(setMaze.walls(cell), clearMaze.walls(cell));
+    EXPECT_EQ(setMaze.fwalls(cell), clearMaze.fwalls(cell));
   }
 }
 
-TEST_F(MazeTest, SetClearUnknowns_AllDifferentInUnExploredMaze) {
-  Maze setMaze(16);
-  Maze clearMaze(16);
-  setMaze.setUnknowns();
-  clearMaze.clearUnknowns();
-  EXPECT_EQ(setMaze.walls(0), clearMaze.walls(0));
-  for (uint16_t cell = 1; cell < maze->numCells(); cell++) {
-    EXPECT_NE(setMaze.walls(cell), clearMaze.walls(cell));
-  }
-}
+
 
 TEST_F(MazeTest, SetAndGetGoal) {
   EXPECT_EQ(DEFAULT_GOAL, maze->goal());
@@ -113,7 +220,7 @@ TEST_F(MazeTest, ResetData_16x16_SetsEmptyMaze) {
   maze->resetToEmptyMaze();
   EXPECT_EQ(256, maze->numCells());
   for (int i = 0; i < maze->numCells(); i++) {
-    EXPECT_EQ(emptyMaze[i], maze->walls(i));
+    EXPECT_EQ(emptyMaze[i], maze->fwalls(i));
   }
 }
 
@@ -126,74 +233,26 @@ TEST_F(MazeTest, ResetData_OnlyHomeCellVisited) {
   }
 }
 
-TEST_F(MazeTest, RealExitAndWalls) {
-  maze->resetToEmptyMaze();
-  EXPECT_TRUE(maze->hasExit(0x01, SOUTH));
-  EXPECT_TRUE(maze->hasExit(0x01, EAST));
-  EXPECT_FALSE(maze->hasRealExit(0x01, EAST));
-  EXPECT_TRUE(maze->hasWall(0x01, WEST));
-  EXPECT_TRUE(maze->hasRealWall(0x01, WEST));
-  EXPECT_TRUE(maze->isSeen(0x01, WEST));
-}
-
-TEST_F(MazeTest, SetClearAndGetWalls) {
-  maze->resetToEmptyMaze();
-  maze->setWall(0x22, NORTH);
-  maze->setWall(0x22, EAST);
-  maze->setWall(0x22, SOUTH);
-  maze->setWall(0x22, WEST);
-  EXPECT_FALSE(maze->hasExit(0x22, EAST));
-  EXPECT_FALSE(maze->hasExit(0x32, WEST));
-  EXPECT_FALSE(maze->hasExit(0x22, SOUTH));
-  EXPECT_FALSE(maze->hasExit(0x21, NORTH));
-  EXPECT_FALSE(maze->hasExit(0x22, WEST));
-  EXPECT_FALSE(maze->hasExit(0x12, EAST));
-  EXPECT_FALSE(maze->hasExit(0x22, NORTH));
-  EXPECT_FALSE(maze->hasExit(0x23, SOUTH));
-  EXPECT_TRUE(maze->hasWall(0x22, EAST));
-  EXPECT_TRUE(maze->hasWall(0x32, WEST));
-  EXPECT_TRUE(maze->hasWall(0x22, SOUTH));
-  EXPECT_TRUE(maze->hasWall(0x21, NORTH));
-  EXPECT_TRUE(maze->hasWall(0x22, WEST));
-  EXPECT_TRUE(maze->hasWall(0x12, EAST));
-  EXPECT_TRUE(maze->hasWall(0x22, NORTH));
-  EXPECT_TRUE(maze->hasWall(0x23, SOUTH));
-  maze->clearWall(0x22, NORTH);
-  maze->clearWall(0x22, EAST);
-  maze->clearWall(0x22, SOUTH);
-  maze->clearWall(0x22, WEST);
-  EXPECT_TRUE(maze->hasExit(0x22, EAST));
-  EXPECT_TRUE(maze->hasExit(0x32, WEST));
-  EXPECT_TRUE(maze->hasExit(0x22, SOUTH));
-  EXPECT_TRUE(maze->hasExit(0x21, NORTH));
-  EXPECT_TRUE(maze->hasExit(0x22, WEST));
-  EXPECT_TRUE(maze->hasExit(0x12, EAST));
-  EXPECT_TRUE(maze->hasExit(0x22, NORTH));
-  EXPECT_TRUE(maze->hasExit(0x23, SOUTH));
-  EXPECT_FALSE(maze->hasWall(0x22, EAST));
-  EXPECT_FALSE(maze->hasWall(0x32, WEST));
-  EXPECT_FALSE(maze->hasWall(0x22, SOUTH));
-  EXPECT_FALSE(maze->hasWall(0x21, NORTH));
-  EXPECT_FALSE(maze->hasWall(0x22, WEST));
-  EXPECT_FALSE(maze->hasWall(0x12, EAST));
-  EXPECT_FALSE(maze->hasWall(0x22, NORTH));
-  EXPECT_FALSE(maze->hasWall(0x23, SOUTH));
-}
-
 
 
 TEST_F(MazeTest, SetClearVisited_clearsVisitFlagsOnly) {
   maze->resetToEmptyMaze();
   uint16_t cell = 0x22;
+  printf("%02x\n", maze->xwalls(cell).byte);
   maze->updateMap(cell, 0x0F);
+  printf("%02x\n", maze->xwalls(cell).byte);
   EXPECT_TRUE(maze->isVisited(cell));
-  EXPECT_EQ(0x0f, maze->walls(cell));
+  EXPECT_EQ(0x0f, maze->fwalls(cell));
+  printf("%02x\n", maze->xwalls(cell).byte);
   maze->clearVisited(cell);
+  printf("%02x\n", maze->xwalls(cell).byte);
   EXPECT_FALSE(maze->isVisited(cell));
-  EXPECT_EQ(0x0F, maze->walls(cell));
+  // unseen walls are virtual but present
+  // to 'unsee' a wall, it should be marked as UNKNOWN
+  EXPECT_EQ(0x0F, maze->fwalls(cell));
   maze->setVisited(cell);
   EXPECT_TRUE(maze->isVisited(cell));
-  EXPECT_EQ(0x0F, maze->walls(cell));
+  EXPECT_EQ(0x0F, maze->fwalls(cell));
 
 }
 
@@ -201,43 +260,31 @@ TEST_F(MazeTest, SetClearVisited_clearsVisitFlagsOnly) {
 
 /////////////////////
 TEST_F(MazeTest, HasExit) {
-  maze->resetToEmptyMaze();
-  EXPECT_FALSE(maze->hasExit(0x0F, WEST));
-  EXPECT_FALSE(maze->hasExit(0x0F, NORTH));
-  EXPECT_FALSE(maze->hasExit(0xF0, EAST));
-  EXPECT_FALSE(maze->hasExit(0xF0, SOUTH));
+
+  EXPECT_FALSE(maze->hasExit(0, EAST, OPEN_MASK));
+  EXPECT_FALSE(maze->hasExit(0, EAST, CLOSED_MASK));
+
+  EXPECT_TRUE(maze->hasExit(0, NORTH, CLOSED_MASK));
+  EXPECT_TRUE(maze->hasExit(0, NORTH, OPEN_MASK));
+  EXPECT_TRUE(maze->hasExit(1, SOUTH, OPEN_MASK));
+  EXPECT_TRUE(maze->hasExit(1, SOUTH, CLOSED_MASK));
+  EXPECT_TRUE(maze->hasExit(1, EAST, OPEN_MASK));
+  EXPECT_FALSE(maze->hasExit(1, EAST, CLOSED_MASK));
+
 }
 
 TEST_F(MazeTest, CopyCellFromFileData_GetExactCopy) {
   const uint8_t *src = japan2007ef;
   maze->resetToEmptyMaze();
+  maze->loadFromFileData(src);
+
   for (int i = 0; i < maze->numCells(); i++) {
-    maze->copyCellFromFileData(i, src[i]);
-  }
-  for (int i = 0; i < maze->numCells(); i++) {
-    EXPECT_EQ(src[i], maze->walls(i));
+    EXPECT_EQ(src[i], maze->fwalls(i));
     EXPECT_TRUE(maze->isVisited(i));
   }
 }
 
-TEST_F(MazeTest, OpenClosedMaze_HasExitWhenOpen) {
-  maze->resetToEmptyMaze();
-  maze->clearUnknowns();
-  EXPECT_TRUE(maze->hasExit(0x22, WEST));
-  EXPECT_TRUE(maze->hasExit(0x22, NORTH));
-  EXPECT_TRUE(maze->hasExit(0x22, EAST));
-  EXPECT_TRUE(maze->hasExit(0x22, SOUTH));
-  maze->setUnknowns();
-  EXPECT_FALSE(maze->hasExit(0x22, WEST));
-  EXPECT_FALSE(maze->hasExit(0x22, NORTH));
-  EXPECT_FALSE(maze->hasExit(0x22, EAST));
-  EXPECT_FALSE(maze->hasExit(0x22, SOUTH));
-  maze->clearUnknowns();
-  EXPECT_TRUE(maze->hasExit(0x22, WEST));
-  EXPECT_TRUE(maze->hasExit(0x22, NORTH));
-  EXPECT_TRUE(maze->hasExit(0x22, EAST));
-  EXPECT_TRUE(maze->hasExit(0x22, SOUTH));
-}
+
 
 TEST_F(MazeTest, NeighbourCellAddresses) {
   for (uint16_t cell = 0; cell < maze->numCells(); cell++) {
@@ -260,17 +307,37 @@ TEST_F(MazeTest, NeighbourInvalidDirection_ReturnsUINT16_MAX) {
 
 TEST_F(MazeTest, LoadAndSave_MazeKeptSafe) {
   uint8_t backupWalls[1024] = {};
-  maze->copyMazeFromFileData(japan2007ef, 256);
+  maze->loadFromFileData(japan2007ef);
   maze->save(backupWalls);
   maze->resetToEmptyMaze();
   for (int i = 0; i < maze->numCells(); i++) {
-    EXPECT_EQ(maze->walls(i), emptyMaze[i]);
+    EXPECT_EQ(maze->fwalls(i), emptyMaze[i]);
   }
   maze->load(backupWalls);
   for (int i = 0; i < maze->numCells(); i++) {
-    EXPECT_EQ(maze->walls(i), japan2007ef[i]);
+    EXPECT_EQ(maze->fwalls(i), japan2007ef[i]);
   }
-
-
 }
+
+
+TEST_F(MazeTest, RecalculateGoal) {
+  maze->loadFromFileData(japan2007ef);
+  EXPECT_EQ(0x77, maze->goal());
+  maze->setGoal(0x87);
+  maze->recalculateGoal();
+  EXPECT_EQ(0x77, maze->goal());
+  maze->setGoal(0x11);
+  maze->recalculateGoal();
+  EXPECT_EQ(0x77, maze->goal());
+  maze->clearWall(0x87, SOUTH);
+  maze->setGoal(0x11);
+  maze->recalculateGoal();
+  EXPECT_EQ(0x88, maze->goal());
+  MazePrinter::printPlain(maze);
+  maze32->setGoal(0x11);
+  maze32->recalculateGoal();
+  EXPECT_EQ(0x11, maze32->goal());
+}
+
+
 
