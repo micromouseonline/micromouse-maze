@@ -20,8 +20,7 @@ add_executable(runTestSuite
         testFloodInfo.cpp
         path_test_data.cpp
         path_test_data.h
-        testPathReverse.cpp
-        )
+        testPathReverse.cpp)
 
 target_link_libraries(
         runTestSuite
