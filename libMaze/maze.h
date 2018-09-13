@@ -145,14 +145,7 @@ public:
   uint16_t cost(uint16_t cell);
   /// return the cost in the neighbouring cell in the given direction
   uint16_t cost(uint16_t cell, uint16_t direction);
-  /// return the cost in the neighbouring cell to the North
-  uint16_t costNorth(uint16_t cell);
-  /// return the cost in the neighbouring cell to the East
-  uint16_t costEast(uint16_t cell);
-  /// return the cost in the neighbouring cell to the South
-  uint16_t costSouth(uint16_t cell);
-  /// return the cost in the neighbouring cell to the West
-  uint16_t costWest(uint16_t cell);
+
 
   /// set the cost in the given cell.
   void setCost(uint16_t cell, uint16_t cost); ///
@@ -201,6 +194,7 @@ public:
   /// used only for the weighted Flood
   uint16_t getCornerWeight() const;
   void setCornerWeight(uint16_t cornerWeight);
+  FloodType floodType() const;
 
 protected:
   /// the width of the maze in cells. Assume mazes are always square
@@ -221,15 +215,21 @@ protected:
   bool mIsSolved;
   /// Remember which type of flood is to be used
   FloodType mFloodType;
-public:
-  FloodType floodType() const;
-protected:
   /// the weighted flood needs a cost for corners
   uint16_t mCornerWeight;
   /// used to set up the queue before running the more complex floods
   void seedQueue(PriorityQueue<FloodInfo> &queue, uint16_t goal, uint16_t cost);
   /// set all the cell costs to their maxumum value, except the target
   void initialiseFloodCosts(uint16_t target);
+
+  /// return the cost in the neighbouring cell to the North
+  uint16_t costNorth(uint16_t cell);
+  /// return the cost in the neighbouring cell to the East
+  uint16_t costEast(uint16_t cell);
+  /// return the cost in the neighbouring cell to the South
+  uint16_t costSouth(uint16_t cell);
+  /// return the cost in the neighbouring cell to the West
+  uint16_t costWest(uint16_t cell);
 
 };
 
