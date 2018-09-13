@@ -4,7 +4,9 @@ if (POLICY CMP0048)
     cmake_policy(SET CMP0048 NEW)
 endif (POLICY CMP0048)
 
-project(maze VERSION 0.4.1)
+project(maze VERSION 18.09.13.2)
+
+
 
 project(maze)
 
