@@ -63,6 +63,13 @@ public:
     return mItemCount;
   }
 
+  void increment(int & ptr) {
+    ++ptr;
+    if (ptr > MAX_ITEMS) {
+      ptr -= MAX_ITEMS;
+    }
+  }
+
   void clear() {
     mHead = 0;
     mTail = 0;
@@ -75,11 +82,8 @@ public:
   void add(item_t item) {
     assert(mItemCount < MAX_ITEMS);
     mData[mTail] = item;
-    ++mTail;
+    increment(mTail);
     ++mItemCount;
-    if (mTail > MAX_ITEMS) {
-      mTail -= MAX_ITEMS;
-    }
   }
 
   /*
@@ -88,10 +92,7 @@ public:
    */
   item_t head() {
     item_t result = mData[mHead];
-    ++mHead;
-    if (mHead > MAX_ITEMS) {
-      mHead -= MAX_ITEMS;
-    }
+    increment(mHead);
     --mItemCount;
     return result;
   }
@@ -112,10 +113,7 @@ public:
       if (mData[index] < mData[posSmallest]) {
         posSmallest = index;
       }
-      ++index;
-      if (index > MAX_ITEMS) {
-        index -= MAX_ITEMS;
-      }
+      increment(index);
     }
     item_t smallest = mData[posSmallest];
     mData[posSmallest] = mData[mHead];
