@@ -1,7 +1,11 @@
 # micromouse-maze
-Code for manipulating mazes used in the micromouse contest
+Project for developing and testing code used for manipulating mazes used in the micromouse contest.
 
-This is configured for gitflow. Development is through branches from develop.
+The library code is also available on its own at: https://github.com/micromouseonline/libMaze
+
+Finde out more about the micromouse contest at: http://www.micromouseonline.com
+
+This project is configured for gitflow. Development is through branches from develop.
 
 This version of the code was used in the CLion IDE and uses cmake for builds. If CLion and CMake are not your thing, there is a Netbeans project as well. Both should build and be able to run the tests.
 
