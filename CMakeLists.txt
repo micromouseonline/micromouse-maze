@@ -1,44 +1,42 @@
-cmake_minimum_required(VERSION 3.7)
-project(micromouse-maze)
-set(CMAKE_LEGACY_CYGWIN_WIN32 0)
+cmake_minimum_required(VERSION 2.8)
 
-#set(CMAKE_CXX_FLAGS " -std=gnu++0x")
-#add_definitions(-std=gnu++0x)
+if (POLICY CMP0048)
+    cmake_policy(SET CMP0048 NEW)
+endif (POLICY CMP0048)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-set(CMAKE_CXX_STANDARD 11)
+project(maze VERSION 18.09.13.2)
 
-set(COMMON_FLAGS " -Wall -Wextra ")
-set(HEADER_COMMENTS 1)
 
-set(CMAKE_C_FLAGS "${COMMON_FLAGS} ")
-set(CMAKE_CXX_FLAGS "${COMMON_FLAGS} ")
-set(SOURCE_FILES
-        main.cpp
+
+project(maze)
+
+set(HEADER_FILES
+        commandnames.h
+        maze.h
+        mazeconstants.h
+        mazedata.h
+        mazepathfinder.h
+        mazeprinter.h
+        mazesearcher.h
+        priorityqueue.h
+        mazeconstants.h
+        mazefiler.h
+        floodinfo.h
         )
-add_executable(libmaze_run
+
+set (SOURCE_FILES
+        maze.cpp
+        mazedata.cpp
+        mazepathfinder.cpp
+        mazeprinter.cpp
+        mazefiler.cpp
+        mazesearcher.cpp
+        compiler.cpp
+        compiler.h
+        )
+
+add_library(maze
+        STATIC
         ${SOURCE_FILES}
-        )
-
-# places to look for include files
-include_directories(
-        libMaze
-        oldmaze
-)
-
-# adds in the CMakeLists files from these directories
-add_subdirectory(libMaze)
-add_subdirectory(tests)
-
-# list the libraries needed by the target named
-target_link_libraries(libmaze_run maze)
-
-
-# before building, run astyle over all the sources to be sure
-# the formatting is always consistent
-add_custom_command(TARGET libmaze_run PRE_BUILD
-        COMMENT "Pre build: reformat with astyle\n"
-        COMMAND astyle -nQv --project=.astylerc \"${PROJECT_SOURCE_DIR}/*.cpp\"
-        COMMAND astyle -nQv --project=.astylerc \"${PROJECT_SOURCE_DIR}/libMaze/*.cpp\"
-        COMMAND astyle -nQv --project=.astylerc \"${PROJECT_SOURCE_DIR}/libMaze/*.h\"
+        ${HEADER_FILES}
         )
