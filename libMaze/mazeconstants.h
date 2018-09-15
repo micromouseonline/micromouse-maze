@@ -65,4 +65,11 @@ enum {
 
 #define VISITED (CHECKED_NORTH + CHECKED_EAST + CHECKED_SOUTH + CHECKED_WEST)
 
+#define UNSEEN_EXIT 0x10
+#define UNSEEN_WALL 0x11
+#define SEEN_WALL   0x01
+#define SEEN_EXIT   0x00
+#define CLOSED_MASK  0x11
+#define OPEN_MASK    0x01
+
 #endif //MAZE_MAZECONSTANTS_H
