@@ -73,6 +73,7 @@ void Maze::clearData() {
     mCost[i] = MAX_COST;
     mDirection[i] = NORTH;
     mWalls[i] = 0;
+    xWalls[i] = 0xff;
   }
 }
 

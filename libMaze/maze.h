@@ -202,11 +202,14 @@ public:
   uint16_t getCornerWeight() const;
   void setCornerWeight(uint16_t cornerWeight);
 
+
+  uint8_t xWalls[1024];
 protected:
   /// the width of the maze in cells. Assume mazes are always square
   uint16_t mWidth;
   /// stores the wall and visited flags. Allows for 32x32 maze but wastes space
   uint8_t mWalls[1024];
+
   /// stores the least costly direction. Allows for 32x32 maze but wastes space
   uint8_t mDirection[1024];
   /// stores the cost information from a flood. Allows for 32x32 maze but wastes space
