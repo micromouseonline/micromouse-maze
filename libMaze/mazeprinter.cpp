@@ -67,10 +67,10 @@ void MazePrinter::printDirs(Maze *maze) {
         printf(" ");
       }
       uint8_t direction = maze->direction(cell);
-      if (direction > WEST) {
-        direction = NONE;
+      char c = ' ';
+      if (direction <= WEST) {
+        c = dirChars[direction];
       }
-      char c = dirChars[direction];
       if (cell == maze->goal()) {
         c = '*';
       }
@@ -99,10 +99,10 @@ void MazePrinter::printVisitedDirs(Maze *maze) {
         printf(" ");
       }
       uint8_t direction = maze->direction(cell);
-      if (!maze->isVisited(cell)) {
-        direction = UNSEEN;
+      char c = ' ';
+      if (maze->isVisited(cell) && direction <= WEST) {
+        c = dirChars[direction];
       }
-      char c = dirChars[direction];
       if (cell == maze->goal()) {
         c = '*';
       }
