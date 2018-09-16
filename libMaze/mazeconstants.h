@@ -72,5 +72,7 @@ enum {
 #define WALL_MASK   0x11
 #define CLOSED_MASK  0xFF
 #define OPEN_MASK    0x0F
+#define WALLS_MASK   0x0F
+#define SEEN_MASK    0xF0
 
 #endif //MAZE_MAZECONSTANTS_H

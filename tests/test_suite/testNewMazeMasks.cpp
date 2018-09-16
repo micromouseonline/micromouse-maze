@@ -146,8 +146,6 @@ TEST_F(MazeMaskTest, setWall) {
   EXPECT_ISEXIT(openWalls & (WALL_MASK << SOUTH));
   EXPECT_ISEXIT(openWalls & (WALL_MASK << WEST));
 
-
-
 }
 
 
@@ -238,3 +236,122 @@ TEST_F(MazeMaskTest, clearWall) {
 }
 
 
+TEST_F(MazeMaskTest, isCellSeen) {
+  Maze maze(16);
+  maze.clearData();
+  int cell = 34;
+  maze.setVisited(cell);
+  EXPECT_EQ(0, maze.xWalls[cell]);
+  EXPECT_TRUE(maze.isCellSeen(cell));
+  maze.clearVisited(cell);
+  EXPECT_EQ(0xF0, maze.xWalls[cell]);
+  EXPECT_FALSE(maze.isCellSeen(cell));
+
+}
+
+
+TEST_F(MazeMaskTest, isWallSeen) {
+  Maze maze(16);
+  maze.clearData();
+  int cell = 34;
+  EXPECT_FALSE(maze.isWallSeen(cell, NORTH));
+  EXPECT_FALSE(maze.isWallSeen(cell, EAST));
+  EXPECT_FALSE(maze.isWallSeen(cell, SOUTH));
+  EXPECT_FALSE(maze.isWallSeen(cell, WEST));
+  maze.setVisited(cell);
+  EXPECT_TRUE(maze.isWallSeen(cell, NORTH));
+  EXPECT_TRUE(maze.isWallSeen(cell, EAST));
+  EXPECT_TRUE(maze.isWallSeen(cell, SOUTH));
+  EXPECT_TRUE(maze.isWallSeen(cell, WEST));
+  maze.clearVisited(cell);
+  EXPECT_FALSE(maze.isWallSeen(cell, NORTH));
+  EXPECT_FALSE(maze.isWallSeen(cell, EAST));
+  EXPECT_FALSE(maze.isWallSeen(cell, SOUTH));
+  EXPECT_FALSE(maze.isWallSeen(cell, WEST));
+
+}
+
+
+
+TEST_F(MazeMaskTest, isExit) {
+  Maze maze(16);
+  maze.clearData();
+  int cell = 34;
+  maze.clearVisited(cell);
+  EXPECT_TRUE(maze.isExit(cell, NORTH));
+  EXPECT_TRUE(maze.isExit(cell, EAST));
+  EXPECT_TRUE(maze.isExit(cell, SOUTH));
+  EXPECT_TRUE(maze.isExit(cell, WEST));
+  maze.setVisited(cell);
+  EXPECT_TRUE(maze.isExit(cell, NORTH));
+  EXPECT_TRUE(maze.isExit(cell, EAST));
+  EXPECT_TRUE(maze.isExit(cell, SOUTH));
+  EXPECT_TRUE(maze.isExit(cell, WEST));
+  maze.setWall(cell, NORTH);
+  EXPECT_FALSE(maze.isExit(cell, NORTH));
+  maze.setVisited(cell);
+  EXPECT_FALSE(maze.isExit(cell, NORTH));
+}
+
+
+TEST_F(MazeMaskTest, isWall) {
+  Maze maze(16);
+  maze.clearData();
+  int cell = 34;
+  maze.clearVisited(cell);
+  EXPECT_FALSE(maze.isWall(cell, NORTH));
+  EXPECT_FALSE(maze.isWall(cell, EAST));
+  EXPECT_FALSE(maze.isWall(cell, SOUTH));
+  EXPECT_FALSE(maze.isWall(cell, WEST));
+  maze.setVisited(cell);
+  EXPECT_FALSE(maze.isWall(cell, NORTH));
+  EXPECT_FALSE(maze.isWall(cell, EAST));
+  EXPECT_FALSE(maze.isWall(cell, SOUTH));
+  EXPECT_FALSE(maze.isWall(cell, WEST));
+  maze.setWall(cell, NORTH);
+  EXPECT_TRUE(maze.isWall(cell, NORTH));
+  maze.setVisited(cell);
+  EXPECT_TRUE(maze.isWall(cell, NORTH));
+}
+
+
+TEST_F(MazeMaskTest, isSeenWall) {
+  Maze maze(16);
+  maze.clearData();
+  int cell = 34;
+  maze.clearVisited(cell);
+  EXPECT_FALSE(maze.isSeenWall(cell, NORTH));
+  EXPECT_FALSE(maze.isSeenWall(cell, EAST));
+  EXPECT_FALSE(maze.isSeenWall(cell, SOUTH));
+  EXPECT_FALSE(maze.isSeenWall(cell, WEST));
+  maze.setVisited(cell);
+  EXPECT_FALSE(maze.isSeenWall(cell, NORTH));
+  EXPECT_FALSE(maze.isSeenWall(cell, EAST));
+  EXPECT_FALSE(maze.isSeenWall(cell, SOUTH));
+  EXPECT_FALSE(maze.isSeenWall(cell, WEST));
+  maze.setWall(cell, NORTH);
+  EXPECT_TRUE(maze.isSeenWall(cell, NORTH));
+  maze.clearVisited(cell);
+  EXPECT_FALSE(maze.isSeenWall(cell, NORTH));
+}
+
+
+TEST_F(MazeMaskTest, isSeenExit) {
+  Maze maze(16);
+  maze.clearData();
+  int cell = 34;
+  maze.clearVisited(cell);
+  EXPECT_FALSE(maze.isSeenExit(cell, NORTH));
+  EXPECT_FALSE(maze.isSeenExit(cell, EAST));
+  EXPECT_FALSE(maze.isSeenExit(cell, SOUTH));
+  EXPECT_FALSE(maze.isSeenExit(cell, WEST));
+  maze.setVisited(cell);
+  EXPECT_TRUE(maze.isSeenExit(cell, NORTH));
+  EXPECT_TRUE(maze.isSeenExit(cell, EAST));
+  EXPECT_TRUE(maze.isSeenExit(cell, SOUTH));
+  EXPECT_TRUE(maze.isSeenExit(cell, WEST));
+  maze.clearWall(cell, NORTH);
+  EXPECT_TRUE(maze.isSeenExit(cell, NORTH));
+  maze.clearVisited(cell);
+  EXPECT_FALSE(maze.isSeenExit(cell, NORTH));
+}
