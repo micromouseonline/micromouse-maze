@@ -325,24 +325,44 @@ void Maze::clearWall(uint16_t cell, uint8_t direction) {
       mWalls[cell] |= CHECKED_NORTH;
       mWalls[nextCell] &= ~WALL_SOUTH;
       mWalls[nextCell] |= CHECKED_SOUTH;
+
+      xWalls[cell] &= ~(WALL_MASK << NORTH);
+      xWalls[cell] &= ~(SEEN_WALL << NORTH);
+      xWalls[nextCell] &= ~(WALL_MASK << SOUTH);
+      xWalls[nextCell] &= ~(SEEN_WALL << SOUTH);
       break;
     case EAST:
       mWalls[cell] &= ~WALL_EAST;
       mWalls[cell] |= CHECKED_EAST;
       mWalls[nextCell] &= ~WALL_WEST;
       mWalls[nextCell] |= CHECKED_WEST;
+
+      xWalls[cell] &= ~(WALL_MASK << EAST);
+      xWalls[cell] &= ~(SEEN_WALL << EAST);
+      xWalls[nextCell] &= ~(WALL_MASK << WEST);
+      xWalls[nextCell] &= ~(SEEN_WALL << WEST);
       break;
     case SOUTH:
       mWalls[cell] &= ~WALL_SOUTH;
       mWalls[cell] |= CHECKED_SOUTH;
       mWalls[nextCell] &= ~WALL_NORTH;
       mWalls[nextCell] |= CHECKED_NORTH;
+
+      xWalls[cell] &= ~(WALL_MASK << SOUTH);
+      xWalls[cell] &= ~(SEEN_WALL << SOUTH);
+      xWalls[nextCell] &= ~(WALL_MASK << NORTH);
+      xWalls[nextCell] &= ~(SEEN_WALL << NORTH);
       break;
     case WEST:
       mWalls[cell] &= ~WALL_WEST;
       mWalls[cell] |= CHECKED_WEST;
       mWalls[nextCell] &= ~WALL_EAST;
       mWalls[nextCell] |= CHECKED_EAST;
+
+      xWalls[cell] &= ~(WALL_MASK << WEST);
+      xWalls[cell] &= ~(SEEN_WALL << WEST);
+      xWalls[nextCell] &= ~(WALL_MASK << EAST);
+      xWalls[nextCell] &= ~(SEEN_WALL << EAST);
       break;
     default:
       ; // do nothing -although this is an error
