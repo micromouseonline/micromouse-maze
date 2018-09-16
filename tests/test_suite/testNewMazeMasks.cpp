@@ -32,6 +32,9 @@
 #include "maze.h"
 /////////////////////
 
+#define EXPECT_ISWALL(x) EXPECT_TRUE((x) != 0)
+#define EXPECT_ISEXIT(x) EXPECT_TRUE((x) == 0)
+
 class MazeMaskTest : public ::testing::Test {
 protected:
   Maze *maze;
@@ -48,9 +51,101 @@ protected:
 };
 
 TEST_F(MazeMaskTest, xWall_Initialisation) {
+  // closed maze has no exits
+  // open maze is all exits
+  Maze maze(16);
+  maze.clearData(); // sets xWalls to all unseen exits
+  for (int i = 0; i < maze.numCells(); i++) {
+    uint8_t closedWalls = maze.xWalls[i] & CLOSED_MASK;
+    EXPECT_ISWALL(closedWalls & (WALL_MASK << NORTH));
+    EXPECT_ISWALL(closedWalls & (WALL_MASK << EAST));
+    EXPECT_ISWALL(closedWalls & (WALL_MASK << SOUTH));
+    EXPECT_ISWALL(closedWalls & (WALL_MASK << WEST));
+
+    uint8_t openWalls = maze.xWalls[i] & OPEN_MASK;
+    EXPECT_ISEXIT(openWalls & (WALL_MASK << NORTH));
+    EXPECT_ISEXIT(openWalls & (WALL_MASK << EAST));
+    EXPECT_ISEXIT(openWalls & (WALL_MASK << SOUTH));
+    EXPECT_ISEXIT(openWalls & (WALL_MASK << WEST));
+
+  }
+}
+
+TEST_F(MazeMaskTest, setWall) {
   Maze maze(16);
   maze.clearData();
-  for (int i = 0; i < maze.numCells(); i++) {
-    EXPECT_EQ(0xff, maze.xWalls[i]);
-  }
+  int cell = 22;
+  int nextCell;
+  maze.setWall(cell, NORTH);
+  maze.setWall(cell, EAST);
+  maze.setWall(cell, SOUTH);
+  maze.setWall(cell, WEST);
+  uint8_t closedWalls = maze.xWalls[cell] & CLOSED_MASK;
+  uint8_t openWalls = maze.xWalls[cell] & OPEN_MASK;
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << NORTH));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << EAST));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << SOUTH));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << WEST));
+
+  EXPECT_ISWALL(openWalls & (WALL_MASK << NORTH));
+  EXPECT_ISWALL(openWalls & (WALL_MASK << EAST));
+  EXPECT_ISWALL(openWalls & (WALL_MASK << SOUTH));
+  EXPECT_ISWALL(openWalls & (WALL_MASK << WEST));
+
+  nextCell = maze.cellNorth(cell);
+  closedWalls = maze.xWalls[nextCell] & CLOSED_MASK;
+  openWalls = maze.xWalls[nextCell] & OPEN_MASK;
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << NORTH));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << EAST));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << SOUTH));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << WEST));
+
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << NORTH));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << EAST));
+  EXPECT_ISWALL(openWalls & (WALL_MASK << SOUTH));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << WEST));
+
+
+  nextCell = maze.cellEast(cell);
+  closedWalls = maze.xWalls[nextCell] & CLOSED_MASK;
+  openWalls = maze.xWalls[nextCell] & OPEN_MASK;
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << NORTH));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << EAST));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << SOUTH));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << WEST));
+
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << NORTH));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << EAST));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << SOUTH));
+  EXPECT_ISWALL(openWalls & (WALL_MASK << WEST));
+
+
+  nextCell = maze.cellSouth(cell);
+  closedWalls = maze.xWalls[nextCell] & CLOSED_MASK;
+  openWalls = maze.xWalls[nextCell] & OPEN_MASK;
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << NORTH));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << EAST));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << SOUTH));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << WEST));
+
+  EXPECT_ISWALL(openWalls & (WALL_MASK << NORTH));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << EAST));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << SOUTH));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << WEST));
+
+  nextCell = maze.cellWest(cell);
+  closedWalls = maze.xWalls[nextCell] & CLOSED_MASK;
+  openWalls = maze.xWalls[nextCell] & OPEN_MASK;
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << NORTH));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << EAST));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << SOUTH));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << WEST));
+
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << NORTH));
+  EXPECT_ISWALL(openWalls & (WALL_MASK << EAST));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << SOUTH));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << WEST));
+
+
+
 }
