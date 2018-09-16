@@ -255,7 +255,7 @@ bool Maze::hasRealExit(uint16_t cell, uint8_t direction) {
 }
 
 bool Maze::hasRealWall(uint16_t cell, uint8_t direction) {
-  return isSeen(cell, direction) && hasWall(cell, direction);
+  return isSeen(cell, direction) && !hasExit(cell, direction);
 }
 
 
@@ -454,7 +454,7 @@ uint16_t Maze::cost(uint16_t cell) {
  * No account is taken of the 'wall seen' flag.
  */
 uint16_t Maze::costNorth(uint16_t cell) {
-  if (hasWall(cell, NORTH)) {
+  if (!hasExit(cell, NORTH)) {
     return MAX_COST;
   }
   cell = cellNorth(cell);
@@ -462,27 +462,30 @@ uint16_t Maze::costNorth(uint16_t cell) {
 }
 
 uint16_t Maze::costEast(uint16_t cell) {
-  if (hasWall(cell, EAST)) {
+  if (hasExit(cell, EAST)) {
+    cell = cellEast(cell);
+    return mCost[cell];
+  } else {
     return MAX_COST;
   }
-  cell = cellEast(cell);
-  return mCost[cell];
 }
 
 uint16_t Maze::costSouth(uint16_t cell) {
-  if (hasWall(cell, SOUTH)) {
+  if (hasExit(cell, SOUTH)) {
+    cell = cellSouth(cell);
+    return mCost[cell];
+  } else {
     return MAX_COST;
   }
-  cell = cellSouth(cell);
-  return mCost[cell];
 }
 
 uint16_t Maze::costWest(uint16_t cell) {
-  if (hasWall(cell, WEST)) {
+  if (hasExit(cell, WEST)) {
+    cell = cellWest(cell);
+    return mCost[cell];
+  } else {
     return MAX_COST;
   }
-  cell = cellWest(cell);
-  return mCost[cell];
 }
 
 uint16_t Maze::cost(uint16_t cell, uint16_t direction) {
@@ -667,7 +670,7 @@ uint16_t Maze::runLengthFlood(uint16_t target) {
       if (exitWall == info.entryWall) {
         continue;
       }
-      if (hasWall(info.cell, exitWall)) {
+      if (!hasExit(info.cell, exitWall)) {
         continue;
       }
       uint16_t nextCell = neighbour(info.cell, exitWall);
