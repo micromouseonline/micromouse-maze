@@ -149,3 +149,92 @@ TEST_F(MazeMaskTest, setWall) {
 
 
 }
+
+
+TEST_F(MazeMaskTest, clearWall) {
+  Maze maze(16);
+  maze.clearData();
+  int cell = 22;
+  int nextCell;
+  // we know this works
+  maze.setWall(cell, NORTH);
+  maze.setWall(cell, EAST);
+  maze.setWall(cell, SOUTH);
+  maze.setWall(cell, WEST);
+  // now undo them
+  maze.clearWall(cell, NORTH);
+  maze.clearWall(cell, EAST);
+  maze.clearWall(cell, SOUTH);
+  maze.clearWall(cell, WEST);
+
+  uint8_t closedWalls = maze.xWalls[cell] & CLOSED_MASK;
+  uint8_t openWalls = maze.xWalls[cell] & OPEN_MASK;
+  EXPECT_ISEXIT(closedWalls & (WALL_MASK << NORTH));
+  EXPECT_ISEXIT(closedWalls & (WALL_MASK << EAST));
+  EXPECT_ISEXIT(closedWalls & (WALL_MASK << SOUTH));
+  EXPECT_ISEXIT(closedWalls & (WALL_MASK << WEST));
+
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << NORTH));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << EAST));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << SOUTH));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << WEST));
+
+  nextCell = maze.cellNorth(cell);
+  closedWalls = maze.xWalls[nextCell] & CLOSED_MASK;
+  openWalls = maze.xWalls[nextCell] & OPEN_MASK;
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << NORTH));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << EAST));
+  EXPECT_ISEXIT(closedWalls & (WALL_MASK << SOUTH));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << WEST));
+
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << NORTH));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << EAST));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << SOUTH));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << WEST));
+
+
+  nextCell = maze.cellEast(cell);
+  closedWalls = maze.xWalls[nextCell] & CLOSED_MASK;
+  openWalls = maze.xWalls[nextCell] & OPEN_MASK;
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << NORTH));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << EAST));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << SOUTH));
+  EXPECT_ISEXIT(closedWalls & (WALL_MASK << WEST));
+
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << NORTH));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << EAST));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << SOUTH));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << WEST));
+
+
+  nextCell = maze.cellSouth(cell);
+  closedWalls = maze.xWalls[nextCell] & CLOSED_MASK;
+  openWalls = maze.xWalls[nextCell] & OPEN_MASK;
+  EXPECT_ISEXIT(closedWalls & (WALL_MASK << NORTH));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << EAST));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << SOUTH));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << WEST));
+
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << NORTH));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << EAST));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << SOUTH));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << WEST));
+
+  nextCell = maze.cellWest(cell);
+  closedWalls = maze.xWalls[nextCell] & CLOSED_MASK;
+  openWalls = maze.xWalls[nextCell] & OPEN_MASK;
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << NORTH));
+  EXPECT_ISEXIT(closedWalls & (WALL_MASK << EAST));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << SOUTH));
+  EXPECT_ISWALL(closedWalls & (WALL_MASK << WEST));
+
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << NORTH));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << EAST));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << SOUTH));
+  EXPECT_ISEXIT(openWalls & (WALL_MASK << WEST));
+
+
+
+}
+
+
