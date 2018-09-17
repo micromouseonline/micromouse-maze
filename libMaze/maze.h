@@ -99,13 +99,18 @@ public:
 
   /// return the state of the four walls surrounding a given cell
   uint8_t walls(uint16_t cell) const;
+  uint8_t openWalls(uint16_t cell) ;
+  uint8_t closedWalls(uint16_t cell) ;
   uint8_t internalWalls(uint16_t cell) const;
   /// test whether a wall in a given direction has been observed
   bool isSeen(uint16_t cell, uint8_t direction);
   bool isWallSeen(uint16_t cell, uint8_t direction);
   ///  test for the absence of a wall. Don't care if it is seen or not
   bool hasExit(uint16_t cell, uint8_t direction);
-  bool isExit(uint16_t cell, uint8_t direction);
+  bool isExit(uint16_t cell, uint8_t direction) const;
+
+  //NOTE: tests for walls are best replaced by tests for exits
+  /// This is because an exit is always an exit but a wall may be virtual
   ///  test for the presence of a wall. Don't care if it is seen or not
   bool hasWall(uint16_t cell, uint8_t direction);
   bool isWall(uint16_t cell, uint8_t direction);

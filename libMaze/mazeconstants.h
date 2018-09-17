@@ -70,8 +70,8 @@ enum {
 #define SEEN_WALL   0x01
 #define SEEN_EXIT   0x00
 #define WALL_MASK   0x11
-#define CLOSED_MASK  0xFF
-#define OPEN_MASK    0x0F
+#define CLOSED_MASK  0x11
+#define OPEN_MASK    0x01
 #define WALLS_MASK   0x0F
 #define SEEN_MASK    0xF0
 
