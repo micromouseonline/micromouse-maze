@@ -183,7 +183,7 @@ public:
   uint16_t directionFlood(uint16_t target);
 
 
-  // TODO: is the closed maze needed? is it enough to see if the path has unvisited cells?
+  /// TODO: is the closed maze needed? is it enough to see if the path has unvisited cells?
   /// Flood the maze both open and closed and then test the cost difference
   /// leaves the maze with unknowns clear
   bool testForSolution();
@@ -208,12 +208,11 @@ public:
   void setCornerWeight(uint16_t cornerWeight);
 
 
+  /// stores the wall and visited flags. Allows for 32x32 maze but wastes space
   uint8_t xWalls[1024];
 protected:
   /// the width of the maze in cells. Assume mazes are always square
   uint16_t mWidth;
-  /// stores the wall and visited flags. Allows for 32x32 maze but wastes space
-  uint8_t mWalls[1024];
   uint8_t mOpenCloseMask;
   /// stores the least costly direction. Allows for 32x32 maze but wastes space
   uint8_t mDirection[1024];
