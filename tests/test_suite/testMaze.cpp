@@ -69,11 +69,6 @@ TEST_F(MazeTest, CopyMaze) {
 
 TEST_F(MazeTest, SetClearUnknowns_TestoneCell) {
   maze->resetToEmptyMaze();
-  maze->setUnknowns();
-  EXPECT_EQ(0x0F, maze->walls(0x22));
-  EXPECT_EQ(0x0E, maze->walls(0x00));
-  EXPECT_EQ(0x0B, maze->walls(0x01));
-  maze->clearUnknowns();
   EXPECT_EQ(0x00, maze->walls(0x22));
   EXPECT_EQ(0x0E, maze->walls(0x00));
   EXPECT_EQ(0x08, maze->walls(0x01));
@@ -93,13 +88,13 @@ TEST_F(MazeTest, SetClearUnknowns_NoChangeInExploredMaze) {
 }
 
 TEST_F(MazeTest, SetClearUnknowns_AllDifferentInUnExploredMaze) {
-  Maze setMaze(16);
-  Maze clearMaze(16);
-  setMaze.setUnknowns();
-  clearMaze.clearUnknowns();
-  EXPECT_EQ(setMaze.walls(0), clearMaze.walls(0));
+  Maze closedMaze(16);
+  Maze openMaze(16);
+  closedMaze.setUnknowns();
+  openMaze.clearUnknowns();
+  EXPECT_EQ(closedMaze.closedWalls(0), openMaze.openWalls(0));
   for (uint16_t cell = 1; cell < maze->numCells(); cell++) {
-    EXPECT_NE(setMaze.walls(cell), clearMaze.walls(cell));
+    EXPECT_NE(closedMaze.closedWalls(cell), openMaze.openWalls(cell));
   }
 }
 
@@ -128,6 +123,7 @@ TEST_F(MazeTest, ResetData_OnlyHomeCellVisited) {
 
 TEST_F(MazeTest, RealExitAndWalls) {
   maze->resetToEmptyMaze();
+  //  EXPECT_EQ(999, maze->xWalls[0x01]);
   EXPECT_TRUE(maze->hasExit(0x01, SOUTH));
   EXPECT_TRUE(maze->hasExit(0x01, EAST));
   EXPECT_FALSE(maze->hasRealExit(0x01, EAST));
