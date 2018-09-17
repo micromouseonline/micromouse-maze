@@ -117,6 +117,7 @@ extern const uint8_t taiwan2012[];
 extern const uint8_t taiwan2014[];
 extern const uint8_t taiwan2009[];
 extern const uint8_t taiwan2015[];
+extern const uint8_t testMazeClassic[];
 extern const uint8_t tyubu200906[];
 extern const uint8_t uk1987f[];
 extern const uint8_t uk1988f[];
@@ -139,7 +140,9 @@ extern const uint8_t uk2011f[];
 extern const uint8_t uk2012f[];
 extern const uint8_t uk2014f[];
 
-
+// half size mazes
+extern const uint8_t emptyHalfSize[];
+extern const uint8_t japan2014ef_half[];
 
 
 #endif    /* MAZEDATA_H */

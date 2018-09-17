@@ -20,7 +20,7 @@ add_executable(runTestSuite
         testFloodInfo.cpp
         path_test_data.cpp
         path_test_data.h
-        testPathReverse.cpp testNewMazeMasks.cpp)
+        testPathReverse.cpp testNewMazeMasks.cpp MazeTestHalfSize.cpp)
 
 target_link_libraries(
         runTestSuite
