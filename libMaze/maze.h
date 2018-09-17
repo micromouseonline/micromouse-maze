@@ -104,24 +104,19 @@ public:
   uint8_t internalWalls(uint16_t cell) const;
   /// test whether a wall in a given direction has been observed
   bool isSeen(uint16_t cell, uint8_t direction);
-  bool isWallSeen(uint16_t cell, uint8_t direction);
   ///  test for the absence of a wall. Don't care if it is seen or not
-  bool hasExit(uint16_t cell, uint8_t direction);
-  bool isExit(uint16_t cell, uint8_t direction) const;
+  bool hasExit(uint16_t cell, uint8_t direction) const;
 
   //NOTE: tests for walls are best replaced by tests for exits
   /// This is because an exit is always an exit but a wall may be virtual
   ///  test for the presence of a wall. Don't care if it is seen or not
   bool hasWall(uint16_t cell, uint8_t direction);
-  bool isWall(uint16_t cell, uint8_t direction);
 
   ///  it is not clear that these two mthods have any actual use
   ///  test for the definite, observed absence of a wall.
   bool hasRealExit(uint16_t cell, uint8_t direction);
-  bool isSeenExit(uint16_t cell, uint8_t direction);
   ///  test for the definite, observed presence of a wall.
   bool hasRealWall(uint16_t cell, uint8_t direction);
-  bool isSeenWall(uint16_t cell, uint8_t direction);
 
   /// return the stored direction for the given cell
   uint8_t direction(uint16_t cell);
@@ -130,7 +125,6 @@ public:
 
   /// test to see if  all the walls of a given cell have been seen
   bool isVisited(uint16_t cell);
-  bool isCellSeen(uint16_t cell);
   /// set a cell as having all the walls seen
   void setVisited(uint16_t cell);
   /// set a cell as having none of the walls seen

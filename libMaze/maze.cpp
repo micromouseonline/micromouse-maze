@@ -226,7 +226,7 @@ uint8_t Maze::walls(uint16_t cell) const {
   //  result = static_cast<uint8_t>(xWalls[cell] & 0x0F);
   //  result = 0;
   for (int i = 0; i < 4; i++) {
-    if (!isExit(cell, i)) {
+    if (!hasExit(cell, i)) {
       result |= (1 << i);
     }
   }
@@ -266,11 +266,7 @@ bool Maze::isSeen(uint16_t cell, uint8_t direction) {
   //  return (mWalls[cell] & (0x10 << direction)) != 0;
 }
 
-bool Maze::isWallSeen(uint16_t cell, uint8_t direction) {
-  return (xWalls[cell] & (0x10 << direction)) == 0;
-}
-
-bool Maze::hasExit(uint16_t cell, uint8_t direction) {
+bool Maze::hasExit(uint16_t cell, uint8_t direction) const {
   uint8_t maskedWalls = xWalls[cell] & (mOpenCloseMask << direction);
   return maskedWalls == 0;
   //  return (mWalls[cell] & (0x01 << direction)) == 0;
@@ -281,36 +277,17 @@ bool Maze::hasWall(uint16_t cell, uint8_t direction) {
   //  return (mWalls[cell] & (0x01 << direction)) != 0;
 }
 
-bool Maze::isExit(uint16_t cell, uint8_t direction) const {
-  return (xWalls[cell] & (0x01 << direction)) == 0;;
-}
-
-bool Maze::isWall(uint16_t cell, uint8_t direction) {
-  return (xWalls[cell] & (0x01 << direction)) != 0;
-}
-
-
-
 bool Maze::hasRealExit(uint16_t cell, uint8_t direction) {
-  return isSeenExit(cell, direction);
+  return isSeen(cell, direction) && hasExit(cell, direction);
+  //  return isSeenExit(cell, direction);
   //  return isSeen(cell, direction) && hasExit(cell, direction);
 }
 
 bool Maze::hasRealWall(uint16_t cell, uint8_t direction) {
-  return isSeenWall(cell, direction);
+  return isSeen(cell, direction) && hasWall(cell, direction);
+  //  return isSeenWall(cell, direction);
   //  return isSeen(cell, direction) && !hasExit(cell, direction);
 }
-
-
-
-bool Maze::isSeenExit(uint16_t cell, uint8_t direction) {
-  return isSeen(cell, direction) && isExit(cell, direction);
-}
-
-bool Maze::isSeenWall(uint16_t cell, uint8_t direction) {
-  return isSeen(cell, direction) && isWall(cell, direction);
-}
-
 
 uint8_t Maze::direction(uint16_t cell) {
   return mDirection[cell];
@@ -324,12 +301,6 @@ bool Maze::isVisited(uint16_t cell) {
   return ((xWalls[cell] & VISITED) == 0);
   //  return ((mWalls[cell] & VISITED) == VISITED);
 }
-
-
-bool Maze::isCellSeen(uint16_t cell) {
-  return (xWalls[cell] & SEEN_MASK) == 0;
-}
-
 
 void Maze::setVisited(uint16_t cell) {
   //  mWalls[cell] |= VISITED;
