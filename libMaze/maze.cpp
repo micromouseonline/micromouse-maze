@@ -287,15 +287,16 @@ void Maze::setDirection(uint16_t cell, uint8_t direction) {
 }
 
 bool Maze::isVisited(uint16_t cell) {
-  return ((xWalls[cell] & VISITED) == 0);
+  return (xWalls[cell] & ALL_UNSEEN) == 0;
 }
 
+
 void Maze::setVisited(uint16_t cell) {
-  xWalls[cell] &= ~SEEN_MASK;
+  xWalls[cell] &= ~ALL_UNSEEN;
 }
 
 void Maze::clearVisited(uint16_t cell) {
-  xWalls[cell] |= SEEN_MASK;
+  xWalls[cell] |= ALL_UNSEEN;
 }
 
 /*
@@ -310,25 +311,25 @@ void Maze::setWall(uint16_t cell, uint8_t direction) {
     case NORTH:
       xWalls[cell] &= ~CHECKED_NORTH;
       xWalls[cell] |= WALL_NORTH;
-      xWalls[nextCell] &= ~(WALL_MASK << SOUTH);
+      xWalls[nextCell] &= ~CHECKED_SOUTH;
       xWalls[nextCell] |= WALL_SOUTH;
       break;
     case EAST:
-      xWalls[cell] &= ~(WALL_MASK << EAST);
+      xWalls[cell] &= ~CHECKED_EAST;
       xWalls[cell] |= WALL_EAST;
-      xWalls[nextCell] &= ~(WALL_MASK << WEST);
+      xWalls[nextCell] &= ~CHECKED_WEST;
       xWalls[nextCell] |= WALL_WEST;
       break;
     case SOUTH:
-      xWalls[cell] &= ~(WALL_MASK << SOUTH);
+      xWalls[cell] &= ~CHECKED_SOUTH;
       xWalls[cell] |= WALL_SOUTH;
-      xWalls[nextCell] &= ~(WALL_MASK << NORTH);
+      xWalls[nextCell] &= ~CHECKED_NORTH;
       xWalls[nextCell] |= WALL_NORTH;
       break;
     case WEST:
-      xWalls[cell] &= ~(WALL_MASK << WEST);
+      xWalls[cell] &= ~CHECKED_WEST;
       xWalls[cell] |= WALL_WEST;
-      xWalls[nextCell] &= ~(WALL_MASK << EAST);
+      xWalls[nextCell] &= ~CHECKED_EAST;
       xWalls[nextCell] |= WALL_EAST;
       break;
     default:
@@ -347,27 +348,27 @@ void Maze::clearWall(uint16_t cell, uint8_t direction) {
   uint16_t nextCell = neighbour(cell, direction);
   switch (direction) {
     case NORTH:
-      xWalls[cell] &= ~(WALL_MASK << NORTH);
+      xWalls[cell] &= ~CHECKED_NORTH;
       xWalls[cell] &= ~WALL_NORTH;
-      xWalls[nextCell] &= ~(WALL_MASK << SOUTH);
+      xWalls[nextCell] &= ~CHECKED_SOUTH;
       xWalls[nextCell] &= ~WALL_SOUTH;
       break;
     case EAST:
-      xWalls[cell] &= ~(WALL_MASK << EAST);
+      xWalls[cell] &= ~CHECKED_EAST;
       xWalls[cell] &= ~WALL_EAST;
-      xWalls[nextCell] &= ~(WALL_MASK << WEST);
+      xWalls[nextCell] &= ~CHECKED_WEST;
       xWalls[nextCell] &= ~WALL_WEST;
       break;
     case SOUTH:
-      xWalls[cell] &= ~(WALL_MASK << SOUTH);
+      xWalls[cell] &= ~CHECKED_SOUTH;
       xWalls[cell] &= ~WALL_SOUTH;
-      xWalls[nextCell] &= ~(WALL_MASK << NORTH);
+      xWalls[nextCell] &= ~CHECKED_NORTH;
       xWalls[nextCell] &= ~WALL_NORTH;
       break;
     case WEST:
-      xWalls[cell] &= ~(WALL_MASK << WEST);
+      xWalls[cell] &= ~CHECKED_WEST;
       xWalls[cell] &= ~WALL_WEST;
-      xWalls[nextCell] &= ~(WALL_MASK << EAST);
+      xWalls[nextCell] &= ~CHECKED_EAST;
       xWalls[nextCell] &= ~WALL_EAST;
       break;
     default:
