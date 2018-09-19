@@ -142,8 +142,7 @@ extern const uint8_t uk2014f[];
 
 // half size mazes
 extern const uint8_t emptyHalfSize[];
-extern const uint8_t japan2014ef_half[];
-
-
+extern const uint8_t japan2014ef_half[];  // goal 837
+extern const uint8_t japan2011ef_half[];  // goal 827
 #endif    /* MAZEDATA_H */
 
