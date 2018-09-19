@@ -32,6 +32,8 @@
 #include "floodinfo.h"
 #include "priorityqueue.h"
 
+/// TODO: is the closed maze needed? is it enough to see if the path has unvisited cells?
+
 class Maze {
 
 public:
@@ -101,7 +103,6 @@ public:
   uint8_t walls(uint16_t cell) const;
   uint8_t openWalls(uint16_t cell) ;
   uint8_t closedWalls(uint16_t cell) ;
-  uint8_t internalWalls(uint16_t cell) const;
   /// test whether a wall in a given direction has been observed
   bool isSeen(uint16_t cell, uint8_t direction);
   ///  test for the absence of a wall. Don't care if it is seen or not
@@ -183,7 +184,6 @@ public:
   uint16_t directionFlood(uint16_t target);
 
 
-  /// TODO: is the closed maze needed? is it enough to see if the path has unvisited cells?
   /// Flood the maze both open and closed and then test the cost difference
   /// leaves the maze with unknowns clear
   bool testForSolution();
@@ -203,6 +203,7 @@ public:
 
   /// set the Flood Type to use
   void setFloodType(FloodType mFloodType);
+  FloodType getFloodType() const;
   /// used only for the weighted Flood
   uint16_t getCornerWeight() const;
   void setCornerWeight(uint16_t cornerWeight);
@@ -228,9 +229,6 @@ protected:
   bool mIsSolved;
   /// Remember which type of flood is to be used
   FloodType mFloodType;
-public:
-  FloodType floodType() const;
-protected:
   /// the weighted flood needs a cost for corners
   uint16_t mCornerWeight;
   /// used to set up the queue before running the more complex floods

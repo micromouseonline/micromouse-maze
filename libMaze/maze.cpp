@@ -24,7 +24,7 @@
 ************************************************************************/
 #include <cassert>
 #include <cstdlib>
-
+#include <cstdio>
 
 #include "mazeconstants.h"
 #include "floodinfo.h"
@@ -811,10 +811,6 @@ void Maze::setCornerWeight(uint16_t cornerWeight) {
   Maze::mCornerWeight = cornerWeight;
 }
 
-uint8_t Maze::internalWalls(uint16_t cell) const {
-  return xWalls[cell];
-}
-
-Maze::FloodType Maze::floodType() const {
+Maze::FloodType Maze::getFloodType() const {
   return mFloodType;
 }
