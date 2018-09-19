@@ -231,6 +231,7 @@ protected:
   FloodType mFloodType;
   /// the weighted flood needs a cost for corners
   uint16_t mCornerWeight;
+  Maze() = default;
   /// used to set up the queue before running the more complex floods
   void seedQueue(PriorityQueue<FloodInfo> &queue, uint16_t goal, uint16_t cost);
   /// set all the cell costs to their maxumum value, except the target
