@@ -90,6 +90,8 @@ TEST_F(MazeTest, SetClearUnknowns_NoChangeInExploredMaze) {
 TEST_F(MazeTest, SetClearUnknowns_AllDifferentInUnExploredMaze) {
   Maze closedMaze(16);
   Maze openMaze(16);
+  openMaze.resetToEmptyMaze();
+  closedMaze.resetToEmptyMaze();
   closedMaze.setUnknowns();
   openMaze.clearUnknowns();
   EXPECT_EQ(closedMaze.closedWalls(0), openMaze.openWalls(0));

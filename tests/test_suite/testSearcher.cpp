@@ -33,7 +33,6 @@
 #include "maze.h"
 
 class SearcherTest : public ::testing::Test {
-
   /* This gets run before each test */
   virtual void SetUp() {
     maze = new Maze(16);
@@ -49,6 +48,7 @@ class SearcherTest : public ::testing::Test {
   }
 
 protected:
+  bool withPrint = false;
   MazeSearcher *searcher;
   Maze *maze;
 };
@@ -286,9 +286,83 @@ TEST_F(SearcherTest, MouseRunTo_SearchToTarget_ManhattanFlood) {
   maze->copyMazeFromFileData(japan2007ef, 256);
   searcher->setRealMaze(maze);
   searcher->map()->setFloodType(Maze::MANHATTAN_FLOOD);
-  int steps = searcher->searchTo(0x77);
+  int steps = searcher->searchTo(maze->goal());
   EXPECT_EQ(130, steps);
-  //  MazePrinter::printVisitedDirs(barney->libMaze());
+  if (withPrint) {
+    MazePrinter::printVisitedDirs(searcher->map());
+  }
+}
+
+/*
+ *
+ */
+TEST_F(SearcherTest, MouseRunTo_SearchToTarget_HalfSize) {
+  Maze * maze = new Maze(32);
+  maze->copyMazeFromFileData(japan2014ef_half, 1024);
+  maze->setGoal(837);
+  searcher->setRealMaze(maze);
+  searcher->map()->setFloodType(Maze::RUNLENGTH_FLOOD);
+  int steps = searcher->searchTo(maze->goal());
+  EXPECT_EQ(231, steps);
+}
+
+/*
+ *
+ */
+TEST_F(SearcherTest, MouseRunTo_Japan2011_HalfSize) {
+  Maze * maze = new Maze(32);
+  maze->copyMazeFromFileData(japan2011ef_half, 1024);
+  maze->setGoal(827);
+  searcher->setRealMaze(maze);
+  searcher->map()->setFloodType(Maze::RUNLENGTH_FLOOD);
+
+  int steps = searcher->searchTo(maze->goal());
+  searcher->map()->setUnknowns();
+  searcher->map()->flood(maze->goal());
+  searcher->map()->clearUnknowns();
+  EXPECT_EQ(132, steps);
+  if (withPrint) {
+    MazePrinter::printVisitedDirs(searcher->map());
+  }
+
+  steps = searcher->searchTo(0);
+  EXPECT_EQ(106, steps);
+  searcher->map()->setUnknowns();
+  searcher->map()->flood(maze->goal());
+  searcher->map()->clearUnknowns();
+
+  if (withPrint) {
+    MazePrinter::printVisitedDirs(searcher->map());
+  }
+  searcher->map()->testForSolution();
+  if (withPrint) {
+    printf("\n\n%d   %d\n\n", searcher->map()->openMazeCost(), searcher->map()->closedMazeCost());
+  }
+
+  int cnt = 0;
+  while (!searcher->map()->isSolved()) {
+    searcher->searchTo(maze->goal());
+    searcher->searchTo(0);
+    searcher->map()->testForSolution();
+    if (cnt++ > 20) {
+      break;
+    }
+  }
+  EXPECT_EQ(3, cnt);
+  if (withPrint) {
+    printf("\n\n%d   %d\n\n", searcher->map()->openMazeCost(), searcher->map()->closedMazeCost());
+  }
+  searcher->map()->setUnknowns();
+  searcher->map()->flood(maze->goal());
+  searcher->map()->clearUnknowns();
+  if (withPrint) {
+    MazePrinter::printVisitedDirs(searcher->map());
+  }
+  searcher->map()->setUnknowns();
+  if (withPrint) {
+    MazePrinter::printVisitedDirs(searcher->map());
+  }
+
 }
 
 
