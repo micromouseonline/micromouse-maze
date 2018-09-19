@@ -85,6 +85,9 @@ const Maze *MazeSearcher::realMaze() const {
 
 void MazeSearcher::setRealMaze(const Maze *maze) {
   mRealMaze = maze;
+  mMap->setWidth(maze->width());
+  mMap->resetToEmptyMaze();
+  mMap->setGoal(maze->goal());
 }
 
 int MazeSearcher::runTo(uint16_t target) {
