@@ -95,7 +95,7 @@ public:
   /// return the address of the home cell. Nearly always cell zero
   uint16_t home();
   /// return the cell address of the current goal
-  uint16_t goal();
+  uint16_t goal() const;
   ///  set the current goal to a new value
   void setGoal(uint16_t goal);
 

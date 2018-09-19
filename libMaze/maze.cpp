@@ -204,7 +204,7 @@ uint16_t Maze::home() {
   return 0;
 }
 
-uint16_t Maze::goal() {
+uint16_t Maze::goal() const {
   return mGoal;
 }
 
@@ -806,4 +806,9 @@ void Maze::setCornerWeight(uint16_t cornerWeight) {
 
 Maze::FloodType Maze::getFloodType() const {
   return mFloodType;
+}
+
+void Maze::setWidth(uint16_t mWidth) {
+  Maze::mWidth = mWidth;
+  resetToEmptyMaze();
 }
