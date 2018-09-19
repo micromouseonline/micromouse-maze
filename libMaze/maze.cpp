@@ -309,27 +309,27 @@ void Maze::setWall(uint16_t cell, uint8_t direction) {
   uint16_t nextCell = neighbour(cell, direction);
   switch (direction) {
     case NORTH:
-      xWalls[cell] &= ~CHECKED_NORTH;
+      xWalls[cell] &= ~UNSEEN_NORTH;
       xWalls[cell] |= WALL_NORTH;
-      xWalls[nextCell] &= ~CHECKED_SOUTH;
+      xWalls[nextCell] &= ~UNSEEN_SOUTH;
       xWalls[nextCell] |= WALL_SOUTH;
       break;
     case EAST:
-      xWalls[cell] &= ~CHECKED_EAST;
+      xWalls[cell] &= ~UNSEEN_EAST;
       xWalls[cell] |= WALL_EAST;
-      xWalls[nextCell] &= ~CHECKED_WEST;
+      xWalls[nextCell] &= ~UNSEEN_WEST;
       xWalls[nextCell] |= WALL_WEST;
       break;
     case SOUTH:
-      xWalls[cell] &= ~CHECKED_SOUTH;
+      xWalls[cell] &= ~UNSEEN_SOUTH;
       xWalls[cell] |= WALL_SOUTH;
-      xWalls[nextCell] &= ~CHECKED_NORTH;
+      xWalls[nextCell] &= ~UNSEEN_NORTH;
       xWalls[nextCell] |= WALL_NORTH;
       break;
     case WEST:
-      xWalls[cell] &= ~CHECKED_WEST;
+      xWalls[cell] &= ~UNSEEN_WEST;
       xWalls[cell] |= WALL_WEST;
-      xWalls[nextCell] &= ~CHECKED_EAST;
+      xWalls[nextCell] &= ~UNSEEN_EAST;
       xWalls[nextCell] |= WALL_EAST;
       break;
     default:
@@ -348,27 +348,27 @@ void Maze::clearWall(uint16_t cell, uint8_t direction) {
   uint16_t nextCell = neighbour(cell, direction);
   switch (direction) {
     case NORTH:
-      xWalls[cell] &= ~CHECKED_NORTH;
+      xWalls[cell] &= ~UNSEEN_NORTH;
       xWalls[cell] &= ~WALL_NORTH;
-      xWalls[nextCell] &= ~CHECKED_SOUTH;
+      xWalls[nextCell] &= ~UNSEEN_SOUTH;
       xWalls[nextCell] &= ~WALL_SOUTH;
       break;
     case EAST:
-      xWalls[cell] &= ~CHECKED_EAST;
+      xWalls[cell] &= ~UNSEEN_EAST;
       xWalls[cell] &= ~WALL_EAST;
-      xWalls[nextCell] &= ~CHECKED_WEST;
+      xWalls[nextCell] &= ~UNSEEN_WEST;
       xWalls[nextCell] &= ~WALL_WEST;
       break;
     case SOUTH:
-      xWalls[cell] &= ~CHECKED_SOUTH;
+      xWalls[cell] &= ~UNSEEN_SOUTH;
       xWalls[cell] &= ~WALL_SOUTH;
-      xWalls[nextCell] &= ~CHECKED_NORTH;
+      xWalls[nextCell] &= ~UNSEEN_NORTH;
       xWalls[nextCell] &= ~WALL_NORTH;
       break;
     case WEST:
-      xWalls[cell] &= ~CHECKED_WEST;
+      xWalls[cell] &= ~UNSEEN_WEST;
       xWalls[cell] &= ~WALL_WEST;
-      xWalls[nextCell] &= ~CHECKED_EAST;
+      xWalls[nextCell] &= ~UNSEEN_EAST;
       xWalls[nextCell] &= ~WALL_EAST;
       break;
     default:
