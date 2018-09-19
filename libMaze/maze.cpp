@@ -50,15 +50,8 @@ const uint16_t diagCostTable[] =
 //{0,56,47,41,37,34,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31};
 
 Maze::Maze(uint16_t width) :
-  mWidth(width),
-  mOpenCloseMask(OPEN_MASK),
-  mGoal(DEFAULT_GOAL),
-  mPathCostOpen(MAX_COST),
-  mPathCostClosed(MAX_COST),
-  mIsSolved(false),
-  mFloodType(RUNLENGTH_FLOOD),
-  mCornerWeight(3) {
-  resetToEmptyMaze();
+  mWidth(width) {
+  //  resetToEmptyMaze();
 };
 
 uint16_t Maze::width() const {

@@ -209,28 +209,29 @@ public:
   void setCornerWeight(uint16_t cornerWeight);
 
 
+  void setWidth(uint16_t mWidth);
   /// stores the wall and visited flags. Allows for 32x32 maze but wastes space
-  uint8_t xWalls[1024];
+  uint8_t xWalls[1024] = {0xf0};
 protected:
   /// the width of the maze in cells. Assume mazes are always square
-  uint16_t mWidth;
-  uint8_t mOpenCloseMask;
+  uint16_t mWidth = 16;
+  uint8_t mOpenCloseMask = OPEN_MASK;
   /// stores the least costly direction. Allows for 32x32 maze but wastes space
-  uint8_t mDirection[1024];
+  uint8_t mDirection[1024] = {NORTH};
   /// stores the cost information from a flood. Allows for 32x32 maze but wastes space
-  uint16_t mCost[1024];
+  uint16_t mCost[1024] = {MAX_COST};
   /// the current goal as defined by the conetst rules
-  uint16_t mGoal;
+  uint16_t mGoal = 0x77;
   /// The cost of the best path assuming unseen walls are absent
-  uint16_t mPathCostOpen;
+  uint16_t mPathCostOpen = MAX_COST;
   /// The cost of the best path assuming unseen walls are present
-  uint16_t mPathCostClosed;
+  uint16_t mPathCostClosed = MAX_COST;
   /// flag set when maze has been solved
-  bool mIsSolved;
+  bool mIsSolved = false;
   /// Remember which type of flood is to be used
-  FloodType mFloodType;
+  FloodType mFloodType = RUNLENGTH_FLOOD;
   /// the weighted flood needs a cost for corners
-  uint16_t mCornerWeight;
+  uint16_t mCornerWeight = 3;
   Maze() = default;
   /// used to set up the queue before running the more complex floods
   void seedQueue(PriorityQueue<FloodInfo> &queue, uint16_t goal, uint16_t cost);
