@@ -30,6 +30,7 @@
 #include "mazeprinter.h"
 #include "mazedata.h"
 #include "maze.h"
+#include "mazefiler.h"
 /////////////////////
 
 class MazeTestHalfSize : public ::testing::Test {
@@ -63,7 +64,13 @@ TEST_F(MazeTestHalfSize, copyHalfSize) {
 }
 TEST_F(MazeTestHalfSize, printHalfSize) {
 
+  MazeFiler filer;
+  filer.readMaze(maze, "mazefiles/halfsize/japan2011hef.txt");
+  MazePrinter::printPlain(maze);
+
   return;
+
+
 
   maze->copyMazeFromFileData(japan2011ef_half, 1024);
   printf("\n\nJapan 2011 Final Half Size");
