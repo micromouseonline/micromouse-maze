@@ -133,7 +133,10 @@ void MazePrinter::printPlain(Maze *maze) {
       }
       char c = ' ';
       if (cell == maze->goal()) {
-        c = '*';
+        c = 'G';
+      }
+      if (cell == 0) {
+        c = 'S';
       }
       printf(" %c ", c);
     }
