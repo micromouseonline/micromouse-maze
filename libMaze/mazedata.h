@@ -145,6 +145,7 @@ extern const uint8_t emptyHalfSize[];
 extern const uint8_t japan2010ef_half[];
 extern const uint8_t japan2011ef_half[];  // goal 827
 extern const uint8_t japan2012ef_half[];
+extern const uint8_t japan2013ef_half[];
 extern const uint8_t japan2014ef_half[];  // goal 837
 extern const uint8_t japan2015ef_half[];
 extern const uint8_t japan2016ef_half[];
