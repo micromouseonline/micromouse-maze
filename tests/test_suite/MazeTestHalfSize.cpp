@@ -61,6 +61,80 @@ TEST_F(MazeTestHalfSize, copyHalfSize) {
   }
 
 }
+TEST_F(MazeTestHalfSize, printHalfSize) {
+
+  return;
+
+  maze->copyMazeFromFileData(japan2011ef_half, 1024);
+  printf("\n\nJapan 2011 Final Half Size");
+  MazePrinter::printPlain(maze);
+
+  maze->copyMazeFromFileData(japan2011ef_halfx, 1024);
+  printf("\n\nSJ_H Japan 2011 Final Half Size");
+  MazePrinter::printPlain(maze);
+
+
+
+  maze->copyMazeFromFileData(japan2014ef_half, 1024);
+  printf("\n\nJapan 2014 Final Half Size");
+  MazePrinter::printPlain(maze);
+
+  maze->copyMazeFromFileData(japan2014ef_halfx, 1024);
+  printf("\n\nSJ_H Japan 2014 Final Half Size");
+  MazePrinter::printPlain(maze);
+
+
+
+  maze->copyMazeFromFileData(japan2015ef_half, 1024);
+  printf("\n\nJapan 2015 Final Half Size");
+  MazePrinter::printPlain(maze);
+
+
+  maze->copyMazeFromFileData(japan2016ef_half, 1024);
+  printf("\n\nJapan 2016 Final Half Size");
+  MazePrinter::printPlain(maze);
+
+  maze->copyMazeFromFileData(japan2016ef_halfx, 1024);
+  printf("\n\nSJ_H Japan 2016 Final Half Size");
+  MazePrinter::printPlain(maze);
+
+
+
+
+  maze->copyMazeFromFileData(japan2017ef_half, 1024);
+  printf("\n\nJapan 2017 Final Half Size");
+  MazePrinter::printPlain(maze);
+
+  maze->copyMazeFromFileData(japan2017ef_halfx, 1024);
+  printf("\n\nSJ_H Japan 2017 Final Half Size");
+  MazePrinter::printPlain(maze);
+
+
+
+  maze->copyMazeFromFileData(japan2010ef_halfx, 1024);
+  printf("\n\nSJ_H Japan 2010 Final Half Size");
+  MazePrinter::printPlain(maze);
+
+  maze->copyMazeFromFileData(japan2012ef_halfx, 1024);
+  printf("\n\nSJ_H Japan 2012 Final Half Size");
+  MazePrinter::printPlain(maze);
+
+
+  maze->copyMazeFromFileData(taiwan2014ef_halfx, 1024);
+  printf("\n\nSJ_H Taiwan 2014 Final Half Size");
+  MazePrinter::printPlain(maze);
+
+  maze->copyMazeFromFileData(taiwan2015ef_halfx, 1024);
+  printf("\n\nSJ_H Taiwan 2015 Final Half Size");
+  MazePrinter::printPlain(maze);
+
+  maze->copyMazeFromFileData(taiwan2017ef_halfx, 1024);
+  printf("\n\nSJ_H Taiwan 2017 Final Half Size");
+  MazePrinter::printPlain(maze);
+
+
+
+}
 
 TEST_F(MazeTestHalfSize, FloodHalfSize) {
   maze->copyMazeFromFileData(japan2014ef_half, 1024);
