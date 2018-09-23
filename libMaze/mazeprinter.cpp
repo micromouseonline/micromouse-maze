@@ -146,6 +146,7 @@ void MazePrinter::printPlain(Maze *maze) {
     printf("\n");
   }
   printSouthWalls(maze, 0);
+  printf("\n");
 }
 
 void MazePrinter::printCDecl(Maze *maze, const char *name) {
