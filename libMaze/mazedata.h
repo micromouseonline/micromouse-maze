@@ -154,6 +154,7 @@ extern const uint8_t japan2017ef_half[];
 
 extern const uint8_t taiwan2014ef_half[];
 extern const uint8_t taiwan2015ef_half[];
+extern const uint8_t taiwan2016ef_half[];
 extern const uint8_t taiwan2017ef_half[];
 
 #endif    /* MAZEDATA_H */
