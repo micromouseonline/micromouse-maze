@@ -56,7 +56,7 @@ TEST_F(MazeMaskTest, xWall_Initialisation) {
   Maze maze(16);
   maze.clearData(); // sets xWalls to all unseen exits
   for (int i = 0; i < maze.numCells(); i++) {
-    EXPECT_EQ(0xF0, maze.xWalls[i]);
+    EXPECT_EQ(0xF0, maze.getXWalls(i));
   }
 }
 
@@ -69,21 +69,21 @@ TEST_F(MazeMaskTest, setWall) {
   maze.setWall(cell, EAST);
   maze.setWall(cell, SOUTH);
   maze.setWall(cell, WEST);
-  EXPECT_EQ(0x0F, maze.xWalls[cell]);
+  EXPECT_EQ(0x0F, maze.getXWalls(cell));
 
   nextCell = maze.cellNorth(cell);
-  EXPECT_EQ(0xB4, maze.xWalls[nextCell]);
+  EXPECT_EQ(0xB4, maze.getXWalls(nextCell));
 
 
   nextCell = maze.cellEast(cell);
-  EXPECT_EQ(0x78, maze.xWalls[nextCell]);
+  EXPECT_EQ(0x78, maze.getXWalls(nextCell));
 
 
   nextCell = maze.cellSouth(cell);
-  EXPECT_EQ(0xE1, maze.xWalls[nextCell]);
+  EXPECT_EQ(0xE1, maze.getXWalls(nextCell));
 
   nextCell = maze.cellWest(cell);
-  EXPECT_EQ(0xD2, maze.xWalls[nextCell]);
+  EXPECT_EQ(0xD2, maze.getXWalls(nextCell));
 
 }
 
@@ -103,21 +103,21 @@ TEST_F(MazeMaskTest, clearWall) {
   maze.clearWall(cell, EAST);
   maze.clearWall(cell, SOUTH);
   maze.clearWall(cell, WEST);
-  EXPECT_EQ(0x00, maze.xWalls[cell]);
+  EXPECT_EQ(0x00, maze.getXWalls(cell));
 
   nextCell = maze.cellNorth(cell);
-  EXPECT_EQ(0xB0, maze.xWalls[nextCell]);
+  EXPECT_EQ(0xB0, maze.getXWalls(nextCell));
 
 
   nextCell = maze.cellEast(cell);
-  EXPECT_EQ(0x70, maze.xWalls[nextCell]);
+  EXPECT_EQ(0x70, maze.getXWalls(nextCell));
 
 
   nextCell = maze.cellSouth(cell);
-  EXPECT_EQ(0xE0, maze.xWalls[nextCell]);
+  EXPECT_EQ(0xE0, maze.getXWalls(nextCell));
 
   nextCell = maze.cellWest(cell);
-  EXPECT_EQ(0xD0, maze.xWalls[nextCell]);
+  EXPECT_EQ(0xD0, maze.getXWalls(nextCell));
 }
 
 
@@ -126,10 +126,10 @@ TEST_F(MazeMaskTest, isVisited) {
   maze.clearData();
   int cell = 34;
   maze.setVisited(cell);
-  EXPECT_EQ(0, maze.xWalls[cell]);
+  EXPECT_EQ(0, maze.getXWalls(cell));
   EXPECT_TRUE(maze.isVisited(cell));
   maze.clearVisited(cell);
-  EXPECT_EQ(0xF0, maze.xWalls[cell]);
+  EXPECT_EQ(0xF0, maze.getXWalls(cell));
   EXPECT_FALSE(maze.isVisited(cell));
 
 }

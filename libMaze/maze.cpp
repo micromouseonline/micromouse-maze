@@ -812,3 +812,7 @@ void Maze::setWidth(uint16_t mWidth) {
   Maze::mWidth = mWidth;
   resetToEmptyMaze();
 }
+
+uint8_t Maze::getXWalls(int cell) const {
+  return xWalls[cell];
+}

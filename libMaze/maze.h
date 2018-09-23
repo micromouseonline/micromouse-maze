@@ -210,8 +210,11 @@ public:
 
 
   void setWidth(uint16_t mWidth);
+protected:
   /// stores the wall and visited flags. Allows for 32x32 maze but wastes space
   uint8_t xWalls[1024] = {0xf0};
+public:
+  uint8_t getXWalls(int cell) const;
 protected:
   /// the width of the maze in cells. Assume mazes are always square
   uint16_t mWidth = 16;
