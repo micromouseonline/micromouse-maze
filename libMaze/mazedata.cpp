@@ -1879,7 +1879,7 @@ const uint8_t testMazeClassic[] = {
 
 MazeDataSource mazeList[] = {
   {"emptyHalfSize", emptyHalfSize},
-  {"japan2011ef_half", japan2010ef_half},  // goal 827
+  {"japan2010ef_half", japan2010ef_half},  // goal 827
   {"japan2011ef_half", japan2011ef_half},  // goal 827
   {"japan2012ef_half", japan2012ef_half},
   {"japan2014ef_half", japan2014ef_half},  // goal 837
