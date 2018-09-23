@@ -142,23 +142,18 @@ extern const uint8_t uk2014f[];
 
 // half size mazes
 extern const uint8_t emptyHalfSize[];
+extern const uint8_t japan2010ef_half[];
 extern const uint8_t japan2011ef_half[];  // goal 827
+extern const uint8_t japan2012ef_half[];
 extern const uint8_t japan2014ef_half[];  // goal 837
 extern const uint8_t japan2015ef_half[];
 extern const uint8_t japan2016ef_half[];
 extern const uint8_t japan2017ef_half[];
 
 
-extern const uint8_t japan2010ef_halfx[];
-extern const uint8_t japan2011ef_halfx[];
-extern const uint8_t japan2012ef_halfx[];
-extern const uint8_t japan2014ef_halfx[];
-extern const uint8_t japan2016ef_halfx[];
-extern const uint8_t japan2017ef_halfx[];
-
-extern const uint8_t taiwan2014ef_halfx[];
-extern const uint8_t taiwan2015ef_halfx[];
-extern const uint8_t taiwan2017ef_halfx[];
+extern const uint8_t taiwan2014ef_half[];
+extern const uint8_t taiwan2015ef_half[];
+extern const uint8_t taiwan2017ef_half[];
 
 #endif    /* MAZEDATA_H */
 
