@@ -51,7 +51,7 @@ const uint16_t diagCostTable[] =
 
 Maze::Maze(uint16_t width) :
   mWidth(width) {
-
+  addToGoalArea(DEFAULT_GOAL);
   //  resetToEmptyMaze();
 };
 
@@ -143,6 +143,7 @@ void Maze::copyMazeFromFileData(const uint8_t *wallData, uint16_t cellCount) {
     for (uint16_t cell = 0; cell < numCells(); cell++) {
       copyCellFromFileData(cell, wallData[cell]);
     }
+    setGoal(goalArea.front());
   }
 }
 
@@ -217,11 +218,12 @@ uint16_t Maze::home() {
 }
 
 uint16_t Maze::goal() const {
-  return mGoal;
+  return goalArea.front();
 }
 
 void Maze::setGoal(uint16_t goal) {
-  mGoal = goal;
+  clearGoalArea();
+  goalArea.push_back(goal);
 }
 
 uint8_t Maze::walls(uint16_t cell) const {

@@ -228,8 +228,7 @@ protected:
   uint8_t mDirection[1024] = {NORTH};
   /// stores the cost information from a flood. Allows for 32x32 maze but wastes space
   uint16_t mCost[1024] = {MAX_COST};
-  /// the current goal as defined by the conetst rules
-  uint16_t mGoal = 0x77;
+  /// The goal is an area so a list of locations is needed. Must have one or more entries
   std::list<int> goalArea;
   /// The cost of the best path assuming unseen walls are absent
   uint16_t mPathCostOpen = MAX_COST;
