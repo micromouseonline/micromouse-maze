@@ -143,7 +143,6 @@ void Maze::copyMazeFromFileData(const uint8_t *wallData, uint16_t cellCount) {
     for (uint16_t cell = 0; cell < numCells(); cell++) {
       copyCellFromFileData(cell, wallData[cell]);
     }
-    setGoal(goalArea.front());
   }
 }
 
