@@ -136,8 +136,7 @@ public:
   /// NOT TO BE USED IN SEARCH. Unconditionally clear a  wall in a cell and mark as seen.
   void clearWall(uint16_t cell, uint8_t direction);
 
-  /// NOT TO BE USED IN SEARCH. Update a single cell from stored map data.
-  void copyCellFromFileData(uint16_t cell, uint8_t wallData);
+
 
   /// USE THIS FOR SEARCH. Update a single cell with wall data (normalised for direction)
   void updateMap(uint16_t cell, uint8_t wallData);
@@ -240,6 +239,8 @@ protected:
   void seedQueue(PriorityQueue<FloodInfo> &queue, uint16_t goal, uint16_t cost);
   /// set all the cell costs to their maxumum value, except the target
   void initialiseFloodCosts(uint16_t target);
+  /// NOT TO BE USED IN SEARCH. Update a single cell from stored map data.
+  void copyCellFromFileData(uint16_t cell, uint8_t wallData);
 
 };
 
