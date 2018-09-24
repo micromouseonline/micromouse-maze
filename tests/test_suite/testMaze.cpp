@@ -67,14 +67,14 @@ TEST_F(MazeTest, MakeData) {
 }
 */
 
-TEST_F(MazeTest, GoalAreaInitialisesEmpty) {
+TEST_F(MazeTest, GoalAreaInitialisDefault) {
   Maze maze16(16);
 
-  EXPECT_EQ(0, maze16.goalAreaSize());
+  EXPECT_EQ(1, maze16.goalAreaSize());
   maze16.resetToEmptyMaze();
   EXPECT_EQ(4, maze16.goalAreaSize());
   Maze maze32(32);
-  EXPECT_EQ(0, maze32.goalAreaSize());
+  EXPECT_EQ(1, maze32.goalAreaSize());
 }
 
 
@@ -87,7 +87,7 @@ TEST_F(MazeTest, GoalAreaClearsEmpty) {
 
 TEST_F(MazeTest, GoalAreaFindCellInGoal) {
   Maze maze16(16);
-  EXPECT_FALSE(maze16.goalContains(0x77));
+  EXPECT_TRUE(maze16.goalContains(0x77));
   maze16.resetToEmptyMaze();
   EXPECT_TRUE(maze16.goalContains(0x77));
   EXPECT_FALSE(maze16.goalContains(0x79));

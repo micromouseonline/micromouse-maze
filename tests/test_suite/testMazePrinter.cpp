@@ -72,8 +72,8 @@ TEST_F(TestMazePrinter, PrintClassicWithGoal) {
   MazeFiler filer;
   char name[] = "mazefiles/classic/japan2013ef.txt";
   filer.readMaze(maze, name);
-  MazePrinter::printPlain(maze);
-  MazePrinter::printCDecl(maze, "japan2013");
+  //  MazePrinter::printPlain(maze);
+  //  MazePrinter::printCDecl(maze, "japan2013");
 
 }
 
