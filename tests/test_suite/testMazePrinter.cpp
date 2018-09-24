@@ -31,6 +31,7 @@
 #include "maze.h"
 #include "mazedata.h"
 #include "mazeprinter.h"
+#include "mazefiler.h"
 
 
 
@@ -49,11 +50,6 @@ protected:
     delete maze;
   }
 
-  virtual void copyClassicMaze(const uint8_t *mazeData) const {
-    for (int cell = 0; cell < this->maze->numCells(); ++cell) {
-      maze->copyCellFromFileData(cell, mazeData[cell]);
-    }
-  }
 };
 
 /*
@@ -63,13 +59,21 @@ protected:
 TEST_F(TestMazePrinter, PrintForCoverageTesting) {
   //  return;
   //  MazePrinter::printVisitedDirs(libMaze);
-  copyClassicMaze(japan2007ef);
-
+  //  copyClassicMaze(japan2007ef);
+  maze->copyMazeFromFileData(japan2007ef, 256);
   maze->flood(maze->goal());
   //  MazePrinter::printDirs(maze);
   //  MazePrinter::printPlain(maze);
   //  MazePrinter::printCDecl(maze, "julian");
   //  MazePrinter::printCosts(maze);
   //  MazePrinter::printVisitedDirs(maze);
+}
+TEST_F(TestMazePrinter, PrintClassicWithGoal) {
+  MazeFiler filer;
+  char name[] = "mazefiles/classic/japan2013ef.txt";
+  filer.readMaze(maze, name);
+  MazePrinter::printPlain(maze);
+  MazePrinter::printCDecl(maze, "japan2013");
+
 }
 
