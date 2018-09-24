@@ -132,7 +132,7 @@ void MazePrinter::printPlain(Maze *maze) {
         printf("|");
       }
       char c = ' ';
-      if (cell == maze->goal()) {
+      if (maze->goalContains(cell)) {
         c = 'G';
       }
       if (cell == 0) {
@@ -158,7 +158,11 @@ void MazePrinter::printCDecl(Maze *maze, const char *name) {
     printf("   ");
     for (uint16_t y = 0; y < maze->width(); y++) {
       uint16_t cell = x * maze->width() + y;
-      printf("0x%02X, ", maze->walls(cell));
+      uint8_t walls = maze->walls(cell);
+      if (maze->goalContains(cell)) {
+        walls |= 0x80;
+      }
+      printf("0x%02X, ", walls);
     }
     printf("\n");
   }
