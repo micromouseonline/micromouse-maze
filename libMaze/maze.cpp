@@ -51,6 +51,7 @@ const uint16_t diagCostTable[] =
 
 Maze::Maze(uint16_t width) :
   mWidth(width) {
+
   //  resetToEmptyMaze();
 };
 
@@ -68,6 +69,7 @@ void Maze::clearData() {
     mDirection[i] = NORTH;
     xWalls[i] = 0xf0; // all unseen exits
   }
+  clearGoalArea();
 }
 
 void Maze::resetToEmptyMaze() {
@@ -81,6 +83,12 @@ void Maze::resetToEmptyMaze() {
   setWall(0, EAST);
   clearWall(0, NORTH);
   clearUnknowns();
+  if (mWidth == 16) {
+    addToGoalArea(0x77);
+    addToGoalArea(0x78);
+    addToGoalArea(0x88);
+    addToGoalArea(0x87);
+  }
 }
 
 /*
@@ -95,6 +103,7 @@ void Maze::resetToEmptyMaze() {
  * INSTEAD, USE updateMap()
  */
 void Maze::copyCellFromFileData(uint16_t cell, uint8_t wallData) {
+
   if (wallData & 0x01) {
     setWall(cell, NORTH);
   } else {
@@ -115,6 +124,9 @@ void Maze::copyCellFromFileData(uint16_t cell, uint8_t wallData) {
   } else {
     clearWall(cell, WEST);
   }
+  if (wallData & 0x80) {
+    addToGoalArea(cell);
+  }
 }
 
 /**
@@ -124,11 +136,11 @@ void Maze::copyCellFromFileData(uint16_t cell, uint8_t wallData) {
  */
 void Maze::copyMazeFromFileData(const uint8_t *wallData, uint16_t cellCount) {
   clearData();
-  if (cellCount > numCells()) {
-    return; // ERROR here
-  }
+  //  if (cellCount > numCells()) {
+  //    return; // ERROR here
+  //  }
   if (wallData) {
-    for (uint16_t cell = 0; cell < cellCount; cell++) {
+    for (uint16_t cell = 0; cell < numCells(); cell++) {
       copyCellFromFileData(cell, wallData[cell]);
     }
   }
@@ -815,4 +827,20 @@ void Maze::setWidth(uint16_t mWidth) {
 
 uint8_t Maze::getXWalls(int cell) const {
   return xWalls[cell];
+}
+
+void Maze::clearGoalArea() {
+  goalArea.clear();
+}
+
+void Maze::addToGoalArea(int cell) {
+  goalArea.push_back(cell);
+}
+
+bool Maze::goalContains(int cell) const {
+  return end(goalArea) != find(begin(goalArea), end(goalArea), cell);
+}
+
+int Maze::goalAreaSize() const {
+  return goalArea.size();
 }

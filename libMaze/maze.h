@@ -27,13 +27,16 @@
 #define _maze_h
 
 #include <cstdint>
-
+#include <vector>
+#include <list>
+#include <algorithm>
 #include "mazeconstants.h"
 #include "floodinfo.h"
 #include "priorityqueue.h"
 
 /// TODO: is the closed maze needed? is it enough to see if the path has unvisited cells?
 
+using namespace std;
 class Maze {
 
 public:
@@ -207,14 +210,17 @@ public:
   uint16_t getCornerWeight() const;
   void setCornerWeight(uint16_t cornerWeight);
 
+  uint8_t getXWalls(int cell) const;
 
   void setWidth(uint16_t mWidth);
+  void clearGoalArea();
+  void addToGoalArea(int cell);
+  bool goalContains(int cell) const;
+  int goalAreaSize() const;
+
 protected:
   /// stores the wall and visited flags. Allows for 32x32 maze but wastes space
   uint8_t xWalls[1024] = {0xf0};
-public:
-  uint8_t getXWalls(int cell) const;
-protected:
   /// the width of the maze in cells. Assume mazes are always square
   uint16_t mWidth = 16;
   uint8_t mOpenCloseMask = OPEN_MASK;
@@ -224,6 +230,7 @@ protected:
   uint16_t mCost[1024] = {MAX_COST};
   /// the current goal as defined by the conetst rules
   uint16_t mGoal = 0x77;
+  std::list<int> goalArea;
   /// The cost of the best path assuming unseen walls are absent
   uint16_t mPathCostOpen = MAX_COST;
   /// The cost of the best path assuming unseen walls are present
