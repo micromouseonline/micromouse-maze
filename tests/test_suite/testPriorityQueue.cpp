@@ -55,7 +55,6 @@ protected:
 
 TEST_F(QueueTest, Constructor_ProperInitialisation) {
   EXPECT_EQ(0, queue->size());
-  EXPECT_DEATH(FloodInfo item = queue->fetchSmallest(), "");
 }
 
 TEST_F(QueueTest, Clear_emptiesQueue) {
