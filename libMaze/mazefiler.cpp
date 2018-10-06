@@ -209,7 +209,7 @@ int MazeFiler::readTextMaze(FILE *fp, Maze * maze) {
         maze->setWall(cell, WEST);
       }
       if (line2[charsPerCell * col + 2] == 'G') {
-        maze->addToGoalArea(row + mazeWidth * col);
+        maze->addToGoalArea(col, row);
       }
 
     }
@@ -217,10 +217,10 @@ int MazeFiler::readTextMaze(FILE *fp, Maze * maze) {
   }
   // nasty hack for classic mazes with no explicit goal
   if (maze->goalAreaSize() == 0) {
-    maze->addToGoalArea(0x77);
-    maze->addToGoalArea(0x78);
-    maze->addToGoalArea(0x88);
-    maze->addToGoalArea(0x87);
+    maze->addToGoalArea(7, 7);
+    maze->addToGoalArea(7, 8);
+    maze->addToGoalArea(8, 7);
+    maze->addToGoalArea(8, 8);
   }
   return MAZE_SUCCESS;
 }

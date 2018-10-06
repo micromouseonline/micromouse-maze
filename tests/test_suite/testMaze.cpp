@@ -69,7 +69,6 @@ TEST_F(MazeTest, MakeData) {
 
 TEST_F(MazeTest, GoalAreaInitialisDefault) {
   Maze maze16(16);
-
   EXPECT_EQ(1, maze16.goalAreaSize());
   maze16.resetToEmptyMaze();
   EXPECT_EQ(4, maze16.goalAreaSize());
@@ -87,26 +86,16 @@ TEST_F(MazeTest, GoalAreaClearsEmpty) {
 
 TEST_F(MazeTest, GoalAreaFindCellInGoal) {
   Maze maze16(16);
-  EXPECT_TRUE(maze16.goalContains(0x77));
+  EXPECT_TRUE(maze16.goalContains(7, 7));
   maze16.resetToEmptyMaze();
-  EXPECT_TRUE(maze16.goalContains(0x77));
-  EXPECT_FALSE(maze16.goalContains(0x79));
+  EXPECT_TRUE(maze16.goalContains(7, 7));
+  EXPECT_TRUE(maze16.goalContains(7, 8));
+  EXPECT_TRUE(maze16.goalContains(8, 7));
+  EXPECT_TRUE(maze16.goalContains(8, 8));
 }
 
 
-TEST_F(MazeTest, RowAndColCalculations) {
-  EXPECT_EQ(0, maze->col(0x00));
-  EXPECT_EQ(0, maze->row(0x00));
-  EXPECT_EQ(5, maze->col(0x57));
-  EXPECT_EQ(7, maze->row(0x57));
-  EXPECT_EQ(15, maze->col(0xf2));
-  EXPECT_EQ(2, maze->row(0xf2));
-}
 
-TEST_F(MazeTest, SetTrainingGoal) {
-  maze->setGoal(TRAINING_GOAL);
-  EXPECT_EQ(TRAINING_GOAL, maze->goal());
-}
 
 TEST_F(MazeTest, CopyMaze) {
   maze->copyMazeFromFileData(emptyMaze, 256);
@@ -150,7 +139,7 @@ TEST_F(MazeTest, SetClearUnknowns_AllDifferentInUnExploredMaze) {
 }
 
 TEST_F(MazeTest, SetAndGetGoal) {
-  EXPECT_EQ(DEFAULT_GOAL, maze->goal());
+  EXPECT_EQ(maze->cellID(7, 7), maze->goal());
   maze->setGoal(99);
   EXPECT_EQ(99, maze->goal());
 }

@@ -29,8 +29,7 @@
 
 #include <cstdint>
 
-const uint8_t DEFAULT_GOAL = 0x77;
-const uint8_t TRAINING_GOAL = 0x11;
+
 const uint16_t MAX_COST = UINT16_MAX;
 
 #define NORTH         (uint8_t)0x00

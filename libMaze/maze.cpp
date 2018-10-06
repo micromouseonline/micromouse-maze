@@ -66,7 +66,7 @@ const uint16_t diagCostTable[] =
 
 Maze::Maze(uint16_t width) :
   mWidth(width) {
-  addToGoalArea(DEFAULT_GOAL);
+  addToGoalArea(7, 7);
   //  resetToEmptyMaze();
 };
 
@@ -98,11 +98,11 @@ void Maze::resetToEmptyMaze() {
   setWall(0, EAST);
   clearWall(0, NORTH);
   clearUnknowns();
+  addToGoalArea(7, 7);
   if (mWidth == 16) {
-    addToGoalArea(0x77);
-    addToGoalArea(0x78);
-    addToGoalArea(0x88);
-    addToGoalArea(0x87);
+    addToGoalArea(7, 8);
+    addToGoalArea(8, 7);
+    addToGoalArea(8, 8);
   }
 }
 
@@ -853,9 +853,20 @@ void Maze::addToGoalArea(int cell) {
   goalArea.push_back(cell);
 }
 
+void Maze::addToGoalArea(int x, int y) {
+  goalArea.push_back(cellID(x, y));
+}
+
 bool Maze::goalContains(int cell) const {
   return end(goalArea) != find(begin(goalArea), end(goalArea), cell);
 }
+
+bool Maze::goalContains(int x, int y) const {
+  int cell = cellID(x, y);
+  return end(goalArea) != find(begin(goalArea), end(goalArea), cell);
+}
+
+
 
 int Maze::goalAreaSize() const {
   return goalArea.size();

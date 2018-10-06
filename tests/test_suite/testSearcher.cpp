@@ -303,7 +303,7 @@ TEST_F(SearcherTest, MouseRunTo_SearchToTarget_HalfSize) {
   searcher->setRealMaze(maze);
   searcher->map()->setFloodType(Maze::RUNLENGTH_FLOOD);
   int steps = searcher->searchTo(maze->goal());
-  EXPECT_EQ(231, steps);
+  EXPECT_EQ(233, steps);
 }
 
 /*
@@ -326,7 +326,7 @@ TEST_F(SearcherTest, MouseRunTo_Japan2011_HalfSize) {
   }
 
   steps = searcher->searchTo(0);
-  EXPECT_EQ(106, steps);
+  EXPECT_EQ(104, steps);
   searcher->map()->setUnknowns();
   searcher->map()->flood(maze->goal());
   searcher->map()->clearUnknowns();
@@ -344,11 +344,13 @@ TEST_F(SearcherTest, MouseRunTo_Japan2011_HalfSize) {
     searcher->searchTo(maze->goal());
     searcher->searchTo(0);
     searcher->map()->testForSolution();
-    if (cnt++ > 20) {
+    if (cnt++ > 3) {
       break;
     }
   }
-  EXPECT_EQ(3, cnt);
+  EXPECT_EQ(4936, searcher->map()->openMazeCost());
+  EXPECT_EQ(5003, searcher->map()->closedMazeCost());
+  EXPECT_EQ(5, cnt);
   if (withPrint) {
     printf("\n\n%d   %d\n\n", searcher->map()->openMazeCost(), searcher->map()->closedMazeCost());
   }

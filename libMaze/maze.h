@@ -62,13 +62,16 @@ public:
 
   /// return the column number of  given cell
   inline uint16_t col(uint16_t cell) {
-    return cell / mWidth;
+    return cell / 32;
   }
   /// return the roww number of a given cell
   inline uint16_t row(uint16_t cell) {
-    return cell % mWidth;
+    return cell % 32;
   }
 
+  inline uint16_t cellID(int x, int y) const {
+    return 32 * x + y;
+  }
 
   /// return the address of the cell ahead from this cardinal direction
   static uint8_t ahead(uint8_t direction);
@@ -215,14 +218,16 @@ public:
   void setWidth(uint16_t mWidth);
   void clearGoalArea();
   void addToGoalArea(int cell);
+  void addToGoalArea(int x, int y);
   bool goalContains(int cell) const;
+  bool goalContains(int x, int y) const;
   int goalAreaSize() const;
 
 protected:
   /// stores the wall and visited flags. Allows for 32x32 maze but wastes space
   uint8_t xWalls[1024] = {0xf0};
   /// the width of the maze in cells. Assume mazes are always square
-  uint16_t mWidth = 16;
+  uint16_t mWidth = 32;
   uint8_t mOpenCloseMask = OPEN_MASK;
   /// stores the least costly direction. Allows for 32x32 maze but wastes space
   uint8_t mDirection[1024] = {NORTH};
@@ -247,6 +252,7 @@ protected:
   void initialiseFloodCosts(uint16_t target);
   /// NOT TO BE USED IN SEARCH. Update a single cell from stored map data.
   void copyCellFromFileData(uint16_t cell, uint8_t wallData);
+
 
 };
 
