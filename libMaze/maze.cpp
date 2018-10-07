@@ -79,7 +79,7 @@ uint16_t Maze::numCells() {
 }
 
 void Maze::clearData() {
-  for (uint16_t i = 0; i < numCells(); i++) {
+  for (uint16_t i = 0; i < 1024; i++) {
     mCost[i] = MAX_COST;
     mDirection[i] = NORTH;
     xWalls[i] = 0xf0; // all unseen exits
