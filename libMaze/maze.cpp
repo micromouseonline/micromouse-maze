@@ -847,7 +847,8 @@ Maze::FloodType Maze::getFloodType() const {
 
 void Maze::setWidth(uint16_t mWidth) {
   Maze::mWidth = mWidth;
-  resetToEmptyMaze();
+  clearData();
+  //  resetToEmptyMaze();
 }
 
 uint8_t Maze::getXWalls(int cell) const {
