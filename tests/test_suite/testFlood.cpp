@@ -93,7 +93,7 @@ TEST_F(MazeFlood, UnExploredMazeSolution) {
   maze->resetToEmptyMaze();
   maze->testForSolution();
   EXPECT_GE(maze->closedMazeCost(), maze->openMazeCost());
-  EXPECT_EQ(64343, maze->costDifference());
+  EXPECT_EQ(64601, maze->costDifference());
   EXPECT_FALSE(maze->isSolved());
 }
 
@@ -104,7 +104,7 @@ TEST_F(MazeFlood, UnExploredMazeSolution_Manhattan) {
   maze->setFloodType(Maze::MANHATTAN_FLOOD);
   maze->testForSolution();
   EXPECT_GE(maze->closedMazeCost(), maze->openMazeCost());
-  EXPECT_EQ(65514, maze->costDifference());
+  EXPECT_EQ(65521, maze->costDifference());
   EXPECT_FALSE(maze->isSolved());
 }
 

@@ -63,6 +63,10 @@ TEST_F(TestMazeFiler, LoadClassicTextFile) {
   EXPECT_TRUE(maze16->goalContains(maze16->cellID(7, 8)));
   EXPECT_TRUE(maze16->goalContains(maze16->cellID(8, 7)));
   EXPECT_TRUE(maze16->goalContains(maze16->cellID(8, 8)));
+  EXPECT_TRUE(maze16->goalContains(0x77));
+  EXPECT_TRUE(maze16->goalContains(0x78));
+  EXPECT_TRUE(maze16->goalContains(0x87));
+  EXPECT_TRUE(maze16->goalContains(0x88));
 
 }
 TEST_F(TestMazeFiler, LoadHalfSizeTextFile) {
