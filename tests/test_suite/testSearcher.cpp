@@ -287,7 +287,7 @@ TEST_F(SearcherTest, MouseRunTo_SearchToTarget_ManhattanFlood) {
   searcher->setRealMaze(maze);
   searcher->map()->setFloodType(Maze::MANHATTAN_FLOOD);
   int steps = searcher->searchTo(maze->goal());
-  EXPECT_EQ(130, steps);
+  EXPECT_EQ(135, steps);
   if (withPrint) {
     MazePrinter::printVisitedDirs(searcher->map());
   }
