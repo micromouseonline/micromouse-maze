@@ -151,6 +151,11 @@ void Maze::copyCellFromFileData(uint16_t cell, uint8_t wallData) {
  */
 void Maze::copyMazeFromFileData(const uint8_t *wallData, uint16_t cellCount) {
   clearData();
+  if (cellCount == 1024) {
+    setWidth(32);
+  } else {
+    setWidth(16);
+  }
   //  if (cellCount > numCells()) {
   //    return; // ERROR here
   //  }

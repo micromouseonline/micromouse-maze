@@ -182,10 +182,11 @@ int MazeFiler::readTextMaze(FILE *fp, Maze * maze) {
   // now we just assume the rest of the file makes sense
   // go back to the start
   rewind(fp);
-  maze->clearData();
   // and begin parsing lines
   // a text maze starts top left and every row takes up two lines of text
   int mazeWidth = lineLength / charsPerCell;
+  maze->clearData();
+  maze->setWidth(mazeWidth);
   row = mazeWidth - 1;
   while (row >= 0) {
     result = fgets(line1, 300, fp); /* north walls */
