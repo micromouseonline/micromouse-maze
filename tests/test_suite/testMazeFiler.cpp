@@ -28,7 +28,7 @@
 #include "gtest/gtest.h"
 #include "maze.h"
 #include "mazefiler.h"
-
+#include "mazeprinter.h"
 
 
 
@@ -53,12 +53,27 @@ protected:
 
 };
 
-TEST_F(TestMazeFiler, LoadTextFile) {
+TEST_F(TestMazeFiler, LoadClassicTextFile) {
   MazeFiler filer;
-  char name[] = "mazefiles/classic/japan2013ef.txt";
-  filer.readMaze(maze16, name);
+  char name[] = "mazefiles/classic/taiwan2018cef.txt";
+  EXPECT_EQ(0, filer.readMaze(maze16, name));
   EXPECT_EQ(16, maze16->width());
+  EXPECT_EQ(4, maze16->goalAreaSize());
+  EXPECT_TRUE(maze16->goalContains(maze16->cellID(7, 7)));
+  EXPECT_TRUE(maze16->goalContains(maze16->cellID(7, 8)));
+  EXPECT_TRUE(maze16->goalContains(maze16->cellID(8, 7)));
+  EXPECT_TRUE(maze16->goalContains(maze16->cellID(8, 8)));
 
+}
+TEST_F(TestMazeFiler, LoadHalfSizeTextFile) {
+  MazeFiler filer;
+  char name[] = "mazefiles/halfsize/japan2013hef.txt";
+  EXPECT_EQ(0, filer.readMaze(maze16, name));
+  EXPECT_EQ(32, maze16->width());
+  EXPECT_EQ(9, maze16->goalAreaSize());
+  EXPECT_TRUE(maze16->goalContains(maze16->cellID(6, 5)));
+  EXPECT_TRUE(maze16->goalContains(maze16->cellID(7, 6)));
+  EXPECT_TRUE(maze16->goalContains(maze16->cellID(8, 7)));
 }
 
 TEST_F(TestMazeFiler, LoadMazeFromFile) {

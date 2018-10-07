@@ -126,7 +126,7 @@ TEST_F(MazeFlood, FloodPartialMaze_SolutionTestFails) {
 
   EXPECT_TRUE(maze->isSolved());
   // Cell 0x07 lies on all best routes for Japan2007
-  maze->clearVisited(0xA7);
+  maze->clearVisited(0x07);
   maze->testForSolution();
   EXPECT_TRUE(maze->isSolved());
   EXPECT_GE(maze->closedMazeCost(), maze->openMazeCost());

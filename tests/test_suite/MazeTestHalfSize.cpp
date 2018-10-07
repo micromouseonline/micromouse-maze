@@ -66,9 +66,9 @@ TEST_F(MazeTestHalfSize, printHalfSize) {
 
   MazeFiler filer;
   filer.readMaze(maze, "mazefiles/halfsize/taiwan2017hef.txt");
+  return;
   MazePrinter::printCDecl(maze, "taiwan2017hef");
 
-  return;
 
 
 
