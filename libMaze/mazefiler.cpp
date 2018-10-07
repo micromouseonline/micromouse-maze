@@ -216,13 +216,7 @@ int MazeFiler::readTextMaze(FILE *fp, Maze * maze) {
     }
     row--;
   }
-  // nasty hack for classic mazes with no explicit goal
-  if (maze->goalAreaSize() == 0) {
-    maze->addToGoalArea(7, 7);
-    maze->addToGoalArea(7, 8);
-    maze->addToGoalArea(8, 7);
-    maze->addToGoalArea(8, 8);
-  }
+
   return MAZE_SUCCESS;
 }
 
