@@ -2,6 +2,7 @@
 Basic tests to ensure maze files are properly formatted.
 """
 from collections import Counter
+from itertools import product
 from pathlib import Path
 import re
 
@@ -37,6 +38,18 @@ def read_maze(maze_file):
     return rows[:i]
 
 
+def find_tagged_cells(rows, tag):
+    """
+    Find the set of cell positions that have a given tag.
+    """
+    found = set()
+    for i, row in enumerate(reversed(rows[1::2])):
+        for j, column in enumerate(row[2::4]):
+            if column is tag:
+                found.add((i, j))
+    return found
+
+
 @all_mazes
 def test_file_name(maze_file):
     """
@@ -44,7 +57,7 @@ def test_file_name(maze_file):
     - Only "a-z", "0-9" and "-" characters are allowed.
     """
     assert maze_file.suffix == '.txt'
-    assert re.match('^[a-z0-9\-]*$', maze_file.stem)
+    assert re.match(r'^[a-z0-9\-]*$', maze_file.stem)
 
 
 @classic_mazes
@@ -131,14 +144,30 @@ def test_starting_cell(maze_file):
     """
     rows = read_maze(maze_file)
     assert rows[-3][:5] == 'o   o'
-    assert rows[-2][:5] in ('|   |', '| S |')
+    assert rows[-2][:5] == '| S |'
     assert rows[-1][:5] == 'o---o'
 
 
-@halfsize_mazes
-def test_goal_cell_is_marked(maze_file):
+@competition_mazes
+def test_goal_cells(maze_file):
     """
-    Goal cell is expected to be marked with a "G".
+    Goal cells must be marked with a "G" and form a rectangular area.
     """
     rows = read_maze(maze_file)
-    assert ' G ' in ''.join(rows)
+    goals = find_tagged_cells(rows, 'G')
+    assert len(goals) >= 1
+    x = [cell[0] for cell in list(goals)]
+    y = [cell[1] for cell in list(goals)]
+    rangex = range(min(x), max(x) + 1)
+    rangey = range(min(y), max(y) + 1)
+    assert goals == set(product(rangex, rangey))
+
+
+@classic_mazes
+def test_classic_goal_cells(maze_file):
+    """
+    Classic goal cells are always in the middle of the maze.
+    """
+    rows = read_maze(maze_file)
+    goals = find_tagged_cells(rows, 'G')
+    assert goals == {(7, 7), (7, 8), (8, 7), (8, 8)}
