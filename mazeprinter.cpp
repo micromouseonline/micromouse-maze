@@ -33,10 +33,10 @@ void printNorthWalls(Maze *maze, uint16_t row) {
   for (uint16_t col = 0; col < maze->width(); col++) {
     uint16_t cell = row + maze->width() * col;
     printf("o");
-    if (maze->hasWall(cell, NORTH)) {
-      printf("---");
-    } else {
+    if (maze->hasExit(cell, NORTH)) {
       printf("   ");
+    } else {
+      printf("---");
     }
   }
   printf("o\n");
@@ -46,10 +46,10 @@ void printSouthWalls(Maze *maze, uint16_t row) {
   for (uint16_t col = 0; col < maze->width(); col++) {
     uint16_t cell = row + maze->width() * col;
     printf("o");
-    if (maze->hasWall(cell, SOUTH)) {
-      printf("---");
-    } else {
+    if (maze->hasExit(cell, SOUTH)) {
       printf("   ");
+    } else {
+      printf("---");
     }
   }
   printf("o\n");
@@ -61,26 +61,26 @@ void MazePrinter::printDirs(Maze *maze) {
     printNorthWalls(maze, row);
     for (uint16_t col = 0; col < maze->width(); col++) {
       uint16_t cell = row + maze->width() * col;
-      if (maze->hasWall(cell, WEST)) {
-        printf("|");
-      } else {
+      if (maze->hasExit(cell, WEST)) {
         printf(" ");
+      } else {
+        printf("|");
       }
       uint8_t direction = maze->direction(cell);
-      if (direction > WEST) {
-        direction = NONE;
+      char c = ' ';
+      if (direction <= WEST) {
+        c = dirChars[direction];
       }
-      char c = dirChars[direction];
       if (cell == maze->goal()) {
         c = '*';
       }
       printf(" %c ", c);
     }
     uint16_t cell = row + maze->width() * (maze->width() - 1);
-    if (maze->hasWall(cell, EAST)) {
-      printf("|");
-    } else {
+    if (maze->hasExit(cell, EAST)) {
       printf(" ");
+    } else {
+      printf("|");
     }
     printf("\n");
   }
@@ -93,26 +93,26 @@ void MazePrinter::printVisitedDirs(Maze *maze) {
     printNorthWalls(maze, row);
     for (uint16_t col = 0; col < maze->width(); col++) {
       uint16_t cell = row + maze->width() * col;
-      if (maze->hasWall(cell, WEST)) {
-        printf("|");
-      } else {
+      if (maze->hasExit(cell, WEST)) {
         printf(" ");
+      } else {
+        printf("|");
       }
       uint8_t direction = maze->direction(cell);
-      if (!maze->isVisited(cell)) {
-        direction = UNSEEN;
+      char c = ' ';
+      if (maze->isVisited(cell) && direction <= WEST) {
+        c = dirChars[direction];
       }
-      char c = dirChars[direction];
       if (cell == maze->goal()) {
         c = '*';
       }
       printf(" %c ", c);
     }
     uint16_t cell = row + maze->width() * (maze->width() - 1);
-    if (maze->hasWall(cell, EAST)) {
-      printf("|");
-    } else {
+    if (maze->hasExit(cell, EAST)) {
       printf(" ");
+    } else {
+      printf("|");
     }
     printf("\n");
   }
@@ -126,26 +126,30 @@ void MazePrinter::printPlain(Maze *maze) {
     /* TODO:  this is all rather messy */
     for (uint16_t col = 0; col < maze->width(); col++) {
       uint16_t cell = row + maze->width() * col;
-      if (maze->hasWall(cell, WEST)) {
-        printf("|");
-      } else {
+      if (maze->hasExit(cell, WEST)) {
         printf(" ");
+      } else {
+        printf("|");
       }
       char c = ' ';
-      if (cell == maze->goal()) {
-        c = '*';
+      if (maze->goalContains(cell)) {
+        c = 'G';
+      }
+      if (cell == 0) {
+        c = 'S';
       }
       printf(" %c ", c);
     }
     uint16_t cell = row + maze->width() * (maze->width() - 1);
-    if (maze->hasWall(cell, EAST)) {
-      printf("|");
-    } else {
+    if (maze->hasExit(cell, EAST)) {
       printf(" ");
+    } else {
+      printf("|");
     }
     printf("\n");
   }
   printSouthWalls(maze, 0);
+  printf("\n");
 }
 
 void MazePrinter::printCDecl(Maze *maze, const char *name) {
@@ -154,7 +158,11 @@ void MazePrinter::printCDecl(Maze *maze, const char *name) {
     printf("   ");
     for (uint16_t y = 0; y < maze->width(); y++) {
       uint16_t cell = x * maze->width() + y;
-      printf("0x%02X, ", maze->walls(cell));
+      uint8_t walls = maze->walls(cell);
+      if (maze->goalContains(cell)) {
+        walls |= 0x80;
+      }
+      printf("0x%02X, ", walls);
     }
     printf("\n");
   }
@@ -167,7 +175,7 @@ void MazePrinter::printRawDecl(Maze *maze, const char *name) {
     printf("   ");
     for (uint16_t y = 0; y < maze->width(); y++) {
       uint16_t cell = x * maze->width() + y;
-      printf("0x%02X, ", maze->internalWalls(cell));
+      printf("0x%02X, ", maze->walls(cell));
     }
     printf("\n");
   }
@@ -181,10 +189,10 @@ void MazePrinter::printCosts(Maze *maze) {
     /* TODO:  this is all rather messy */
     for (uint16_t col = 0; col < maze->width(); col++) {
       uint16_t cell = row + maze->width() * col;
-      if (maze->hasWall(cell, WEST)) {
-        printf("|");
-      } else {
+      if (maze->hasExit(cell, WEST)) {
         printf(" ");
+      } else {
+        printf("|");
       }
       uint16_t cost = maze->cost(cell);
       if (cost < MAX_COST) {
@@ -195,10 +203,10 @@ void MazePrinter::printCosts(Maze *maze) {
 
     }
     uint16_t cell = row + maze->width() * (maze->width() - 1);
-    if (maze->hasWall(cell, EAST)) {
-      printf("|");
-    } else {
+    if (maze->hasExit(cell, EAST)) {
       printf(" ");
+    } else {
+      printf("|");
     }
     printf("\n");
   }

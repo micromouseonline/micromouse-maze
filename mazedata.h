@@ -28,10 +28,11 @@
 #define MAZEDATA_H
 
 #include <cstdint>
-
+#include <vector>
 typedef struct {
-  const char* title;
+  const char title[64];
   const uint8_t * data;
+  const int size;
 } MazeDataSource;
 
 extern MazeDataSource mazeList[];
@@ -88,8 +89,8 @@ extern const uint8_t japan2007ef[];
 extern const uint8_t japan2007eq[];
 extern const uint8_t japan2009ef[];
 extern const uint8_t japan2009eq[];
-extern const uint8_t japan2012_ef[];
-extern const uint8_t japan2012_eq[];
+extern const uint8_t japan2012ef[];
+extern const uint8_t japan2012eq[];
 extern const uint8_t japan2014eq[];
 extern const uint8_t kyot_89[];
 extern const uint8_t minos01f[];
@@ -117,6 +118,7 @@ extern const uint8_t taiwan2012[];
 extern const uint8_t taiwan2014[];
 extern const uint8_t taiwan2009[];
 extern const uint8_t taiwan2015[];
+extern const uint8_t testMazeClassic[];
 extern const uint8_t tyubu200906[];
 extern const uint8_t uk1987f[];
 extern const uint8_t uk1988f[];
@@ -139,8 +141,22 @@ extern const uint8_t uk2011f[];
 extern const uint8_t uk2012f[];
 extern const uint8_t uk2014f[];
 
+// half size mazes
+extern const uint8_t emptyHalfSize[];
+extern const uint8_t japan2010ef_half[];
+extern const uint8_t japan2011ef_half[];  // goal 827
+extern const uint8_t japan2012ef_half[];
+extern const uint8_t japan2013ef_half[];
+extern const uint8_t japan2014ef_half[];  // goal 837
+extern const uint8_t japan2015ef_half[];
+extern const uint8_t japan2016ef_half[];
+extern const uint8_t japan2017ef_half[];
 
 
+extern const uint8_t taiwan2014ef_half[];
+extern const uint8_t taiwan2015ef_half[];
+extern const uint8_t taiwan2016ef_half[];
+extern const uint8_t taiwan2017ef_half[];
 
 #endif    /* MAZEDATA_H */
 

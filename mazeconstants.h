@@ -37,8 +37,6 @@ const uint16_t MAX_COST = UINT16_MAX;
 #define EAST          (uint8_t)0x01
 #define SOUTH         (uint8_t)0x02
 #define WEST          (uint8_t)0x03
-#define NONE          (uint8_t)0x04
-#define UNSEEN        (uint8_t)0x05
 #define INVALID_DIRECTION (uint8_t)255
 
 enum {
@@ -52,19 +50,21 @@ enum {
   DIR_NW = 7,
 };
 
-#define WALL_PRESENT    0x01
-#define WALL_CHECKED    0x10
+#define WALL_PRESENT  0x01
+#define WALL_UNSEEN   0x10
+#define ALL_UNSEEN    0xF0
 
 #define WALL_NORTH (WALL_PRESENT << (NORTH))
 #define WALL_EAST  (WALL_PRESENT << (EAST))
 #define WALL_SOUTH (WALL_PRESENT << (SOUTH))
 #define WALL_WEST  (WALL_PRESENT << (WEST))
 
-#define CHECKED_NORTH (WALL_CHECKED << (NORTH))
-#define CHECKED_EAST  (WALL_CHECKED << (EAST))
-#define CHECKED_SOUTH (WALL_CHECKED << (SOUTH))
-#define CHECKED_WEST  (WALL_CHECKED << (WEST))
+#define UNSEEN_NORTH (WALL_UNSEEN << (NORTH))
+#define UNSEEN_EAST  (WALL_UNSEEN << (EAST))
+#define UNSEEN_SOUTH (WALL_UNSEEN << (SOUTH))
+#define UNSEEN_WEST  (WALL_UNSEEN << (WEST))
 
-#define VISITED (CHECKED_NORTH + CHECKED_EAST + CHECKED_SOUTH + CHECKED_WEST)
+#define CLOSED_MASK  0x11
+#define OPEN_MASK    0x01
 
 #endif //MAZE_MAZECONSTANTS_H

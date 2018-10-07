@@ -27,11 +27,16 @@
 #define _maze_h
 
 #include <cstdint>
-
+#include <vector>
+#include <list>
+#include <algorithm>
 #include "mazeconstants.h"
 #include "floodinfo.h"
 #include "priorityqueue.h"
 
+/// TODO: is the closed maze needed? is it enough to see if the path has unvisited cells?
+
+using namespace std;
 class Maze {
 
 public:
@@ -93,17 +98,23 @@ public:
   /// return the address of the home cell. Nearly always cell zero
   uint16_t home();
   /// return the cell address of the current goal
-  uint16_t goal();
+  uint16_t goal() const;
   ///  set the current goal to a new value
   void setGoal(uint16_t goal);
+  std::list<int> getGoalArea() const;
+  void setGoalArea(std::list<int>& goalArea);
 
   /// return the state of the four walls surrounding a given cell
   uint8_t walls(uint16_t cell) const;
-  uint8_t internalWalls(uint16_t cell) const;
+  uint8_t openWalls(uint16_t cell) ;
+  uint8_t closedWalls(uint16_t cell) ;
   /// test whether a wall in a given direction has been observed
   bool isSeen(uint16_t cell, uint8_t direction);
   ///  test for the absence of a wall. Don't care if it is seen or not
-  bool hasExit(uint16_t cell, uint8_t direction);
+  bool hasExit(uint16_t cell, uint8_t direction) const;
+
+  //NOTE: tests for walls are best replaced by tests for exits
+  /// This is because an exit is always an exit but a wall may be virtual
   ///  test for the presence of a wall. Don't care if it is seen or not
   bool hasWall(uint16_t cell, uint8_t direction);
 
@@ -130,8 +141,7 @@ public:
   /// NOT TO BE USED IN SEARCH. Unconditionally clear a  wall in a cell and mark as seen.
   void clearWall(uint16_t cell, uint8_t direction);
 
-  /// NOT TO BE USED IN SEARCH. Update a single cell from stored map data.
-  void copyCellFromFileData(uint16_t cell, uint8_t wallData);
+
 
   /// USE THIS FOR SEARCH. Update a single cell with wall data (normalised for direction)
   void updateMap(uint16_t cell, uint8_t wallData);
@@ -178,7 +188,6 @@ public:
   uint16_t directionFlood(uint16_t target);
 
 
-  // TODO: is the closed maze needed? is it enough to see if the path has unvisited cells?
   /// Flood the maze both open and closed and then test the cost difference
   /// leaves the maze with unknowns clear
   bool testForSolution();
@@ -198,38 +207,50 @@ public:
 
   /// set the Flood Type to use
   void setFloodType(FloodType mFloodType);
+  FloodType getFloodType() const;
   /// used only for the weighted Flood
   uint16_t getCornerWeight() const;
   void setCornerWeight(uint16_t cornerWeight);
 
+  uint8_t getXWalls(int cell) const;
+
+  void setWidth(uint16_t mWidth);
+  void clearGoalArea();
+  void addToGoalArea(int cell);
+
+  void removeFromGoalArea(int cell);
+  bool goalContains(int cell) const;
+  int goalAreaSize() const;
+
 protected:
-  /// the width of the maze in cells. Assume mazes are always square
-  uint16_t mWidth;
   /// stores the wall and visited flags. Allows for 32x32 maze but wastes space
-  uint8_t mWalls[1024];
+  uint8_t xWalls[1024] = {0xf0};
+  /// the width of the maze in cells. Assume mazes are always square
+  uint16_t mWidth = 16;
+  uint8_t mOpenCloseMask = OPEN_MASK;
   /// stores the least costly direction. Allows for 32x32 maze but wastes space
-  uint8_t mDirection[1024];
+  uint8_t mDirection[1024] = {NORTH};
   /// stores the cost information from a flood. Allows for 32x32 maze but wastes space
-  uint16_t mCost[1024];
-  /// the current goal as defined by the conetst rules
-  uint16_t mGoal;
+  uint16_t mCost[1024] = {MAX_COST};
+  /// The goal is an area so a list of locations is needed. Must have one or more entries
+  std::list<int> goalArea;
   /// The cost of the best path assuming unseen walls are absent
-  uint16_t mPathCostOpen;
+  uint16_t mPathCostOpen = MAX_COST;
   /// The cost of the best path assuming unseen walls are present
-  uint16_t mPathCostClosed;
+  uint16_t mPathCostClosed = MAX_COST;
   /// flag set when maze has been solved
-  bool mIsSolved;
+  bool mIsSolved = false;
   /// Remember which type of flood is to be used
-  FloodType mFloodType;
-public:
-  FloodType floodType() const;
-protected:
+  FloodType mFloodType = RUNLENGTH_FLOOD;
   /// the weighted flood needs a cost for corners
-  uint16_t mCornerWeight;
+  uint16_t mCornerWeight = 3;
+  Maze() = default;
   /// used to set up the queue before running the more complex floods
   void seedQueue(PriorityQueue<FloodInfo> &queue, uint16_t goal, uint16_t cost);
   /// set all the cell costs to their maxumum value, except the target
   void initialiseFloodCosts(uint16_t target);
+  /// NOT TO BE USED IN SEARCH. Update a single cell from stored map data.
+  void copyCellFromFileData(uint16_t cell, uint8_t wallData);
 
 };
 
