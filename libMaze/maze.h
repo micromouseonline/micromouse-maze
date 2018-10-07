@@ -62,15 +62,15 @@ public:
 
   /// return the column number of  given cell
   inline uint16_t col(uint16_t cell) {
-    return cell / 32;
+    return cell / mWidth;
   }
   /// return the roww number of a given cell
   inline uint16_t row(uint16_t cell) {
-    return cell % 32;
+    return cell % mWidth;
   }
 
   inline uint16_t cellID(int x, int y) const {
-    return 32 * x + y;
+    return mWidth * x + y;
   }
 
   /// return the address of the cell ahead from this cardinal direction
