@@ -26,10 +26,42 @@
 
 
 #include "gtest/gtest.h"
-
 #include "maze.h"
+#include "mazefiler.h"
 
-TEST(MazeReader, LoadMazeFromFile) {
+
+
+
+class TestMazeFiler : public ::testing::Test {
+protected:
+  Maze *maze16;
+  Maze *maze32;
+
+
+  virtual void SetUp() {
+    maze16 = new Maze(16);
+    maze16->resetToEmptyMaze();
+    maze32 = new Maze(32);
+    maze32->resetToEmptyMaze();
+
+  }
+
+  virtual void TearDown() {
+    delete maze16;
+    delete maze32;
+  }
+
+};
+
+TEST_F(TestMazeFiler, LoadTextFile) {
+  MazeFiler filer;
+  char name[] = "mazefiles/classic/japan2013ef.txt";
+  filer.readMaze(maze16, name);
+  EXPECT_EQ(16, maze16->width());
+
+}
+
+TEST_F(TestMazeFiler, LoadMazeFromFile) {
   //  char fileName[] = "../mazefiles/empty.maz";
   //  ReadRealWallsFromFile (fileName);
   //  UpdateEntireMazeFromRealWalls ();
@@ -37,7 +69,7 @@ TEST(MazeReader, LoadMazeFromFile) {
 }
 
 
-TEST(MazeReader, LoadMazeFromInvalidFile) {
+TEST_F(TestMazeFiler, LoadMazeFromInvalidFile) {
   //  char fileName[] = "../mazefiles/aaaaaa.maz";
   //  ReadRealWallsFromFile (fileName);
   //  UpdateEntireMazeFromRealWalls ();
@@ -45,7 +77,7 @@ TEST(MazeReader, LoadMazeFromInvalidFile) {
 }
 
 
-TEST(MazeReader, ReadWallSensors) {
+TEST_F(TestMazeFiler, ReadWallSensors) {
   //  walls_t wallData;
   //  char fileName[] = "../mazefiles/minos03f.maz";
   //  ReadRealWallsFromFile (fileName);
