@@ -219,6 +219,9 @@ public:
   void clearGoalArea();
   void addToGoalArea(int cell);
   void addToGoalArea(int x, int y);
+  void removeFromGoalArea(int cell);
+  void removeFromGoalArea(int x, int y);
+
   bool goalContains(int cell) const;
   bool goalContains(int x, int y) const;
   int goalAreaSize() const;

@@ -876,3 +876,11 @@ bool Maze::goalContains(int x, int y) const {
 int Maze::goalAreaSize() const {
   return goalArea.size();
 }
+
+void Maze::removeFromGoalArea(int x, int y) {
+  removeFromGoalArea(cellID(x, y));
+}
+
+void Maze::removeFromGoalArea(int cell) {
+  goalArea.remove(cell);
+}
