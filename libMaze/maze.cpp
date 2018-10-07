@@ -66,7 +66,7 @@ const uint16_t diagCostTable[] =
 
 Maze::Maze(uint16_t width) :
   mWidth(width) {
-  addToGoalArea(7, 7);
+  //  addToGoalArea(7, 7);
   //  resetToEmptyMaze();
 };
 
@@ -238,7 +238,7 @@ uint16_t Maze::home() {
 
 uint16_t Maze::goal() const {
   if (goalArea.size() > 0) {
-  return goalArea.front();
+    return goalArea.front();
   } else {
     return 0;
   }
