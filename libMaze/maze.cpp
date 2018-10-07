@@ -237,7 +237,11 @@ uint16_t Maze::home() {
 }
 
 uint16_t Maze::goal() const {
+  if (goalArea.size() > 0) {
   return goalArea.front();
+  } else {
+    return 0;
+  }
 }
 
 void Maze::setGoal(uint16_t goal) {
