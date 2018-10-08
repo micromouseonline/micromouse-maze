@@ -889,3 +889,12 @@ void Maze::removeFromGoalArea(int x, int y) {
 void Maze::removeFromGoalArea(int cell) {
   goalArea.remove(cell);
 }
+
+
+std::list<int> Maze::getGoalArea() const {
+  return goalArea;
+}
+
+void Maze::setGoalArea(std::list<int> &goalArea) {
+  this->goalArea = goalArea;
+}

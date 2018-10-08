@@ -104,6 +104,8 @@ public:
   uint16_t goal() const;
   ///  set the current goal to a new value
   void setGoal(uint16_t goal);
+  std::list<int> getGoalArea() const;
+  void setGoalArea(std::list<int>& goalArea);
 
   /// return the state of the four walls surrounding a given cell
   uint8_t walls(uint16_t cell) const;
