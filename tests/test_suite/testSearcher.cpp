@@ -320,13 +320,13 @@ TEST_F(SearcherTest, MouseRunTo_Japan2011_HalfSize) {
   searcher->map()->setUnknowns();
   searcher->map()->flood(maze->goal());
   searcher->map()->clearUnknowns();
-  EXPECT_EQ(132, steps);
+  EXPECT_EQ(130, steps);
   if (withPrint) {
     MazePrinter::printVisitedDirs(searcher->map());
   }
 
   steps = searcher->searchTo(0);
-  EXPECT_EQ(104, steps);
+  EXPECT_EQ(108, steps);
   searcher->map()->setUnknowns();
   searcher->map()->flood(maze->goal());
   searcher->map()->clearUnknowns();
@@ -348,8 +348,8 @@ TEST_F(SearcherTest, MouseRunTo_Japan2011_HalfSize) {
       break;
     }
   }
-  EXPECT_EQ(4936, searcher->map()->openMazeCost());
-  EXPECT_EQ(5003, searcher->map()->closedMazeCost());
+  EXPECT_EQ(4882, searcher->map()->openMazeCost());
+  EXPECT_EQ(4882, searcher->map()->closedMazeCost());
   EXPECT_EQ(5, cnt);
   if (withPrint) {
     printf("\n\n%d   %d\n\n", searcher->map()->openMazeCost(), searcher->map()->closedMazeCost());
@@ -377,7 +377,7 @@ TEST_F(SearcherTest, MouseSearchToTarget_RunLengthFlood) {
   searcher->setSearchMethod(MazeSearcher::SEARCH_NORMAL);
   searcher->map()->setFloodType(Maze::RUNLENGTH_FLOOD);
   int steps = searcher->searchTo(0x77);
-  EXPECT_EQ(142, steps);
+  EXPECT_EQ(152, steps);
 
 }
 
@@ -444,11 +444,11 @@ TEST_F(SearcherTest, MouseRunTo_SearchOutAndIn_RunLengthFlood) {
   int steps = 0;
   steps += searcher->searchTo(0x77);
   steps += searcher->searchTo(0x00);
-  EXPECT_EQ(228, steps) << "The solution is not always correct. This is not right";
+  EXPECT_EQ(234, steps) << "The solution is not always correct. This is not right";
   steps = 0;
   steps += searcher->searchTo(0x77);
   steps += searcher->searchTo(0x00);
-  EXPECT_EQ(150, steps) << "The solution is not always correct. This is not right";
+  EXPECT_EQ(152, steps) << "The solution is not always correct. This is not right";
   steps = searcher->searchTo(0x77);
   EXPECT_EQ(72, steps) << "The solution is not always correct. This is not right";
   steps = searcher->searchTo(0x00);

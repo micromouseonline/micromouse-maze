@@ -63,6 +63,7 @@ TEST_F(MazeFlood, FloodOpenUnexploredMaze_HomeCostNotMax) {
   maze->clearUnknowns();
   maze->flood(maze->goal());
   EXPECT_NE(MAX_COST, maze->cost(0));
+  maze->updateDirections();
   EXPECT_EQ(NORTH, maze->direction(0));
 }
 
@@ -84,6 +85,7 @@ TEST_F(MazeFlood, FloodKnownMaze_OpenClosedCostsSame) {
   maze->clearUnknowns();
   uint16_t openCost = maze->flood(maze->goal());
   EXPECT_EQ(closedCost, openCost);
+  maze->updateDirections();
   EXPECT_EQ(NORTH, maze->direction(0));
 }
 
@@ -93,7 +95,7 @@ TEST_F(MazeFlood, UnExploredMazeSolution) {
   maze->resetToEmptyMaze();
   maze->testForSolution();
   EXPECT_GE(maze->closedMazeCost(), maze->openMazeCost());
-  EXPECT_EQ(64601, maze->costDifference());
+  EXPECT_EQ(64811, maze->costDifference());
   EXPECT_FALSE(maze->isSolved());
 }
 

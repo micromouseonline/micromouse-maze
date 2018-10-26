@@ -86,9 +86,9 @@ TEST_F(PathFinderTest, generate_EmptyMaze_RunLengthFlood) {
   maze->flood(0x77);
   path->generateSafePath(0, 0x77, maze);
   EXPECT_EQ(16, strlen(path->path()));
-  EXPECT_STREQ("BFFFFFFFRFFFFFFS", path->path());
+  EXPECT_STREQ("BFRFLRLRLRLRFLFS", path->path());
   EXPECT_EQ(15, path->cellCount());
-  EXPECT_EQ(EAST, path->endHeading());
+  EXPECT_EQ(NORTH, path->endHeading());
   EXPECT_EQ(0x77, path->endCell());
   EXPECT_TRUE(path->reachesTarget());
 }
@@ -200,9 +200,9 @@ TEST_F(PathFinderTest, generate_EmptyMaze_UnexploredOnPath) {
   maze->flood(0x77);
   path->generateSafePath(0, 0x77, maze);
   EXPECT_EQ(4, strlen(path->path())) << path->path();
-  EXPECT_STREQ("BFFX", path->path());
+  EXPECT_STREQ("BFRX", path->path());
   EXPECT_FALSE(path->reachesTarget());
-  EXPECT_EQ(0x02, path->endCell());
+  EXPECT_EQ(0x11, path->endCell());
 }
 
 TEST_F(PathFinderTest, generate_Japan2007_SimulateSearch) {
@@ -217,6 +217,7 @@ TEST_F(PathFinderTest, generate_Japan2007_SimulateSearch) {
     maze->setVisited(path->endCell());
     steps++;
     maze->flood(0x77);
+    maze->updateDirections();
     path->generateSafePath(0, 0x77, maze);
   }
   EXPECT_EQ(72, steps);

@@ -662,7 +662,7 @@ uint16_t Maze::runLengthFlood(uint16_t target) {
   seedQueue(queue, target, orthoCostTable[1]);
   // each (accessible) cell will be processed only once
   while ((queue.size() > 0)) {
-    FloodInfo info = queue.fetchSmallest();
+    FloodInfo info = queue.head();
     /*
      * test each wall for an exit. Skip any blocked, or already used exits
      */
@@ -674,9 +674,6 @@ uint16_t Maze::runLengthFlood(uint16_t target) {
         continue;
       }
       uint16_t nextCell = neighbour(info.cell, exitWall);
-      if (mCost[nextCell] < MAX_COST) {
-        continue;
-      }
       uint8_t exitDir = getExitDirection[info.entryWall][exitWall];
       uint8_t newRunLength = info.runLength;
       auto turnSize = static_cast<uint16_t>(abs(int(info.entryDir) - int(exitDir)));
@@ -692,10 +689,13 @@ uint16_t Maze::runLengthFlood(uint16_t target) {
       }
       uint16_t newCost = ((exitDir & 1) == 0) ? orthoCostTable[newRunLength] : diagCostTable[newRunLength];
       newCost += turnCost + mCost[info.cell];
-      mCost[nextCell] = newCost;
-      queue.add(FloodInfo(newCost, nextCell, newRunLength, exitDir, opposite(exitWall)));
+      if (newCost < mCost[nextCell]) {
+        mCost[nextCell] = newCost;
+        queue.add(FloodInfo(newCost, nextCell, newRunLength, exitDir, opposite(exitWall)));
+      }
     }
   }
+  //NOTE: this need not be done here - only when the directions are acually needed
   updateDirections();
   return mCost[0];
 }
