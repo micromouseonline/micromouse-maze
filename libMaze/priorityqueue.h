@@ -63,13 +63,9 @@ public:
     return mItemCount;
   }
 
-  void increment(int & ptr) {
-    ++ptr;
-    if (ptr > MAX_ITEMS) {
-      ptr -= MAX_ITEMS;
-    }
+  bool empty() {
+    return mItemCount == 0;
   }
-
   void clear() {
     mHead = 0;
     mTail = 0;
@@ -79,7 +75,7 @@ public:
   /*
    * Adds an item to the tail of the queue
    */
-  void add(item_t item) {
+  void push(item_t item) {
     assert(mItemCount < MAX_ITEMS);
     mData[mTail] = item;
     increment(mTail);
@@ -87,13 +83,20 @@ public:
   }
 
   /*
-   * fetch the item at the head of the queue. Using only this method
-   * allows use of the queue as a simple LIFO structure
+   * remove the item at the head of the queue.
+   * Provided only for compatibility with std::priority_queue
    */
-  item_t head() {
-    item_t result = mData[mHead];
+  void pop() {
     increment(mHead);
     --mItemCount;
+  }
+
+  /*
+   * fetch the item at the front of the queue. Using only this method
+   * allows use of the queue as a simple LIFO structure
+   */
+  item_t front() {
+    item_t result = mData[mHead];
     return result;
   }
 
@@ -105,7 +108,7 @@ public:
    * Operation is performed by swapping the smallest item into the head
    * position. Thus, the natural order of the queue is corrupted
    */
-  item_t fetchSmallest() {
+  item_t top() {
     assert(mItemCount > 0);
     int posSmallest = mHead;
     int index = mHead;
@@ -118,10 +121,17 @@ public:
     item_t smallest = mData[posSmallest];
     mData[posSmallest] = mData[mHead];
     mData[mHead] = smallest;
-    return head();
+    return smallest;
   }
 
 protected:
+
+  void increment(int & ptr) {
+    ++ptr;
+    if (ptr > MAX_ITEMS) {
+      ptr -= MAX_ITEMS;
+    }
+  }
   item_t *mData;
   const int MAX_ITEMS;
   int mHead;

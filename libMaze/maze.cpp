@@ -662,7 +662,8 @@ uint16_t Maze::runLengthFlood(uint16_t target) {
   seedQueue(queue, target, orthoCostTable[1]);
   // each (accessible) cell will be processed only once
   while ((queue.size() > 0)) {
-    FloodInfo info = queue.head();
+    FloodInfo info = queue.front();
+    queue.pop();
     /*
      * test each wall for an exit. Skip any blocked, or already used exits
      */
@@ -691,7 +692,7 @@ uint16_t Maze::runLengthFlood(uint16_t target) {
       newCost += turnCost + mCost[info.cell];
       if (newCost < mCost[nextCell]) {
         mCost[nextCell] = newCost;
-        queue.add(FloodInfo(newCost, nextCell, newRunLength, exitDir, opposite(exitWall)));
+        queue.push(FloodInfo(newCost, nextCell, newRunLength, exitDir, opposite(exitWall)));
       }
     }
   }
@@ -703,9 +704,10 @@ uint16_t Maze::runLengthFlood(uint16_t target) {
 uint16_t Maze::manhattanFlood(uint16_t target) {
   PriorityQueue<uint16_t> queue;
   initialiseFloodCosts(target);
-  queue.add(target);
+  queue.push(target);
   while (queue.size() > 0) {
-    uint16_t cell = queue.head();
+    uint16_t cell = queue.front();
+    queue.pop();
     uint16_t newCost = mCost[cell];
     newCost++;
     for (uint8_t direction = 0; direction < 4; direction++) {
@@ -713,7 +715,7 @@ uint16_t Maze::manhattanFlood(uint16_t target) {
         uint16_t nextCell = neighbour(cell, direction);
         if (mCost[nextCell] > newCost) {
           mCost[nextCell] = newCost;
-          queue.add(nextCell);
+          queue.push(nextCell);
         }
       }
     }
@@ -725,22 +727,22 @@ uint16_t Maze::manhattanFlood(uint16_t target) {
 void Maze::seedQueue(PriorityQueue<FloodInfo> &queue, uint16_t goal, uint16_t cost) {
   if (hasExit(goal, NORTH)) {
     uint16_t nextCell = cellNorth(goal);
-    queue.add(FloodInfo(cost, nextCell, 1, DIR_N, SOUTH));
+    queue.push(FloodInfo(cost, nextCell, 1, DIR_N, SOUTH));
     mCost[nextCell] = cost;
   }
   if (hasExit(goal, EAST)) {
     uint16_t nextCell = cellEast(goal);
-    queue.add(FloodInfo(cost, nextCell, 1, DIR_E, WEST));
+    queue.push(FloodInfo(cost, nextCell, 1, DIR_E, WEST));
     mCost[nextCell] = cost;
   }
   if (hasExit(goal, SOUTH)) {
     uint16_t nextCell = cellSouth(goal);
-    queue.add(FloodInfo(cost, nextCell, 1, DIR_S, NORTH));
+    queue.push(FloodInfo(cost, nextCell, 1, DIR_S, NORTH));
     mCost[nextCell] = cost;
   }
   if (hasExit(goal, WEST)) {
     uint16_t nextCell = cellWest(goal);
-    queue.add(FloodInfo(cost, nextCell, 1, DIR_W, EAST));
+    queue.push(FloodInfo(cost, nextCell, 1, DIR_W, EAST));
     mCost[nextCell] = cost;
   }
 }
@@ -777,10 +779,11 @@ uint16_t Maze::weightedFlood(uint16_t target) {
   const uint16_t aheadCost = 2;
 
   initialiseFloodCosts(target);
-  queue.add(target);
+  queue.push(target);
   while (queue.size() > 0) {
     uint16_t newCost;
-    auto here = static_cast<uint16_t>(queue.head());
+    auto here = static_cast<uint16_t>(queue.front());
+    queue.pop();
     uint16_t costHere = mCost[here];
     uint8_t thisDirection = mDirection[here];
     for (uint8_t exitDirection = 0; exitDirection < 4; exitDirection++) {
@@ -794,7 +797,7 @@ uint16_t Maze::weightedFlood(uint16_t target) {
         if (mCost[nextCell] > newCost) {
           mCost[nextCell] = newCost;
           mDirection[nextCell] = exitDirection;
-          queue.add(nextCell);
+          queue.push(nextCell);
         }
       }
     }
@@ -811,9 +814,10 @@ uint16_t Maze::weightedFlood(uint16_t target) {
 uint16_t Maze::directionFlood(uint16_t target) {
   PriorityQueue<int> queue;
   initialiseFloodCosts(target);
-  queue.add(target);
+  queue.push(target);
   while (queue.size() > 0) {
-    auto here = static_cast<uint16_t>(queue.head());
+    auto here = static_cast<uint16_t>(queue.front());
+    queue.pop();
     auto nextCost = static_cast<uint16_t>(mCost[here] + 1);
     for (uint8_t exit = 0; exit < 4; exit++) {
       if (hasExit(here, exit)) {
@@ -821,7 +825,7 @@ uint16_t Maze::directionFlood(uint16_t target) {
         if (mDirection[next] == INVALID_DIRECTION) {
           mDirection[next] = behind(exit);
           mCost[next] = nextCost;
-          queue.add(next);
+          queue.push(next);
         }
       }
     }
