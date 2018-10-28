@@ -55,7 +55,7 @@ public:
     // no action needed
   }
 
-  inline bool operator==(FloodInfo a) {
+  inline bool operator==(FloodInfo a) const  {
     if (a.runLength == runLength
         && a.cell == cell
         && a.cost == cost
@@ -66,27 +66,27 @@ public:
     }
   }
 
-  inline bool operator!=(FloodInfo &rhs) {
+  inline bool operator!=(FloodInfo &rhs) const {
     return !(*this == rhs);
   }
 
-  inline bool operator>(FloodInfo a) {
+  inline bool operator>(FloodInfo a)  const {
     return cost > a.cost;
   }
 
-  inline bool operator<(FloodInfo a) {
+  inline bool operator<(FloodInfo a)  const {
     return cost < a.cost;
   }
 
-  inline bool operator>=(FloodInfo a) {
+  inline bool operator>=(FloodInfo a) const {
     return cost >= a.cost;
   }
 
-  inline bool operator<=(FloodInfo a) {
+  inline bool operator<=(FloodInfo a) const {
     return cost <= a.cost;
   }
 
-  inline bool isNull() {
+  inline bool isNull() const {
     return (runLength == 0 && cell == 0 && cost == 0);
   }
 };
