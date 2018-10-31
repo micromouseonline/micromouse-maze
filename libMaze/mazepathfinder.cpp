@@ -128,7 +128,7 @@ void PathFinder::generatePath(const uint16_t start, const uint16_t target, Maze 
   char *pPath = mBuffer;
   uint16_t distance = 0;
   uint16_t here = start;
-  uint8_t headingHere = maze->direction(here);
+  uint8_t headingHere = maze->directionToSmallest(here);
   mStartCell = start;
   mEndCell = target;
   mStartHeading = headingHere;
