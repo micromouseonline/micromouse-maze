@@ -27,7 +27,7 @@
 #include "mazeprinter.h"
 
 
-static char dirChars[] = "^>v<  ";
+static char dirChars[] = "^>v<#  ";
 
 void printNorthWalls(Maze *maze, uint16_t row) {
   for (uint16_t col = 0; col < maze->width(); col++) {
@@ -66,11 +66,8 @@ void MazePrinter::printDirs(Maze *maze) {
       } else {
         printf("|");
       }
-      uint8_t direction = maze->direction(cell);
-      char c = ' ';
-      if (direction <= WEST) {
-        c = dirChars[direction];
-      }
+      uint8_t direction = maze->directionToSmallest(cell);
+      char c = dirChars[direction];
       if (cell == maze->goal()) {
         c = '*';
       }
@@ -98,9 +95,9 @@ void MazePrinter::printVisitedDirs(Maze *maze) {
       } else {
         printf("|");
       }
-      uint8_t direction = maze->direction(cell);
+      uint8_t direction = maze->directionToSmallest(cell);
       char c = ' ';
-      if (maze->isVisited(cell) && direction <= WEST) {
+      if (maze->isVisited(cell)) {
         c = dirChars[direction];
       }
       if (cell == maze->goal()) {

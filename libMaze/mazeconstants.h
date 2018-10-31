@@ -36,7 +36,7 @@ const uint16_t MAX_COST = UINT16_MAX;
 #define EAST          (uint8_t)0x01
 #define SOUTH         (uint8_t)0x02
 #define WEST          (uint8_t)0x03
-#define INVALID_DIRECTION (uint8_t)255
+#define INVALID_DIRECTION (uint8_t)0x04
 
 enum {
   DIR_N = 0,
