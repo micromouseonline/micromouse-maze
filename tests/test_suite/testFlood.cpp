@@ -145,11 +145,12 @@ TEST_F(MazeFlood, FloodPartialMaze_SolutionTestFails) {
 // here we just look for the cost left in cell 0
 TEST_F(MazeFlood, ManhattanFlood_EmptyMaze_cost_14) {
   maze->resetToEmptyMaze();
+
   uint16_t cost = maze->manhattanFlood(0x77);
   EXPECT_EQ(14, cost);
   // top left cell
   EXPECT_EQ(15, maze->cost(maze->width() - 1));
-  EXPECT_EQ(NORTH, maze->direction(0));
+  EXPECT_EQ(NORTH, maze->directionToSmallest(0));
 }
 
 TEST_F(MazeFlood, ManhattanFlood_Japan2007_costx) {
@@ -158,7 +159,7 @@ TEST_F(MazeFlood, ManhattanFlood_Japan2007_costx) {
   EXPECT_EQ(72, cost);
   // top left cell
   EXPECT_EQ(43, maze->cost(maze->width() - 1));
-  EXPECT_EQ(NORTH, maze->direction(0));
+  EXPECT_EQ(NORTH, maze->directionToSmallest(0));
 }
 
 TEST_F(MazeFlood, WeightedFlood_EmptyMaze_cost_31) {
@@ -167,7 +168,7 @@ TEST_F(MazeFlood, WeightedFlood_EmptyMaze_cost_31) {
   EXPECT_EQ(31, cost);
   // top left cell
   EXPECT_EQ(31, maze->cost(maze->width() - 1));
-  EXPECT_EQ(NORTH, maze->direction(0));
+  EXPECT_EQ(NORTH, maze->directionToSmallest(0));
 }
 
 TEST_F(MazeFlood, directionFlood_EmptyMaze_cost_31) {
@@ -176,5 +177,5 @@ TEST_F(MazeFlood, directionFlood_EmptyMaze_cost_31) {
   EXPECT_EQ(14, cost);
   // top left cell
   EXPECT_EQ(15, maze->cost(maze->width() - 1));
-  EXPECT_EQ(NORTH, maze->direction(0));
+  EXPECT_EQ(NORTH, maze->directionToSmallest(0));
 }

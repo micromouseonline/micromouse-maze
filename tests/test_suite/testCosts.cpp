@@ -142,22 +142,18 @@ TEST_F(CostTest, UpdateDirections) {
   EXPECT_EQ(WEST, maze->direction(0x22));
 
   maze->setWall(0x22, WEST);
-  EXPECT_EQ(WEST, maze->direction(0x22));
   maze->updateDirections();
   EXPECT_EQ(SOUTH, maze->direction(0x22));
 
   maze->setWall(0x22, SOUTH);
-  EXPECT_EQ(SOUTH, maze->direction(0x22));
   maze->updateDirections();
   EXPECT_EQ(NORTH, maze->direction(0x22));
 
   maze->setWall(0x22, NORTH);
-  EXPECT_EQ(NORTH, maze->direction(0x22));
   maze->updateDirections();
   EXPECT_EQ(EAST, maze->direction(0x22));
 
   maze->setWall(0x22, EAST);
-  EXPECT_EQ(EAST, maze->direction(0x22));
   maze->updateDirections();
   EXPECT_EQ(INVALID_DIRECTION, maze->direction(0x22));
 }
