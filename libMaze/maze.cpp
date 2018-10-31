@@ -309,6 +309,7 @@ bool Maze::hasRealWall(uint16_t cell, uint8_t direction) {
 }
 
 uint8_t Maze::direction(uint16_t cell) {
+  //  return directionToSmallest(cell);
   return mDirection[cell];
 }
 
@@ -696,8 +697,6 @@ uint16_t Maze::runLengthFlood(uint16_t target) {
       }
     }
   }
-  //NOTE: this need not be done here - only when the directions are acually needed
-  updateDirections();
   return mCost[0];
 }
 
@@ -720,7 +719,6 @@ uint16_t Maze::manhattanFlood(uint16_t target) {
       }
     }
   }
-  updateDirections();
   return mCost[0];
 };
 
@@ -802,7 +800,6 @@ uint16_t Maze::weightedFlood(uint16_t target) {
       }
     }
   }
-  updateDirections();
   return mCost[0];
 }
 
