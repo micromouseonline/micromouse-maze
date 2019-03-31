@@ -309,7 +309,6 @@ bool Maze::hasRealWall(uint16_t cell, uint8_t direction) {
 }
 
 uint8_t Maze::direction(uint16_t cell) {
-  //  return directionToSmallest(cell);
   return mDirection[cell];
 }
 
@@ -697,6 +696,8 @@ uint16_t Maze::runLengthFlood(uint16_t target) {
       }
     }
   }
+  //NOTE: this need not be done here - only when the directions are acually needed
+  updateDirections();
   return mCost[0];
 }
 
@@ -719,6 +720,7 @@ uint16_t Maze::manhattanFlood(uint16_t target) {
       }
     }
   }
+  updateDirections();
   return mCost[0];
 };
 
@@ -800,6 +802,7 @@ uint16_t Maze::weightedFlood(uint16_t target) {
       }
     }
   }
+  updateDirections();
   return mCost[0];
 }
 
@@ -877,14 +880,25 @@ bool Maze::goalContains(int x, int y) const {
   return end(goalArea) != find(begin(goalArea), end(goalArea), cell);
 }
 
+
+
 int Maze::goalAreaSize() const {
   return goalArea.size();
 }
 
-std::vector<int> Maze::getGoalArea() const {
+void Maze::removeFromGoalArea(int x, int y) {
+  removeFromGoalArea(cellID(x, y));
+}
+
+void Maze::removeFromGoalArea(int cell) {
+  goalArea.remove(cell);
+}
+
+
+std::list<int> Maze::getGoalArea() const {
   return goalArea;
 }
 
-void Maze::setGoalArea(std::vector<int> &goalArea) {
+void Maze::setGoalArea(std::list<int> &goalArea) {
   this->goalArea = goalArea;
 }
