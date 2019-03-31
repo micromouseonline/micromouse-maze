@@ -55,11 +55,14 @@ TEST_F(TestGoalArea, defaultGoal) {
   EXPECT_EQ(4, maze->goalAreaSize());
   std::vector<int> goalArea = maze->getGoalArea();
   EXPECT_EQ(4, goalArea.size());
-  EXPECT_TRUE(end(goalArea) != find(begin(goalArea), end(goalArea), 0x77));
-  EXPECT_TRUE(end(goalArea) != find(begin(goalArea), end(goalArea), 0x78));
-  EXPECT_TRUE(end(goalArea) != find(begin(goalArea), end(goalArea), 0x87));
-  EXPECT_TRUE(end(goalArea) != find(begin(goalArea), end(goalArea), 0x87));
+  EXPECT_TRUE(maze->goalContains(0x77));
+  EXPECT_TRUE(maze->goalContains(0x78));
+  EXPECT_TRUE(maze->goalContains(0x87));
+  EXPECT_TRUE(maze->goalContains(0x88));
+
 }
+
+
 TEST_F(TestGoalArea, setGoalArea) {
   std::vector<int> area = {2, 3, 4, 5, 6};
   maze->setGoalArea(area);
@@ -69,4 +72,5 @@ TEST_F(TestGoalArea, setGoalArea) {
   EXPECT_TRUE(maze->goalContains(4));
   EXPECT_TRUE(maze->goalContains(5));
   EXPECT_TRUE(maze->goalContains(6));
+  EXPECT_FALSE(maze->goalContains(7));
 }
