@@ -877,25 +877,14 @@ bool Maze::goalContains(int x, int y) const {
   return end(goalArea) != find(begin(goalArea), end(goalArea), cell);
 }
 
-
-
 int Maze::goalAreaSize() const {
   return goalArea.size();
 }
 
-void Maze::removeFromGoalArea(int x, int y) {
-  removeFromGoalArea(cellID(x, y));
-}
-
-void Maze::removeFromGoalArea(int cell) {
-  goalArea.remove(cell);
-}
-
-
-std::list<int> Maze::getGoalArea() const {
+std::vector<int> Maze::getGoalArea() const {
   return goalArea;
 }
 
-void Maze::setGoalArea(std::list<int> &goalArea) {
+void Maze::setGoalArea(std::vector<int> &goalArea) {
   this->goalArea = goalArea;
 }

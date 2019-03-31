@@ -104,8 +104,8 @@ public:
   uint16_t goal() const;
   ///  set the current goal to a new value
   void setGoal(uint16_t goal);
-  std::list<int> getGoalArea() const;
-  void setGoalArea(std::list<int>& goalArea);
+  vector<int> getGoalArea() const;
+  void setGoalArea(vector<int> &goalArea);
 
   /// return the state of the four walls surrounding a given cell
   uint8_t walls(uint16_t cell) const;
@@ -221,9 +221,6 @@ public:
   void clearGoalArea();
   void addToGoalArea(int cell);
   void addToGoalArea(int x, int y);
-  void removeFromGoalArea(int cell);
-  void removeFromGoalArea(int x, int y);
-
   bool goalContains(int cell) const;
   bool goalContains(int x, int y) const;
   int goalAreaSize() const;
@@ -239,7 +236,7 @@ protected:
   /// stores the cost information from a flood. Allows for 32x32 maze but wastes space
   uint16_t mCost[1024] = {MAX_COST};
   /// The goal is an area so a list of locations is needed. Must have one or more entries
-  std::list<int> goalArea;
+  std::vector<int> goalArea;
   /// The cost of the best path assuming unseen walls are absent
   uint16_t mPathCostOpen = MAX_COST;
   /// The cost of the best path assuming unseen walls are present
