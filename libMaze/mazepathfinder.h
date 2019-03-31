@@ -43,8 +43,8 @@
  * PathString commands
  *  'B' : Begin path. Must be present. No motion. Robot initialisation.
  *  'F' : Move forward one cell.
- *  'R' : Turn right.
- *  'L' : Turn left.
+ *  'R' : Turn right in place.
+ *  'L' : Turn left in place.
  *  'S' : Stop moving. Robot centered in the cell.
  *  'X' : Explore. Robot centered in the cell, moving at explore speed
  *
