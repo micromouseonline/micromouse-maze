@@ -13,7 +13,27 @@ The googletest target tests individual libMaze functions
 
 The libMaze_run target runs against a list of maze fies supplied on the command line. For each file, it will simulate a search by the mouse out to the gal and back to the start. After the searches the quality of the solution is evaluated. Mazes which are fully solved are flagged. Mazes that are close to fully solved are flagged and printed out for visual inspection. These are the 'take a chance' mazes that it may be worth the mouse performing a speedrun to get a good score under non-Japan rules. At the end of the listthe total number mazes, the number of solved mazes and the number of 'take a chance' mazes will be displayed.
 
+**Git**
+
+This project uses git submodules for library stuff - the liMaze and mazefiles content for example.
+
+If you are not familiar with git, you might find cloning the repo a bit annoying if the submodules do not arrive with the main repo.
 The CLion project files are part of the repository.
+
+To clone by hand, including the submodules:
+
+    git clone --recurse-submodules https://github.com/micromouseonline/micromouse-maze.git
+    
+If you forgot the submodules bit, you can can still get them like this.
+
+    git clone https://github.com/micromouseonline/micromouse-maze.git
+    cd micromouse-maze
+    git submodule init
+    git submodule update
+    
+    
+
+   
 
 **Data standards:**
 
