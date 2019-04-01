@@ -1,3 +1,6 @@
 [submodule "libMaze"]
 	path = libMaze
 	url = https://github.com/micromouseonline/libMaze.git
+[submodule "mazefiles"]
+	path = mazefiles
+	url = https://github.com/micromouseonline/mazefiles.git
