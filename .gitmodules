@@ -1,0 +1,3 @@
+[submodule "libMaze"]
+	path = libMaze
+	url = https://github.com/micromouseonline/libMaze.git
