@@ -55,12 +55,12 @@ void makeDiagonalCommands(const char *src, const uint16_t maxLength, uint8_t *co
   while (state != PathFinish) {
     if (runLength > 31) { // MAGIC: maximum for hald-size maze
       commands[0] = CMD_ERROR;
-      commands[1] = CMD_STOP;
+      commands[1] = CMD_END;
       break;
     }
     if (p >= maxLength) {
       commands[0] = CMD_ERROR;
-      commands[1] = CMD_STOP;
+      commands[1] = CMD_END;
       break;
     }
     char c = *src++;
@@ -295,16 +295,16 @@ void makeDiagonalCommands(const char *src, const uint16_t maxLength, uint8_t *co
         }
         break;
       case PathStop:
-        commands[p++] = (CMD_STOP);  // make sure the command list gets terminated
+        commands[p++] = (CMD_END);  // make sure the command list gets terminated
         state = PathFinish;
         break;
       case PathExit:
         commands[p++] = (CMD_EXPLORE);
-        commands[p++] = (CMD_STOP);  // make sure the command list gets terminated
+        commands[p++] = (CMD_END);  // make sure the command list gets terminated
         state = PathFinish;
         break;
       default:
-        commands[p++] = (CMD_ERROR_15);
+        commands[p++] = (CMD_ERROR);
         state = PathFinish;
         break;
     }
@@ -324,12 +324,12 @@ void makeSmoothCommands(const char *src, const uint16_t maxLength, uint8_t *comm
   while (state != PathFinish) {
     if (runLength >= 31) { // MAGIC: maximum for hald-size maze
       commands[p++] = CMD_ERROR;
-      commands[p] = CMD_STOP;
+      commands[p] = CMD_END;
       break;
     }
     if (p >= maxLength) {
       commands[0] = CMD_ERROR;
-      commands[1] = CMD_STOP;
+      commands[1] = CMD_END;
       break;
     }
 
@@ -436,12 +436,12 @@ void makeSmoothCommands(const char *src, const uint16_t maxLength, uint8_t *comm
         }
         break;
       case PathStop:
-        commands[p] = (CMD_STOP);  // make sure the command list gets terminated
+        commands[p] = (CMD_END);  // make sure the command list gets terminated
         state = PathFinish;
         break;
       case PathExit:
         commands[p++] = (CMD_EXPLORE);
-        commands[p] = (CMD_STOP);  // make sure the command list gets terminated
+        commands[p] = (CMD_END);  // make sure the command list gets terminated
         state = PathFinish;
         break;
       default:
@@ -458,13 +458,13 @@ void makeSmoothCommands(const char *src, const uint16_t maxLength, uint8_t *comm
 void makeInPlaceCommands(const char *src, const uint16_t maxLength, uint8_t *commands) {
   int p = 0;
   int runLength = 0;
-  unsigned char cmd = CMD_STOP;
+  unsigned char cmd = CMD_END;
   bool finished = false;
   assert(maxLength >= 2);
   while (!finished) {
     if (p >= maxLength) {
       commands[0] = CMD_ERROR;
-      commands[1] = CMD_STOP;
+      commands[1] = CMD_END;
       break;
     }
     char c = *src++;
@@ -480,7 +480,7 @@ void makeInPlaceCommands(const char *src, const uint16_t maxLength, uint8_t *com
         runLength++;
         if (runLength >= 31) { // MAGIC: maximum for hald-size maze
           commands[p++] = CMD_ERROR;
-          commands[p] = CMD_STOP;
+          commands[p] = CMD_END;
           finished = true;
         }
         break;
@@ -496,18 +496,18 @@ void makeInPlaceCommands(const char *src, const uint16_t maxLength, uint8_t *com
         break;
       case 'S':
         commands[p++] = cmd;
-        commands[p++] = CMD_STOP;
+        commands[p++] = CMD_END;
         finished = true;
         break;
       case 'X':
         commands[p++] = cmd;
         commands[p++] = CMD_EXPLORE;
-        commands[p] = CMD_STOP;
+        commands[p] = CMD_END;
         finished = true;
         break;
       default:
         commands[p++] = CMD_ERROR;
-        commands[p] = CMD_STOP;
+        commands[p] = CMD_END;
         finished = true;
         break;
     }
