@@ -3,7 +3,7 @@ Project for developing and testing code used for manipulating mazes used in the 
 
 The library code is also available on its own at: https://github.com/micromouseonline/libMaze
 
-Finde out more about the micromouse contest at: http://www.micromouseonline.com
+Find out more about the micromouse contest at: http://www.micromouseonline.com
 
 This project is configured for gitflow. Development is through branches from develop.
 
@@ -32,7 +32,25 @@ If you forgot the submodules bit, you can can still get them like this.
     git submodule update
     
     
+**CMake**
 
+The build system here is CMake. To build the code, first create a folder for the build artefacts. Then change to that folder and run cmake, followed by make:
+
+
+    mkdir cmake-build-debug
+    cd cmake-build-debug
+    cmake ..
+    make
+    
+You will probably want to add the build folder to .gitignore.
+
+Assuming the build works out, the tests can be run from the build folder with
+
+   ./tests/test_suite/runTestSuite
+  
+The main program can be run with commands like:
+
+    ./libmaze_run ../tests/mazes/japan2007ef_classic.maz    
    
 
 **Data standards:**
@@ -41,7 +59,11 @@ Basic integral types should be as defined in <stdint.h> to ensure widths and ran
 
 **Coding standards:**
 
-Function Names shall be capitalised. e.g. MazeGetCost()
+In a perfect world, the sources would comply with a well known style guide like this one:
+
+    https://google.github.io/styleguide/cppguide.html
+    
+but that seems unlikely for now :)
 
 **Testing:**
 
