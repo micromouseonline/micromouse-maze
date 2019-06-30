@@ -13,6 +13,7 @@ set(HEADER_COMMENTS 1)
 
 set(CMAKE_C_FLAGS "${COMMON_FLAGS} ")
 set(CMAKE_CXX_FLAGS "${COMMON_FLAGS} ")
+
 set(SOURCE_FILES
         main.cpp
         )
