@@ -24,7 +24,7 @@ add_executable(runTestSuite
         testNewMazeMasks.cpp
         MazeTestHalfSize.cpp
         testGoalArea.cpp
-        testCommandNames.cpp)
+        )
 
 target_link_libraries(
         runTestSuite

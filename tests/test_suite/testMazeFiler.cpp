@@ -56,7 +56,7 @@ protected:
 TEST_F(TestMazeFiler, LoadClassicTextFile) {
   MazeFiler filer;
   char name[] = "mazefiles/classic/taiwan2018cef.txt";
-  EXPECT_EQ(0, filer.readMaze(maze16, name));
+  EXPECT_EQ(MazeFiler::MAZE_SUCCESS, filer.readMaze(maze16, name));
   EXPECT_EQ(16, maze16->width());
   EXPECT_EQ(4, maze16->goalAreaSize());
   EXPECT_TRUE(maze16->goalContains(maze16->cellID(7, 7)));
@@ -78,31 +78,5 @@ TEST_F(TestMazeFiler, LoadHalfSizeTextFile) {
   EXPECT_TRUE(maze16->goalContains(maze16->cellID(6, 5)));
   EXPECT_TRUE(maze16->goalContains(maze16->cellID(7, 6)));
   EXPECT_TRUE(maze16->goalContains(maze16->cellID(8, 7)));
-}
-
-TEST_F(TestMazeFiler, LoadMazeFromFile) {
-  //  char fileName[] = "../mazefiles/empty.maz";
-  //  ReadRealWallsFromFile (fileName);
-  //  UpdateEntireMazeFromRealWalls ();
-  //  EXPECT_EQ (ALL_SEEN + WEST_WALL + SOUTH_WALL + EAST_WALL, Walls (Home()));
-}
-
-
-TEST_F(TestMazeFiler, LoadMazeFromInvalidFile) {
-  //  char fileName[] = "../mazefiles/aaaaaa.maz";
-  //  ReadRealWallsFromFile (fileName);
-  //  UpdateEntireMazeFromRealWalls ();
-  //  EXPECT_EQ (ALL_SEEN + NO_WALLS, Walls (Home()));
-}
-
-
-TEST_F(TestMazeFiler, ReadWallSensors) {
-  //  walls_t wallData;
-  //  char fileName[] = "../mazefiles/minos03f.maz";
-  //  ReadRealWallsFromFile (fileName);
-  //  wallData = ReadWallSensors (Location (0, 0));
-  //  EXPECT_EQ (WEST_WALL + SOUTH_WALL + EAST_WALL, wallData);
-  //  wallData = ReadWallSensors (Location (0, 1));
-  //  EXPECT_EQ (WEST_WALL + SOUTH_WALL, wallData);
 }
 
