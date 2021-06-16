@@ -61,7 +61,7 @@ TEST_F(TestMazePrinter, PrintForCoverageTesting) {
   //  MazePrinter::printVisitedDirs(libMaze);
   //  copyClassicMaze(japan2007ef);
   maze->copyMazeFromFileData(japan2007ef, 256);
-  maze->flood(maze->goal());
+  maze->flood(maze->goal(), OPEN_MAZE);
   //  MazePrinter::printDirs(maze);
   //  MazePrinter::printPlain(maze);
   //  MazePrinter::printCDecl(maze, "julian");

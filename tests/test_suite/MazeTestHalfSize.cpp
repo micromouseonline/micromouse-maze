@@ -126,13 +126,13 @@ TEST_F(MazeTestHalfSize, printHalfSize) {
 TEST_F(MazeTestHalfSize, FloodHalfSize) {
   maze->copyMazeFromFileData(japan2014ef_half, 1024);
   maze->setGoal(837);
-  maze->flood(837);
+  maze->flood(837, OPEN_MAZE);
   if (withPrint) {
     MazePrinter::printDirs(maze);
   }
   maze->copyMazeFromFileData(japan2011ef_half, 1024);
   maze->setGoal(827);
-  maze->flood((maze->goal()));
+  maze->flood((maze->goal()), OPEN_MAZE);
   if (withPrint) {
     MazePrinter::printDirs(maze);
   }

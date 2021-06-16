@@ -74,3 +74,36 @@ TEST_F(TestGoalArea, setGoalArea) {
   EXPECT_TRUE(maze->goalContains(6));
   EXPECT_FALSE(maze->goalContains(7));
 }
+
+
+TEST_F(TestGoalArea, SetAndGetGoal) {
+  EXPECT_EQ(maze->cellID(7, 7), maze->goal());
+  maze->setGoal(99);
+  EXPECT_EQ(99, maze->goal());
+}
+
+
+TEST_F(TestGoalArea, GoalAreaInitialisDefault) {
+  Maze maze16(16);
+  EXPECT_EQ(4, maze16.goalAreaSize());
+}
+
+
+TEST_F(TestGoalArea, GoalAreaClearsEmpty) {
+  Maze maze16(16);
+  maze16.clearGoalArea();
+  EXPECT_EQ(0, maze16.goalAreaSize());
+}
+
+
+TEST_F(TestGoalArea, GoalAreaFindCellInGoal) {
+  Maze maze16(16);
+  maze16.resetToEmptyMaze();
+  EXPECT_TRUE(maze16.goalContains(7, 7));
+  EXPECT_TRUE(maze16.goalContains(7, 8));
+  EXPECT_TRUE(maze16.goalContains(8, 7));
+  EXPECT_TRUE(maze16.goalContains(8, 8));
+}
+
+
+

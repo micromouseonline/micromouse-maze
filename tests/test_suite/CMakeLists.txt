@@ -12,7 +12,10 @@ add_executable(runTestSuite
         testPriorityQueue.cpp
         testCosts.cpp
         testDirection.cpp
-        testFlood.cpp
+        testManhattanFlood.cpp
+        testWeightedFlood.cpp
+        testRunLengthFlood.cpp
+        testDirectionFlood.cpp
         testMazePrinter.cpp
         testMazeFiler.cpp
         testPathFinder.cpp
@@ -21,7 +24,6 @@ add_executable(runTestSuite
         path_test_data.cpp
         path_test_data.h
         testPathReverse.cpp
-        testNewMazeMasks.cpp
         MazeTestHalfSize.cpp
         testGoalArea.cpp
         )
