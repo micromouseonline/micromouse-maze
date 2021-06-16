@@ -348,8 +348,8 @@ TEST_F(SearcherTest, MouseRunTo_Japan2011_HalfSize) {
       break;
     }
   }
-  EXPECT_EQ(4882, searcher->map()->openMazeCost());
-  EXPECT_EQ(4882, searcher->map()->closedMazeCost());
+  EXPECT_EQ(4793, searcher->map()->openMazeCost());
+  EXPECT_EQ(4980, searcher->map()->closedMazeCost());
   EXPECT_EQ(5, cnt);
   if (withPrint) {
     printf("\n\n%d   %d\n\n", searcher->map()->openMazeCost(), searcher->map()->closedMazeCost());
