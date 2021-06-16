@@ -94,7 +94,7 @@ int main(int argc, char **argv) {
       };
       maze.load(wallData);
       maze.copyMazeFromFileData(wallData, 256);
-      maze.flood(0x77);
+      maze.flood(0x77, OPEN_MAZE);
       barney.setRealMaze(&maze);
       barney.map()->resetToEmptyMaze();
       barney.setLocation(0x00);

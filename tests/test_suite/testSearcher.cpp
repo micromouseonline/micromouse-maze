@@ -57,7 +57,7 @@ TEST_F(SearcherTest, Constructor) {
   EXPECT_EQ(0, searcher->location());
   EXPECT_EQ(NORTH, searcher->heading());
   EXPECT_NE(nullptr, searcher->realMaze());
-  searcher->map()->flood(0x77);
+  searcher->map()->flood(0x77, OPEN_MAZE);
   EXPECT_EQ(14, searcher->map()->cost(0x00));
 }
 
@@ -189,7 +189,7 @@ TEST_F(SearcherTest, MouseRunTo_EmptyMaze_StartToGoal_MouseAtGoal) {
 TEST_F(SearcherTest, MouseRunTo_EmptyMaze_ToGoalFromAnywhere) {
   searcher->setMapFromFileData(japan2007ef, 256);
   maze->copyMazeFromFileData(japan2007ef, 256);
-  maze->flood(0x77);
+  maze->flood(0x77, OPEN_MAZE);
   int steps = searcher->runTo(0x77);
   EXPECT_EQ(72, steps);
   for (uint16_t loc = 0; loc < maze->numCells(); loc++) {
@@ -207,7 +207,7 @@ TEST_F(SearcherTest, MouseRunTo_EmptyMaze_ToGoalFromAnywhere) {
 TEST_F(SearcherTest, MouseRunTo_EmptyMaze_ToStartFromAnywhere) {
   searcher->setMapFromFileData(japan2007ef, 256);
   maze->copyMazeFromFileData(japan2007ef, 256);
-  maze->flood(maze->home());
+  maze->flood(maze->home(), OPEN_MAZE);
   searcher->setLocation(0x01);
   int steps = searcher->runTo(maze->home());
   EXPECT_EQ(1, steps);
@@ -258,7 +258,7 @@ TEST_F(SearcherTest, MouseRunTo_RunToGoal_TargetClosedIn_Error) {
  */
 TEST_F(SearcherTest, MouseSearchTo_EmptyMaze_Success) {
   Maze *testMaze = new Maze(16);
-  testMaze->setWall(0x07, EAST);
+  testMaze->setWallPresent(0x07, EAST);
   testMaze->setFloodType(Maze::MANHATTAN_FLOOD);
   searcher->setRealMaze(testMaze);
 
@@ -317,9 +317,9 @@ TEST_F(SearcherTest, MouseRunTo_Japan2011_HalfSize) {
   searcher->map()->setFloodType(Maze::RUNLENGTH_FLOOD);
 
   int steps = searcher->searchTo(maze->goal());
-  searcher->map()->setUnknowns();
-  searcher->map()->flood(maze->goal());
-  searcher->map()->clearUnknowns();
+
+  searcher->map()->flood(maze->goal(), OPEN_MAZE);
+
   EXPECT_EQ(130, steps);
   if (withPrint) {
     MazePrinter::printVisitedDirs(searcher->map());
@@ -327,9 +327,9 @@ TEST_F(SearcherTest, MouseRunTo_Japan2011_HalfSize) {
 
   steps = searcher->searchTo(0);
   EXPECT_EQ(108, steps);
-  searcher->map()->setUnknowns();
-  searcher->map()->flood(maze->goal());
-  searcher->map()->clearUnknowns();
+
+  searcher->map()->flood(maze->goal(), OPEN_MAZE);
+
 
   if (withPrint) {
     MazePrinter::printVisitedDirs(searcher->map());
@@ -354,13 +354,13 @@ TEST_F(SearcherTest, MouseRunTo_Japan2011_HalfSize) {
   if (withPrint) {
     printf("\n\n%d   %d\n\n", searcher->map()->openMazeCost(), searcher->map()->closedMazeCost());
   }
-  searcher->map()->setUnknowns();
-  searcher->map()->flood(maze->goal());
-  searcher->map()->clearUnknowns();
+
+  searcher->map()->flood(maze->goal(), OPEN_MAZE);
+
   if (withPrint) {
     MazePrinter::printVisitedDirs(searcher->map());
   }
-  searcher->map()->setUnknowns();
+
   if (withPrint) {
     MazePrinter::printVisitedDirs(searcher->map());
   }

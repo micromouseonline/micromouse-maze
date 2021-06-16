@@ -101,10 +101,10 @@ TEST_F(CostTest, CostDirection_GivesUINT16_MAXIfWall) {
   }
   uint32_t cell;
   cell = 0x22;
-  maze->setWall(cell, NORTH);
-  maze->setWall(cell, EAST);
-  maze->setWall(cell, SOUTH);
-  maze->setWall(cell, WEST);
+  maze->setWallPresent(cell, NORTH);
+  maze->setWallPresent(cell, EAST);
+  maze->setWallPresent(cell, SOUTH);
+  maze->setWallPresent(cell, WEST);
   EXPECT_EQ(MAX_COST, maze->cost(cell, NORTH));
   EXPECT_EQ(MAX_COST, maze->cost(cell, EAST));
   EXPECT_EQ(MAX_COST, maze->cost(cell, SOUTH));
@@ -118,13 +118,13 @@ TEST_F(CostTest, SmallestNeighbourDirection) {
   }
 
   EXPECT_EQ(WEST, maze->directionToSmallest(0x22));
-  maze->setWall(0x22, WEST);
+  maze->setWallPresent(0x22, WEST);
   EXPECT_EQ(SOUTH, maze->directionToSmallest(0x22));
-  maze->setWall(0x22, SOUTH);
+  maze->setWallPresent(0x22, SOUTH);
   EXPECT_EQ(NORTH, maze->directionToSmallest(0x22));
-  maze->setWall(0x22, NORTH);
+  maze->setWallPresent(0x22, NORTH);
   EXPECT_EQ(EAST, maze->directionToSmallest(0x22));
-  maze->setWall(0x22, EAST);
+  maze->setWallPresent(0x22, EAST);
 
   // no accessible neighbours now
   EXPECT_EQ(INVALID_DIRECTION, maze->directionToSmallest(0x22));
@@ -141,19 +141,19 @@ TEST_F(CostTest, UpdateDirections) {
   maze->updateDirections();
   EXPECT_EQ(WEST, maze->direction(0x22));
 
-  maze->setWall(0x22, WEST);
+  maze->setWallPresent(0x22, WEST);
   maze->updateDirections();
   EXPECT_EQ(SOUTH, maze->direction(0x22));
 
-  maze->setWall(0x22, SOUTH);
+  maze->setWallPresent(0x22, SOUTH);
   maze->updateDirections();
   EXPECT_EQ(NORTH, maze->direction(0x22));
 
-  maze->setWall(0x22, NORTH);
+  maze->setWallPresent(0x22, NORTH);
   maze->updateDirections();
   EXPECT_EQ(EAST, maze->direction(0x22));
 
-  maze->setWall(0x22, EAST);
+  maze->setWallPresent(0x22, EAST);
   maze->updateDirections();
   EXPECT_EQ(INVALID_DIRECTION, maze->direction(0x22));
 }
