@@ -311,19 +311,6 @@ TEST_F(PathFinderTest, MakeInPlaceCommands_StraightTooLong) {
 
 }
 
-TEST_F(PathFinderTest, MakeInPlaceCommands_MaxLengthNotExceeded) {
-  /*
-   *
-   */
-  uint8_t  testCommands[20] = {CMD_ERROR, CMD_END};
-  uint8_t  commands[20] = {0};
-  char src[] = "BFFFRFFFFRFRFRFRFRFRFRFRFRFRFRFRFRFRRFRFRFRFRFRFFX";
-  makeInPlaceCommands(src, 20, commands);
-  EXPECT_STREQ((char *) testCommands, (char *) commands);
-  //  path->listCommands(commands);
-
-}
-
 
 TEST_F(PathFinderTest, TestPathCommands_FIG1_AB) {
   uint8_t  commands[20] = {0};
