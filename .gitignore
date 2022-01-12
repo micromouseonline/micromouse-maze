@@ -6,3 +6,4 @@ Debug
 cmake-build-debug
 workspace.xml
 .idea
+.vscode
