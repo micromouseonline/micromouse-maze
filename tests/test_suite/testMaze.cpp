@@ -61,6 +61,18 @@ TEST_F(MazeTest, initial_size_is_correct) {
   EXPECT_EQ(32, big_maze.width());
 }
 
+// Ensure that the wall data is being updated in the way we expect
+TEST_F(MazeTest, stored_wall_data_correct) {
+  EXPECT_EQ(0x00, maze->openWalls(0x11));
+  EXPECT_EQ(0x0f, maze->closedWalls(0x11));
+  maze->setWallPresent(0x11, NORTH);
+  EXPECT_EQ(0x01, maze->openWalls(0x11));
+  EXPECT_EQ(0x0F, maze->closedWalls(0x11));
+  maze->setWallAbsent(0x11, SOUTH);
+  EXPECT_EQ(0x01, maze->openWalls(0x11));
+  EXPECT_EQ(0b1011, maze->closedWalls(0x11));
+}
+
 
 TEST_F(MazeTest, has_open_exit) {
   maze->resetToEmptyMaze();
@@ -77,23 +89,6 @@ TEST_F(MazeTest, has_closed_exit) {
   EXPECT_FALSE(maze->hasClosedExit(0x01, EAST));
   EXPECT_FALSE(maze->hasClosedExit(0x01, WEST));
 }
-
-//TEST_F(MazeTest, has_open_exit) {
-//  maze->resetToEmptyMaze();
-//  EXPECT_TRUE(maze->hasOpenExit(0x01, NORTH));
-//  EXPECT_TRUE(maze->hasOpenExit(0x01, SOUTH));
-//  EXPECT_TRUE(maze->hasOpenExit(0x01, EAST));
-//  EXPECT_FALSE(maze->hasOpenExit(0x01, WEST));
-//}
-//
-//TEST_F(MazeTest, has_closed_exit) {
-//  maze->resetToEmptyMaze();
-//  EXPECT_FALSE(maze->hasClosedExit(0x01, NORTH));
-//  EXPECT_TRUE(maze->hasClosedExit(0x01, SOUTH));
-//  EXPECT_FALSE(maze->hasClosedExit(0x01, EAST));
-//  EXPECT_FALSE(maze->hasClosedExit(0x01, WEST));
-//}
-
 
 
 TEST_F(MazeTest, initialisation_has_boundary_walls) {
