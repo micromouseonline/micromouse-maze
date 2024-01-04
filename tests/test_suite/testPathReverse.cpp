@@ -37,8 +37,8 @@ class PathFinderReverseTest : public ::testing::Test {
   /* This gets run before each test */
   virtual void SetUp() {
     maze = new Maze(16);
-    maze->copyMazeFromFileData(japan2007ef, 256);
-    maze->flood(0x77, OPEN_MAZE);
+    maze->set_from_file_data(japan2007ef, 256);
+    maze->flood(0x77, MASK_OPEN);
     path = new PathFinder();
   }
 
@@ -51,57 +51,3 @@ protected:
   PathFinder *path;
   Maze *maze;
 };
-/*
-
-TEST_F(PathFinderReverseTest, emptyString) {
-  char s[] = "";
-  path->reversePath(s);
-  EXPECT_STREQ(s, s);
-
-}
-
-TEST_F(PathFinderReverseTest,shortString) {
-  char s[] = "a";
-  path->reversePath(s);
-  EXPECT_STREQ(s, s);
-}
-
-
-TEST_F(PathFinderReverseTest, shortPathExplore) {
-  char s[] = "BX";
-  path->reversePath(s);
-  EXPECT_STREQ(s, s);
-}
-
-TEST_F(PathFinderReverseTest, shortPathRun) {
-  char s[] = "BS";
-  path->reversePath(s);
-  EXPECT_STREQ(s, s);
-}
-
-TEST_F(PathFinderReverseTest, longEvenString) {
-  char s[] = "BFFRLX";
-  char r[] = "BRLFFX";
-  path->reversePath(s);
-  EXPECT_STREQ(s, r);
-
-}
-
-TEST_F(PathFinderReverseTest, longOddString) {
-  char s[] = "BFRFRLS";
-  char r[] = "BRLFLFS";
-  path->reversePath(s);
-  EXPECT_STREQ(s, r);
-}
-
-TEST_F(PathFinderReverseTest, emptyMaze_FromGoal){
-  maze->setFloodType(Maze::RUNLENGTH_FLOOD);
-  maze->copyMazeFromFileData(emptyMaze, 256);
-  maze->flood(0x77);
-  path->generateClosedPath(0, 0x77, maze);
-  EXPECT_EQ(16, strlen(path->path()));
-  EXPECT_STREQ("BFFFFFFFRFFFFFFS", path->path());
-  path->reversePath();
-  EXPECT_STREQ("BFFFFFFLFFFFFFFS", path->path());
-  }
-*/

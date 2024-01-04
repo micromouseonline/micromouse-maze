@@ -32,57 +32,57 @@
  * test the ability of the libMaze to store direction information
  */
 
-TEST(Direction, MazeHeading_defaultValue_isNORTH) {
+TEST(MD_04_Direction, MazeHeading_defaultValue_isNORTH) {
   Maze maze(16);
-  maze.resetToEmptyMaze();
+  maze.reset_to_empty();
   for (int i = 0; i < maze.numCells(); i++) {
-    EXPECT_EQ(NORTH, maze.direction(i));
+    EXPECT_EQ(DIR_N, maze.get_direction(i));
   }
 }
 
-TEST(Direction, MazeSetDirection_ReturnSetValue) {
+TEST(MD_04_Direction, MazeSetDirection_ReturnSetValue) {
   Maze maze(16);
-  maze.resetToEmptyMaze();
-  maze.setDirection(0x33, EAST);
-  EXPECT_EQ(EAST, maze.direction(0x33));
-  maze.setDirection(0x33, SOUTH);
-  EXPECT_EQ(SOUTH, maze.direction(0x33));
-  maze.setDirection(0x33, WEST);
-  EXPECT_EQ(WEST, maze.direction(0x33));
-  maze.setDirection(0x33, NORTH);
-  EXPECT_EQ(NORTH, maze.direction(0x33));
+  maze.reset_to_empty();
+  maze.set_direction(0x33, DIR_E);
+  EXPECT_EQ(DIR_E, maze.get_direction(0x33));
+  maze.set_direction(0x33, DIR_S);
+  EXPECT_EQ(DIR_S, maze.get_direction(0x33));
+  maze.set_direction(0x33, DIR_W);
+  EXPECT_EQ(DIR_W, maze.get_direction(0x33));
+  maze.set_direction(0x33, DIR_N);
+  EXPECT_EQ(DIR_N, maze.get_direction(0x33));
 }
 
-TEST(Direction, DirectionGetLeftFrom) {
+TEST(MD_04_Direction, DirectionGetLeftFrom) {
 
-  EXPECT_EQ(WEST, Maze::leftOf(NORTH));
-  EXPECT_EQ(SOUTH, Maze::leftOf(WEST));
-  EXPECT_EQ(EAST, Maze::leftOf(SOUTH));
-  EXPECT_EQ(NORTH, Maze::leftOf(EAST));
-}
-
-
-TEST(Direction, DirectionGetRightFrom) {
-  EXPECT_EQ(EAST, Maze::rightOf(NORTH));
-  EXPECT_EQ(SOUTH, Maze::rightOf(EAST));
-  EXPECT_EQ(WEST, Maze::rightOf(SOUTH));
-  EXPECT_EQ(NORTH, Maze::rightOf(WEST));
-
-}
-
-TEST(Direction, Behind) {
-  EXPECT_EQ(SOUTH, Maze::behind(NORTH));
-  EXPECT_EQ(WEST, Maze::behind(EAST));
-  EXPECT_EQ(NORTH, Maze::behind(SOUTH));
-  EXPECT_EQ(EAST, Maze::behind(WEST));
+  EXPECT_EQ(DIR_W, left_from[DIR_N]);
+  EXPECT_EQ(DIR_S, left_from[DIR_W]);
+  EXPECT_EQ(DIR_E, left_from[DIR_S]);
+  EXPECT_EQ(DIR_N, left_from[DIR_E]);
 }
 
 
-TEST(Direction, DifferenceBetween) {
-  for (uint8_t fromDir = 0; fromDir < 4; fromDir++) {
-    for (uint8_t toDir = 0; toDir <  4; toDir++) {
-      uint8_t newDir = Maze::differenceBetween(fromDir, toDir);
-      EXPECT_EQ(newDir, (toDir - fromDir) & 3);
+TEST(MD_04_Direction, DirectionGetRightFrom) {
+  EXPECT_EQ(DIR_E, right_from[DIR_N]);
+  EXPECT_EQ(DIR_S, right_from[DIR_E]);
+  EXPECT_EQ(DIR_W, right_from[DIR_S]);
+  EXPECT_EQ(DIR_N, right_from[DIR_W]);
+
+}
+
+TEST(MD_04_Direction, Behind) {
+  EXPECT_EQ(DIR_S, behind[DIR_N]);
+  EXPECT_EQ(DIR_W, behind[DIR_E]);
+  EXPECT_EQ(DIR_N, behind[DIR_S]);
+  EXPECT_EQ(DIR_E, behind[DIR_W]);
+}
+
+
+TEST(MD_04_Direction, Direction_change) {
+  for (Direction fromDir : cardinals) {
+    for (Direction toDir : cardinals) {
+      uint8_t newDir = Maze::get_direction_change(fromDir, toDir);
+      EXPECT_EQ(newDir, (toDir - fromDir) & 7);
     }
   }
 }

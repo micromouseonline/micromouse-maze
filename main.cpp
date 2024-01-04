@@ -83,20 +83,20 @@ int main(int argc, char **argv) {
   std::cout << "Processing " << glob_result.gl_pathc << " mazes" << std::endl;
 
   if (argc >= 1) {
-    Maze maze(16);
+    IMaze maze(16);
     int onePassCount = 0;
     int chancerCount = 0;
-    maze.setFloodType(Maze::RUNLENGTH_FLOOD);
+    maze.setFloodType(IMaze::RUNLENGTH_FLOOD);
     for (unsigned int i = 0; i < glob_result.gl_pathc; ++i) {
       std::cout << "";
       if (0 !=  ReadRealWallsFromFile(glob_result.gl_pathv[i])) {
         continue;
       };
       maze.load(wallData);
-      maze.copyMazeFromFileData(wallData, 256);
-      maze.flood(0x77, OPEN_MAZE);
+      maze.set_from_file_data(wallData, 256);
+      maze.flood(0x77, MASK_OPEN);
       barney.setRealMaze(&maze);
-      barney.map()->resetToEmptyMaze();
+      barney.map()->reset_to_empty();
       barney.setLocation(0x00);
       //Run a search out and back again, recording the total steps needed
       int steps = barney.searchTo(0x77);
@@ -109,7 +109,7 @@ int main(int argc, char **argv) {
 
       if (residual > 5) {
         //        std::cout << glob_result.gl_pathv[i] << std::endl;
-        MazePrinter::printVisitedDirs(barney.map());
+        MazePrinter::print(barney.map(),VISITED_DIRS);
 
       }
       char *fileName = basename(glob_result.gl_pathv[i]);

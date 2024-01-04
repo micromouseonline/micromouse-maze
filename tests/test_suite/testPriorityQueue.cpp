@@ -40,11 +40,11 @@ protected:
 
   virtual void SetUp() {
     queue = new PriorityQueue<FloodInfo>();
-    itemA = FloodInfo(13, 2, 1, 'A');
-    itemB = FloodInfo(12, 2, 1, 'B');
-    itemC = FloodInfo(1, 2, 1, 'C');
-    itemD = FloodInfo(0, 2, 1, 'D');
-    itemE = FloodInfo(6, 2, 1, 'D');
+    itemA = FloodInfo(13, 2, 1, DIR_N);
+    itemB = FloodInfo(12, 2, 1, DIR_NE);
+    itemC = FloodInfo(1, 2, 1, DIR_E);
+    itemD = FloodInfo(0, 2, 1, DIR_SE);
+    itemE = FloodInfo(6, 2, 1, DIR_S);
   }
 
   virtual void TearDown() {
@@ -76,16 +76,11 @@ TEST_F(QueueTest, AddFetch_CorrectPriorityOrder) {
   queue->push(itemE);
   EXPECT_EQ(5, queue->size());
 
-  EXPECT_TRUE(itemD == queue->top());
-  queue->pop();
-  EXPECT_TRUE(itemC == queue->top());
-  queue->pop();
-  EXPECT_TRUE(itemE == queue->top());
-  queue->pop();
-  EXPECT_TRUE(itemB == queue->top());
-  queue->pop();
-  EXPECT_TRUE(itemA == queue->top());
-  queue->pop();
+  EXPECT_TRUE(itemD == queue->fetchSmallest());
+  EXPECT_TRUE(itemC == queue->fetchSmallest());
+  EXPECT_TRUE(itemE == queue->fetchSmallest());
+  EXPECT_TRUE(itemB == queue->fetchSmallest());
+  EXPECT_TRUE(itemA == queue->fetchSmallest());
   EXPECT_TRUE(queue->empty());
 
 }
@@ -113,12 +108,12 @@ TEST_F(QueueTest, AddFetch_CorrectLifoOrder) {
 }
 
 TEST_F(QueueTest, PushAndRetrieve_Single_Item) {
-  FloodInfo info = {3, 2, 1, 'F'};
+  FloodInfo info = {3, 2, 1, DIR_S};
   EXPECT_FALSE(info.isNull());
   FloodInfo item;
   queue->push(info);
   EXPECT_EQ(1, queue->size());
-  item = queue->top();
+  item = queue->fetchSmallest();
   EXPECT_TRUE(item == info);
 
 }
@@ -128,7 +123,7 @@ TEST_F(QueueTest, DuplicateItems_FetchGetsSmallest) {
   queue->push(itemA);
   queue->push(itemB);
   queue->push(itemC);
-  item = queue->top();
+  item = queue->fetchSmallest();
   EXPECT_TRUE(item == itemC) << item.cost << "  " << itemC.cost;
 }
 

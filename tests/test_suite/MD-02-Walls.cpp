@@ -24,56 +24,52 @@
 ************************************************************************/
 
 
-
 #include "gtest/gtest.h"
-
-
 #include "maze.h"
-#include "mazedata.h"
-#include "mazeprinter.h"
-#include "mazefiler.h"
 
 
-
-class TestMazePrinter : public ::testing::Test {
+class MD_02_Walls : public ::testing::Test {
 protected:
-  Maze *maze;
-
+  CellWalls walls;
 
   virtual void SetUp() {
-    maze = new Maze(16);
-    maze->reset_to_empty();
-
   }
 
   virtual void TearDown() {
-    delete maze;
   }
 
 };
 
-/*
- * It is not clear how best to test the results of the libMaze printing
- * except by visual inspection.
- */
-TEST_F(TestMazePrinter, PrintForCoverageTesting) {
-  //  return;
-  //  MazePrinter::printVisitedDirs(libMaze);
-  //  copyClassicMaze(japan2007ef);
-  maze->set_from_file_data(japan2007ef, 256);
-  maze->flood(maze->goal(), MASK_OPEN);
-  //  MazePrinter::printDirs(maze);
-  //  MazePrinter::printPlain(maze);
-  //  MazePrinter::printCDecl(maze, "julian");
-  //  MazePrinter::printCosts(maze);
-  //  MazePrinter::printVisitedDirs(maze);
+TEST_F(MD_02_Walls, cell_walls_initial_values) {
+  EXPECT_EQ(UNKNOWN, walls.north);
+  EXPECT_EQ(UNKNOWN, walls.east);
+  EXPECT_EQ(UNKNOWN, walls.south);
+  EXPECT_EQ(UNKNOWN, walls.west);
 }
-TEST_F(TestMazePrinter, PrintClassicWithGoal) {
-  MazeFiler filer;
-  char name[] = "mazefiles/classic/japan2013ef.txt";
-  filer.readMaze(maze, name);
-  //  MazePrinter::printPlain(maze);
-  //  MazePrinter::printCDecl(maze, "japan2013");
 
+TEST_F(MD_02_Walls, cell_walls_as_byte) {
+  EXPECT_EQ(0, walls.as_legacy_byte());
+  walls.north = EXIT;
+  walls.east = WALL;
+  walls.south = UNKNOWN;
+  walls.west = VIRTUAL;
+  EXPECT_EQ(0b00000010, walls.as_legacy_byte());
+  EXPECT_EQ(0b11100100, walls.as_byte());
 }
+
+TEST_F(MD_02_Walls, set_walls_from_legacy_byte) {
+  walls.set_from_legacy_byte((0b00001100));
+  EXPECT_EQ(EXIT, walls.north);
+  EXPECT_EQ(EXIT, walls.east);
+  EXPECT_EQ(WALL, walls.south);
+  EXPECT_EQ(WALL, walls.west);
+}
+
+TEST_F(MD_02_Walls, test_for_unknowns) {
+  EXPECT_TRUE(walls.has_unknowns());
+  walls.set_from_legacy_byte((0b00001100));
+  EXPECT_FALSE(walls.has_unknowns());
+}
+
+
 

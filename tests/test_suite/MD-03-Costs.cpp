@@ -28,13 +28,13 @@
 #include "maze.h"
 
 
-class CostTest : public ::testing::Test {
+class MD_03_Costs : public ::testing::Test {
 protected:
   Maze *maze;
 
   virtual void SetUp() {
     maze = new Maze(16);
-    maze->resetToEmptyMaze();
+    maze->reset_to_empty();
   }
 
   virtual void TearDown() {
@@ -43,117 +43,115 @@ protected:
 
 };
 
-TEST_F(CostTest, MazeGetCosts_default_ValuesUINT16_MAX) {
+TEST_F(MD_03_Costs, MazeGetCosts_default_ValuesUINT16_MAX) {
   for (int cell = 0; cell < maze->numCells(); ++cell) {
     EXPECT_EQ(MAX_COST, maze->cost(cell));
   }
 }
 
 
-TEST_F(CostTest, MazeSetCosts_SetCost_getCost) {
+TEST_F(MD_03_Costs, MazeSetCosts_SetCost_getCost) {
   maze->setCost(0x43, 123);
   EXPECT_EQ(123, maze->cost(0x43));
 }
 
-TEST_F(CostTest, GetNeighbourCosts_GetCostIgnoresWals) {
-  maze->resetToEmptyMaze();
+TEST_F(MD_03_Costs, GetNeighbourCosts_GetCostIgnoresWals) {
+  maze->reset_to_empty();
   for (int cell = 0; cell < maze->numCells(); ++cell) {
     maze->setCost(cell, cell);
   }
-  uint32_t neighbour;
-  uint32_t cell;
   for (int cell = 0; cell < maze->numCells(); ++cell) {
-    uint32_t neighbour;
+    uint16_t neighbour;
     EXPECT_EQ(cell, maze->cost(cell));
-    neighbour = maze->cellNorth(cell);
+    neighbour = maze->cell_north(cell);
     EXPECT_EQ(neighbour, maze->cost(neighbour));
-    neighbour = maze->cellEast(cell);
+    neighbour = maze->cell_east(cell);
     EXPECT_EQ(neighbour, maze->cost(neighbour));
-    neighbour = maze->cellSouth(cell);
+    neighbour = maze->cell_south(cell);
     EXPECT_EQ(neighbour, maze->cost(neighbour));
-    neighbour = maze->cellWest(cell);
+    neighbour = maze->cell_west(cell);
     EXPECT_EQ(neighbour, maze->cost(neighbour));
   }
 }
 
-TEST_F(CostTest, CostDirection_GivesNeighbourCostIfNoWall) {
-  maze->resetToEmptyMaze();
+TEST_F(MD_03_Costs, CostDirection_GivesNeighbourCostIfNoWall) {
+  maze->reset_to_empty();
   for (int cell = 0; cell < maze->numCells(); ++cell) {
     maze->setCost(cell, cell);
   }
   uint32_t neighbour;
   uint32_t cell;
   cell = 0x22;
-  neighbour = maze->cellNorth(cell);
-  EXPECT_EQ(neighbour, maze->cost(cell, NORTH));
-  neighbour = maze->cellEast(cell);
-  EXPECT_EQ(neighbour, maze->cost(cell, EAST));
-  neighbour = maze->cellSouth(cell);
-  EXPECT_EQ(neighbour, maze->cost(cell, SOUTH));
-  neighbour = maze->cellWest(cell);
-  EXPECT_EQ(neighbour, maze->cost(cell, WEST));
+  neighbour = maze->cell_north(cell);
+  EXPECT_EQ(neighbour, maze->cost(cell, DIR_N));
+  neighbour = maze->cell_east(cell);
+  EXPECT_EQ(neighbour, maze->cost(cell, DIR_E));
+  neighbour = maze->cell_south(cell);
+  EXPECT_EQ(neighbour, maze->cost(cell, DIR_S));
+  neighbour = maze->cell_west(cell);
+  EXPECT_EQ(neighbour, maze->cost(cell, DIR_W));
 }
 
-TEST_F(CostTest, CostDirection_GivesUINT16_MAXIfWall) {
-  maze->resetToEmptyMaze();
+TEST_F(MD_03_Costs, CostDirection_GivesUINT16_MAXIfWall) {
+  maze->reset_to_empty();
   for (int cell = 0; cell < maze->numCells(); ++cell) {
     maze->setCost(cell, cell);
   }
   uint32_t cell;
   cell = 0x22;
-  maze->setWallPresent(cell, NORTH);
-  maze->setWallPresent(cell, EAST);
-  maze->setWallPresent(cell, SOUTH);
-  maze->setWallPresent(cell, WEST);
-  EXPECT_EQ(MAX_COST, maze->cost(cell, NORTH));
-  EXPECT_EQ(MAX_COST, maze->cost(cell, EAST));
-  EXPECT_EQ(MAX_COST, maze->cost(cell, SOUTH));
-  EXPECT_EQ(MAX_COST, maze->cost(cell, WEST));
+  maze->set_wall_present(cell, DIR_N);
+  maze->set_wall_present(cell, DIR_E);
+  maze->set_wall_present(cell, DIR_S);
+  maze->set_wall_present(cell, DIR_W);
+  EXPECT_EQ(MAX_COST, maze->cost(cell, DIR_N));
+  EXPECT_EQ(MAX_COST, maze->cost(cell, DIR_E));
+  EXPECT_EQ(MAX_COST, maze->cost(cell, DIR_S));
+  EXPECT_EQ(MAX_COST, maze->cost(cell, DIR_W));
 }
 
-TEST_F(CostTest, SmallestNeighbourDirection) {
-  maze->resetToEmptyMaze();
+TEST_F(MD_03_Costs, SmallestNeighbourDirection) {
+  maze->reset_to_empty();
   for (int cell = 0; cell < maze->numCells(); ++cell) {
     maze->setCost(cell, (uint16_t)cell);
   }
 
-  EXPECT_EQ(WEST, maze->directionToSmallest(0x22));
-  maze->setWallPresent(0x22, WEST);
-  EXPECT_EQ(SOUTH, maze->directionToSmallest(0x22));
-  maze->setWallPresent(0x22, SOUTH);
-  EXPECT_EQ(NORTH, maze->directionToSmallest(0x22));
-  maze->setWallPresent(0x22, NORTH);
-  EXPECT_EQ(EAST, maze->directionToSmallest(0x22));
-  maze->setWallPresent(0x22, EAST);
+  EXPECT_EQ(DIR_W, maze->directionToSmallest(0x22));
+  maze->set_wall_present(0x22, DIR_W);
+  EXPECT_EQ(DIR_S, maze->directionToSmallest(0x22));
+  maze->set_wall_present(0x22, DIR_S);
+  EXPECT_EQ(DIR_N, maze->directionToSmallest(0x22));
+  maze->set_wall_present(0x22, DIR_N);
+  EXPECT_EQ(DIR_E, maze->directionToSmallest(0x22));
+  maze->set_wall_present(0x22, DIR_E);
 
   // no accessible neighbours now
-  EXPECT_EQ(INVALID_DIRECTION, maze->directionToSmallest(0x22));
+  EXPECT_EQ(DIR_BLOCKED, maze->directionToSmallest(0x22));
 
 
 }
 
-TEST_F(CostTest, UpdateDirections) {
-  maze->resetToEmptyMaze();
+TEST_F(MD_03_Costs, UpdateDirections) {
+  maze->reset_to_empty();
   for (int cell = 0; cell < maze->numCells(); ++cell) {
     maze->setCost(cell, cell);
   }
 
   maze->updateDirections();
-  EXPECT_EQ(WEST, maze->direction(0x22));
+  EXPECT_EQ(DIR_W, maze->get_direction(0x22));
 
-  maze->setWallPresent(0x22, WEST);
+  maze->set_wall_present(0x22, DIR_W);
   maze->updateDirections();
-  EXPECT_EQ(SOUTH, maze->direction(0x22));
+  EXPECT_EQ(DIR_S, maze->get_direction(0x22));
 
-  maze->setWallPresent(0x22, SOUTH);
+  maze->set_wall_present(0x22, DIR_S);
   maze->updateDirections();
-  EXPECT_EQ(NORTH, maze->direction(0x22));
+  EXPECT_EQ(DIR_N, maze->get_direction(0x22));
 
-  maze->setWallPresent(0x22, NORTH);
+  maze->set_wall_present(0x22, DIR_N);
   maze->updateDirections();
-  EXPECT_EQ(EAST, maze->direction(0x22));
+  EXPECT_EQ(DIR_E, maze->get_direction(0x22));
 
-  maze->setWallPresent(0x22, EAST);
+  maze->set_wall_present(0x22, DIR_E);
   maze->updateDirections();
-  EXPECT_EQ(INVALID_DIRECTION, maze->direction(0x22));
+  EXPECT_EQ(DIR_BLOCKED, maze->get_direction(0x22));
 }

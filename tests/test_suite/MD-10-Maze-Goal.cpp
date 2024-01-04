@@ -35,13 +35,13 @@
 
 /////////////////////
 
-class TestGoalArea : public ::testing::Test {
+class MD_10_Maze_Goal : public ::testing::Test {
 protected:
   Maze *maze;
 
   virtual void SetUp() {
     maze = new Maze(16);
-    maze->resetToEmptyMaze();
+    maze->reset_to_empty();
   }
 
   virtual void TearDown() {
@@ -51,7 +51,7 @@ protected:
 };
 
 
-TEST_F(TestGoalArea, defaultGoal) {
+TEST_F(MD_10_Maze_Goal, defaultGoal) {
   EXPECT_EQ(4, maze->goalAreaSize());
   GoalArea_t goalArea = maze->getGoalArea();
   EXPECT_EQ(4, goalArea.size());
@@ -63,7 +63,7 @@ TEST_F(TestGoalArea, defaultGoal) {
 }
 
 
-TEST_F(TestGoalArea, setGoalArea) {
+TEST_F(MD_10_Maze_Goal, setGoalArea) {
   GoalArea_t area = {2, 3, 4, 5, 6};
   maze->setGoalArea(area);
   EXPECT_EQ(5, maze->goalAreaSize());
@@ -76,29 +76,29 @@ TEST_F(TestGoalArea, setGoalArea) {
 }
 
 
-TEST_F(TestGoalArea, SetAndGetGoal) {
+TEST_F(MD_10_Maze_Goal, SetAndGetGoal) {
   EXPECT_EQ(maze->cellID(7, 7), maze->goal());
   maze->setGoal(99);
   EXPECT_EQ(99, maze->goal());
 }
 
 
-TEST_F(TestGoalArea, GoalAreaInitialisDefault) {
+TEST_F(MD_10_Maze_Goal, GoalAreaInitialisDefault) {
   Maze maze16(16);
   EXPECT_EQ(4, maze16.goalAreaSize());
 }
 
 
-TEST_F(TestGoalArea, GoalAreaClearsEmpty) {
+TEST_F(MD_10_Maze_Goal, GoalAreaClearsEmpty) {
   Maze maze16(16);
   maze16.clearGoalArea();
   EXPECT_EQ(0, maze16.goalAreaSize());
 }
 
 
-TEST_F(TestGoalArea, GoalAreaFindCellInGoal) {
+TEST_F(MD_10_Maze_Goal, GoalAreaFindCellInGoal) {
   Maze maze16(16);
-  maze16.resetToEmptyMaze();
+  maze16.reset_to_empty();
   EXPECT_TRUE(maze16.goalContains(7, 7));
   EXPECT_TRUE(maze16.goalContains(7, 8));
   EXPECT_TRUE(maze16.goalContains(8, 7));

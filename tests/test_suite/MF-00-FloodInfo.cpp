@@ -26,7 +26,7 @@
 #include <gtest/gtest.h>
 #include "floodinfo.h"
 
-TEST(FloodInfoTest, Instantiation) {
+TEST(MF_00_FloodInfo, Instantiation) {
   FloodInfo info;
   EXPECT_EQ(0, info.cost);
   EXPECT_EQ(0, info.cell);
@@ -36,9 +36,9 @@ TEST(FloodInfoTest, Instantiation) {
   EXPECT_TRUE(info.isNull());
 }
 
-TEST(FloodInfoTest, Operators) {
-  FloodInfo infoA;
-  FloodInfo infoB;
+TEST(MF_00_FloodInfo, Operators) {
+  FloodInfo infoA ;
+  FloodInfo infoB ;
   EXPECT_TRUE(infoA == infoB);
   EXPECT_FALSE(infoA != infoB);
   EXPECT_FALSE(infoA > infoB);

@@ -39,7 +39,7 @@ protected:
   bool withPrint = false;
   virtual void SetUp() {
     maze = new Maze(32);
-    maze->resetToEmptyMaze();
+    maze->reset_to_empty();
   }
 
   virtual void TearDown() {
@@ -55,86 +55,33 @@ TEST_F(MazeTestHalfSize, TestTemplate) {
 
 
 TEST_F(MazeTestHalfSize, copyHalfSize) {
-  maze->copyMazeFromFileData(japan2014ef_half, 1024);
+  maze->set_from_file_data(japan2014ef_half, 1024);
   maze->setGoal(837);
   if (withPrint) {
-    MazePrinter::printPlain(maze);
+    MazePrinter::print(maze, PLAIN);
   }
 
 }
 TEST_F(MazeTestHalfSize, printHalfSize) {
 
-  MazeFiler filer;
-  filer.readMaze(maze, "mazefiles/halfsize/taiwan2017hef.txt");
-  return;
-  MazePrinter::printCDecl(maze, "taiwan2017hef");
-
-
-
-
-  maze->copyMazeFromFileData(japan2011ef_half, 1024);
-  printf("\n\nJapan 2011 Final Half Size");
-  MazePrinter::printPlain(maze);
-
-
-
-
-  maze->copyMazeFromFileData(japan2014ef_half, 1024);
-  printf("\n\nJapan 2014 Final Half Size");
-  MazePrinter::printPlain(maze);
-
-  maze->copyMazeFromFileData(japan2015ef_half, 1024);
-  printf("\n\nJapan 2015 Final Half Size");
-  MazePrinter::printPlain(maze);
-
-
-  maze->copyMazeFromFileData(japan2016ef_half, 1024);
-  printf("\n\nJapan 2016 Final Half Size");
-  MazePrinter::printPlain(maze);
-
-
-  maze->copyMazeFromFileData(japan2017ef_half, 1024);
-  printf("\n\nJapan 2017 Final Half Size");
-  MazePrinter::printPlain(maze);
-
-
-  maze->copyMazeFromFileData(japan2010ef_half, 1024);
-  printf("\n\nSJ_H Japan 2010 Final Half Size");
-  MazePrinter::printPlain(maze);
-
-  maze->copyMazeFromFileData(japan2012ef_half, 1024);
-  printf("\n\nSJ_H Japan 2012 Final Half Size");
-  MazePrinter::printPlain(maze);
-
-
-  maze->copyMazeFromFileData(taiwan2014ef_half, 1024);
-  printf("\n\nSJ_H Taiwan 2014 Final Half Size");
-  MazePrinter::printPlain(maze);
-
-  maze->copyMazeFromFileData(taiwan2015ef_half, 1024);
-  printf("\n\nSJ_H Taiwan 2015 Final Half Size");
-  MazePrinter::printPlain(maze);
-
-  maze->copyMazeFromFileData(taiwan2017ef_half, 1024);
-  printf("\n\nSJ_H Taiwan 2017 Final Half Size");
-  MazePrinter::printPlain(maze);
-
-
+  //  maze->set_from_file_data(japan2011ef_half, 1024);
+  //  printf("\n\nJapan 2011 Final Half Size");
+  //  MazePrinter::print(maze, PLAIN);
 
 }
 
 TEST_F(MazeTestHalfSize, FloodHalfSize) {
-  maze->copyMazeFromFileData(japan2014ef_half, 1024);
+  maze->set_from_file_data(japan2014ef_half, 1024);
   maze->setGoal(837);
-  maze->flood(837, OPEN_MAZE);
+  maze->flood(837, MASK_OPEN);
   if (withPrint) {
-    MazePrinter::printDirs(maze);
+    MazePrinter::print(maze, DIRS);
   }
-  maze->copyMazeFromFileData(japan2011ef_half, 1024);
+  maze->set_from_file_data(japan2011ef_half, 1024);
   maze->setGoal(827);
-  maze->flood((maze->goal()), OPEN_MAZE);
+  maze->flood((maze->goal()), MASK_OPEN);
   if (withPrint) {
-    MazePrinter::printDirs(maze);
+    MazePrinter::print(maze, DIRS);
   }
 
 }

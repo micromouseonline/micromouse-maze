@@ -8,24 +8,25 @@ include_directories(
         ${gtest_SOURCE_DIR})
 
 add_executable(runTestSuite
-        testMaze.cpp
+        MD-50-Maze-Tests.cpp
         testPriorityQueue.cpp
-        testCosts.cpp
-        testDirection.cpp
-        testManhattanFlood.cpp
+        MD-03-Costs.cpp
+        MD-04-Directions.cpp
+        MF-20-Manhattan.cpp
         testWeightedFlood.cpp
-        testRunLengthFlood.cpp
+        MF-50-Runlength.cpp
         testDirectionFlood.cpp
         testMazePrinter.cpp
         testMazeFiler.cpp
-        testPathfinder.cpp
+        PF-10-Pathfinder.cpp
         testSearcher.cpp
-        testFloodInfo.cpp
+        MF-00-FloodInfo.cpp
         path_test_data.cpp
         path_test_data.h
         testPathReverse.cpp
         MazeTestHalfSize.cpp
-        testGoalArea.cpp
+        MD-10-Maze-Goal.cpp
+        MD-02-Walls.cpp
         )
 
 target_link_libraries(

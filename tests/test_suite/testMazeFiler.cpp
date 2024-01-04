@@ -40,9 +40,9 @@ protected:
 
   virtual void SetUp() {
     maze16 = new Maze(16);
-    maze16->resetToEmptyMaze();
+    maze16->reset_to_empty();
     maze32 = new Maze(32);
-    maze32->resetToEmptyMaze();
+    maze32->reset_to_empty();
 
   }
 
